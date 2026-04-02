@@ -1,0 +1,83 @@
+import React from 'react';
+
+export default function FAQDetailed() {
+  return (
+    <div className="bg-black text-gray-300 min-h-screen p-8 font-sans">
+      {/* Header Section */}
+      <header className="mb-10">
+        <h1 className="text-white text-5xl font-bold mb-4 tracking-tight !mt-0">
+          FAQ & Troubleshooting
+        </h1>
+        <div className="h-[1px] bg-gray-800 w-full mb-6"></div>
+      </header>
+
+      <section className="space-y-12">
+        {/* API Key Question */}
+        <div>
+          <h4 className="text-[#4d79ff] text-xl font-bold mb-3">
+            Q: I keep getting a 401 API_KEY_REQUIRED response. What am I doing wrong?
+          </h4>
+          <p className="text-gray-400 leading-relaxed">
+            <strong className="text-white">A:</strong> This means the API did not receive your API key, or the key is invalid. Make sure you included the <code className="text-[#8cff2e]">x-api-key</code> header in every request and that its value is correct. If you have a key but still get this error, double-check for typos and ensure your key hasn’t expired or been revoked. (If you don't have a key yet, you need to obtain one from Ambalay Maps first.)
+          </p>
+        </div>
+
+        {/* 500 Error Question */}
+        <div>
+          <h4 className="text-[#4d79ff] text-xl font-bold mb-3">
+            Q: I provided coordinates to /reverse or /route but got a 500 REVERSE_GEO_CODING_ERROR or similar error message. Why?
+          </h4>
+          <p className="text-gray-400 leading-relaxed">
+            <strong className="text-white">A:</strong> A 500 error in this context usually indicates a bad request or an inability of the server to handle the input. Common causes are missing or malformed parameters. For reverse geocoding, ensure you include both <code className="text-white">lat</code> and <code className="text-white">lon</code> and they are valid numbers. For routing, ensure <code className="text-white">origin</code>, <code className="text-white">destination</code>, and <code className="text-white">mode</code> are all provided. Also check that latitude values are between -90 and 90, and longitude between -180 and 180. If the coordinates are extremely out of bounds or the route is impossible to calculate (e.g., over the ocean or outside the service area), the API might respond with an error. Adjust the input and try again.
+          </p>
+        </div>
+
+        {/* Empty List Question */}
+        <div>
+          <h4 className="text-[#4d79ff] text-xl font-bold mb-3">
+            Q: The /search endpoint returned an empty list but I expected results. What should I do?
+          </h4>
+          <div className="text-gray-400 leading-relaxed">
+            <p className="mb-4">
+              <strong className="text-white">A:</strong> An empty data array means the API could find no location matching your query. This is not an error (the request succeeded, but found nothing). Here are some steps to troubleshoot:
+            </p>
+            <ul className="space-y-3 ml-6">
+              <li className="flex items-start">
+                <span className="text-white mr-2">●</span> Check for typos or spelling errors in your query.
+              </li>
+              <li className="flex items-start">
+                <span className="text-white mr-2">●</span> Try making the query more general or different. If it’s too specific or uncommon, the database might not have it.
+              </li>
+              <li className="flex items-start">
+                <span className="text-white mr-2">●</span> Include additional context in the query if possible (e.g., add a city or country name).
+              </li>
+              <li className="flex items-start">
+                <span className="text-white mr-2">●</span> If you continue getting no results for queries you believe should exist, contact support – it could be that the place is not yet in the database.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Accuracy Question */}
+        <div>
+          <h4 className="text-[#4d79ff] text-xl font-bold mb-3">
+            Q: How accurate are the routes and geocoding results?
+          </h4>
+          <p className="text-gray-400 leading-relaxed">
+            <strong className="text-white">A:</strong> Ambalay Maps aims to provide accurate routing and location data, especially within its supported regions. Routes take into account known roads and can calculate travel time based on distance and possibly road speeds. Geocoding results (both forward and reverse) use the latest available map data. However, accuracy can vary if the location is in a newly developed area or a remote region. Always verify critical information, and if something seems off, you can report it via the support channels.
+          </p>
+        </div>
+
+        {/* Features Question */}
+        <div>
+          <h4 className="text-[#4d79ff] text-xl font-bold mb-3">
+            Q: Does Ambalay Maps support other features like distance matrix or map tiles?
+          </h4>
+          <p className="text-gray-400 leading-relaxed">
+            <strong className="text-white">A:</strong> The current documentation covers routing and geocoding. Ambalay may offer additional APIs such as distance matrix (calculating travel times between many points) or map tile services, but those would be accessed via different endpoints or require enabling in your account. Check Ambalay’s official documentation or announcements for any new features. If you need a feature not documented here, reach out to the Ambalay support team for the latest info.
+          </p>
+        </div>
+      </section>
+    </div>
+  );
+}

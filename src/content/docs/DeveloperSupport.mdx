@@ -1,0 +1,85 @@
+import React from 'react';
+
+export default function DeveloperSupport() {
+  return (
+    <div className="bg-black text-gray-300 min-h-screen p-8 font-sans">
+      {/* Header Section */}
+      <header className="mb-10">
+        <h1 className="text-white text-5xl font-bold mb-4 tracking-tight !mt-0">
+          Developer Support
+        </h1>
+        <div className="h-[1px] bg-gray-800 w-full mb-6"></div>
+      </header>
+
+      {/* Postman Section */}
+      <section className="mb-12">
+        <p className="text-gray-400 text-lg leading-relaxed mb-6">
+          The postman collection for developers is available to help you get started with the Ambalay Maps API. 
+          You can import this collection into Postman to easily test API endpoints and explore the available features.
+        </p>
+        
+        <div className="flex flex-col space-y-4">
+          <a 
+            href="#" 
+            className="text-[#00d1ff] hover:underline flex items-center font-medium"
+          >
+            <span className="mr-2">⬇</span> Download Ambalay Maps Public Postman Collection
+          </a>
+          <a 
+            href="#" 
+            className="text-[#00d1ff] hover:underline flex items-center font-medium"
+          >
+            <span className="mr-2">⬇</span> Download Env Ambalay Api Public Postman Environment
+          </a>
+        </div>
+      </section>
+
+      {/* Support Commitment Section */}
+      <section className="mb-12">
+        <h3 className="text-white text-2xl font-bold mb-6">
+          Need help or have questions? Ambalay Maps is committed to helping developers succeed with its API:
+        </h3>
+
+        <div className="space-y-8">
+          {/* Email Support */}
+          <div className="flex items-start">
+            <span className="text-[#4d79ff] text-xl mr-4">●</span>
+            <div>
+              <p className="text-gray-400 leading-relaxed">
+                <strong className="text-white">Email Support:</strong> Reach out to our support team at <span className="text-[#8cff2e]">devsupport@ambalay.com</span> for any API issues, questions, or to request higher usage limits. We strive to respond promptly with assistance.
+              </p>
+            </div>
+          </div>
+
+          {/* Documentation */}
+          <div className="flex items-start">
+            <span className="text-[#4d79ff] text-xl mr-4">●</span>
+            <div>
+              <p className="text-gray-400 leading-relaxed">
+                <strong className="text-white">Documentation & Guides:</strong> Visit the Ambalay Maps Developer Documentation portal (for example, <a href="https://ambalay.com/developer" className="text-[#00d1ff] hover:underline">https://ambalay.com/developer</a>) for more detailed guides, examples, and the latest updates. Here you can find tutorials on integrating the API and best practices for various use cases.
+              </p>
+            </div>
+          </div>
+
+          {/* Issue Tracker */}
+          <div className="flex items-start">
+            <span className="text-[#4d79ff] text-xl mr-4">●</span>
+            <div>
+              <p className="text-gray-400 leading-relaxed">
+                <strong className="text-white">Issue Tracker:</strong> If you encounter a bug or have a feature request, you can report it on our issue tracker (e.g., on a GitHub repository at <a href="https://github.com/ambalay/maps-api/issues" className="text-[#00d1ff] hover:underline">https://github.com/ambalay/maps-api/issues</a>). This allows the development community to see known issues and the Ambalay team to provide updates or fixes.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Community Message */}
+      <section className="mt-16 p-6 bg-[#111] border border-gray-800 rounded-lg">
+        <p className="text-gray-300 italic text-center text-lg">
+          We welcome feedback and contributions. By using Ambalay Maps API, you are joining a growing community of developers building location-aware applications. <span className="text-[#8cff2e] font-bold">Happy coding!</span>
+        </p>
+      </section>
+
+    </div>
+  );
+}

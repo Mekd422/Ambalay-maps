@@ -15,6 +15,10 @@ import LLM from "../content/docs/LLM.mdx"
 import OptimizedRoute from "../content/docs/OptimizedRoute.mdx"
 import EmbeddingMap from "../content/docs/EmbeddingMap.mdx"
 import GeocodingAddress from "../content/docs/GeocodingAddress.mdx"
+import RouteCalculation from "../content/docs/RouteCalculation.mdx"
+import BestPractices from "../content/docs/BestPractices.mdx"
+import FAQ from "../content/docs/FAQ.mdx"
+import DeveloperSupprt from "../content/docs/DeveloperSupport.mdx"
 
 interface SidebarGroup {
   group: string;
@@ -75,6 +79,10 @@ const Documentation = () => {
     if (activePage === "Optimized Route API") return mdxWrapper(OptimizedRoute);
     if (activePage === "Embedding a Map") return mdxWrapper(EmbeddingMap);
     if (activePage === "Geocoding an Address") return mdxWrapper(GeocodingAddress);
+    if (activePage === "Calculating a Route") return mdxWrapper(RouteCalculation);
+    if (activePage === "Best Practices") return mdxWrapper(BestPractices);
+    if (activePage === "FAQ & Troubleshooting") return mdxWrapper(FAQ);
+    if (activePage === "Developer Support") return mdxWrapper(DeveloperSupprt);
 
     return (
       <div className="flex flex-col items-center text-center">

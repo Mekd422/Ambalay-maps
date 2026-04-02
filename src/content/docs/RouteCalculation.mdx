@@ -1,0 +1,148 @@
+import CodeBlock from "../../Components/CodeBlock.tsx";
+
+export default function RouteCalculation() {
+  const curlExample = `curl -G 'https://api.ambalaymaps.com/v1/route' \\
+  -H "x-api-key: YOUR_API_KEY" \\
+  --data-urlencode 'origin=9.03,38.74' \\
+  --data-urlencode 'destination=9.05,38.76' \\
+  --data-urlencode 'mode=driving'`;
+
+  const jsonResponse = `{
+  "status": 200,
+  "message": "ROUTE_CALCULATION_SUCCESS",
+  "data": {
+    "route": {
+      "distance": "3.5 km",
+      "duration": "9 mins",
+      "steps": [
+        {
+          "instruction": "Head northeast on Churchill Ave.",
+          "distance": "0.5 km",
+          "duration": "1 min"
+        },
+        {
+          "instruction": "Turn right onto Niger St.",
+          "distance": "3.0 km",
+          "duration": "8 mins"
+        }
+      ],
+      "polyline": "encoded_polyline_string"
+    }
+  }
+}`;
+
+  return (
+    <div className="bg-black text-gray-300 min-h-screen p-8 font-sans">
+      {/* Header Section */}
+      <header className="mb-10">
+        <h1 className="text-white text-5xl font-bold mb-4 tracking-tight !mt-0">
+          Route Calculation
+        </h1>
+        <div className="h-[1px] bg-gray-800 w-full mb-6"></div>
+        <p className="text-gray-400 text-lg leading-relaxed">
+          <strong className="text-white">Purpose:</strong> Calculates the recommended route between an origin and a destination, providing distance, duration, and turn-by-turn instructions.
+        </p>
+      </header>
+
+      {/* Endpoint Details */}
+      <section className="mb-12">
+        <h3 className="text-[#4d79ff] text-xl font-bold mb-4 !mt-0">Endpoint</h3>
+        <p className="font-mono bg-[#1a1a1a] p-3 rounded text-[#8cff2e] mb-4 inline-block">
+          GET /route
+        </p>
+        <p className="text-gray-400">
+          <strong className="text-white">Full URL:</strong> <span className="text-[#00d1ff]">https://api.ambalaymaps.com/v1/route</span>
+        </p>
+      </section>
+
+      {/* Query Parameters Table */}
+      <section className="mb-12">
+        <h3 className="text-[#4d79ff] text-xl font-bold mb-6">Required Query Parameters</h3>
+        <div className="overflow-x-auto rounded-xl border border-gray-800 shadow-2xl mb-6">
+          <table className="w-full text-left border-collapse">
+            <thead className="bg-[#1a1a1a] text-gray-400 text-sm uppercase tracking-wider">
+              <tr>
+                <th className="px-6 py-4 font-semibold border-b border-gray-800">Parameter</th>
+                <th className="px-6 py-4 font-semibold border-b border-gray-800">Type</th>
+                <th className="px-6 py-4 font-semibold border-b border-gray-800">Required</th>
+                <th className="px-6 py-4 border-b border-gray-800">Description</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-800">
+              <tr>
+                <td className="px-6 py-4 font-mono text-[#8cff2e]">origin</td>
+                <td className="px-6 py-4">string</td>
+                <td className="px-6 py-4">Yes</td>
+                <td className="px-6 py-4 text-sm text-gray-400">
+                  The starting point coordinates as <code className="text-white">lat,lon</code> (e.g., <code className="text-white">9.03,38.74</code>).
+                </td>
+              </tr>
+              <tr>
+                <td className="px-6 py-4 font-mono text-[#8cff2e]">destination</td>
+                <td className="px-6 py-4">string</td>
+                <td className="px-6 py-4">Yes</td>
+                <td className="px-6 py-4 text-sm text-gray-400">
+                  The ending point coordinates as <code className="text-white">lat,lon</code> (e.g., <code className="text-white">9.05,38.76</code>).
+                </td>
+              </tr>
+              <tr>
+                <td className="px-6 py-4 font-mono text-[#8cff2e]">mode</td>
+                <td className="px-6 py-4">string</td>
+                <td className="px-6 py-4">No</td>
+                <td className="px-6 py-4 text-sm text-gray-400">
+                  The travel mode. Options: <code className="text-white">driving</code> (default), <code className="text-white">walking</code>, <code className="text-white">cycling</code>.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p className="text-gray-400 italic">
+          <strong className="text-white">Auth Header:</strong> <code className="text-[#8cff2e]">x-api-key: Your API key</code>.
+        </p>
+      </section>
+
+      {/* Example Request & Response */}
+      <section className="mb-12 grid grid-cols-1 gap-8">
+        <div>
+          <h3 className="text-[#4d79ff] text-xl font-bold mb-4">Example Request</h3>
+          <CodeBlock code={curlExample} language="bash" />
+        </div>
+        <div>
+          <h3 className="text-[#4d79ff] text-xl font-bold mb-4">Example Response</h3>
+          <CodeBlock code={jsonResponse} language="json" />
+        </div>
+      </section>
+
+      {/* Response Explanation */}
+      <section className="mb-12">
+        <h3 className="text-white font-bold mb-4 text-lg">Response Field Details</h3>
+        <ul className="space-y-4 text-gray-400 leading-relaxed list-disc ml-6">
+          <li><code className="text-[#8cff2e]">distance</code> — The total distance of the route.</li>
+          <li><code className="text-[#8cff2e]">duration</code> — The total estimated travel time.</li>
+          <li><code className="text-[#8cff2e]">steps</code> — An array of turn-by-turn maneuvers containing instructions, distance per step, and duration per step.</li>
+          <li><code className="text-[#8cff2e]">polyline</code> — An encoded string representing the route's path, compatible with mapping libraries like Leaflet or Google Maps.</li>
+        </ul>
+      </section>
+
+      {/* Status Codes */}
+      <footer className="mt-20 pb-20">
+        <h3 className="text-[#4d79ff] font-bold text-xl mb-6">Status Codes & Behavior</h3>
+        <div className="space-y-6 text-sm text-gray-400">
+          <p>
+            <strong className="text-white">200 OK:</strong> Success. message: <code className="text-[#8cff2e]">"ROUTE_CALCULATION_SUCCESS"</code>.
+          </p>
+          <p>
+            <strong className="text-white">400 Bad Request:</strong> Invalid coordinates or missing parameters.
+          </p>
+          <p>
+            <strong className="text-white">401 Unauthorized:</strong> Missing or invalid API key. Response: <code className="text-[#ff4d4d]">"API_KEY_REQUIRED"</code>.
+          </p>
+          <p>
+            <strong className="text-white">404 Not Found:</strong> No route could be found between the specified points.
+          </p>
+          
+        </div>
+      </footer>
+    </div>
+  );
+}

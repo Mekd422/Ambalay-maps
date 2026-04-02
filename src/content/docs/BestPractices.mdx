@@ -1,0 +1,85 @@
+import React from 'react';
+
+export default function BestPractices() {
+  return (
+    <div className="bg-black text-gray-300 min-h-screen p-8 font-sans">
+      {/* Header Section */}
+      <header className="mb-10">
+        <h1 className="text-white text-5xl font-bold mb-4 tracking-tight !mt-0">
+          Best Practices
+        </h1>
+        <div className="h-[1px] bg-gray-800 w-full mb-6"></div>
+        <p className="text-gray-400 text-lg leading-relaxed">
+          To get the most out of the AmbaLay Maps API and ensure your application remains 
+          performant and reliable, follow these best practices.
+        </p>
+      </header>
+
+      {/* API Key Security */}
+      <section className="mb-12">
+        <h3 className="text-[#4d79ff] text-xl font-bold mb-4 !mt-0">1. API Key Security</h3>
+        <ul className="space-y-4 text-gray-400 leading-relaxed list-disc ml-6">
+          <li>
+            <strong className="text-white">Keep it Secret:</strong> Never hardcode your API key directly in 
+            client-side code if possible. Use environment variables.
+          </li>
+          <li>
+            <strong className="text-white">Restrict Your Key:</strong> Use the AmbaLay Maps Dashboard to 
+            restrict your API key to specific HTTP referrers (websites) or IP addresses to prevent unauthorized use.
+          </li>
+        </ul>
+      </section>
+
+      {/* Optimizing Requests */}
+      <section className="mb-12">
+        <h3 className="text-[#4d79ff] text-xl font-bold mb-4">2. Optimizing Requests</h3>
+        <ul className="space-y-4 text-gray-400 leading-relaxed list-disc ml-6">
+          <li>
+            <strong className="text-white">Reduce Zoom Level:</strong> For Static Maps, use the lowest 
+            zoom level that still conveys the necessary information to reduce data usage.
+          </li>
+          <li>
+            <strong className="text-white">Batch Matrix Requests:</strong> If you have many origins and 
+            destinations, group them into a single Matrix API request rather than making multiple individual calls.
+          </li>
+          <li>
+            <strong className="text-white">Cache Results:</strong> Cache geocoding and routing results 
+            locally (compliant with our terms of service) to avoid redundant API calls for the same data.
+          </li>
+        </ul>
+      </section>
+
+      {/* Handling Errors Gracefully */}
+      <section className="mb-12">
+        <h3 className="text-[#4d79ff] text-xl font-bold mb-4">3. Handling Errors Gracefully</h3>
+        <ul className="space-y-4 text-gray-400 leading-relaxed list-disc ml-6">
+          <li>
+            <strong className="text-white">Check Status Codes:</strong> Always check the <code className="text-[#8cff2e]">status</code> field 
+            in the JSON response. Do not assume a request was successful just because the HTTP code is 200.
+          </li>
+          <li>
+            <strong className="text-white">Implement Retries:</strong> For transient errors (like <code className="text-white">OVER_QUERY_LIMIT</code>), 
+            implement an exponential backoff strategy for retrying requests.
+          </li>
+        </ul>
+      </section>
+
+      {/* User Experience */}
+      <section className="mb-12">
+        <h3 className="text-[#4d79ff] text-xl font-bold mb-4">4. User Experience</h3>
+        <ul className="space-y-4 text-gray-400 leading-relaxed list-disc ml-6">
+          <li>
+            <strong className="text-white">Provide Loading States:</strong> Mapping data can sometimes 
+            take a moment to fetch. Use loading indicators to keep your users informed.
+          </li>
+          <li>
+            <strong className="text-white">Attribution:</strong> Ensure you display the required 
+            AmbaLay Maps attribution on any map or data view as per our branding guidelines.
+          </li>
+        </ul>
+      </section>
+
+      
+    </div>
+  );
+}
