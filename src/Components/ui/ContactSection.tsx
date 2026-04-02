@@ -21,10 +21,8 @@ export default function ContactSection() {
               <span className="text-gray-500">together</span>
             </motion.h2>
 
-            {/* UPDATED CONTENT ONLY */}
             <div className="space-y-6 max-w-sm">
 
-              {/* Headquarters */}
               <div>
                 <p className="text-gray-600 text-[10px] uppercase tracking-widest font-bold mb-1">
                   Headquarters
@@ -33,7 +31,6 @@ export default function ContactSection() {
                 <p className="text-white text-sm">Ethiopia</p>
               </div>
 
-              {/* Phone */}
               <div className="flex items-center gap-4 p-5 rounded-2xl bg-[#0A0A0A] border border-white/5">
                 <div className="w-10 h-10 rounded-xl bg-[#8cff2e]/5 flex items-center justify-center border border-[#8cff2e]/10">
                   <Phone className="w-5 h-5 text-[#8cff2e]" />
@@ -48,7 +45,6 @@ export default function ContactSection() {
                 </div>
               </div>
 
-              {/* Email */}
               <div className="flex items-center gap-4 p-5 rounded-2xl bg-[#0A0A0A] border border-white/5">
                 <div className="w-10 h-10 rounded-xl bg-[#8cff2e]/5 flex items-center justify-center border border-[#8cff2e]/10">
                   <Mail size={18} className="text-[#8cff2e]" />
@@ -65,7 +61,6 @@ export default function ContactSection() {
                 </div>
               </div>
 
-              {/* Support */}
               <div className="flex items-center gap-4 p-5 rounded-2xl bg-[#0A0A0A] border border-white/5">
                 <div className="w-10 h-10 rounded-xl bg-[#8cff2e]/5 flex items-center justify-center border border-[#8cff2e]/10">
                   <Mail size={18} className="text-[#8cff2e]" />
@@ -85,10 +80,8 @@ export default function ContactSection() {
             </div>
           </div>
 
-          {/* Spacer */}
           <div className="hidden lg:block lg:col-span-1"></div>
 
-          {/* Right Column */}
           <motion.div 
             initial={{ x: 60, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}

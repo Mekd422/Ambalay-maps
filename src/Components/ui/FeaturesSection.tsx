@@ -46,7 +46,6 @@ export default function FeaturesSection() {
       key={idx} 
       className="group bg-[#0A0A0A] border border-white/5 rounded-[32px] p-8 transition-all hover:border-[#8cff2e]/20 duration-300"
     >
-      {/* This is the Icon Background Container */}
       <div className="w-12 h-12 rounded-xl bg-black border border-white/5 flex items-center justify-center mb-8 
                       transition-all duration-300 
                       group-hover:border-[#8cff2e]/50 
@@ -54,7 +53,7 @@ export default function FeaturesSection() {
         <img 
           src={feature.icon} 
           alt={feature.title} 
-          className="w-7 h-7" // Removed drop-shadow from the icon itself
+          className="w-7 h-7" 
         />
       </div>
       

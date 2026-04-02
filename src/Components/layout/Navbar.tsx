@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react"; 
 import logo from "../../assets/icons/download.svg";
-import { Link } from "react-router-dom";
+import { HashLink as Link } from 'react-router-hash-link';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

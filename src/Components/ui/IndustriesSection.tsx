@@ -1,10 +1,11 @@
-import React, { useState } from "react"
+import { useState } from "react"
+import type { LucideIcon } from "lucide-react"
 import { Car, Utensils, ShoppingBag, Truck, Building2, Heart, Home } from "lucide-react"
 
 interface Industry {
   id: string
   name: string
-  icon: React.ElementType
+  icon: LucideIcon   
   title: string
   desc: string
   stack: string[]

@@ -14,7 +14,6 @@ export default function MappingSolutions() {
     <section className="px-6 md:px-12 py-24 bg-black">
       <div className="max-w-5xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 overflow-hidden">
-        {/* H2: Comes from the LEFT */}
         <motion.h2 
           initial={{ opacity: 0, x: -100 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -25,7 +24,6 @@ export default function MappingSolutions() {
           Comprehensive <br /> Mapping Solutions.
         </motion.h2>
 
-        {/* P: Comes from the RIGHT */}
         <motion.p 
           initial={{ opacity: 0, x: 100 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -76,7 +74,6 @@ export default function MappingSolutions() {
 </div>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {/* CARD: Spending Breakdown */}
           <div className="rounded-[32px] bg-[#0A0A0A] border border-white/5 overflow-hidden flex flex-col transition-all hover:border-white/10 group">
             <div className="relative bg-[#111] aspect-square flex items-center justify-center overflow-hidden">
               <img 
@@ -92,7 +89,6 @@ export default function MappingSolutions() {
             </div>
           </div>
 
-          {/* CARD: Savings Goal */}
           <div className="rounded-[32px] bg-[#0A0A0A] border border-white/5 overflow-hidden flex flex-col transition-all hover:border-white/10 group">
             <div className="relative bg-[#111] aspect-square flex items-center justify-center overflow-hidden">
               <img 

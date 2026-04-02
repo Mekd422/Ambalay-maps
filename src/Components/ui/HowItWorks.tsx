@@ -34,7 +34,6 @@ export default function HowItWorks() {
     <section id="about" className="px-6 md:px-12 py-24 bg-black overflow-hidden">
       <div className="max-w-5xl mx-auto">
         
-        {/* Heading Section */}
         <div className="mb-14">
           <motion.div 
             initial={{ opacity: 0, x: -80 }} 
@@ -58,7 +57,6 @@ export default function HowItWorks() {
           </motion.h2>
         </div>
 
-        {/* Animated Cards Grid */}
         <motion.div 
           variants={containerVariants}
           initial="hidden"

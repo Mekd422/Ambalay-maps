@@ -5,7 +5,6 @@ import RecentTemplates from "../Components/ui/shop/RecentTemplates";
 import SubscribeSection from "../Components/ui/shop/SubscribeSection";
 import { Search, ShoppingCart } from "lucide-react";
 
-// Product type
 interface Product {
   image: string;
   category: string;
@@ -42,16 +41,12 @@ export default function Shop() {
       <Navbar />
 
       <main className="pt-20">
-        {/* Hero Section */}
         <section className="relative w-full pt-24 pb-8 px-6 flex flex-col items-center justify-center text-center overflow-hidden bg-black">
-          {/* Grid overlay */}
           <div className="absolute inset-0 z-0 opacity-20 pointer-events-none"
                style={{ backgroundImage: `linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
-          {/* Glow */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#8cff2e]/10 via-transparent to-transparent blur-3xl pointer-events-none" />
 
           <div className="relative z-10 max-w-5xl mx-auto w-full flex items-center justify-center gap-4">
-  {/* Search */}
   <div className="relative group w-[300px] md:w-[400px]">
     <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
       <Search className="h-4 w-4 text-gray-500 group-focus-within:text-black transition-colors" />
@@ -65,7 +60,6 @@ export default function Shop() {
     />
   </div>
 
-  {/* Cart Icon */}
   <div className="relative">
     <button
       className="relative p-2 rounded-full bg-white hover:bg-gray-100 transition"
@@ -79,7 +73,6 @@ export default function Shop() {
       )}
     </button>
 
-    {/* Cart Dropdown */}
     {cartOpen && (
       <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 p-3">
         {cart.length === 0 ? (
@@ -110,19 +103,15 @@ export default function Shop() {
           </h1>
         </section>
 
-        {/* Marquee Section */}
         <section className="bg-black py-10 overflow-hidden">
           <ScrollingRow images={row1Images} direction="left" />
           <ScrollingRow images={row2Images} direction="right" />
         </section>
 
-        {/* Products */}
         <RecentTemplates searchTerm={searchTerm} onAddToCart={handleAddToCart} />
 
-        {/* Subscribe */}
         <SubscribeSection />
 
-        {/* Scroll Animations */}
         <style dangerouslySetInnerHTML={{ __html: `
           @keyframes scroll-left {
             0% { transform: translateX(0); }

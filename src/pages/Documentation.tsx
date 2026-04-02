@@ -4,7 +4,6 @@ import {
   Menu, X, Pencil, Database, Layout, Sparkles, Moon, Gauge 
 } from 'lucide-react';
 
-// --- Imports ---
 import QuickstartContent from '../content/docs/Quickstart.mdx';
 import AuthenticationContent from '../content/docs/Authentication.mdx';
 import Routing from '../content/docs/Routing.mdx';
@@ -57,9 +56,7 @@ const Documentation = () => {
     window.scrollTo(0, 0);
   };
 
-  // Helper to switch content
   const renderContent = () => {
-    // Wrapper for MDX Content
     const mdxWrapper = (Content: React.ComponentType) => (
       <article className="prose prose-invert prose-headings:font-bold prose-h1:text-4xl prose-h1:mb-8 prose-h3:text-xl prose-h3:mt-10 prose-code:text-[#8cff2e] prose-pre:bg-[#0A0A0A] prose-pre:border prose-pre:border-white/10 prose-strong:text-white max-w-none">
         <Content />
@@ -77,7 +74,6 @@ const Documentation = () => {
     if (activePage === "Optimized Route API") return mdxWrapper(OptimizedRoute);
     if (activePage === "Embedding a Map") return mdxWrapper(EmbeddingMap);
 
-    // Default Overview Page
     return (
       <div className="flex flex-col items-center text-center">
         <div className="inline-flex items-center gap-3 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 mb-5 self-center">
@@ -135,7 +131,6 @@ const Documentation = () => {
           </div>
         </div>
 
-        {/* Features Grid */}
         <div className="w-full mt-32 grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12 text-left pb-20">
           <FeatureItem 
             icon={<Pencil className="text-indigo-500" size={20} />}
@@ -234,7 +229,6 @@ const Documentation = () => {
   );
 };
 
-// --- Sub-Components ---
 
 const SidebarContent = ({ sidebarLinks, activePage, onPageSelect }: SidebarContentProps) => (
   <>

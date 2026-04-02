@@ -21,7 +21,6 @@ export default function MapGlobe({ progress }: { progress: number }) {
       
       <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
         <mesh ref={meshRef}>
-          {/* Decreased from 2.2 to 1.5 */}
           <sphereGeometry args={[1.5, 64, 64]} /> 
           <meshStandardMaterial 
             color="#8cff2e" 
@@ -30,7 +29,6 @@ export default function MapGlobe({ progress }: { progress: number }) {
             opacity={0.3 * progress} 
           />
           
-          {/* Adjusted Marker Position to fit new radius */}
           <mesh position={[1.2, 0.5, 0.8]}>
             <sphereGeometry args={[0.04, 16, 16]} />
             <meshBasicMaterial color="#8cff2e" />
@@ -44,7 +42,6 @@ export default function MapGlobe({ progress }: { progress: number }) {
             </Html>
           </mesh>
 
-          {/* Inner core decreased from 2 to 1.4 */}
           <Sphere args={[1.4, 64, 64]}>
             <MeshDistortMaterial
               color="#051a16"
