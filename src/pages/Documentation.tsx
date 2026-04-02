@@ -14,6 +14,7 @@ import MatrixAPI from "../content/docs/MatrixAPI.mdx";
 import LLM from "../content/docs/LLM.mdx"
 import OptimizedRoute from "../content/docs/OptimizedRoute.mdx"
 import EmbeddingMap from "../content/docs/EmbeddingMap.mdx"
+import GeocodingAddress from "../content/docs/GeocodingAddress.mdx"
 
 interface SidebarGroup {
   group: string;
@@ -73,6 +74,7 @@ const Documentation = () => {
     if (activePage === "LLM") return mdxWrapper(LLM);
     if (activePage === "Optimized Route API") return mdxWrapper(OptimizedRoute);
     if (activePage === "Embedding a Map") return mdxWrapper(EmbeddingMap);
+    if (activePage === "Geocoding an Address") return mdxWrapper(GeocodingAddress);
 
     return (
       <div className="flex flex-col items-center text-center">
