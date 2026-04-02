@@ -19,6 +19,7 @@ import RouteCalculation from "../content/docs/RouteCalculation.mdx"
 import BestPractices from "../content/docs/BestPractices.mdx"
 import FAQ from "../content/docs/FAQ.mdx"
 import DeveloperSupprt from "../content/docs/DeveloperSupport.mdx"
+import { Link } from "react-router-dom"
 
 interface SidebarGroup {
   group: string;
@@ -229,12 +230,26 @@ const Documentation = () => {
       </div>
 
       <footer className="w-full relative bg-[#050505] py-16 border-t border-white/10">
-        <div className="w-full px-6 lg:px-24 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="text-sm text-gray-500">
-            AmbaLay Maps · © 2026 All rights reserved
-          </div>
-        </div>
-      </footer>
+  <div className="w-full px-6 lg:px-24 flex flex-col md:flex-row justify-between items-center gap-4">
+    
+    {/* Left */}
+    <div className="text-sm text-gray-500">
+      AmbaLay Maps · © 2026 All rights reserved
+    </div>
+
+    {/* Right */}
+    <div className="flex gap-6 text-sm text-gray-500">
+      <Link to="/privacy" className="hover:text-white transition">
+        Privacy Policy
+      </Link>
+
+      <Link to="/terms" className="hover:text-white transition">
+        Terms of Service
+      </Link>
+    </div>
+
+  </div>
+</footer>
     </div>
   );
 };

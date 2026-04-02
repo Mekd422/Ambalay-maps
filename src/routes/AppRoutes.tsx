@@ -8,6 +8,8 @@ import Price from "../pages/Pricing"
 import ScrollToHash from "../utils/ScrollToHash"
 import Register from "../pages/RegisterPage"
 import Login from "../pages/Login"
+// import PrivacyPolicy from "../Components/ui/PrivacyPolicy"
+// import TermsOfService from "../Components/ui/TermsOfService"
 
 
 export default function AppRoutes() {
@@ -24,7 +26,8 @@ export default function AppRoutes() {
         <Route path="/price"element={<Price/>} />
         <Route path="/register"element={<Register/>} />
         <Route path="/login"element={<Login/>} />
-
+        {/* <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} /> */}
       </Routes>
     </BrowserRouter>
   )
