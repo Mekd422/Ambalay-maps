@@ -1,14 +1,56 @@
 import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { signin } from "../../../api/auth";
+import { AxiosError } from "axios";
+
+interface ErrorResponse {
+  message: string;
+}
 
 export default function LoginForm() {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+  });
+
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Add your login logic here
-    console.log("Login submitted");
+
+    try {
+      setLoading(true);
+
+      const res = await signin(formData);
+      const token = res.data.data.token;
+
+      localStorage.setItem("token", token);
+
+      navigate("/dashboard");
+
+    } catch (err) {
+      const axiosError = err as AxiosError<ErrorResponse>;
+      const message = axiosError.response?.data?.message;
+
+      if (message === "USER_NOT_IDENTIFIED") {
+        alert("Invalid email or password");
+      } else {
+        alert("Login failed");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -33,8 +75,11 @@ export default function LoginForm() {
               Email
             </label>
             <input
+              name="email"
               type="email"
               required
+              value={formData.email}
+              onChange={handleChange}
               placeholder="abebe@company.com"
               className="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-black border border-gray-200 dark:border-white/10 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8cff2e] transition-all"
             />
@@ -46,20 +91,25 @@ export default function LoginForm() {
               <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 Password
               </label>
-              <Link to="/forgot-password" className="text-xs text-[#8cff2e] dark:text-[#8cff2e] hover:underline">
+              <Link to="/forgot-password" className="text-xs text-[#8cff2e] hover:underline">
                 Forgot password?
-                </Link>
+              </Link>
             </div>
+
             <div className="relative">
               <input
+                name="password"
                 type={showPassword ? "text" : "password"}
                 required
+                value={formData.password}
+                onChange={handleChange}
                 placeholder="••••••••"
                 className="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-black border border-gray-200 dark:border-white/10 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8cff2e] transition-all"
               />
+
               <button
                 type="button"
-                onClick={() => setShowPassword(!showPassword)}
+                onClick={() => setShowPassword((prev) => !prev)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-white"
               >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -67,19 +117,20 @@ export default function LoginForm() {
             </div>
           </div>
 
-          {/* Submit Button */}
+          {/* Submit */}
           <button
             type="submit"
-            className="w-full py-3.5 px-4 bg-[#8cff2e] hover:bg-[#8cff2e] text-white font-semibold rounded-lg transition-all shadow-lg shadow-[#8cff2e]/20 mt-4 active:scale-[0.98]"
+            disabled={loading}
+            className="w-full py-3.5 px-4 bg-[#8cff2e] text-white font-semibold rounded-lg transition-all shadow-lg shadow-[#8cff2e]/20 mt-4 active:scale-[0.98]"
           >
-            Log In
+            {loading ? "Logging in..." : "Log In"}
           </button>
         </form>
 
-        {/* Footer Link */}
+        {/* Footer */}
         <p className="text-center mt-8 text-sm text-gray-500 dark:text-gray-400">
           Don't have an account?{" "}
-          <Link to="/register" className="text-[#8cff2e] dark:text-[#8cff2e] font-medium hover:underline">
+          <Link to="/register" className="text-[#8cff2e] font-medium hover:underline">
             Sign up
           </Link>
         </p>

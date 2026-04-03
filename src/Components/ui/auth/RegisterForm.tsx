@@ -1,16 +1,68 @@
 import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { signup } from "../../../api/auth";
+import { AxiosError } from "axios";
+
+interface ErrorResponse {
+  message: string;
+}
 
 export default function RegisterForm() {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const navigate = useNavigate();
 
-  // Handle form submission
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: ""
+  });
+
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Add your registration logic here
-    console.log("Form submitted");
+
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      await signup({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        password: formData.password
+      });
+
+      alert("Account created successfully!");
+      navigate("/login");
+
+    } catch (err) {
+      const axiosError = err as AxiosError<ErrorResponse>;
+      const message = axiosError.response?.data?.message;
+
+      if (message === "EMAIL_ALREADY_EXISTS") {
+        alert("Email already exists");
+      } else {
+        alert("Something went wrong");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -28,24 +80,32 @@ export default function RegisterForm() {
       {/* Form Card */}
       <div className="w-full max-w-lg bg-white dark:bg-[#0f0f0f] border border-gray-100 dark:border-white/5 p-8 md:p-10 rounded-2xl shadow-2xl">
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Names Row */}
+
+          {/* Names */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 First Name
               </label>
               <input
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
                 type="text"
                 required
                 placeholder="Abebe"
                 className="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-black border border-gray-200 dark:border-white/10 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8cff2e] transition-all"
               />
             </div>
+
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 Last Name
               </label>
               <input
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
                 type="text"
                 required
                 placeholder="Kebede"
@@ -60,6 +120,9 @@ export default function RegisterForm() {
               Email
             </label>
             <input
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               type="email"
               required
               placeholder="abebe@company.com"
@@ -74,7 +137,10 @@ export default function RegisterForm() {
             </label>
             <div className="relative">
               <input
+                name="password"
                 type={showPassword ? "text" : "password"}
+                value={formData.password}
+                onChange={handleChange}
                 required
                 placeholder="••••••••"
                 className="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-black border border-gray-200 dark:border-white/10 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8cff2e] transition-all"
@@ -96,7 +162,10 @@ export default function RegisterForm() {
             </label>
             <div className="relative">
               <input
+                name="confirmPassword"
                 type={showConfirmPassword ? "text" : "password"}
+                value={formData.confirmPassword}
+                onChange={handleChange}
                 required
                 placeholder="••••••••"
                 className="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-black border border-gray-200 dark:border-white/10 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8cff2e] transition-all"
@@ -111,19 +180,20 @@ export default function RegisterForm() {
             </div>
           </div>
 
-          {/* Submit Button */}
+          {/* Submit */}
           <button
             type="submit"
-            className="w-full py-3.5 px-4 bg-[#8cff2e] hover:bg-[#8cff2e] text-white font-semibold rounded-lg transition-all shadow-lg shadow-[#557a3a]/20 mt-4 active:scale-[0.98]"
+            disabled={loading}
+            className="w-full py-3.5 px-4 bg-[#8cff2e] text-white font-semibold rounded-lg transition-all shadow-lg shadow-[#557a3a]/20 mt-4 active:scale-[0.98]"
           >
-            Create Account
+            {loading ? "Creating..." : "Create Account"}
           </button>
         </form>
 
-        {/* Footer Link */}
+        {/* Footer */}
         <p className="text-center mt-8 text-sm text-gray-500 dark:text-gray-400">
           Already have an account?{" "}
-          <Link to="/login" className="text-[#8cff2e] dark:text-[#8cff2e] font-medium hover:underline">
+          <Link to="/login" className="text-[#8cff2e] font-medium hover:underline">
             Log in
           </Link>
         </p>
