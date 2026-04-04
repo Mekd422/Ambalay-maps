@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { signin } from "../../../api/auth";
+import { useAuth } from "../../../context/useAuth";
 import { AxiosError } from "axios";
 
 interface ErrorResponse {
@@ -11,45 +12,28 @@ interface ErrorResponse {
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: ""
-  });
-
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     try {
       setLoading(true);
-
       const res = await signin(formData);
       const token = res.data.data.token;
-      const userName = res.data.data.user.firstName;
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("userName", userName);
-
-      navigate("/dashboard", { state: { userName } });
+      await login(token); // Store token in context and fetch user
+      navigate("/dashboard");
 
     } catch (err) {
       const axiosError = err as AxiosError<ErrorResponse>;
       const message = axiosError.response?.data?.message;
-
-      if (message === "USER_NOT_IDENTIFIED") {
-        alert("Invalid email or password");
-      } else {
-        alert("Login failed");
-      }
+      alert(message === "USER_NOT_IDENTIFIED" ? "Invalid email or password" : "Login failed");
     } finally {
       setLoading(false);
     }
@@ -70,7 +54,6 @@ export default function LoginForm() {
       {/* Form Card */}
       <div className="w-full max-w-md bg-white dark:bg-[#0f0f0f] border border-gray-100 dark:border-white/5 p-8 md:p-10 rounded-2xl shadow-2xl">
         <form onSubmit={handleSubmit} className="space-y-6">
-          
           {/* Email */}
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-700 dark:text-gray-300">

@@ -2,25 +2,18 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react"; 
 import logo from "../../assets/icons/download.svg";
 import { HashLink as Link } from 'react-router-hash-link';
+import { useAuth } from "../../context/useAuth";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  
-  // FIXED: Initialize state directly from localStorage
-  // This prevents the "cascading render" error
-  const [isLoggedIn] = useState(() => {
-    return !!localStorage.getItem("token");
-  });
 
-  const [userName] = useState(() => {
-    return localStorage.getItem("userName") || "User";
-  });
+  const { user, token } = useAuth(); // <- get user & token from context
+  const isLoggedIn = !!token;
+  const userName = user?.firstName || "User";
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
