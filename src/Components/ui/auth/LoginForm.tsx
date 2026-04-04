@@ -34,10 +34,12 @@ export default function LoginForm() {
 
       const res = await signin(formData);
       const token = res.data.data.token;
+      const userName = res.data.data.user.firstName;
 
       localStorage.setItem("token", token);
+      localStorage.setItem("userName", userName);
 
-      navigate("/dashboard");
+      navigate("/dashboard", { state: { userName } });
 
     } catch (err) {
       const axiosError = err as AxiosError<ErrorResponse>;

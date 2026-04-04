@@ -6,6 +6,16 @@ import { HashLink as Link } from 'react-router-hash-link';
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  
+  // FIXED: Initialize state directly from localStorage
+  // This prevents the "cascading render" error
+  const [isLoggedIn] = useState(() => {
+    return !!localStorage.getItem("token");
+  });
+
+  const [userName] = useState(() => {
+    return localStorage.getItem("userName") || "User";
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,7 +45,7 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Unified Navigation Links (Desktop) */}
+        {/* Unified Navigation Links */}
         <div className="hidden lg:flex items-center gap-8 text-black dark:text-white">
           <Link to="/#how-it-works" className={linkStyles}>About Us</Link>
           <Link to="/price" className={linkStyles}>Pricing</Link>
@@ -45,21 +55,35 @@ export default function Navbar() {
           <Link to="/contact" className={linkStyles}>Contact</Link>
         </div>
 
-        {/* Auth Buttons Group (Desktop) */}
+        {/* Auth Buttons Group */}
         <div className="hidden lg:flex items-center gap-6">
-          <Link to="/login" className="text-sm font-medium text-black dark:text-white hover:text-[#8cff2e] transition-colors">
-            Login
-          </Link>
-
-          <Link
-            to="/register"
-            className="px-6 py-2.5 rounded-full text-sm font-medium bg-[#8cff2e] text-black shadow-[0_0_15px_rgba(140,255,46,0.2)] hover:brightness-110 transition-all"
-          >
-            Register
-          </Link>
+          {isLoggedIn ? (
+            <>
+              <span className="text-sm font-medium text-black dark:text-white">
+                Hi, {userName}
+              </span>
+              <Link
+                to="/dashboard"
+                className="px-6 py-2.5 rounded-full text-sm font-medium bg-[#8cff2e] text-white shadow-lg hover:brightness-110 transition-all"
+              >
+                Dashboard
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="text-sm font-medium text-black dark:text-white hover:text-[#8cff2e] transition-colors">
+                Login
+              </Link>
+              <Link
+                to="/register"
+                className="px-6 py-2.5 rounded-full text-sm font-medium bg-[#8cff2e] text-black shadow-[0_0_15px_rgba(140,255,46,0.2)] hover:brightness-110 transition-all"
+              >
+                Register
+              </Link>
+            </>
+          )}
         </div>
 
-        {/* Mobile Toggle */}
         <button className="lg:hidden text-black dark:text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -71,17 +95,24 @@ export default function Navbar() {
           <div className="flex flex-col p-6 space-y-4 text-black dark:text-white">
             <Link to="/#how-it-works" onClick={() => setIsMenuOpen(false)}>About Us</Link>
             <Link to="/price" onClick={() => setIsMenuOpen(false)}>Pricing</Link>
-            <Link to="/documentation" onClick={() => setIsMenuOpen(false)}>Documentation</Link>
-            <Link to="/blog" onClick={() => setIsMenuOpen(false)}>Blog</Link>
-            <Link to="/shop" onClick={() => setIsMenuOpen(false)}>Shop</Link>
             <Link to="/contact" onClick={() => setIsMenuOpen(false)}>Contact</Link>
             
             <hr className="border-gray-100 dark:border-white/10" />
             
-            <div className="grid grid-cols-2 gap-3">
+            {isLoggedIn ? (
+              <Link 
+                to="/dashboard" 
+                className="text-center py-3 rounded-xl bg-[#58327d] text-white font-semibold" 
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <div className="grid grid-cols-2 gap-3">
                 <Link to="/login" className="text-center py-3 rounded-xl bg-gray-100 dark:bg-[#1a1a1a]" onClick={() => setIsMenuOpen(false)}>Login</Link>
                 <Link to="/register" className="text-center py-3 rounded-xl bg-[#8cff2e] text-black font-semibold" onClick={() => setIsMenuOpen(false)}>Register</Link>
-            </div>
+              </div>
+            )}
           </div>
         </div>
       )}
