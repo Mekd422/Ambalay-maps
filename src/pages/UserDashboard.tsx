@@ -3,11 +3,11 @@ import { Users, MessageSquare, Key, UserCircle } from 'lucide-react';
 import logo_white from "../assets/icons/download.svg"; 
 import Navbar from "../Components/layout/Navbar"; 
 import AccountSettings from '../Components/ui/dashboard/Account'; 
+import User from "../Components/ui/dashboard/User";
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('Users'); 
   
-
   const navItems = [
     { name: 'Users', icon: <Users size={18} /> },
     { name: 'Messages', icon: <MessageSquare size={18} /> },
@@ -60,12 +60,13 @@ const Dashboard = () => {
                </h1>
             </div>
 
-            {activeTab === 'Account' ? (
-              <AccountSettings />
-            ) : (
-              <div className="bg-[#1a0c0e] border border-red-900 text-red-400 px-6 py-4 rounded-md text-sm shadow-sm">
-                Failed to load {activeTab.toLowerCase()}
-              </div>
+            {activeTab === "Users" && <User />}
+              {activeTab === "Account" && <AccountSettings />}
+
+              {activeTab !== "Users" && activeTab !== "Account" && (
+                <div className="bg-[#1a0c0e] border border-red-900 text-red-400 px-6 py-4 rounded-md text-sm">
+                  Failed to load {activeTab.toLowerCase()}
+                </div>
             )}
           </div>
         </main>
