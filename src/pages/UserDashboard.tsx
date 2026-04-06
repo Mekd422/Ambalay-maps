@@ -1,16 +1,12 @@
 import { useState } from 'react'; 
 import { Users, MessageSquare, Key, UserCircle } from 'lucide-react'; 
 import logo_white from "../assets/icons/download.svg"; 
-import { useLocation } from "react-router-dom";
 import Navbar from "../Components/layout/Navbar"; 
 import AccountSettings from '../Components/ui/dashboard/Account'; 
 
 const Dashboard = () => {
-  const location = useLocation();
   const [activeTab, setActiveTab] = useState('Users'); 
   
-  // 1. userName is defined here
-  const userName = location.state?.userName || localStorage.getItem("userName") || "User";
 
   const navItems = [
     { name: 'Users', icon: <Users size={18} /> },
@@ -55,19 +51,13 @@ const Dashboard = () => {
           </nav>
         </aside>
 
-        {/* Dynamic Content Area */}
         <main className="flex-1 p-10 bg-[#070707] overflow-y-auto">
           <div className="max-w-5xl mx-auto">
             
-            {/* 2. Added a header to display userName (fixes 'unused variable' warning) */}
             <div className="flex justify-between items-center mb-8 border-b border-white/5 pb-6">
                <h1 className="text-2xl font-bold text-white">
                  {activeTab === 'Account' ? 'Account Settings' : activeTab}
                </h1>
-               <div className="text-right hidden sm:block">
-                 <p className="text-[10px] text-gray-500 uppercase tracking-widest">Logged in as</p>
-                 <p className="text-sm font-medium text-[#8cff2e]">{userName}</p>
-               </div>
             </div>
 
             {activeTab === 'Account' ? (
