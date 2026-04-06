@@ -1,7 +1,7 @@
 import { Eye } from "lucide-react";
 import { useState } from "react";
-import { updateProfile } from "../../../api/user"; 
-import { AxiosError } from "axios";
+import { updateProfile, changePassword } from "../../../api/user";
+import axios from "axios";
 
 interface AccountSettingsProps {
   initialName: string;
@@ -17,6 +17,7 @@ interface UpdateProfileError {
 }
 
 export default function AccountSettings({ initialName }: AccountSettingsProps) {
+  // 🔹 Profile state
   const [firstName, setFirstName] = useState(initialName);
   const [lastName, setLastName] = useState("Abebe");
 
@@ -24,6 +25,16 @@ export default function AccountSettings({ initialName }: AccountSettingsProps) {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  // 🔹 Password state
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [passwordLoading, setPasswordLoading] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordSuccess, setPasswordSuccess] = useState("");
+
+  // 🔥 Update profile
   const handleUpdate = async () => {
     setLoading(true);
     setError("");
@@ -35,15 +46,12 @@ export default function AccountSettings({ initialName }: AccountSettingsProps) {
       setSuccess("Profile updated successfully");
       console.log(res);
     } catch (err) {
-        const error = err as AxiosError<UpdateProfileError>;
+      if (axios.isAxiosError<UpdateProfileError>(err)) {
+        const backendErrors = err.response?.data?.data;
 
-      if (error.response?.data?.data) {
-        // backend validation error
-        const backendErrors = error.response.data.data;
-
-        if (backendErrors.firstName) {
+        if (backendErrors?.firstName) {
           setError(backendErrors.firstName);
-        } else if (backendErrors.lastName) {
+        } else if (backendErrors?.lastName) {
           setError(backendErrors.lastName);
         } else {
           setError("Something went wrong");
@@ -56,11 +64,53 @@ export default function AccountSettings({ initialName }: AccountSettingsProps) {
     }
   };
 
+  // 🔥 Change password
+  const handleChangePassword = async () => {
+    setPasswordError("");
+    setPasswordSuccess("");
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      setPasswordError("All fields are required");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      setPasswordError("Passwords do not match");
+      return;
+    }
+
+    try {
+      setPasswordLoading(true);
+
+      await changePassword(currentPassword, newPassword);
+
+      setPasswordSuccess("Password changed successfully");
+
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        const message = err.response?.data?.message;
+
+        if (message === "INVALID_CREDENTIALS") {
+          setPasswordError("Current password is incorrect");
+        } else {
+          setPasswordError("Failed to change password");
+        }
+      } else {
+        setPasswordError("Network error");
+      }
+    } finally {
+      setPasswordLoading(false);
+    }
+  };
+
   return (
     <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-        {/* Update Account Section */}
+        {/* Update Account */}
         <section className="bg-[#111111] border border-white/5 p-6 rounded-xl shadow-xl">
           <h2 className="text-lg font-semibold mb-6 text-white">Update Account</h2>
 
@@ -105,23 +155,65 @@ export default function AccountSettings({ initialName }: AccountSettingsProps) {
           </div>
         </section>
 
-        {/* Change Password Section */}
+        {/* Change Password */}
         <section className="bg-[#111111] border border-white/5 p-6 rounded-xl shadow-xl">
           <h2 className="text-lg font-semibold mb-6 text-white">Change Password</h2>
+
           <div className="space-y-4">
-            {["Current Password", "New Password", "Confirm New Password"].map((label) => (
-              <div key={label}>
-                <label className="block text-xs text-gray-400 mb-1 uppercase">{label}</label>
-                <div className="relative">
-                  <input
-                    type="password"
-                    placeholder="••••••••"
-                    className="w-full bg-[#070707] border border-white/10 rounded-lg px-4 py-2.5 text-white"
-                  />
-                  <Eye size={18} className="absolute right-3 top-3 text-gray-600 cursor-pointer" />
-                </div>
+
+            {/* Current */}
+            <div>
+              <label className="block text-xs text-gray-400 mb-1 uppercase">Current Password</label>
+              <div className="relative">
+                <input
+                  type="password"
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  className="w-full bg-[#070707] border border-white/10 rounded-lg px-4 py-2.5 text-white"
+                />
+                <Eye size={18} className="absolute right-3 top-3 text-gray-600" />
               </div>
-            ))}
+            </div>
+
+            {/* New */}
+            <div>
+              <label className="block text-xs text-gray-400 mb-1 uppercase">New Password</label>
+              <div className="relative">
+                <input
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className="w-full bg-[#070707] border border-white/10 rounded-lg px-4 py-2.5 text-white"
+                />
+                <Eye size={18} className="absolute right-3 top-3 text-gray-600" />
+              </div>
+            </div>
+
+            {/* Confirm */}
+            <div>
+              <label className="block text-xs text-gray-400 mb-1 uppercase">Confirm New Password</label>
+              <div className="relative">
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="w-full bg-[#070707] border border-white/10 rounded-lg px-4 py-2.5 text-white"
+                />
+                <Eye size={18} className="absolute right-3 top-3 text-gray-600" />
+              </div>
+            </div>
+
+            {passwordError && <p className="text-red-500 text-sm">{passwordError}</p>}
+            {passwordSuccess && <p className="text-green-500 text-sm">{passwordSuccess}</p>}
+
+            <button
+              onClick={handleChangePassword}
+              disabled={passwordLoading}
+              className="w-full bg-[#8cff2e] text-white font-bold py-3 rounded-lg mt-4"
+            >
+              {passwordLoading ? "Changing..." : "Change Password"}
+            </button>
+
           </div>
         </section>
 

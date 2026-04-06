@@ -11,3 +11,15 @@ export const updateProfile = async (
 
   return res.data;
 };
+
+export const changePassword = async (
+  currentPassword: string,
+  newPassword: string
+) => {
+  const res = await API.put("/auth/change_password", {
+    currentPassword,
+    newPassword,
+  });
+
+  return res.data;
+};
