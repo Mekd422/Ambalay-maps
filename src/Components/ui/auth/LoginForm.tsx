@@ -3,7 +3,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { signin } from "../../../api/auth";
 import { useAuth } from "../../../context/useAuth";
-import { AxiosError } from "axios";
+import axios from "axios";
 
 interface ErrorResponse {
   message: string;
@@ -22,18 +22,28 @@ export default function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     try {
       setLoading(true);
+
       const res = await signin(formData);
       const token = res.data.data.token;
 
-      await login(token); // Store token in context and fetch user
+      await login(token); 
       navigate("/dashboard");
 
     } catch (err) {
-      const axiosError = err as AxiosError<ErrorResponse>;
-      const message = axiosError.response?.data?.message;
-      alert(message === "USER_NOT_IDENTIFIED" ? "Invalid email or password" : "Login failed");
+      if (axios.isAxiosError<ErrorResponse>(err)) {
+        const message = err.response?.data?.message;
+
+        if (message === "USER_NOT_IDENTIFIED") {
+          alert("Invalid email or password");
+        } else {
+          alert("Login failed");
+        }
+      } else {
+        alert("Unexpected error occurred");
+      }
     } finally {
       setLoading(false);
     }
@@ -51,9 +61,10 @@ export default function LoginForm() {
         </p>
       </div>
 
-      {/* Form Card */}
+      {/* Form */}
       <div className="w-full max-w-md bg-white dark:bg-[#0f0f0f] border border-gray-100 dark:border-white/5 p-8 md:p-10 rounded-2xl shadow-2xl">
         <form onSubmit={handleSubmit} className="space-y-6">
+          
           {/* Email */}
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -66,7 +77,7 @@ export default function LoginForm() {
               value={formData.email}
               onChange={handleChange}
               placeholder="abebe@company.com"
-              className="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-black border border-gray-200 dark:border-white/10 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8cff2e] transition-all"
+              className="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-black border border-gray-200 dark:border-white/10 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8cff2e]"
             />
           </div>
 
@@ -89,7 +100,7 @@ export default function LoginForm() {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-black border border-gray-200 dark:border-white/10 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8cff2e] transition-all"
+                className="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-black border border-gray-200 dark:border-white/10 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8cff2e]"
               />
 
               <button
@@ -106,7 +117,7 @@ export default function LoginForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 px-4 bg-[#8cff2e] text-white font-semibold rounded-lg transition-all shadow-lg shadow-[#8cff2e]/20 mt-4 active:scale-[0.98]"
+            className="w-full py-3.5 px-4 bg-[#8cff2e] text-white font-semibold rounded-lg shadow-lg mt-4 active:scale-[0.98]"
           >
             {loading ? "Logging in..." : "Log In"}
           </button>
