@@ -2,10 +2,10 @@ import { Eye } from "lucide-react";
 import { useState } from "react";
 import { updateProfile, changePassword } from "../../../api/user";
 import axios from "axios";
+import { useAuth } from "../../../context/useAuth";
+import { useEffect } from "react";
 
-interface AccountSettingsProps {
-  initialName: string;
-}
+
 
 interface UpdateProfileError {
   status: string;
@@ -16,10 +16,13 @@ interface UpdateProfileError {
   message: string;
 }
 
-export default function AccountSettings({ initialName }: AccountSettingsProps) {
+export default function AccountSettings() {
   // 🔹 Profile state
-  const [firstName, setFirstName] = useState(initialName);
-  const [lastName, setLastName] = useState("Abebe");
+
+const { user } = useAuth();
+
+  const [firstName, setFirstName] = useState(user?.firstName || "");
+  const [lastName, setLastName] = useState(user?.lastName || "");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -34,7 +37,7 @@ export default function AccountSettings({ initialName }: AccountSettingsProps) {
   const [passwordError, setPasswordError] = useState("");
   const [passwordSuccess, setPasswordSuccess] = useState("");
 
-  // 🔥 Update profile
+  
   const handleUpdate = async () => {
     setLoading(true);
     setError("");
@@ -64,7 +67,6 @@ export default function AccountSettings({ initialName }: AccountSettingsProps) {
     }
   };
 
-  // 🔥 Change password
   const handleChangePassword = async () => {
     setPasswordError("");
     setPasswordSuccess("");
@@ -106,6 +108,13 @@ export default function AccountSettings({ initialName }: AccountSettingsProps) {
     }
   };
 
+  useEffect(() => {
+  if (user) {
+    setFirstName(user.firstName);
+    setLastName(user.lastName);
+  }
+}, [user]);
+
   return (
     <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -119,7 +128,7 @@ export default function AccountSettings({ initialName }: AccountSettingsProps) {
               <label className="block text-xs text-gray-400 mb-1 uppercase">Email</label>
               <input
                 disabled
-                value="michael@ambalaymaps.com"
+                value={user?.email || ""}
                 className="w-full bg-[#070707] border border-white/10 rounded-lg px-4 py-2.5 text-gray-500"
               />
             </div>

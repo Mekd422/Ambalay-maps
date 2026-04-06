@@ -71,8 +71,7 @@ const Dashboard = () => {
             </div>
 
             {activeTab === 'Account' ? (
-              // 3. Pass userName to initialName (fixes 'missing prop' error)
-              <AccountSettings initialName={userName} />
+              <AccountSettings />
             ) : (
               <div className="bg-[#1a0c0e] border border-red-900 text-red-400 px-6 py-4 rounded-md text-sm shadow-sm">
                 Failed to load {activeTab.toLowerCase()}
