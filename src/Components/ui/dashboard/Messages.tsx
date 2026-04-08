@@ -26,6 +26,8 @@ const ContactMessages: React.FC = () => {
         if (err instanceof AxiosError) {
           if (err.response?.status === 401) {
             setError("Unauthorized. Please login again.");
+          } else if (err.response?.status === 403) {
+            setError("Forbidden. You do not have access.");
           } else {
             setError("Failed to fetch messages.");
           }
