@@ -5,7 +5,6 @@ import { signin } from "../../../api/auth";
 import { useAuth } from "../../../context/useAuth";
 import axios from "axios";
 
-
 interface ErrorResponse {
   message: string;
 }
@@ -28,7 +27,29 @@ export default function LoginForm() {
       setLoading(true);
 
       const res = await signin(formData);
+
+      // ================= DEBUG START =================
+      // Check full response structure
+      console.log("FULL RESPONSE:", res);
+      console.log("DATA:", res.data);
+
+      // Check user object
+      console.log("USER:", res.data.data.user);
+
+      // Check if role exists inside user
+      console.log("ROLE (from user):", res.data.data.user?.role);
+
+      // Optional: check inside token (JWT payload)
       const token = res.data.data.token;
+      try {
+        const payload = JSON.parse(atob(token.split(".")[1]));
+        console.log("TOKEN PAYLOAD:", payload);
+        console.log("ROLE (from token):", payload?.role);
+      } catch (error) {
+        console.error("Error decoding token:", error);
+        console.log("Could not decode token");
+      }
+      // ================= DEBUG END =================
 
       await login(token); 
       navigate("/dashboard");

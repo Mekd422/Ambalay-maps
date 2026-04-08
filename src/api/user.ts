@@ -45,10 +45,28 @@ export const changePassword = async (
   return res.data;
 };
 
-export const getUsers = async (page = 1, limit = 6) => {
-  const res = await API.get<GetUsersResponse>(
-    `/auth/users?page=${page}&limit=${limit}`
-  );
+// types.ts
+export interface Pagination {
+  page: number;
+  limit: number;
+  totalPages: number;
+  totalItems: number;
+}
 
-  return res.data;
+export interface UsersResponse {
+  data: User[];
+  pagination: Pagination;
+}
+
+export interface GetUsersApiResponse {
+  data: UsersResponse; // <-- matches res.data.data
+  message: string;
+  requestId: string;
+  status: string;
+  timestamp: string;
+}
+
+export const getUsers = async (page: number, limit: number): Promise<UsersResponse> => {
+  const res = await API.get<GetUsersApiResponse>(`/auth/users?page=${page}&limit=${limit}`);
+  return res.data.data; // now this matches UsersResponse
 };

@@ -12,10 +12,14 @@ export default function Users() {
   const fetchUsers = useCallback(async () => {
   try {
     setLoading(true);
-    const res = await getUsers(page, limit);
 
-    setUsers(res.data.users);
-    setTotal(res.data.total);
+
+const res = await getUsers(page, limit);
+    console.log("USERS RESPONSE:", res.data);
+
+
+setUsers(res.data || []);               
+setTotal(res.pagination.totalItems);    
   } catch (err) {
     console.error("Failed to fetch users", err);
   } finally {
@@ -91,7 +95,7 @@ export default function Users() {
               <td>
                 <span
                   className={`px-2 py-1 rounded text-xs ${
-                    user.accessLevel === "BUSINESS_OWNER"
+                    user.accessLevel === "ADMIN"
                       ? "bg-red-500/20 text-red-400"
                       : "bg-gray-700 text-gray-300"
                   }`}
