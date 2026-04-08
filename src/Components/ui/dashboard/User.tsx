@@ -91,7 +91,7 @@ export default function Users() {
               <td>
                 <span
                   className={`px-2 py-1 rounded text-xs ${
-                    user.accessLevel === "ADMIN"
+                    user.accessLevel === "BUSINESS_OWNER"
                       ? "bg-red-500/20 text-red-400"
                       : "bg-gray-700 text-gray-300"
                   }`}

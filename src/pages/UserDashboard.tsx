@@ -5,6 +5,7 @@ import Navbar from "../Components/layout/Navbar";
 import AccountSettings from '../Components/ui/dashboard/Account'; 
 import User from "../Components/ui/dashboard/User";
 import ApiKeys from "../Components/ui/dashboard/ApiKeys";
+import ContactMessages from '../Components/ui/dashboard/Messages';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('Users'); 
@@ -64,10 +65,12 @@ const Dashboard = () => {
             {activeTab === "Users" && <User />}
             {activeTab === "Account" && <AccountSettings />}
             {activeTab === "API Keys" && <ApiKeys />}
+            {activeTab === "Messages" && <ContactMessages />}
 
             {activeTab !== "Users" &&
               activeTab !== "Account" &&
-              activeTab !== "API Keys" && (
+              activeTab !== "API Keys" &&
+              activeTab !== "Messages" && (
                 <div className="bg-[#1a0c0e] border border-red-900 text-red-400 px-6 py-4 rounded-md text-sm">
                   Failed to load {activeTab.toLowerCase()}
                 </div>
