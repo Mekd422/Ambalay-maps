@@ -23,9 +23,7 @@ export interface ContactMessage {
 export const getContactMessages = async (): Promise<ContactMessage[]> => {
   try {
     const res = await API.get("/business/contact_us");
-    console.log("RAW CONTACT API RESPONSE:", res.data); // <--- add this
 
-    // Defensive extraction
     const messages: BackendMessage[] = Array.isArray(res.data.data.data)
       ? res.data.data.data
       : [];
