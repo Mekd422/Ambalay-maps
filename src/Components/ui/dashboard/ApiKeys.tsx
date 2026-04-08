@@ -28,7 +28,6 @@ export default function ApiKeys() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // 🔥 Modal + form state
   const [showModal, setShowModal] = useState(false);
   const [label, setLabel] = useState("");
   const [services, setServices] = useState<string[]>([]);
@@ -70,7 +69,7 @@ export default function ApiKeys() {
     fetchApiKeys();
   }, []);
 
-  // ✅ Create API Key
+
   const handleCreate = async () => {
     if (!label.trim()) return;
 
@@ -82,10 +81,8 @@ export default function ApiKeys() {
         allowedServices: services,
       });
 
-      // refresh list
       await fetchApiKeys();
 
-      // reset form
       setLabel("");
       setServices([]);
       setShowModal(false);
