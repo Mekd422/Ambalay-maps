@@ -17,30 +17,31 @@ const ContactMessages: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const fetchMessages = async () => {
-      try {
-        const data = await getContactMessages();
-        setMessages(data);
-      } catch (err: unknown) {
-        if (err instanceof AxiosError) {
-          if (err.response?.status === 401) {
-            setError("Unauthorized. Please login again.");
-          } else if (err.response?.status === 403) {
-            setError("Forbidden. You do not have access.");
-          } else {
-            setError("Failed to fetch messages.");
-          }
+useEffect(() => {
+  const fetchMessages = async () => {
+    try {
+      const data = await getContactMessages(); 
+      // unwrap the inner array of messages
+setMessages(data);
+    } catch (err: unknown) {
+      if (err instanceof AxiosError) {
+        if (err.response?.status === 401) {
+          setError("Unauthorized. Please login again.");
+        } else if (err.response?.status === 403) {
+          setError("Forbidden. You do not have access.");
         } else {
-          setError("An unexpected error occurred.");
+          setError("Failed to fetch messages.");
         }
-      } finally {
-        setLoading(false);
+      } else {
+        setError("An unexpected error occurred.");
       }
-    };
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchMessages();
-  }, []);
+  fetchMessages();
+}, []);
 
   const getStatusStyles = (status: string) => {
     switch (status) {

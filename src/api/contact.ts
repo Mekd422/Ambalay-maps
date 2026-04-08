@@ -21,17 +21,25 @@ export interface ContactMessage {
 }
 
 export const getContactMessages = async (): Promise<ContactMessage[]> => {
-  const res = await API.get("/business/contact_us");
+  try {
+    const res = await API.get("/business/contact_us");
+    console.log("RAW CONTACT API RESPONSE:", res.data); // <--- add this
 
-  // assuming response: { data: [...] }
-  const messages: BackendMessage[] = res.data.data;
+    // Defensive extraction
+    const messages: BackendMessage[] = Array.isArray(res.data.data.data)
+      ? res.data.data.data
+      : [];
 
-  return messages.map((msg) => ({
-    name: `${msg.firstName} ${msg.lastName}`,
-    email: msg.email,
-    company: msg.company,
-    inquiryType: msg.inquiryType,
-    status: msg.status,
-    date: new Date(msg.createdAt).toLocaleString(),
-  }));
+    return messages.map((msg) => ({
+      name: `${msg.firstName ?? ""} ${msg.lastName ?? ""}`.trim(),
+      email: msg.email ?? "",
+      company: msg.company ?? "",
+      inquiryType: msg.inquiryType ?? "",
+      status: msg.status ?? "",
+      date: msg.createdAt ? new Date(msg.createdAt).toLocaleString() : "",
+    }));
+  } catch (err) {
+    console.error("Failed to fetch contact messages", err);
+    throw err;
+  }
 };
