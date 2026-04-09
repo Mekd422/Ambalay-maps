@@ -9,26 +9,48 @@ interface Usage {
 
 export default function Usage() {
   const [usage, setUsage] = useState<Usage[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetch = async () => {
-      const res = await getMySubscription();
-      setUsage(res.data.data.usages || []);
+    const fetchUsage = async () => {
+      try {
+        const res = await getMySubscription();
+        setUsage(res.data.data.usages || []);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    fetch();
+    fetchUsage();
   }, []);
 
-  return (
-    <div>
-      <h2 className="text-xl font-semibold mb-4">Usage</h2>
+  if (loading) {
+    return <p className="text-gray-400">Loading usage...</p>;
+  }
 
-      {usage.map((u) => (
-        <div key={u.id} className="border-b border-white/10 py-3">
-          <p>{u.service}</p>
-          <p>Used: {u.usedCount}</p>
+  if (usage.length === 0) {
+    return <p className="text-gray-400">No usage data available yet.</p>;
+  }
+
+  const totalUsed = usage.reduce((sum, u) => sum + u.usedCount, 0);
+
+  return (
+    <div className="space-y-4">
+      <h2 className="text-xl font-semibold mb-2">Usage</h2>
+
+      <div className="bg-[#0b0b0b] p-4 rounded-xl border border-white/10">
+        <p className="text-gray-400 mb-2">Total services used: <span className="font-semibold text-white">{totalUsed}</span></p>
+        <div className="space-y-3">
+          {usage.map((u) => (
+            <div key={u.id} className="flex justify-between p-3 bg-[#0f0f0f] rounded-lg border border-white/5">
+              <span className="text-gray-300">{u.service}</span>
+              <span className="text-[#8cff2e] font-semibold">{u.usedCount}</span>
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
     </div>
   );
 }

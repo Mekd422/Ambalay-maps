@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { getMySubscription } from "../../../api/subscription";
 
-
 interface SubscriptionItem {
   id: string;
   service: string;
@@ -14,31 +13,22 @@ interface SubscriptionPlan {
   label: string;
   description: string;
   isActive: boolean;
-  createdAt: string;
-  updatedAt: string;
   items: SubscriptionItem[];
 }
 
 interface Usage {
   id: string;
-  subscriptionId: string;
   service: string;
   usedCount: number;
-  createdAt: string;
-  updatedAt: string;
 }
 
 interface MySubscription {
   id: string;
-  businessId: string;
-  subscriptionPlanId: string;
   status: string;
   startsAt: string;
   endsAt: string;
-  createdAt: string;
-  updatedAt: string;
-  subscriptionPlan: SubscriptionPlan;
-  usages: Usage[];
+  subscriptionPlan?: SubscriptionPlan;
+  usages?: Usage[];
 }
 
 export default function MyOrganization() {
@@ -57,18 +47,100 @@ export default function MyOrganization() {
     fetchData();
   }, []);
 
-  if (!data) return <p>Loading...</p>;
+  if (!data) {
+    return <p className="text-gray-400">Loading subscription...</p>;
+  }
+
+  const isActive = data.status === "ACTIVE";
 
   return (
-    <div className="bg-black p-6 rounded-xl border border-white/10">
-      <h2 className="text-xl font-semibold mb-4">My Subscription</h2>
+    <div className="bg-[#0b0b0b] p-6 rounded-2xl border border-white/10 shadow-xl space-y-6">
+      
+      {/* Header */}
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-semibold text-white">
+          My Subscription
+        </h2>
 
-      <p>Status: {data.status}</p>
-      <p>Start: {new Date(data.startsAt).toLocaleDateString()}</p>
-      <p>End: {new Date(data.endsAt).toLocaleDateString()}</p>
+        <span
+          className={`px-3 py-1 text-xs rounded-full font-medium ${
+            isActive
+              ? "bg-green-500/10 text-green-400"
+              : "bg-red-500/10 text-red-400"
+          }`}
+        >
+          {data.status}
+        </span>
+      </div>
 
-      <h3 className="mt-4 font-semibold">Plan</h3>
-      <p>{data.subscriptionPlan?.label}</p>
+      {/* Plan Info */}
+      <div className="bg-[#111] p-4 rounded-xl border border-white/5">
+        <p className="text-sm text-gray-400">Current Plan</p>
+        <h3 className="text-lg font-semibold text-[#8cff2e]">
+          {data.subscriptionPlan?.label || "No active plan"}
+        </h3>
+        <p className="text-sm text-gray-500 mt-1">
+          {data.subscriptionPlan?.description}
+        </p>
+      </div>
+
+      {/* Dates */}
+      <div className="flex justify-between text-sm text-gray-400">
+        <p>
+          Start:{" "}
+          <span className="text-white">
+            {new Date(data.startsAt).toLocaleDateString()}
+          </span>
+        </p>
+        <p>
+          End:{" "}
+          <span className="text-white">
+            {new Date(data.endsAt).toLocaleDateString()}
+          </span>
+        </p>
+      </div>
+
+      {/* Usage Section */}
+      <div>
+        <h3 className="text-md font-semibold text-white mb-3">
+          Usage
+        </h3>
+
+        {data.usages && data.subscriptionPlan ? (
+          <div className="space-y-4">
+            {data.subscriptionPlan.items.map((item) => {
+              const usage = data.usages?.find(
+                (u) => u.service === item.service
+              );
+
+              const used = usage?.usedCount || 0;
+              const total = item.amount;
+
+              const percent = Math.min((used / total) * 100, 100);
+
+              return (
+                <div key={item.id}>
+                  <div className="flex justify-between text-sm mb-1">
+                    <span className="text-gray-300">{item.service}</span>
+                    <span className="text-gray-400">
+                      {used} / {total}
+                    </span>
+                  </div>
+
+                  <div className="w-full bg-[#1a1a1a] rounded-full h-2">
+                    <div
+                      className="h-2 rounded-full bg-[#8cff2e] transition-all"
+                      style={{ width: `${percent}%` }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <p className="text-gray-500">No usage data available</p>
+        )}
+      </div>
     </div>
   );
 }
