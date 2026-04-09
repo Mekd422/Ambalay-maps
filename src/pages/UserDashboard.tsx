@@ -7,6 +7,11 @@ import User from "../Components/ui/dashboard/User";
 import ApiKeys from "../Components/ui/dashboard/ApiKeys";
 import ContactMessages from '../Components/ui/dashboard/Messages';
 
+import MyOrganization from "../Components/ui/dashboard/MyOrganization";
+import Organizations from "../Components/ui/dashboard/Organizations";
+import Plans from "../Components/ui/dashboard/Plans";
+import Usage from "../Components/ui/dashboard/Usage";
+
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('Users'); 
   
@@ -15,6 +20,10 @@ const Dashboard = () => {
     { name: 'Messages', icon: <MessageSquare size={18} /> },
     { name: 'API Keys', icon: <Key size={18} /> },
     { name: 'Account', icon: <UserCircle size={18} /> },
+    { name: 'My Organization', icon: <UserCircle size={18} /> },
+    { name: 'Organizations', icon: <Users size={18} /> },
+    { name: 'Plans', icon: <Key size={18} /> },
+    { name: 'Usage', icon: <MessageSquare size={18} /> },
   ];
 
   return (
@@ -66,11 +75,20 @@ const Dashboard = () => {
             {activeTab === "Account" && <AccountSettings />}
             {activeTab === "API Keys" && <ApiKeys />}
             {activeTab === "Messages" && <ContactMessages />}
+            {activeTab === "My Organization" && <MyOrganization />}
+            {activeTab === "Organizations" && <Organizations />}
+            {activeTab === "Plans" && <Plans />}
+            {activeTab === "Usage" && <Usage />}
 
             {activeTab !== "Users" &&
               activeTab !== "Account" &&
               activeTab !== "API Keys" &&
-              activeTab !== "Messages" && (
+              activeTab !== "Messages" && 
+              activeTab !== "My Organization" &&
+              activeTab !== "Organizations" &&
+              activeTab !== "Plans" &&
+              activeTab !== "Usage" &&
+              (
                 <div className="bg-[#1a0c0e] border border-red-900 text-red-400 px-6 py-4 rounded-md text-sm">
                   Failed to load {activeTab.toLowerCase()}
                 </div>
