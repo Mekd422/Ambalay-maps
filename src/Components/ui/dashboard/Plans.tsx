@@ -80,8 +80,8 @@ export default function Plans() {
       )
     );
 
-    const res = await togglePlanActive(id);
-console.log("TOGGLE RESPONSE 👉", res.data);
+    await togglePlanActive(id);
+
 
   } catch (err) {
     console.error(err);
