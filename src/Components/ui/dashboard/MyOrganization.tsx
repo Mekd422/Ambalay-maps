@@ -32,13 +32,16 @@ interface MySubscription {
 }
 
 export default function MyOrganization() {
-  const [data, setData] = useState<MySubscription | null>(null);
+  const [data, setData] = useState<MySubscription[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await getMySubscription();
-        setData(res.data.data);
+
+        const subscriptions: MySubscription[] = res.data.data ?? [];
+
+        setData(subscriptions);
       } catch (err) {
         console.error(err);
       }
@@ -47,100 +50,111 @@ export default function MyOrganization() {
     fetchData();
   }, []);
 
-  if (!data) {
+  if (!data.length) {
     return <p className="text-gray-400">Loading subscription...</p>;
   }
 
-  const isActive = data.status === "ACTIVE";
-
   return (
-    <div className="bg-[#0b0b0b] p-6 rounded-2xl border border-white/10 shadow-xl space-y-6">
-      
-      {/* Header */}
-      <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-white">
-          My Subscription
-        </h2>
+    <div className="space-y-6">
+      {data.map((sub) => {
+        const isActive = sub.status === "ACTIVE";
 
-        <span
-          className={`px-3 py-1 text-xs rounded-full font-medium ${
-            isActive
-              ? "bg-green-500/10 text-green-400"
-              : "bg-red-500/10 text-red-400"
-          }`}
-        >
-          {data.status}
-        </span>
-      </div>
+        return (
+          <div
+            key={sub.id}
+            className="bg-[#0b0b0b] p-6 rounded-2xl border border-white/10 shadow-xl space-y-6"
+          >
+            {/* Header */}
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-semibold text-white">
+                My Subscription
+              </h2>
 
-      {/* Plan Info */}
-      <div className="bg-[#111] p-4 rounded-xl border border-white/5">
-        <p className="text-sm text-gray-400">Current Plan</p>
-        <h3 className="text-lg font-semibold text-[#8cff2e]">
-          {data.subscriptionPlan?.label || "No active plan"}
-        </h3>
-        <p className="text-sm text-gray-500 mt-1">
-          {data.subscriptionPlan?.description}
-        </p>
-      </div>
+              <span
+                className={`px-3 py-1 text-xs rounded-full font-medium ${
+                  isActive
+                    ? "bg-green-500/10 text-green-400"
+                    : "bg-red-500/10 text-red-400"
+                }`}
+              >
+                {sub.status}
+              </span>
+            </div>
 
-      {/* Dates */}
-      <div className="flex justify-between text-sm text-gray-400">
-        <p>
-          Start:{" "}
-          <span className="text-white">
-            {new Date(data.startsAt).toLocaleDateString()}
-          </span>
-        </p>
-        <p>
-          End:{" "}
-          <span className="text-white">
-            {new Date(data.endsAt).toLocaleDateString()}
-          </span>
-        </p>
-      </div>
+            {/* Plan Info */}
+            <div className="bg-[#111] p-4 rounded-xl border border-white/5">
+              <p className="text-sm text-gray-400">Current Plan</p>
+              <h3 className="text-lg font-semibold text-[#8cff2e]">
+                {sub.subscriptionPlan?.label || "No active plan"}
+              </h3>
+              <p className="text-sm text-gray-500 mt-1">
+                {sub.subscriptionPlan?.description}
+              </p>
+            </div>
 
-      {/* Usage Section */}
-      <div>
-        <h3 className="text-md font-semibold text-white mb-3">
-          Usage
-        </h3>
+            {/* Dates */}
+            <div className="flex justify-between text-sm text-gray-400">
+              <p>
+                Start:{" "}
+                <span className="text-white">
+                  {new Date(sub.startsAt).toLocaleDateString()}
+                </span>
+              </p>
+              <p>
+                End:{" "}
+                <span className="text-white">
+                  {new Date(sub.endsAt).toLocaleDateString()}
+                </span>
+              </p>
+            </div>
 
-        {data.usages && data.subscriptionPlan ? (
-          <div className="space-y-4">
-            {data.subscriptionPlan.items.map((item) => {
-              const usage = data.usages?.find(
-                (u) => u.service === item.service
-              );
+            {/* Usage Section */}
+            <div>
+              <h3 className="text-md font-semibold text-white mb-3">
+                Usage
+              </h3>
 
-              const used = usage?.usedCount || 0;
-              const total = item.amount;
+              {sub.usages && sub.subscriptionPlan ? (
+                <div className="space-y-4">
+                  {sub.subscriptionPlan.items.map((item) => {
+                    const usage = sub.usages?.find(
+                      (u) => u.service === item.service
+                    );
 
-              const percent = Math.min((used / total) * 100, 100);
+                    const used = usage?.usedCount || 0;
+                    const total = item.amount;
+                    const percent = Math.min((used / total) * 100, 100);
 
-              return (
-                <div key={item.id}>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span className="text-gray-300">{item.service}</span>
-                    <span className="text-gray-400">
-                      {used} / {total}
-                    </span>
-                  </div>
+                    return (
+                      <div key={item.id}>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className="text-gray-300">
+                            {item.service}
+                          </span>
+                          <span className="text-gray-400">
+                            {used} / {total}
+                          </span>
+                        </div>
 
-                  <div className="w-full bg-[#1a1a1a] rounded-full h-2">
-                    <div
-                      className="h-2 rounded-full bg-[#8cff2e] transition-all"
-                      style={{ width: `${percent}%` }}
-                    />
-                  </div>
+                        <div className="w-full bg-[#1a1a1a] rounded-full h-2">
+                          <div
+                            className="h-2 rounded-full bg-[#8cff2e] transition-all"
+                            style={{ width: `${percent}%` }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
-              );
-            })}
+              ) : (
+                <p className="text-gray-500">
+                  No usage data available
+                </p>
+              )}
+            </div>
           </div>
-        ) : (
-          <p className="text-gray-500">No usage data available</p>
-        )}
-      </div>
+        );
+      })}
     </div>
   );
 }

@@ -7,6 +7,11 @@ interface Usage {
   usedCount: number;
 }
 
+interface Subscription {
+  id: string;
+  usages?: Usage[];
+}
+
 export default function Usage() {
   const [usage, setUsage] = useState<Usage[]>([]);
   const [loading, setLoading] = useState(true);
@@ -15,7 +20,14 @@ export default function Usage() {
     const fetchUsage = async () => {
       try {
         const res = await getMySubscription();
-        setUsage(res.data.data.usages || []);
+
+        const subscriptions: Subscription[] = res.data.data ?? [];
+
+        const allUsages: Usage[] = subscriptions.flatMap(
+          (sub: Subscription) => sub.usages ?? []
+        );
+
+        setUsage(allUsages);
       } catch (err) {
         console.error(err);
       } finally {
@@ -41,12 +53,23 @@ export default function Usage() {
       <h2 className="text-xl font-semibold mb-2">Usage</h2>
 
       <div className="bg-[#0b0b0b] p-4 rounded-xl border border-white/10">
-        <p className="text-gray-400 mb-2">Total services used: <span className="font-semibold text-white">{totalUsed}</span></p>
+        <p className="text-gray-400 mb-2">
+          Total services used:{" "}
+          <span className="font-semibold text-white">
+            {totalUsed}
+          </span>
+        </p>
+
         <div className="space-y-3">
           {usage.map((u) => (
-            <div key={u.id} className="flex justify-between p-3 bg-[#0f0f0f] rounded-lg border border-white/5">
+            <div
+              key={u.id}
+              className="flex justify-between p-3 bg-[#0f0f0f] rounded-lg border border-white/5"
+            >
               <span className="text-gray-300">{u.service}</span>
-              <span className="text-[#8cff2e] font-semibold">{u.usedCount}</span>
+              <span className="text-[#8cff2e] font-semibold">
+                {u.usedCount}
+              </span>
             </div>
           ))}
         </div>
