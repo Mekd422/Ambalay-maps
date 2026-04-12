@@ -7,10 +7,11 @@ export const subscribeToPlan = (planId: string) =>
   API.post("/subscriptions/subscribe", { planId });
 export const getServices = () => API.get("/types/services");
 
-export const togglePlanActive = async (planId: string) => {
-  return API.post(`/plans/${planId}/toggle`);
-};
+export const togglePlanActive = (planId: string) =>
+  API.post(`/subscriptions/plans/${planId}/toggle`);
 
-export const createPlan = async (plan: { label: string; description: string }) => {
-  return API.post(`/plans`, plan);
-};
+export const createPlan = (plan: {
+  label: string;
+  description: string;
+  items: { service: string; amount: number }[];
+}) => API.post("/subscriptions/create_plan", plan);

@@ -5,7 +5,7 @@ export interface SendMessagePayload {
   firstName: string;
   lastName: string;
   email: string;
-  phoneNumber: string;
+  phoneNumber?: string;
   company?: string;
   inquiryType: "TECHNICAL_SUPPORT" | "PARTNERSHIP_OPPORTUNITY" | "SALES" | "OTHER";
   message: string;

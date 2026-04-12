@@ -197,10 +197,10 @@ export default function ContactSection() {
                       onChange={handleChange}
                       className="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:outline-none focus:border-[#8cff2e]/40 transition-all appearance-none cursor-pointer"
                     >
-                      <option className="bg-[#0A0A0A]">Technical Support</option>
-                      <option className="bg-[#0A0A0A]">Partnership Opportunity</option>
-                      <option className="bg-[#0A0A0A]">Sales</option>
-                      <option className="bg-[#0A0A0A]">Other</option>
+                      <option value="TECHNICAL_SUPPORT" className="bg-[#0A0A0A]">Technical Support</option>
+                      <option value="PARTNERSHIP_OPPORTUNITY" className="bg-[#0A0A0A]">Partnership Opportunity</option>
+                      <option value="SALES" className="bg-[#0A0A0A]">Sales</option>
+                      <option value="OTHER" className="bg-[#0A0A0A]">Other</option>
                     </select>
                     <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
                       <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
