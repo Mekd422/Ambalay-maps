@@ -16,6 +16,12 @@ interface PlanItem {
   amount: number;
 }
 
+interface Subscription {
+  id: string;
+  status: string;
+  subscriptionPlanId: string;
+}
+
 interface Plan {
   id: string;
   label: string;
@@ -29,7 +35,7 @@ export default function Plans() {
   const isAdmin = user?.accessLevel === "ADMIN";
 
   const [plans, setPlans] = useState<Plan[]>([]);
-  const [currentPlanId, setCurrentPlanId] = useState<string | null>(null);
+  const [subscribedPlanIds, setSubscribedPlanIds] = useState<string[]>([]);
   const [loadingId, setLoadingId] = useState<string | null>(null);
 
   const [showCreate, setShowCreate] = useState(false);
@@ -38,17 +44,11 @@ export default function Plans() {
     description: "",
   });
 
-  
-
+  // ✅ fetch ONLY plans
   const fetchPlansData = useCallback(async () => {
     try {
       const res = isAdmin ? await getAllPlans() : await getPlans();
       setPlans(res.data.data);
-
-      if (!isAdmin) {
-        const subRes = await getMySubscription();
-        setCurrentPlanId(subRes.data.data?.subscriptionPlan?.id || null);
-      }
     } catch (err) {
       console.error(err);
     }
@@ -58,71 +58,101 @@ export default function Plans() {
     fetchPlansData();
   }, [fetchPlansData]);
 
+  // ✅ fetch subscriptions separately (multi-plan support)
+  useEffect(() => {
+    const fetchSubscriptions = async () => {
+      if (isAdmin) return;
+
+      try {
+        const subRes = await getMySubscription();
+        const subscriptions: Subscription[] = subRes.data.data ?? [];
+
+        const planIds = subscriptions.map(
+          (sub) => sub.subscriptionPlanId
+        );
+
+        setSubscribedPlanIds(planIds);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchSubscriptions();
+  }, [isAdmin]);
+
+  // ✅ subscribe (append only, never overwrite others)
   const handleSubscribe = async (id: string) => {
     try {
+      console.log("👉 subscribing to plan:", id);
+
       setLoadingId(id);
-      await subscribeToPlan(id);
-      setCurrentPlanId(id);
+
+      const res = await subscribeToPlan(id);
+      const newSubscription: Subscription = res.data.data;
+
+      setSubscribedPlanIds((prev) => {
+        if (prev.includes(newSubscription.subscriptionPlanId)) {
+          return prev;
+        }
+        return [...prev, newSubscription.subscriptionPlanId];
+      });
     } catch (err) {
-      console.error(err);
+      console.error("subscribe error:", err);
     } finally {
       setLoadingId(null);
     }
   };
 
+  // ✅ toggle (admin)
   const handleToggle = async (id: string) => {
-  try {
-    setPlans((prev) =>
-      prev.map((plan) =>
-        plan.id === id
-          ? { ...plan, isActive: !plan.isActive }
-          : plan
-      )
-    );
+    try {
+      setPlans((prev) =>
+        prev.map((plan) =>
+          plan.id === id
+            ? { ...plan, isActive: !plan.isActive }
+            : plan
+        )
+      );
 
-    await togglePlanActive(id);
+      await togglePlanActive(id);
+    } catch (err) {
+      console.error(err);
 
-
-  } catch (err) {
-    console.error(err);
-
-    setPlans((prev) =>
-      prev.map((plan) =>
-        plan.id === id
-          ? { ...plan, isActive: !plan.isActive }
-          : plan
-      )
-    );
-  }
-};
+      setPlans((prev) =>
+        prev.map((plan) =>
+          plan.id === id
+            ? { ...plan, isActive: !plan.isActive }
+            : plan
+        )
+      );
+    }
+  };
 
   const handleCreatePlan = async () => {
     try {
       await createPlan({
         label: newPlan.label,
         description: newPlan.description,
-        items: [
-          { service: "TILES", amount: 1000 }, 
-        ],
+        items: [{ service: "TILES", amount: 1000 }],
       });
 
       setShowCreate(false);
       setNewPlan({ label: "", description: "" });
-      fetchPlansData();
+
+      await fetchPlansData();
     } catch (err) {
       console.error(err);
     }
   };
 
-  
-
   return (
     <div className="space-y-10">
 
-      {/* ADMIN CREATE BUTTON */}
       {isAdmin && (
         <div className="flex justify-between items-center">
-          <h2 className="text-white text-lg font-semibold">Manage Plans</h2>
+          <h2 className="text-white text-lg font-semibold">
+            Manage Plans
+          </h2>
 
           <button
             onClick={() => setShowCreate(!showCreate)}
@@ -134,7 +164,6 @@ export default function Plans() {
         </div>
       )}
 
-      {/* CREATE PLAN FORM */}
       {isAdmin && showCreate && (
         <div className="bg-[#111] p-6 rounded-xl border border-white/10 space-y-3">
           <input
@@ -164,22 +193,20 @@ export default function Plans() {
         </div>
       )}
 
-      {/* PLANS GRID */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {plans.map((plan) => {
-          const isCurrent = currentPlanId === plan.id;
+          const isSubscribed = subscribedPlanIds.includes(plan.id);
 
           return (
             <motion.div
               key={plan.id}
               whileHover={{ y: -8, scale: 1.02 }}
-              className={`relative p-6 rounded-3xl border ${
-                isCurrent
-                  ? "border-[#8cff2e] bg-[#0f1a0a]"
+              className={`relative p-6 rounded-3xl border transition-all duration-300 ${
+                isSubscribed
+                  ? "border-[#8cff2e] bg-[#0f1a0a] scale-[1.03] shadow-[0_0_25px_rgba(140,255,46,0.3)]"
                   : "border-white/10 bg-white/5"
               }`}
             >
-              {/* ADMIN TOGGLE */}
               {isAdmin && (
                 <button
                   onClick={() => handleToggle(plan.id)}
@@ -193,9 +220,9 @@ export default function Plans() {
                 </button>
               )}
 
-              {!isAdmin && isCurrent && (
+              {!isAdmin && isSubscribed && (
                 <div className="absolute top-4 right-4 text-xs bg-[#8cff2e] text-black px-3 py-1 rounded-full">
-                  Active
+                  Subscribed
                 </div>
               )}
 
@@ -221,14 +248,17 @@ export default function Plans() {
                 ))}
               </div>
 
-              {/* USER ACTION */}
               {!isAdmin && (
                 <button
                   onClick={() => handleSubscribe(plan.id)}
-                  disabled={isCurrent || loadingId === plan.id}
+                  disabled={isSubscribed || loadingId === plan.id}
                   className="mt-6 w-full bg-[#8cff2e] text-black py-2 rounded-lg font-semibold disabled:opacity-50"
                 >
-                  {isCurrent ? "Current Plan" : "Subscribe"}
+                  {loadingId === plan.id
+                    ? "Processing..."
+                    : isSubscribed
+                    ? "Subscribed"
+                    : "Subscribe"}
                 </button>
               )}
             </motion.div>
