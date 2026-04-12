@@ -44,7 +44,6 @@ export default function Plans() {
     description: "",
   });
 
-  // ✅ fetch ONLY plans
   const fetchPlansData = useCallback(async () => {
     try {
       const res = isAdmin ? await getAllPlans() : await getPlans();
@@ -58,7 +57,6 @@ export default function Plans() {
     fetchPlansData();
   }, [fetchPlansData]);
 
-  // ✅ fetch subscriptions separately (multi-plan support)
   useEffect(() => {
     const fetchSubscriptions = async () => {
       if (isAdmin) return;
@@ -80,7 +78,6 @@ export default function Plans() {
     fetchSubscriptions();
   }, [isAdmin]);
 
-  // ✅ subscribe (append only, never overwrite others)
   const handleSubscribe = async (id: string) => {
     try {
       console.log("👉 subscribing to plan:", id);
@@ -103,7 +100,6 @@ export default function Plans() {
     }
   };
 
-  // ✅ toggle (admin)
   const handleToggle = async (id: string) => {
     try {
       setPlans((prev) =>
