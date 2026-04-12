@@ -26,7 +26,7 @@ interface Plan {
 
 export default function Plans() {
   const { user } = useAuth();
-  const isAdmin = user?.role === "ADMIN";
+  const isAdmin = user?.accessLevel === "ADMIN";
 
   const [plans, setPlans] = useState<Plan[]>([]);
   const [currentPlanId, setCurrentPlanId] = useState<string | null>(null);
@@ -37,6 +37,8 @@ export default function Plans() {
     label: "",
     description: "",
   });
+
+  
 
   const fetchPlansData = useCallback(async () => {
     try {
