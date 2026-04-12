@@ -71,13 +71,30 @@ export default function Plans() {
   };
 
   const handleToggle = async (id: string) => {
-    try {
-      await togglePlanActive(id);
-      fetchPlansData();
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  try {
+    setPlans((prev) =>
+      prev.map((plan) =>
+        plan.id === id
+          ? { ...plan, isActive: !plan.isActive }
+          : plan
+      )
+    );
+
+    const res = await togglePlanActive(id);
+console.log("TOGGLE RESPONSE 👉", res.data);
+
+  } catch (err) {
+    console.error(err);
+
+    setPlans((prev) =>
+      prev.map((plan) =>
+        plan.id === id
+          ? { ...plan, isActive: !plan.isActive }
+          : plan
+      )
+    );
+  }
+};
 
   const handleCreatePlan = async () => {
     try {
@@ -96,6 +113,8 @@ export default function Plans() {
       console.error(err);
     }
   };
+
+  
 
   return (
     <div className="space-y-10">

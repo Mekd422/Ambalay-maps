@@ -8,7 +8,7 @@ export const subscribeToPlan = (planId: string) =>
 export const getServices = () => API.get("/types/services");
 
 export const togglePlanActive = (planId: string) =>
-  API.post(`/subscriptions/plans/${planId}/toggle`);
+  API.post("/subscriptions/toggle_active", { id: planId });
 
 export const createPlan = (plan: {
   label: string;
