@@ -44,10 +44,9 @@ const { user } = useAuth();
     setSuccess("");
 
     try {
-      const res = await updateProfile(firstName, lastName);
+      await updateProfile(firstName, lastName);
 
       setSuccess("Profile updated successfully");
-      console.log(res);
     } catch (err) {
       if (axios.isAxiosError<UpdateProfileError>(err)) {
         const backendErrors = err.response?.data?.data;

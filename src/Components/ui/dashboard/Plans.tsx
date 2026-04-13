@@ -80,8 +80,6 @@ export default function Plans() {
 
   const handleSubscribe = async (id: string) => {
     try {
-      console.log("👉 subscribing to plan:", id);
-
       setLoadingId(id);
 
       const res = await subscribeToPlan(id);

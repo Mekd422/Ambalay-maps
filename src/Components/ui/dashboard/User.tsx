@@ -15,11 +15,9 @@ export default function Users() {
 
 
 const res = await getUsers(page, limit);
-    console.log("USERS RESPONSE:", res.data);
 
-
-setUsers(res.data || []);               
-setTotal(res.pagination.totalItems);    
+    setUsers(res.data || []);               
+    setTotal(res.pagination.totalItems);    
   } catch (err) {
     console.error("Failed to fetch users", err);
   } finally {
