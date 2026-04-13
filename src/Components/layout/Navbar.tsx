@@ -97,7 +97,7 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="absolute top-full left-0 right-0 bg-white dark:bg-black border-b border-gray-200 dark:border-white/10 z-50 lg:hidden shadow-xl">
-          <div className="flex flex-col p-6 space-y-4 text-black dark:text-white">
+          <div className="flex flex-col items-center justify-center p-6 space-y-4 text-black dark:text-white">
             <Link to="/#how-it-works" onClick={() => setIsMenuOpen(false)}>About Us</Link>
             <Link to="/price" onClick={() => setIsMenuOpen(false)}>Pricing</Link>
             <Link to="/contact" onClick={() => setIsMenuOpen(false)}>Contact</Link>
@@ -105,20 +105,20 @@ export default function Navbar() {
             <Link to="/blog" onClick={() => setIsMenuOpen(false)}>Blog</Link>
             <Link to="/shop" onClick={() => setIsMenuOpen(false)}>Shop</Link>
             
-            <hr className="border-gray-100 dark:border-white/10" />
+            <hr className="w-full border-gray-100 dark:border-white/10" />
             
             {isLoggedIn ? (
               <>
                 <Link 
                   to="/dashboard" 
-                  className="text-center py-3 rounded-xl bg-[#58327d] text-white font-semibold" 
+                  className="w-full text-center py-3 rounded-xl bg-[#8cff2e] text-white font-semibold" 
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Dashboard
                 </Link>
                 <button
                   type="button"
-                  className="text-center py-3 rounded-xl bg-white text-black font-semibold"
+                  className="w-full text-center py-3 rounded-xl bg-white text-black font-semibold"
                   onClick={() => {
                     logout();
                     setIsMenuOpen(false);
