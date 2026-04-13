@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/useAuth.ts";
 
@@ -9,9 +9,8 @@ interface ProtectedRouteProps {
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { user, token } = useAuth();
 
-  // Show loading or check if token is being validated
   if (token && !user) {
-    return <div>Loading...</div>; // Or a proper loading component
+    return <div>Loading...</div>; 
   }
 
   if (!token || !user) {
