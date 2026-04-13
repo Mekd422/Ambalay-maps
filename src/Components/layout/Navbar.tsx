@@ -2,13 +2,15 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react"; 
 import logo from "../../assets/icons/download.svg";
 import { HashLink as Link } from 'react-router-hash-link';
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/useAuth";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const { user, token } = useAuth(); // <- get user & token from context
+  const { user, token, logout } = useAuth(); // <- get user & token from context
+  const navigate = useNavigate();
   const isLoggedIn = !!token;
   const userName = user?.firstName || "User";
 
@@ -57,10 +59,20 @@ export default function Navbar() {
               </span>
               <Link
                 to="/dashboard"
-                className="px-6 py-2.5 rounded-full text-sm font-medium bg-[#8cff2e] text-white shadow-lg hover:brightness-110 transition-all"
+                className="px-5 py-2 rounded-full text-sm font-medium bg-[#8cff2e] text-white shadow-lg hover:brightness-110 transition-all"
               >
                 Dashboard
               </Link>
+              <button
+                type="button"
+                onClick={() => {
+                  logout();
+                  navigate("/");
+                }}
+                className="px-4 py-2 rounded-full text-sm font-medium bg-transparent border border-white/20 text-black dark:text-white hover:bg-white/10 transition-all"
+              >
+                Logout
+              </button>
             </>
           ) : (
             <>
@@ -93,13 +105,26 @@ export default function Navbar() {
             <hr className="border-gray-100 dark:border-white/10" />
             
             {isLoggedIn ? (
-              <Link 
-                to="/dashboard" 
-                className="text-center py-3 rounded-xl bg-[#58327d] text-white font-semibold" 
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Dashboard
-              </Link>
+              <>
+                <Link 
+                  to="/dashboard" 
+                  className="text-center py-3 rounded-xl bg-[#58327d] text-white font-semibold" 
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Dashboard
+                </Link>
+                <button
+                  type="button"
+                  className="text-center py-3 rounded-xl bg-white text-black font-semibold"
+                  onClick={() => {
+                    logout();
+                    setIsMenuOpen(false);
+                    navigate("/");
+                  }}
+                >
+                  Logout
+                </button>
+              </>
             ) : (
               <div className="grid grid-cols-2 gap-3">
                 <Link to="/login" className="text-center py-3 rounded-xl bg-gray-100 dark:bg-[#1a1a1a]" onClick={() => setIsMenuOpen(false)}>Login</Link>
