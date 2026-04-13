@@ -9,7 +9,7 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const { user, token, logout } = useAuth(); // <- get user & token from context
+  const { user, token, logout } = useAuth(); 
   const navigate = useNavigate();
   const isLoggedIn = !!token;
   const userName = user?.firstName || "User";
@@ -101,6 +101,9 @@ export default function Navbar() {
             <Link to="/#how-it-works" onClick={() => setIsMenuOpen(false)}>About Us</Link>
             <Link to="/price" onClick={() => setIsMenuOpen(false)}>Pricing</Link>
             <Link to="/contact" onClick={() => setIsMenuOpen(false)}>Contact</Link>
+            <Link to="/documentation" onClick={() => setIsMenuOpen(false)}>Documentation</Link>
+            <Link to="/blog" onClick={() => setIsMenuOpen(false)}>Blog</Link>
+            <Link to="/shop" onClick={() => setIsMenuOpen(false)}>Shop</Link>
             
             <hr className="border-gray-100 dark:border-white/10" />
             

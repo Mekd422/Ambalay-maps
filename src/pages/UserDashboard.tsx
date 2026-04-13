@@ -27,13 +27,13 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="flex flex-col h-screen bg-[#000000] font-sans text-gray-100">
+    <div className="flex flex-col min-h-screen bg-[#000000] font-sans text-gray-100">
       <Navbar />
 
-      <div className="flex flex-1 pt-[76px] overflow-hidden">
-        {/* Sidebar */}
-        <aside className="w-64 border-r border-white/5 flex flex-col bg-[#000000]">
-          <div className="p-6 flex items-center gap-2 md:hidden lg:flex">
+      <div className="flex flex-col lg:flex-row flex-1 pt-[76px]">
+        {/* Desktop sidebar */}
+        <aside className="hidden lg:flex lg:w-64 border-r border-white/5 flex-shrink-0 flex-col bg-[#000000]">
+          <div className="p-6 flex items-center gap-2">
             <img src={logo_white} alt="Logo" className="h-8 w-8" />
             <h4 className="text-md font-medium tracking-tight text-white">AmbaLay Maps</h4>
           </div>
@@ -52,7 +52,7 @@ const Dashboard = () => {
                     }`}
                   >
                     <span className={activeTab === item.name ? 'text-[#8cff2e]' : 'text-gray-500 group-hover:text-white'}>
-                        {item.icon}
+                      {item.icon}
                     </span>
                     {item.name}
                   </button>
@@ -62,13 +62,33 @@ const Dashboard = () => {
           </nav>
         </aside>
 
-        <main className="flex-1 p-10 bg-[#070707] overflow-y-auto">
+        <main className="flex-1 p-4 md:p-6 lg:p-10 bg-[#070707] overflow-y-auto">
           <div className="max-w-5xl mx-auto">
-            
-            <div className="flex justify-between items-center mb-8 border-b border-white/5 pb-6">
-               <h1 className="text-2xl font-bold text-white">
-                 {activeTab === 'Account' ? 'Account Settings' : activeTab}
-               </h1>
+            <div className="flex flex-col gap-4 mb-8 border-b border-white/5 pb-6">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <h1 className="text-2xl sm:text-3xl font-bold text-white">
+                    {activeTab === 'Account' ? 'Account Settings' : activeTab}
+                  </h1>
+                  <p className="text-sm text-gray-400 mt-2">A responsive dashboard experience for mobile, tablet, and desktop.</p>
+                </div>
+                <div className="flex flex-wrap gap-2 lg:hidden overflow-x-auto pb-2">
+                  {navItems.map((item) => (
+                    <button
+                      key={item.name}
+                      onClick={() => setActiveTab(item.name)}
+                      className={`flex items-center gap-2 whitespace-nowrap rounded-full px-3 py-2 text-xs font-semibold transition-all ${
+                        activeTab === item.name
+                          ? 'bg-[#8cff2e] text-black shadow-lg'
+                          : 'bg-white/5 text-gray-300 hover:bg-white/10'
+                      }`}
+                    >
+                      <span>{item.icon}</span>
+                      <span>{item.name}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
 
             {activeTab === "Users" && <User />}
