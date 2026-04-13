@@ -140,17 +140,32 @@ export default function ContactSection() {
             <div className="bg-[#0A0A0A] border border-white/5 rounded-[40px] p-8 md:p-12 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
               <form className="space-y-4" onSubmit={handleSubmit}>
                 
-                <div>
-                  <label className="block text-gray-500 text-[11px] font-semibold uppercase tracking-wider mb-3 ml-1">Name</label>
-                  <input 
-                    type="text" 
-                    name="firstName"
-                    placeholder="Your name" 
-                    value={form.firstName}
-                    onChange={handleChange}
-                    className="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:outline-none focus:border-[#8cff2e]/40 transition-all placeholder:text-gray-700"
-                    required
-                  />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-gray-500 text-[11px] font-semibold uppercase tracking-wider mb-3 ml-1">First Name</label>
+                    <input 
+                      type="text" 
+                      name="firstName"
+                      placeholder="First name" 
+                      value={form.firstName}
+                      onChange={handleChange}
+                      className="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:outline-none focus:border-[#8cff2e]/40 transition-all placeholder:text-gray-700"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-gray-500 text-[11px] font-semibold uppercase tracking-wider mb-3 ml-1">Last Name</label>
+                    <input 
+                      type="text" 
+                      name="lastName"
+                      placeholder="Last name" 
+                      value={form.lastName}
+                      onChange={handleChange}
+                      className="w-full bg-black/40 border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:outline-none focus:border-[#8cff2e]/40 transition-all placeholder:text-gray-700"
+                      required
+                    />
+                  </div>
                 </div>
 
                 <div>
