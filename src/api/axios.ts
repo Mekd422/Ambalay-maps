@@ -12,4 +12,17 @@ export const setAuthToken = (token: string | null) => {
   }
 };
 
+// Global response interceptor for error handling
+API.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      // Token expired or invalid, logout user
+      localStorage.removeItem("token");
+      window.location.href = "/login"; // Redirect to login
+    }
+    return Promise.reject(error);
+  }
+);
+
 export default API;

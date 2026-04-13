@@ -23,38 +23,36 @@ export default function LoginForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    // Basic validation
+    if (!formData.email || !formData.password) {
+      alert("Please fill in all fields");
+      return;
+    }
+    if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      alert("Please enter a valid email");
+      return;
+    }
+    if (formData.password.length < 6) {
+      alert("Password must be at least 6 characters");
+      return;
+    }
+
     try {
       setLoading(true);
 
       const res = await signin(formData);
 
-      // ================= DEBUG START =================
-      // Check full response structure
-      console.log("FULL RESPONSE:", res);
-      console.log("DATA:", res.data);
+      const token = res.data?.data?.token || res.data?.token;
 
-      // Check user object
-      console.log("USER:", res.data.data.user);
-
-      // Check if role exists inside user
-      console.log("ROLE (from user):", res.data.data.user?.role);
-
-      // Optional: check inside token (JWT payload)
-      const token = res.data.data.token;
-      try {
-        const payload = JSON.parse(atob(token.split(".")[1]));
-        console.log("TOKEN PAYLOAD:", payload);
-        console.log("ROLE (from token):", payload?.role);
-      } catch (error) {
-        console.error("Error decoding token:", error);
-        console.log("Could not decode token");
+      if (!token) {
+        throw new Error("No token received");
       }
-      // ================= DEBUG END =================
 
       await login(token); 
       navigate("/dashboard");
 
     } catch (err) {
+      console.error("Login error:", err);
       if (axios.isAxiosError<ErrorResponse>(err)) {
         const message = err.response?.data?.message;
 

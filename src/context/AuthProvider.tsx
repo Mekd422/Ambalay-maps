@@ -12,7 +12,7 @@ interface User {
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(() => {
-  return localStorage.getItem("token");
+  return sessionStorage.getItem("token");
 });
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         console.error("Failed to fetch user", err);
         setToken(null);
         setUser(null);
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
       }
     };
 
@@ -37,13 +37,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (newToken: string) => {
     setToken(newToken);
-    localStorage.setItem("token", newToken); // 🔥 persist
+    sessionStorage.setItem("token", newToken); // 🔥 persist
   };
 
   const logout = () => {
     setToken(null);
     setUser(null);
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
   };
 
   return (
