@@ -37,6 +37,7 @@ export default function Plans() {
   const [plans, setPlans] = useState<Plan[]>([]);
   const [subscribedPlanIds, setSubscribedPlanIds] = useState<string[]>([]);
   const [loadingId, setLoadingId] = useState<string | null>(null);
+  const [togglingIds, setTogglingIds] = useState<Set<string>>(new Set());
 
   const [showCreate, setShowCreate] = useState(false);
   const [newPlan, setNewPlan] = useState({
@@ -99,6 +100,8 @@ export default function Plans() {
   };
 
   const handleToggle = async (id: string) => {
+    setTogglingIds(prev => new Set(prev).add(id));
+
     try {
       setPlans((prev) =>
         prev.map((plan) =>
@@ -119,6 +122,12 @@ export default function Plans() {
             : plan
         )
       );
+    } finally {
+      setTogglingIds(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(id);
+        return newSet;
+      });
     }
   };
 
@@ -204,13 +213,14 @@ export default function Plans() {
               {isAdmin && (
                 <button
                   onClick={() => handleToggle(plan.id)}
+                  disabled={togglingIds.has(plan.id)}
                   className={`absolute top-4 right-4 text-xs px-2 py-1 rounded ${
                     plan.isActive
                       ? "bg-green-500 text-black"
                       : "bg-red-500 text-white"
-                  }`}
+                  } disabled:opacity-50`}
                 >
-                  {plan.isActive ? "Active" : "Inactive"}
+                  {togglingIds.has(plan.id) ? "Loading..." : (plan.isActive ? "Active" : "Inactive")}
                 </button>
               )}
 

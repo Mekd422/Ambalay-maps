@@ -1,13 +1,6 @@
 import { useState, useEffect, type ReactNode } from "react";
 import API, { setAuthToken } from "../api/axios"; 
-import { AuthContext } from "./AuthContext";
-
-interface User {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-}
+import { AuthContext, type User } from "./AuthContext";
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
