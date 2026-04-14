@@ -54,13 +54,8 @@ export default function LoginForm() {
     } catch (err) {
       console.error("Login error:", err);
       if (axios.isAxiosError<ErrorResponse>(err)) {
-        const message = err.response?.data?.message;
-
-        if (message === "USER_NOT_IDENTIFIED") {
-          alert("Invalid email or password");
-        } else {
-          alert("Login failed");
-        }
+        const message = err.response?.data?.message || err.message || "Login failed";
+        alert(message);
       } else {
         alert("Unexpected error occurred");
       }
