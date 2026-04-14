@@ -16,6 +16,7 @@ export default function LoginForm() {
 
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -25,17 +26,19 @@ export default function LoginForm() {
 
     // Basic validation
     if (!formData.email || !formData.password) {
-      alert("Please fill in all fields");
+      setError("Please fill in all fields");
       return;
     }
     if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      alert("Please enter a valid email");
+      setError("Please enter a valid email");
       return;
     }
     if (formData.password.length < 6) {
-      alert("Password must be at least 6 characters");
+      setError("Password must be at least 6 characters");
       return;
     }
+
+    setError(null); // Clear previous errors
 
     try {
       setLoading(true);
@@ -55,9 +58,9 @@ export default function LoginForm() {
       console.error("Login error:", err);
       if (axios.isAxiosError<ErrorResponse>(err)) {
         const message = err.response?.data?.message || err.message || "Login failed";
-        alert(message);
+        setError(message);
       } else {
-        alert("Unexpected error occurred");
+        setError("Unexpected error occurred");
       }
     } finally {
       setLoading(false);
@@ -127,6 +130,13 @@ export default function LoginForm() {
               </button>
             </div>
           </div>
+
+          {/* Error Message */}
+          {error && (
+            <div className="text-red-500 text-sm text-center bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3">
+              {error}
+            </div>
+          )}
 
           {/* Submit */}
           <button

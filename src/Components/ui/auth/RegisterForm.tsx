@@ -22,6 +22,7 @@ export default function RegisterForm() {
   });
 
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -34,9 +35,11 @@ export default function RegisterForm() {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match");
+      setError("Passwords do not match");
       return;
     }
+
+    setError(null); // Clear previous errors
 
     try {
       setLoading(true);
@@ -48,7 +51,7 @@ export default function RegisterForm() {
         password: formData.password
       });
 
-      alert("Account created successfully!");
+      // Account created successfully
       navigate("/login");
 
     } catch (err) {
@@ -56,9 +59,9 @@ export default function RegisterForm() {
       const message = axiosError.response?.data?.message;
 
       if (message === "EMAIL_ALREADY_EXISTS") {
-        alert("Email already exists");
+        setError("Email already exists");
       } else {
-        alert("Something went wrong");
+        setError("Something went wrong");
       }
     } finally {
       setLoading(false);
@@ -179,6 +182,13 @@ export default function RegisterForm() {
               </button>
             </div>
           </div>
+
+          {/* Error Message */}
+          {error && (
+            <div className="text-red-500 text-sm text-center bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3">
+              {error}
+            </div>
+          )}
 
           {/* Submit */}
           <button

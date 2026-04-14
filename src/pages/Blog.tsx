@@ -2,9 +2,9 @@ import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
 import heroImg from "../assets/images/B-p1.png"; 
-import card1 from "../assets/images/B-p2.png";
-import card2 from "../assets/images/B-p3.png";
-import card3 from "../assets/images/B-p4.png";
+import card1 from "../assets/images/b-p2.png";
+import card2 from "../assets/images/b-p3.png";
+import card3 from "../assets/images/b-p4.png";
 
 import Navbar from "../Components/layout/Navbar";
 import Footer from "../Components/layout/Footer";
