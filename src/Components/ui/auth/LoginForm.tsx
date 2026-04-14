@@ -38,7 +38,7 @@ export default function LoginForm() {
       return;
     }
 
-    setError(null); // Clear previous errors
+    setError(null); 
 
     try {
       setLoading(true);

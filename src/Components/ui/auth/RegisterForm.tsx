@@ -39,7 +39,7 @@ export default function RegisterForm() {
       return;
     }
 
-    setError(null); // Clear previous errors
+    setError(null); 
 
     try {
       setLoading(true);
@@ -51,7 +51,6 @@ export default function RegisterForm() {
         password: formData.password
       });
 
-      // Account created successfully
       navigate("/login");
 
     } catch (err) {
