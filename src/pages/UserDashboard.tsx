@@ -1,30 +1,42 @@
-import { useState } from 'react'; 
+import { useState } from 'react';
 import { Users, MessageSquare, Key, UserCircle } from 'lucide-react'; 
 import logo_white from "../assets/icons/download.svg"; 
 import Navbar from "../Components/layout/Navbar"; 
 import AccountSettings from '../Components/ui/dashboard/Account'; 
-import User from "../Components/ui/dashboard/User";
-import ApiKeys from "../Components/ui/dashboard/ApiKeys";
+import User from '../Components/ui/dashboard/User';
+import ApiKeys from '../Components/ui/dashboard/ApiKeys';
 import ContactMessages from '../Components/ui/dashboard/Messages';
-
+import { useAuth } from '../context/useAuth';
 import MyOrganization from "../Components/ui/dashboard/MyOrganization";
 import Organizations from "../Components/ui/dashboard/Organizations";
 import Plans from "../Components/ui/dashboard/Plans";
 import Usage from "../Components/ui/dashboard/Usage";
 
 const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState('Users'); 
-  
-  const navItems = [
+  const { user } = useAuth();
+  const isAdmin = user?.accessLevel === 'ADMIN';
+
+  const adminNavItems = [
     { name: 'Users', icon: <Users size={18} /> },
     { name: 'Messages', icon: <MessageSquare size={18} /> },
+    { name: 'Account', icon: <UserCircle size={18} /> },
+    { name: 'Organizations', icon: <Users size={18} /> },
+    { name: 'Plans', icon: <Key size={18} /> },
+  ];
+
+  const subjectNavItems = [
     { name: 'API Keys', icon: <Key size={18} /> },
     { name: 'Account', icon: <UserCircle size={18} /> },
     { name: 'My Organization', icon: <UserCircle size={18} /> },
-    { name: 'Organizations', icon: <Users size={18} /> },
     { name: 'Plans', icon: <Key size={18} /> },
     { name: 'Usage', icon: <MessageSquare size={18} /> },
   ];
+
+  const navItems = isAdmin ? adminNavItems : subjectNavItems;
+  const [activeTab, setActiveTab] = useState(navItems[0]?.name ?? 'Account');
+  const effectiveTab = navItems.some((item) => item.name === activeTab)
+    ? activeTab
+    : navItems[0]?.name ?? 'Account';
 
   return (
     <div className="flex flex-col min-h-screen bg-[#000000] font-sans text-gray-100">
@@ -46,12 +58,12 @@ const Dashboard = () => {
                   <button
                     onClick={() => setActiveTab(item.name)}
                     className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all group ${
-                      activeTab === item.name 
+                      effectiveTab === item.name 
                         ? 'bg-[#8cff2e]/10 text-[#8cff2e] font-semibold border-l-4 border-[#8cff2e] rounded-l-none' 
                         : 'text-gray-400 hover:text-white transition-colors'
                     }`}
                   >
-                    <span className={activeTab === item.name ? 'text-[#8cff2e]' : 'text-gray-500 group-hover:text-white'}>
+                    <span className={effectiveTab === item.name ? 'text-[#8cff2e]' : 'text-gray-500 group-hover:text-white'}>
                       {item.icon}
                     </span>
                     {item.name}
@@ -68,7 +80,7 @@ const Dashboard = () => {
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <h1 className="text-2xl sm:text-3xl font-bold text-white">
-                    {activeTab === 'Account' ? 'Account Settings' : activeTab}
+                    {effectiveTab === 'Account' ? 'Account Settings' : effectiveTab}
                   </h1>
                 </div>
                 <div className="flex flex-wrap gap-2 lg:hidden overflow-x-auto pb-2">
@@ -77,7 +89,7 @@ const Dashboard = () => {
                       key={item.name}
                       onClick={() => setActiveTab(item.name)}
                       className={`flex items-center gap-2 whitespace-nowrap rounded-full px-3 py-2 text-xs font-semibold transition-all ${
-                        activeTab === item.name
+                        effectiveTab === item.name
                           ? 'bg-[#8cff2e] text-black shadow-lg'
                           : 'bg-white/5 text-gray-300 hover:bg-white/10'
                       }`}
@@ -90,23 +102,23 @@ const Dashboard = () => {
               </div>
             </div>
 
-            {activeTab === "Users" && <User />}
-            {activeTab === "Account" && <AccountSettings />}
-            {activeTab === "API Keys" && <ApiKeys />}
-            {activeTab === "Messages" && <ContactMessages />}
-            {activeTab === "My Organization" && <MyOrganization />}
-            {activeTab === "Organizations" && <Organizations />}
-            {activeTab === "Plans" && <Plans />}
-            {activeTab === "Usage" && <Usage />}
+            {effectiveTab === "Users" && <User />}
+            {effectiveTab === "Account" && <AccountSettings />}
+            {effectiveTab === "API Keys" && <ApiKeys />}
+            {effectiveTab === "Messages" && <ContactMessages />}
+            {effectiveTab === "My Organization" && <MyOrganization />}
+            {effectiveTab === "Organizations" && <Organizations />}
+            {effectiveTab === "Plans" && <Plans />}
+            {effectiveTab === "Usage" && <Usage />}
 
-            {activeTab !== "Users" &&
-              activeTab !== "Account" &&
-              activeTab !== "API Keys" &&
-              activeTab !== "Messages" && 
-              activeTab !== "My Organization" &&
-              activeTab !== "Organizations" &&
-              activeTab !== "Plans" &&
-              activeTab !== "Usage" &&
+            {effectiveTab !== "Users" &&
+              effectiveTab !== "Account" &&
+              effectiveTab !== "API Keys" &&
+              effectiveTab !== "Messages" && 
+              effectiveTab !== "My Organization" &&
+              effectiveTab !== "Organizations" &&
+              effectiveTab !== "Plans" &&
+              effectiveTab !== "Usage" &&
               (
                 <div className="bg-[#1a0c0e] border border-red-900 text-red-400 px-6 py-4 rounded-md text-sm">
                   Failed to load {activeTab.toLowerCase()}
