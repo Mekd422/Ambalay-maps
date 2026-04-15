@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react"; 
-import logo from "../../assets/icons/download.svg";
+import logo from "../../assets/icons/AMBALAY LOGO.png";
 import { HashLink as Link } from 'react-router-hash-link';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/useAuth";

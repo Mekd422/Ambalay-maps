@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Users, MessageSquare, Key, UserCircle } from 'lucide-react'; 
-import logo_white from "../assets/icons/download.svg"; 
+import logo_white from "../assets/icons/AMBALAY LOGO.png"; 
 import Navbar from "../Components/layout/Navbar"; 
 import AccountSettings from '../Components/ui/dashboard/Account'; 
 import User from '../Components/ui/dashboard/User';
