@@ -10,12 +10,12 @@ import { motion } from "framer-motion";
 
 export default function FeaturesSection() {
   const detailedFeatures = [
-    { title: "Geocoding", desc: "Convert addresses to coordinates and back with high accuracy. Our geocoding API provides precise location data.", icon: geocodingIcon },
-    { title: "Routing", desc: "Calculate optimal routes between multiple points. Get detailed turn-by-turn directions and travel times.", icon: routingIcon },
-    { title: "Static Maps", desc: "Generate map images with custom markers and styling for embedding in emails or reports.", icon: staticMapsIcon },
-    { title: "Places Search", desc: "Find points of interest around specific locations. Search for restaurants, hotels, and landmarks.", icon: placesIcon },
-    { title: "Matrix API", desc: "Calculate travel times between multiple origins and destinations. Optimize complex logistics.", icon: matrixIcon },
-    { title: "Elevation API", desc: "Get terrain elevation data for any point on Earth. Access accurate elevation data for planning.", icon: elevationIcon },
+    { title: "Geocoding", desc: "Convert addresses into coordinates and coordinates back into addresses with reliable accuracy.", icon: geocodingIcon },
+    { title: "Routing", desc: "Calculate optimal routes, travel time, and directions for one or multiple dstinations.", icon: routingIcon },
+    { title: "Static Maps", desc: "Generate clean map images for reports, apps, and sharing.", icon: staticMapsIcon },
+    { title: "Places Search", desc: "Search for businesses, landmarks, institutions, and points of interest near a location.", icon: placesIcon },
+    { title: "Distance Matrix", desc: "Compare travel times and distances between many origins and destinations at once.", icon: matrixIcon },
+    { title: "Reverse Geocoding", desc: "Turn any point on the map into a readable location name, landmark, or address.", icon: elevationIcon },
   ]
 
   return (
