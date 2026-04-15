@@ -6,9 +6,9 @@ import { motion } from "framer-motion"
 
 export default function HowItWorks() {
   const steps = [
-    { img: howItWorksImg1, step: "Step 1", title: "Get Started with website", desc: "Get started with the AmbaLay Maps website to explore its services, mission, and innovative mapping solutions." },
-    { img: howItWorksImg2, step: "Step 2", title: "Full control dashboard", desc: "Take full control of your dashboard to manage data, monitor activity, and access all features in one powerful, easy-to-use platform." },
-    { img: howItWorksImg3, step: "Step 3", title: "Set goals & stay on track", desc: "Plan your savings, set monthly budgets, and let Clario keep you in control." },
+    { img: howItWorksImg1, step: "Step 1", title: "Create your account ", desc: "Sign up and access the Ambalay Maps dashboard and API tools." },
+    { img: howItWorksImg2, step: "Step 2", title: "Choose the service you need", desc: "Use geocoding, routing, places search, or static maps based on your workflow." },
+    { img: howItWorksImg3, step: "Step 3", title: "Integrate and scale", desc: "Connect Ambalay Maps to your app or operations and start using location intelligence immediately." },
   ]
 
   const containerVariants = {
