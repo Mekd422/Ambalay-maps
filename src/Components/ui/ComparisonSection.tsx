@@ -22,8 +22,9 @@ export default function ComparisonSection() {
             <span className="h-1.5 w-1.5 rounded-full bg-[#8cff2e]" />
             <span className="text-xs font-medium uppercase tracking-[0.05em]">Why AmbaLay Maps?</span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-medium text-white tracking-tight leading-tight mb-20">
-            There’s a smarter way to <br className="hidden md:block" /> handle geography
+          <h2 className="text-base  font-medium text-white tracking-tight leading-tight mb-20">
+            Ambalay Maps helps teams work with location data <br className="hidden md:block" /> more efficiently, with tools 
+designed for accuracy, speed and ease of integration.
           </h2>
         </motion.div>
 
@@ -60,7 +61,7 @@ export default function ComparisonSection() {
                 <h3 className="text-white text-lg font-medium">Ambalay</h3>
               </div>
               <ul className="space-y-6">
-                {["Smart dashboard, real-time updates", "Simple, transparent pricing", "Automated reports & smart alerts", "Team-friendly, sync accounts easily", "Priority support, fast response"].map((text, i) => (
+                {["Accurate geocoding and routing", "Simple API integration", "Real-time location intelligence", "Clean documentation and developer-friendly tools ", "Built for businesses, logistics, platforms, and field operations"].map((text, i) => (
                   <li key={i} className="flex items-start gap-4 text-white text-sm">
                     <CheckCircle2 size={18} className="mt-0.5 text-[#8cff2e] shrink-0" />
                     <span>{text}</span>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react"; 
-import logo from "../../assets/icons/download.svg";
+import logo from "../../assets/icons/AMBALAY LOGO.png";
 import { HashLink as Link } from 'react-router-hash-link';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/useAuth";
@@ -20,7 +20,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const linkStyles = "text-sm font-medium hover:text-[#8cff2e] transition-colors";
+  const linkStyles = "text-sm font-medium text-white hover:text-[#8cff2e] transition-colors";
 
   return (
     <nav
@@ -34,14 +34,14 @@ export default function Navbar() {
         <div className="flex items-center gap-2">
           <img src={logo} alt="AmbaLay Maps Logo" className="h-11 w-11" />
           <Link to="/">
-            <h4 className="text-lg font-medium font-sora tracking-tight text-black dark:text-white">
+            <h4 className="text-lg font-medium font-sora tracking-tight text-white">
               AmbaLay Maps
             </h4>
           </Link>
         </div>
 
         {/* Unified Navigation Links */}
-        <div className="hidden lg:flex items-center gap-8 text-black dark:text-white">
+        <div className="hidden lg:flex items-center gap-8 text-white">
           <Link to="/#how-it-works" className={linkStyles}>About Us</Link>
           <Link to="/price" className={linkStyles}>Pricing</Link>
           <Link to="/documentation" className={linkStyles}>Documentation</Link>
@@ -54,7 +54,7 @@ export default function Navbar() {
         <div className="hidden lg:flex items-center gap-6">
           {isLoggedIn ? (
             <>
-              <span className="text-sm font-medium text-black dark:text-white">
+              <span className="text-sm font-medium text-white">
                 Hi, {userName}
               </span>
               <Link
@@ -69,14 +69,14 @@ export default function Navbar() {
                   logout();
                   navigate("/");
                 }}
-                className="px-4 py-2 rounded-full text-sm font-medium bg-transparent border border-white/20 text-black dark:text-white hover:bg-white/10 transition-all"
+                className="px-4 py-2 rounded-full text-sm font-medium bg-transparent border border-white/20 text-white hover:bg-white/10 transition-all"
               >
                 Logout
               </button>
             </>
           ) : (
             <>
-              <Link to="/login" className="text-sm font-medium text-black dark:text-white hover:text-[#8cff2e] transition-colors">
+              <Link to="/login" className="text-sm font-medium text-white hover:text-[#8cff2e] transition-colors">
                 Login
               </Link>
               <Link
@@ -89,15 +89,15 @@ export default function Navbar() {
           )}
         </div>
 
-        <button className="lg:hidden text-black dark:text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+        <button className="lg:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="absolute top-full left-0 right-0 bg-white dark:bg-black border-b border-gray-200 dark:border-white/10 z-50 lg:hidden shadow-xl">
-          <div className="flex flex-col items-center justify-center p-6 space-y-4 text-black dark:text-white">
+          <div className="absolute top-full left-0 right-0 bg-black border-b border-white/10 z-50 lg:hidden shadow-xl">          
+          <div className="flex flex-col items-center justify-center p-6 space-y-4 text-white">
             <Link to="/#how-it-works" onClick={() => setIsMenuOpen(false)}>About Us</Link>
             <Link to="/price" onClick={() => setIsMenuOpen(false)}>Pricing</Link>
             <Link to="/contact" onClick={() => setIsMenuOpen(false)}>Contact</Link>

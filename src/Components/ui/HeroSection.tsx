@@ -1,4 +1,5 @@
 import { ArrowUpRight } from "lucide-react"
+import { Link } from "react-router-dom"
 
 export default function HeroSection() {
   return (
@@ -12,20 +13,26 @@ export default function HeroSection() {
           </span>
         </div>
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-medium text-white leading-tight mb-4">
-          Get more defined map
+          Build smarter with Ambalay Maps        
         </h1>
+
         <p className="text-gray-400 text-sm sm:text-base md:text-lg leading-relaxed mb-8 max-w-2xl mx-auto">
-          Integrate high-quality mapping, geocoding, routing, and location-based features into your applications with our powerful API.
+Location data, routing, geocoding, and map tools built for teams that need 
+accurate, fast, and scalable geospatial services.        
         </p>
         <div className="flex items-center justify-center gap-8">
-          <button className="group flex items-center gap-2 text-white text-sm font-medium transition-colors hover:text-[#8cff2e]">
-            Read Documentation
-            <ArrowUpRight size={16} className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
-          </button>
-          <button className="group flex items-center gap-2 px-7 py-3 rounded-full bg-[#8cff2e] text-black font-medium transition-all duration-300 hover:shadow-[0_0_35px_#8cff2e]">
-            Get Started
-            <ArrowUpRight size={16} className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
-          </button>
+          <Link to="/documentation">
+            <button className="group flex items-center gap-2 text-white text-sm font-medium transition-colors hover:text-[#8cff2e]">
+              Read Documentation
+              <ArrowUpRight size={16} className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+            </button>
+          </Link>
+          <Link to="/register">
+            <button className="group flex items-center gap-2 px-7 py-3 rounded-full bg-[#8cff2e] text-black font-medium transition-all duration-300 hover:shadow-[0_0_35px_#8cff2e]">
+              Get Started
+              <ArrowUpRight size={16} className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+            </button>
+          </Link>
         </div>
       </div>
     </section>
