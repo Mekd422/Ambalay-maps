@@ -1,4 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import ctaImage from "../../assets/images/lady.png"; 
 
 export default function CTASection() {
@@ -15,10 +16,12 @@ export default function CTASection() {
             <p className="text-gray-400 text-xs md:text-sm mb-8 leading-relaxed">
               Join thousands of developers creating amazing location-based experiences with our powerful API.
             </p>
-            <button className="group bg-[#8cff2e] hover:brightness-110 text-black px-6 py-2.5 rounded-full text-sm font-bold flex items-center gap-2 transition-all shadow-[0_10px_30px_rgba(140,255,46,0.15)]">
-              Remix Template
-              <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </button>
+            <Link to="/register">
+              <button className="group bg-[#8cff2e] hover:brightness-110 text-black px-6 py-2.5 rounded-full text-sm font-bold flex items-center gap-2 transition-all shadow-[0_10px_30px_rgba(140,255,46,0.15)]">
+                Get Started 
+                <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </button>
+            </Link>
           </div>
 
           <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#8cff2e]/5 blur-[80px] rounded-full z-0" />
