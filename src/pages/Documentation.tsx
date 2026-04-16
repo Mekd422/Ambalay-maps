@@ -20,6 +20,7 @@ import BestPractices from "../content/docs/BestPractices.mdx"
 import FAQ from "../content/docs/FAQ.mdx"
 import DeveloperSupprt from "../content/docs/DeveloperSupport.mdx"
 import { Link } from "react-router-dom"
+import logo from "../assets/icons/AMBALAY LOGO.png";
 
 interface SidebarGroup {
   group: string;
@@ -30,6 +31,8 @@ interface SidebarContentProps {
   sidebarLinks: SidebarGroup[];
   activePage: string;
   onPageSelect: (page: string) => void;
+  searchQuery: string;
+  onSearchChange: (value: string) => void;
 }
 
 interface CategoryCardProps {
@@ -48,6 +51,7 @@ interface FeatureItemProps {
 const Documentation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const [activePage, setActivePage] = useState<string>("Overview");
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const sidebarLinks: SidebarGroup[] = [
     { group: "Introduction", items: ["Overview", "Quickstart Guide", "Getting Started", "Authentication"] },
@@ -56,8 +60,18 @@ const Documentation = () => {
     { group: "Resources", items: ["Best Practices", "FAQ & Troubleshooting", "Developer Support"] }
   ];
 
+  const filteredSidebarLinks = sidebarLinks
+    .map((group) => ({
+      ...group,
+      items: group.items.filter((item) =>
+        item.toLowerCase().includes(searchQuery.trim().toLowerCase())
+      ),
+    }))
+    .filter((group) => group.items.length > 0);
+
   const handlePageChange = (page: string) => {
     setActivePage(page);
+    setSearchQuery("");
     setIsMobileMenuOpen(false);
     window.scrollTo(0, 0);
   };
@@ -191,14 +205,13 @@ const Documentation = () => {
               {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
 
-            <div className="flex items-center gap-2 cursor-pointer" onClick={() => setActivePage("Overview")}>
-              <div className="w-6 h-6 bg-[#8cff2e] rounded-md flex items-center justify-center shadow-[0_0_15px_rgba(140,255,46,0.3)]">
-                <div className="w-3 h-3 border-2 border-black rounded-sm"></div>
-              </div>
+            <Link to="/" className="flex items-center gap-3">
+              <img src={logo} alt="AmbaLay Maps Logo" className=" w-10 h-20 object-contain" />
               <span className="font-semibold text-sm tracking-tight">AmbaLay Maps</span>
-            </div>
-            <div className="hidden sm:flex gap-6 text-sm">
-              <a href="#" className="bg-white/10 px-3 py-1 rounded-md text-white transition-all">Documentation</a>
+            </Link>
+            <div className="hidden sm:flex items-center gap-6 text-sm">
+              <Link to="/" className="text-white hover:text-[#8cff2e] transition-all">Home</Link>
+              <span className="bg-white/10 px-3 py-1 rounded-md text-white transition-all">Documentation</span>
             </div>
           </div>
         </div>
@@ -210,14 +223,26 @@ const Documentation = () => {
           <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setIsMobileMenuOpen(false)} />
           <aside className={`absolute left-0 top-0 h-full w-72 bg-[#050505] border-r border-white/10 p-6 transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"}`}>
             <div className="mt-12">
-              <SidebarContent sidebarLinks={sidebarLinks} activePage={activePage} onPageSelect={handlePageChange} />
+              <SidebarContent
+                sidebarLinks={filteredSidebarLinks}
+                activePage={activePage}
+                onPageSelect={handlePageChange}
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+              />
             </div>
           </aside>
         </div>
 
         {/* Desktop Sidebar */}
         <aside className="hidden lg:block w-72 shrink-0 border-r border-white/10 pt-12 pr-8 lg:ml-24 h-[calc(100vh-64px)] sticky top-16 overflow-y-auto no-scrollbar">
-          <SidebarContent sidebarLinks={sidebarLinks} activePage={activePage} onPageSelect={handlePageChange} />
+          <SidebarContent
+            sidebarLinks={filteredSidebarLinks}
+            activePage={activePage}
+            onPageSelect={handlePageChange}
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+          />
         </aside>
 
         {/* Main Content */}
@@ -255,18 +280,25 @@ const Documentation = () => {
 };
 
 
-const SidebarContent = ({ sidebarLinks, activePage, onPageSelect }: SidebarContentProps) => (
+const SidebarContent = ({ sidebarLinks, activePage, onPageSelect, searchQuery, onSearchChange }: SidebarContentProps) => (
   <>
     <div className="relative mb-8">
       <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={14} />
       <input 
         type="text" 
-        placeholder="Search..." 
+        value={searchQuery}
+        onChange={(e) => onSearchChange(e.target.value)}
+        placeholder="Search documentation..." 
         className="w-full bg-white/5 border border-white/10 rounded-lg py-2 pl-9 pr-10 text-xs focus:outline-none focus:border-[#8cff2e]/50 transition-all"
       />
     </div>
 
-    <div className="space-y-8">
+    {sidebarLinks.length === 0 ? (
+      <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-sm text-gray-400">
+        No documentation pages match your search.
+      </div>
+    ) : (
+      <div className="space-y-8">
       {sidebarLinks.map((group, idx) => (
         <div key={idx}>
           <h4 className="text-[11px] font-sora font-bold uppercase tracking-[0.15em] text-white/40 mb-4">
@@ -287,6 +319,7 @@ const SidebarContent = ({ sidebarLinks, activePage, onPageSelect }: SidebarConte
         </div>
       ))}
     </div>
+    )}
   </>
 );
 

@@ -113,11 +113,11 @@ export default function MappingSolutions() {
                   <img key={i} src={p} className="h-12 w-12 rounded-full border-4 border-[#0A0A0A] object-cover" />
                 ))}
               </div>
-              <h4 className="text-2xl font-medium text-white leading-tight">Trusted by 3k+ <br /> Freelancers</h4>
+              <h4 className="text-2xl font-medium text-white leading-tight">Trusted by 50+ <br /> Developers</h4>
             </div>
 
             <div className="bg-[#0A0A0A] rounded-[32px] border border-white/5 p-8 flex-1 flex flex-col justify-center">
-              <h4 className="text-3xl font-medium text-white mb-3">$1.2M+ Saved</h4>
+              <h4 className="text-3xl font-medium text-white mb-3">100k+ Tiles</h4>
               <p className="text-sm text-gray-500 mb-6 leading-relaxed max-w-[200px]">Clario helps users save more — and spend smarter.</p>
               <button className="flex items-center gap-2 text-[#8cff2e] font-medium text-sm group">
                 Get Started 
