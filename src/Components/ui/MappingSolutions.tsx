@@ -47,9 +47,9 @@ export default function MappingSolutions() {
       <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
     </div>
     <div className="p-8">
-      <h3 className="text-2xl font-semibold text-white mb-3">Geo</h3>
+      <h3 className="text-2xl font-semibold text-white mb-3">For Developers</h3>
       <p className="text-gray-400 text-sm leading-relaxed max-w-sm">
-        See all your accounts in one view — balances, spending, and goals.
+        Easy-to-use APIs for geocoding, routing, and map display.
       </p>
     </div>
   </div>
@@ -64,9 +64,9 @@ export default function MappingSolutions() {
       <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
     </div>
     <div className="p-8">
-      <h3 className="text-2xl font-semibold text-white mb-3 leading-tight">Cashflow Overview</h3>
+      <h3 className="text-2xl font-semibold text-white mb-3 leading-tight">For Logistics Teams</h3>
       <p className="text-gray-400 text-sm leading-relaxed">
-        Track your daily income and expenses to understand your flow.
+        Plan routes, optimize deliveries, and track travel efficiency.
       </p>
     </div>
   </div>
@@ -84,8 +84,8 @@ export default function MappingSolutions() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
             </div>
             <div className="p-8">
-              <h3 className="text-xl font-semibold text-white mb-2">Spending Breakdown</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">See exactly how your money is split across categories.</p>
+              <h3 className="text-xl font-semibold text-white mb-2">For Businesses</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">Add location search, store mapping, and address intelligence to your product.</p>
             </div>
           </div>
 
@@ -100,8 +100,8 @@ export default function MappingSolutions() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
             </div>
             <div className="p-8">
-              <h3 className="text-xl font-semibold text-white mb-2">Savings Goal</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">Stay focused on your savings targets and follow your progress.</p>
+              <h3 className="text-xl font-semibold text-white mb-2">For Operations</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">Make field work, dispatching, and coverage planning more efficient.</p>
             </div>
           </div>
 
