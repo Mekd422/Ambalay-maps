@@ -1,13 +1,14 @@
 import logo from "../../assets/icons/AMBALAY LOGO.png";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
     <footer className="bg-black text-white px-6 md:px-12 py-24 border-t border-white/5">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8">
           
-          {/* 1. Increased span to 8 to push everything else to the right */}
-          <div className="lg:col-span-8 space-y-8">
+          {/* Branding section */}
+          <div className="sm:col-span-2 lg:col-span-8 space-y-8">
             <div className="flex items-center gap-3">
               <img
                 src={logo}
@@ -28,26 +29,27 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* 2. Removed the spacer div and used text-right logic for desktop */}
-          <div className="lg:col-span-2 lg:text-right">
+          {/* Quick Menu */}
+          <div className="sm:col-span-1 lg:col-span-2 text-center lg:text-right">
             <h4 className="font-medium text-white mb-6 uppercase text-xs tracking-widest">Quick Menu</h4>
             <ul className="space-y-4 text-sm text-gray-400">
-              <li><a href="#" className="hover:text-[#8cff2e] transition-colors">How it works</a></li>
-              <li><a href="#features" className="hover:text-[#8cff2e] transition-colors">Features</a></li>
-              <li><a href="#testimonials" className="hover:text-[#8cff2e] transition-colors">Testimonials</a></li>
-              <li><a href="#pricing" className="hover:text-[#8cff2e] transition-colors">Pricing</a></li>
-              <li><a href="#" className="hover:text-[#8cff2e] transition-colors">Waitlist</a></li>
+              <li><Link to="/#how-it-works" className="hover:text-[#8cff2e] transition-colors">How it works</Link></li>
+              <li><Link to="/#features" className="hover:text-[#8cff2e] transition-colors">Features</Link></li>
+              <li><Link to="/#testimonials" className="hover:text-[#8cff2e] transition-colors">Testimonials</Link></li>
+              <li><Link to="/price" className="hover:text-[#8cff2e] transition-colors">Pricing</Link></li>
+              <li><Link to="/register" className="hover:text-[#8cff2e] transition-colors">Waitlist</Link></li>
             </ul>
           </div>
 
-          <div className="lg:col-span-2 lg:text-right">
+          {/* Information */}
+          <div className="sm:col-span-1 lg:col-span-2 text-center lg:text-right">
             <h4 className="font-medium text-white mb-6 uppercase text-xs tracking-widest">Information</h4>
             <ul className="space-y-4 text-sm text-gray-400">
-              <li><a href="#contact" className="hover:text-[#8cff2e] transition-colors">Contact</a></li>
-              <li><a href="#" className="hover:text-[#8cff2e] transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-[#8cff2e] transition-colors">Terms</a></li>
-              <li><a href="#blog" className="hover:text-[#8cff2e] transition-colors">Blog</a></li>
-              <li><a href="#" className="hover:text-[#8cff2e] transition-colors">Remix Template</a></li>
+              <li><Link to="/contact" className="hover:text-[#8cff2e] transition-colors">Contact</Link></li>
+              <li><Link to="/privacy-policy" className="hover:text-[#8cff2e] transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/terms-of-service" className="hover:text-[#8cff2e] transition-colors">Terms</Link></li>
+              <li><Link to="/blog" className="hover:text-[#8cff2e] transition-colors">Blog</Link></li>
+              <li><Link to="/shop" className="hover:text-[#8cff2e] transition-colors">Shop</Link></li>
             </ul>
           </div>
 
