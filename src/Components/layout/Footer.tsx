@@ -1,4 +1,4 @@
-import logo from "../../assets/icons/download.svg";
+import logo from "../../assets/icons/AMBALAY LOGO.png";
 
 export default function Footer() {
   return (
@@ -12,7 +12,7 @@ export default function Footer() {
               <img
                 src={logo}
                 alt="AmbaLay Maps Logo"
-                className="h-10 w-10"
+                className="h-5 w-10"
               />
               <h4 className="text-xl font-medium font-sora tracking-tight">
                 AmbaLay Maps

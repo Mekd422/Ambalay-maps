@@ -1,5 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
-import ctaImage from "../../assets/images/last-ui-img.webp"; 
+import ctaImage from "../../assets/images/lady.png"; 
 
 export default function CTASection() {
   return (
@@ -29,7 +29,7 @@ export default function CTASection() {
             <img 
               src={ctaImage} 
               alt="Ready to build" 
-              className="w-full h-auto object-contain select-none"
+              className="w-full h-auto object-contain select-none scale-150"
               style={{
                 maskImage: 'linear-gradient(to bottom, black 35%, rgba(0,0,0,0.6) 65%, transparent 95%)',
                 WebkitMaskImage: 'linear-gradient(to bottom, black 35%, rgba(0,0,0,0.6) 65%, transparent 95%)'
