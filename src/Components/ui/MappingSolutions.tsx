@@ -8,10 +8,11 @@ import person2 from "../../assets/images/person2.png"
 import person3 from "../../assets/images/person3.png"
 
 import { motion } from "framer-motion"
+import { Link } from "react-router-dom"
 
 export default function MappingSolutions() {
   return (
-    <section className="px-6 md:px-12 py-24 bg-black">
+    <section id="solutions" className="px-6 md:px-12 py-24 bg-black">
       <div className="max-w-5xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 overflow-hidden">
         <motion.h2 
@@ -113,16 +114,18 @@ export default function MappingSolutions() {
                   <img key={i} src={p} className="h-12 w-12 rounded-full border-4 border-[#0A0A0A] object-cover" />
                 ))}
               </div>
-              <h4 className="text-2xl font-medium text-white leading-tight">Trusted by 50+ <br /> Developers</h4>
+              <h4 className="text-2xl font-medium text-white leading-tight">50+ developers actively <br /> using Ambalay APIs</h4>
             </div>
 
             <div className="bg-[#0A0A0A] rounded-[32px] border border-white/5 p-8 flex-1 flex flex-col justify-center">
-              <h4 className="text-3xl font-medium text-white mb-3">100k+ Tiles</h4>
-              <p className="text-sm text-gray-500 mb-6 leading-relaxed max-w-[200px]">Clario helps users save more — and spend smarter.</p>
+              <h4 className="text-3xl font-medium text-white mb-3">500,000+ API requests</h4>
+              <p className="text-sm text-gray-500 mb-6 leading-relaxed max-w-[200px]">processed and growing</p>
+              <Link to="/register">
               <button className="flex items-center gap-2 text-[#8cff2e] font-medium text-sm group">
                 Get Started 
                 <ArrowUpRight size={18} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </button>
+              </Link>
             </div>
           </div>
         </div>

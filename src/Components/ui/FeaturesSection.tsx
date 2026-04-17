@@ -7,15 +7,16 @@ import matrixIcon from "../../assets/icons/matrix-api.svg"
 import elevationIcon from "../../assets/icons/elevation-api.svg"
 
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom"
 
 export default function FeaturesSection() {
   const detailedFeatures = [
-    { title: "Geocoding", desc: "Convert addresses into coordinates and coordinates back into addresses with reliable accuracy.", icon: geocodingIcon },
-    { title: "Routing", desc: "Calculate optimal routes, travel time, and directions for one or multiple dstinations.", icon: routingIcon },
-    { title: "Static Maps", desc: "Generate clean map images for reports, apps, and sharing.", icon: staticMapsIcon },
-    { title: "Places Search", desc: "Search for businesses, landmarks, institutions, and points of interest near a location.", icon: placesIcon },
-    { title: "Distance Matrix", desc: "Compare travel times and distances between many origins and destinations at once.", icon: matrixIcon },
-    { title: "Reverse Geocoding", desc: "Turn any point on the map into a readable location name, landmark, or address.", icon: elevationIcon },
+    { title: "Geocoding & Reverse Geocoding API ", desc: "Convert Locations Seamlessly Translate place names into coordinates and coordinates into meaningful locations. Built with local context for higher accuracy in informal areas.", icon: geocodingIcon },
+    { title: "Trip Tracking API", desc: "Track trips live with high accuracy across urban and low-connectivity environments. Monitor routes, stops, and deviations in real time for ride-hailing, delivery, and logistics. ", icon: routingIcon },
+    { title: "Tile Serving API", desc: "Serve custom, high-performance map tiles tailored for Ethiopian and African geographies. Built for speed, offline support, and full styling control.", icon: staticMapsIcon },
+    { title: "Matrix API", desc: "Compute travel time and distance between multiple points instantly. Perfect for logistics planning, fleet management, and route batching. ", icon: placesIcon },
+    { title: "Route Optimization API", desc: "Automatically generate the most efficient routes for multiple stops. Reduce fuel costs, delivery time, and operational complexity. ", icon: matrixIcon },
+    { title: "Landmark Translation API", desc: "Convert coordinates into intuitive, landmark-based directions people actually understand.", icon: elevationIcon },
   ]
 
   return (
@@ -64,10 +65,12 @@ export default function FeaturesSection() {
 </div>
 
         <div className="flex justify-center">
+          <Link to="/register">
           <button className="flex items-center gap-2 text-white font-medium text-sm group transition-colors hover:text-[#8cff2e]">
             Get Started 
             <ArrowUpRight size={18} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </button>
+          </Link>
         </div>
       </div>
     </section>

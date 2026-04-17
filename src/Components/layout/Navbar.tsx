@@ -42,7 +42,7 @@ export default function Navbar() {
 
         {/* Unified Navigation Links */}
         <div className="hidden lg:flex items-center gap-8 text-white">
-          <Link to="/#how-it-works" className={linkStyles}>About Us</Link>
+          <Link to="/#solutions" className={linkStyles}>About Us</Link>
           <Link to="/price" className={linkStyles}>Pricing</Link>
           <Link to="/documentation" className={linkStyles}>Documentation</Link>
           <Link to="/blog" className={linkStyles}>Blog</Link>
@@ -98,7 +98,7 @@ export default function Navbar() {
       {isMenuOpen && (
           <div className="absolute top-full left-0 right-0 bg-black border-b border-white/10 z-50 lg:hidden shadow-xl">          
           <div className="flex flex-col items-center justify-center p-6 space-y-4 text-white">
-            <Link to="/#how-it-works" onClick={() => setIsMenuOpen(false)}>About Us</Link>
+            <Link to="/#solutions" onClick={() => setIsMenuOpen(false)}>About Us</Link>
             <Link to="/price" onClick={() => setIsMenuOpen(false)}>Pricing</Link>
             <Link to="/contact" onClick={() => setIsMenuOpen(false)}>Contact</Link>
             <Link to="/documentation" onClick={() => setIsMenuOpen(false)}>Documentation</Link>
