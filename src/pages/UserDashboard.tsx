@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { Users, MessageSquare, Key, UserCircle } from 'lucide-react'; 
+import { Users, MessageSquare, Key, UserCircle, Home } from 'lucide-react'; 
 import logo_white from "../assets/icons/AMBALAY LOGO.png"; 
-import Navbar from "../Components/layout/Navbar"; 
 import AccountSettings from '../Components/ui/dashboard/Account'; 
 import User from '../Components/ui/dashboard/User';
 import ApiKeys from '../Components/ui/dashboard/ApiKeys';
@@ -11,6 +10,7 @@ import MyOrganization from "../Components/ui/dashboard/MyOrganization";
 import Organizations from "../Components/ui/dashboard/Organizations";
 import Plans from "../Components/ui/dashboard/Plans";
 import Usage from "../Components/ui/dashboard/Usage";
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -40,14 +40,24 @@ const Dashboard = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#000000] font-sans text-gray-100">
-      <Navbar />
-
-      <div className="flex flex-col lg:flex-row flex-1 pt-[76px]">
+      <div className="flex flex-col lg:flex-row flex-1">
         {/* Desktop sidebar */}
         <aside className="hidden lg:flex lg:w-64 border-r border-white/5 flex-shrink-0 flex-col bg-[#000000]">
           <div className="p-6 flex items-center gap-2">
-            <img src={logo_white} alt="Logo" className="h-8 w-8" />
+            <img src={logo_white} alt="Logo" className="h-5 w-10" />
             <h4 className="text-md font-medium tracking-tight text-white">AmbaLay Maps</h4>
+          </div>
+
+          <div className="px-4 mt-4">
+            <Link
+              to="/"
+              className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-400 hover:text-white transition-colors group"
+            >
+              <span className="text-gray-500 group-hover:text-white">
+                <Home size={18} />
+              </span>
+              Back to Home
+            </Link>
           </div>
 
           <nav className="flex-1 px-4 mt-2">
@@ -78,7 +88,14 @@ const Dashboard = () => {
           <div className="max-w-5xl mx-auto">
             <div className="flex flex-col gap-4 mb-8 border-b border-white/5 pb-6">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div>
+                <div className="flex items-center gap-4">
+                  <Link
+                    to="/"
+                    className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors lg:hidden"
+                  >
+                    <Home size={18} />
+                    <span className="text-sm">Home</span>
+                  </Link>
                   <h1 className="text-2xl sm:text-3xl font-bold text-white">
                     {effectiveTab === 'Account' ? 'Account Settings' : effectiveTab}
                   </h1>

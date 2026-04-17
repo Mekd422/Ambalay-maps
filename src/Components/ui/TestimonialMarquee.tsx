@@ -7,15 +7,15 @@ import { motion } from "framer-motion";
 
 export default function TestimonialMarquee() {
   const row1 = [
-    { name: "Enkumichael", role: "Developer", text: "APIs were easy to integrate and improved speed.", img: person1 },
-    { name: "Samson Warkaye", role: "GIS", text: "Reliable geospatial data and training.", img: person2 },
-    { name: "Marco G.", role: "Founder", text: "The only mapping tool I open daily.", img: person3 },
+    { name: "Enkumichael", role: "Product Manager", text: "Ambalay Maps made it much easier to manage addresses and routing in our workflow.", img: person1 },
+    { name: "Samson Warkaye", role: "Lead Developer", text: "The API was straightforward to integrate, and the results were accurate.", img: person2 },
+    { name: "Marco G.", role: "Operations Coordinator", text: "We use it for route planning and location lookup every day.", img: person3 },
   ]
   
   const row2 = [
-    { name: "Sara L.", role: "PM", text: "Routing precision is unmatched.", img: person2 },
-    { name: "Jonas W.", role: "CEO", text: "Transparent pricing and top-tier support.", img: person1 },
-    { name: "Alex K.", role: "Lead Engineer", text: "Static maps API is so easy to customize.", img: person3 },
+    { name: "Sara L.", role: "Product Manager", text: "Ambalay Maps made it much easier to manage addresses and routing in our workflow.", img: person2 },
+    { name: "Jonas W.", role: "Lead Developer", text: "The API was straightforward to integrate, and the results were accurate.", img: person1 },
+    { name: "Alex K.", role: "Operations Coordinator", text: "We use it for route planning and location lookup every day.", img: person3 },
   ]
 
   return (
@@ -32,7 +32,7 @@ export default function TestimonialMarquee() {
             }}
             className="text-4xl md:text-4xl font-medium text-white leading-tight max-w-md"
           >
-            Loved by individuals and small teams
+            Loved by teams building location-powered products
           </motion.h2>
 
           <motion.p 
@@ -46,8 +46,7 @@ export default function TestimonialMarquee() {
             }}
             className="text-base text-zinc-400 max-w-sm"
           >
-            People across industries trust Clario to manage money, reduce stress, and 
-            make smarter decisions — all in one simple dashboard.
+            Trusted by teams to power maps, geospatial insights, and location-based features — all in one seamless platform.
           </motion.p>
         </div>
         <div className="flex flex-col gap-8">

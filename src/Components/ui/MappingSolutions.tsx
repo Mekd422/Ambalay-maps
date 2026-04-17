@@ -1,8 +1,8 @@
 import { ArrowUpRight } from "lucide-react"
-import geoImg from "../../assets/images/mapping-solutions-img1.png" 
-import cashflowImg from "../../assets/images/mapping-solutions-img2.png"
-import spendingImg from "../../assets/images/mapping-solutions-img3.png" 
-import savingsImg from "../../assets/images/mapping-solutions-img4.png"
+import geoImg from "../../assets/images/dev.jpg" 
+import cashflowImg from "../../assets/images/img-bic.jpg"
+import spendingImg from "../../assets/images/ride.png" 
+import savingsImg from "../../assets/images/operations.jpg"
 import person1 from "../../assets/images/person1.png"
 import person2 from "../../assets/images/person2.png"
 import person3 from "../../assets/images/person3.png"
@@ -47,9 +47,9 @@ export default function MappingSolutions() {
       <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
     </div>
     <div className="p-8">
-      <h3 className="text-2xl font-semibold text-white mb-3">Geo</h3>
+      <h3 className="text-2xl font-semibold text-white mb-3">For Developers</h3>
       <p className="text-gray-400 text-sm leading-relaxed max-w-sm">
-        See all your accounts in one view — balances, spending, and goals.
+        Easy-to-use APIs for geocoding, routing, and map display.
       </p>
     </div>
   </div>
@@ -64,9 +64,9 @@ export default function MappingSolutions() {
       <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
     </div>
     <div className="p-8">
-      <h3 className="text-2xl font-semibold text-white mb-3 leading-tight">Cashflow Overview</h3>
+      <h3 className="text-2xl font-semibold text-white mb-3 leading-tight">For Logistics Teams</h3>
       <p className="text-gray-400 text-sm leading-relaxed">
-        Track your daily income and expenses to understand your flow.
+        Plan routes, optimize deliveries, and track travel efficiency.
       </p>
     </div>
   </div>
@@ -84,8 +84,8 @@ export default function MappingSolutions() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
             </div>
             <div className="p-8">
-              <h3 className="text-xl font-semibold text-white mb-2">Spending Breakdown</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">See exactly how your money is split across categories.</p>
+              <h3 className="text-xl font-semibold text-white mb-2">For Businesses</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">Add location search, store mapping, and address intelligence to your product.</p>
             </div>
           </div>
 
@@ -100,8 +100,8 @@ export default function MappingSolutions() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
             </div>
             <div className="p-8">
-              <h3 className="text-xl font-semibold text-white mb-2">Savings Goal</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">Stay focused on your savings targets and follow your progress.</p>
+              <h3 className="text-xl font-semibold text-white mb-2">For Operations</h3>
+              <p className="text-gray-400 text-sm leading-relaxed">Make field work, dispatching, and coverage planning more efficient.</p>
             </div>
           </div>
 
@@ -113,11 +113,11 @@ export default function MappingSolutions() {
                   <img key={i} src={p} className="h-12 w-12 rounded-full border-4 border-[#0A0A0A] object-cover" />
                 ))}
               </div>
-              <h4 className="text-2xl font-medium text-white leading-tight">Trusted by 3k+ <br /> Freelancers</h4>
+              <h4 className="text-2xl font-medium text-white leading-tight">Trusted by 50+ <br /> Developers</h4>
             </div>
 
             <div className="bg-[#0A0A0A] rounded-[32px] border border-white/5 p-8 flex-1 flex flex-col justify-center">
-              <h4 className="text-3xl font-medium text-white mb-3">$1.2M+ Saved</h4>
+              <h4 className="text-3xl font-medium text-white mb-3">100k+ Tiles</h4>
               <p className="text-sm text-gray-500 mb-6 leading-relaxed max-w-[200px]">Clario helps users save more — and spend smarter.</p>
               <button className="flex items-center gap-2 text-[#8cff2e] font-medium text-sm group">
                 Get Started 

@@ -5,17 +5,25 @@ import * as THREE from "three";
 
 export default function MapGlobe({ progress }: { progress: number }) {
   const meshRef = useRef<THREE.Mesh>(null);
+  const backgroundRef = useRef<THREE.Group>(null);
 
   useFrame(() => {
     if (meshRef.current) {
       meshRef.current.rotation.y += 0.005;
       meshRef.current.rotation.x = (1 - progress) * 2;
     }
+
+    if (backgroundRef.current) {
+      backgroundRef.current.rotation.y += 0.0008;
+      backgroundRef.current.rotation.x += 0.0002;
+    }
   });
 
   return (
     <>
-      <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+      <group ref={backgroundRef}>
+        <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={0.5} />
+      </group>
       <ambientLight intensity={0.5} />
       <pointLight position={[10, 10, 10]} intensity={1.5} color="#8cff2e" />
       

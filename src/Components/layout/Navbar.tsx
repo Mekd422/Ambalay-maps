@@ -32,9 +32,9 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 md:px-12 py-4">
         <div className="flex items-center gap-2">
-          <img src={logo} alt="AmbaLay Maps Logo" className="h-11 w-11" />
+          <img src={logo} alt="AmbaLay Maps Logo" className="h-6 w-11" />
           <Link to="/">
-            <h4 className="text-lg font-medium font-sora tracking-tight text-white">
+            <h4 className="text-base font-medium font-sora tracking-tight text-white">
               AmbaLay Maps
             </h4>
           </Link>
@@ -46,7 +46,7 @@ export default function Navbar() {
           <Link to="/price" className={linkStyles}>Pricing</Link>
           <Link to="/documentation" className={linkStyles}>Documentation</Link>
           <Link to="/blog" className={linkStyles}>Blog</Link>
-          <Link to="/shop" className={linkStyles}>Shop</Link>
+          {/* <Link to="/shop" className={linkStyles}>Shop</Link> */}
           <Link to="/contact" className={linkStyles}>Contact</Link>
         </div>
 
