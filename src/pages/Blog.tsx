@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 // import { ArrowUpRight } from "lucide-react";
 
-import heroImg from "../assets/images/B-p1.png"; 
-import card1 from "../assets/images/b-p2.png";
-import card2 from "../assets/images/b-p3.png";
+import heroImg from "../assets/images/landmark.jpg"; 
+import card1 from "../assets/images/blog-2.jpg";
+import card2 from "../assets/images/map-stack.jpg";
 
 import Navbar from "../Components/layout/Navbar";
 import Footer from "../Components/layout/Footer";

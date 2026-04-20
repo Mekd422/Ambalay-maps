@@ -9,13 +9,13 @@ export default function TestimonialMarquee() {
   const row1 = [
     { name: "Enkumichael", role: "Product Manager", text: "Ambalay Maps made it much easier to manage addresses and routing in our workflow.", img: person1 },
     { name: "Samson Warkaye", role: "Lead Developer", text: "The API was straightforward to integrate, and the results were accurate.", img: person2 },
-    { name: "Marco G.", role: "Operations Coordinator", text: "We use it for route planning and location lookup every day.", img: person3 },
+    { name: "Sara", role: "Operations Coordinator", text: "We use it for route planning and location lookup every day.", img: person3 },
   ]
   
   const row2 = [
-    { name: "Sara L.", role: "Product Manager", text: "Ambalay Maps made it much easier to manage addresses and routing in our workflow.", img: person2 },
-    { name: "Jonas W.", role: "Lead Developer", text: "The API was straightforward to integrate, and the results were accurate.", img: person1 },
-    { name: "Alex K.", role: "Operations Coordinator", text: "We use it for route planning and location lookup every day.", img: person3 },
+    { name: "Enkumichael", role: "Product Manager", text: "Ambalay Maps made it much easier to manage addresses and routing in our workflow.", img: person2 },
+    { name: "Samson Warkaye", role: "Lead Developer", text: "The API was straightforward to integrate, and the results were accurate.", img: person1 },
+    { name: "Sara", role: "Operations Coordinator", text: "We use it for route planning and location lookup every day.", img: person3 },
   ]
 
   return (
