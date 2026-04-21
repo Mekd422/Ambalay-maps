@@ -159,33 +159,33 @@ const Documentation = () => {
         <div className="w-full mt-32 grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12 text-left pb-20">
           <FeatureItem 
             icon={<Pencil className="text-indigo-500" size={20} />}
-            title="Easily editable"
-            desc="Modify colors and text with ease via premade assets and CSS variables."
+            title="Flexible Map Customization"
+            desc="Easily configure map styles, layers, and UI components using simple APIs. Adapt AmbaLay Maps to match your product’s design and functionality without complexity."
           />
           <FeatureItem 
             icon={<Database className="text-indigo-500" size={20} />}
-            title="CMS Powered"
-            desc="Edit and manage all documentation pages exclusively within CMS mode."
+            title=" Centralized Data Management"
+            desc="Control and manage map data, locations, and documentation from a single system. Update content seamlessly without needing full redeployments."
           />
           <FeatureItem 
             icon={<Layout className="text-indigo-500" size={20} />}
-            title="Premium Components"
-            desc="Finely crafted UI components with multiple states and variables."
+            title="High-Performance Mapping Engine"
+            desc="Leverage powerful routing, geocoding, and spatial processing components built for speed, accuracy, and scalability across real-world use cases."
           />
           <FeatureItem 
             icon={<Sparkles className="text-indigo-500" size={20} />}
-            title="Auto-Generated"
-            desc="Pages and navigation are generated automatically from your content folder."
+            title="Smart Documentation System"
+            desc="Automatically structured documentation and navigation based on your APIs and data, keeping everything organized and up to date with minimal effort."
           />
           <FeatureItem 
             icon={<Moon className="text-indigo-500" size={20} />}
-            title="Dark and Light Mode"
-            desc="Native support for both themes delivering a magnificent user experience."
+            title=" Adaptive UI Experience"
+            desc="Native support for dark and light modes, ensuring a smooth and accessible experience for users in any environment."
           />
           <FeatureItem 
             icon={<Gauge className="text-indigo-500" size={20} />}
-            title="Optimized SEO"
-            desc="Designed to improve the discoverability of your documentation."
+            title=" Built for African Context"
+            desc="Optimized for African infrastructure with better local data coverage, reliable routing, and performance in low-connectivity conditions."
           />
         </div>
       </div>
