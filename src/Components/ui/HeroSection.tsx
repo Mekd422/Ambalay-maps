@@ -9,7 +9,7 @@ export default function HeroSection() {
       <div className="relative max-w-4xl mx-auto text-center">
         <div className="inline-flex items-center justify-center px-4 py-1.5 mb-8 rounded-full border border-[#8cff2e]/30 bg-black/50 backdrop-blur-sm shadow-[0_0_20px_rgba(140,255,46,0.15)]">
           <span className="text-[#8cff2e] text-[11px] font-sora font-bold tracking-wider uppercase">
-            All-in-One Finance Toolkit
+            from heights we see clearly
           </span>
         </div>
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-medium text-white leading-tight mb-4">

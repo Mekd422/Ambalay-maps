@@ -3,15 +3,14 @@ import React, { useState } from 'react';
 interface PricingTierProps {
   title: string;
   pricePerUnit: number;
-  unitLabel?: string; // e.g., "Map Loads" or "Requests"
-  freeTier?: number;  // e.g., 50000
+  unitLabel?: string; 
+  freeTier?: number;  
 }
 
 const PricingTier = ({ title, pricePerUnit, unitLabel = "Requests", freeTier = 0 }: PricingTierProps) => {
   const [requests, setRequests] = useState<number>(0);
   const maxRequests = 10000000;
 
-  // Calculate cost: (Current - Free) * Price
   const billableRequests = Math.max(0, requests - freeTier);
   const totalCost = (billableRequests * pricePerUnit).toLocaleString(undefined, {
     minimumFractionDigits: 0,
@@ -23,7 +22,6 @@ const PricingTier = ({ title, pricePerUnit, unitLabel = "Requests", freeTier = 0
     setRequests(isNaN(value) ? 0 : value);
   };
 
-  // Logic for the green progress bar style
   const progressPercent = (requests / maxRequests) * 100;
 
   return (
@@ -33,7 +31,7 @@ const PricingTier = ({ title, pricePerUnit, unitLabel = "Requests", freeTier = 0
           {title}
         </h3>
         <span className="text-3xl font-bold text-gray-900 dark:text-white">
-          ${totalCost}
+          {totalCost} Birr
         </span>
       </div>
       
@@ -106,7 +104,6 @@ export default function UsageCalculator() {
         unitLabel="Requests"
       />
 
-      {/* This matches your screenshot with the free tier and orange slider thumb */}
       <PricingTier 
         title="Maps" 
         pricePerUnit={0.007} 
