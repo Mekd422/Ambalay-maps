@@ -59,7 +59,7 @@ export default function Navbar() {
               </span>
               <Link
                 to="/dashboard"
-                className="px-5 py-2 rounded-full text-sm font-medium bg-[#8cff2e] text-white shadow-lg hover:brightness-110 transition-all"
+                className="px-5 py-2 rounded-full text-sm font-medium bg-[#8cff2e] text-black shadow-lg hover:brightness-110 transition-all"
               >
                 Dashboard
               </Link>

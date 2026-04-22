@@ -156,7 +156,7 @@ const { user } = useAuth();
             <button
               onClick={handleUpdate}
               disabled={loading}
-              className="w-full bg-[#8cff2e] text-white font-bold py-3 rounded-lg mt-4"
+              className="w-full bg-[#8cff2e] text-black font-bold py-3 rounded-lg mt-4"
             >
               {loading ? "Updating..." : "Update Account"}
             </button>
@@ -217,7 +217,7 @@ const { user } = useAuth();
             <button
               onClick={handleChangePassword}
               disabled={passwordLoading}
-              className="w-full bg-[#8cff2e] text-white font-bold py-3 rounded-lg mt-4"
+              className="w-full bg-[#8cff2e] text-black font-bold py-3 rounded-lg mt-4"
             >
               {passwordLoading ? "Changing..." : "Change Password"}
             </button>

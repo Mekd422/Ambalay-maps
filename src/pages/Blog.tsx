@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 // import { ArrowUpRight } from "lucide-react";
 
-import heroImg from "../assets/images/landmark.jpg"; 
-import card1 from "../assets/images/blog-2.jpg";
-import card2 from "../assets/images/map-stack.jpg";
+import heroImg from "../assets/images/Landmark-blog.png"; 
+import card1 from "../assets/images/blog-body.png";
+import card2 from "../assets/images/africa.png";
 
 import Navbar from "../Components/layout/Navbar";
 import Footer from "../Components/layout/Footer";
@@ -111,7 +111,7 @@ export default function BlogSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="relative bg-[#0A0A0A] border border-white/5 rounded-[40px] overflow-hidden group mb-10"
+            className="relative bg-[#0A0A0A] border border-white/5  overflow-hidden group mb-10"
           >
             <div className="grid md:grid-cols-2 items-center">
               <div className="h-[300px] md:h-[500px] overflow-hidden">
@@ -146,9 +146,9 @@ export default function BlogSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
-                className="group bg-[#0A0A0A] border border-white/5 rounded-[40px] overflow-hidden hover:border-white/10 transition-colors"
+                className="group bg-[#0A0A0A] border border-white/5 overflow-hidden hover:border-white/10 transition-colors"
               >
-                <div className="relative aspect-[4/3] rounded-[30px] overflow-hidden">
+                <div className="relative aspect-[4/3]  overflow-hidden">
                   <img
                     src={post.image}
                     alt={post.title}
@@ -186,7 +186,7 @@ export default function BlogSection() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                  className="bg-[#0A0A0A] border border-white/5 rounded-[30px] p-6 hover:border-white/10 transition-colors"
+                  className="bg-[#0A0A0A] border border-white/5  p-6 hover:border-white/10 transition-colors"
                 >
                   <span className="text-zinc-500 text-[10px] font-bold uppercase tracking-[0.2em] mb-3 block">
                     {idea.category}

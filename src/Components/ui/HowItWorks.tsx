@@ -1,7 +1,7 @@
 import videoIcon from "../../assets/icons/video-icon.svg"
-import howItWorksImg1 from "../../assets/images/create-acc.png"
-import howItWorksImg2 from "../../assets/images/services.png"
-import howItWorksImg3 from "../../assets/images/how-it-works-img3.png"
+import howItWorksImg1 from "../../assets/images/step-1.png"
+import howItWorksImg2 from "../../assets/images/step-2.png"
+import howItWorksImg3 from "../../assets/images/step-3.png"
 import { motion } from "framer-motion"
 
 export default function HowItWorks() {
@@ -68,28 +68,35 @@ export default function HowItWorks() {
             <motion.div 
               key={item.step}
               variants={cardVariants}
-              className="rounded-[32px] bg-[#0A0A0A] border border-white/5 overflow-hidden transition-all hover:border-white/20 hover:translate-y-[-8px] duration-300 flex flex-col group"
+              className="group relative"
             >
-              <div className="relative bg-[#111] h-72 flex items-center justify-center overflow-hidden">
-                <img 
-                  src={item.img} 
-                  alt={item.title} 
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-              </div>
-
-              <div className="p-8">
-                <div className="inline-flex items-center gap-2 rounded-full bg-black border border-[#8cff2e] px-4 py-1.5 text-xs text-[#8cff2e] uppercase tracking-widest mb-5 shadow-[0_0_12px_rgba(140,255,46,0.2)]">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#8cff2e]" /> {item.step}
-                </div>
+              {/* --- GLOW HALO BEHIND CARD --- */}
+              <div className="absolute -inset-0.5 bg-[#8cff2e]/20 rounded-[32px] blur opacity-0 group-hover:opacity-40 transition duration-500" />
+              
+              {/* --- CARD BODY --- */}
+              <div className="relative h-full rounded-[32px] bg-[#0A0A0A] border border-white/5 overflow-hidden transition-all group-hover:border-[#8cff2e]/30 group-hover:translate-y-[-8px] group-hover:shadow-[0_20px_40px_-15px_rgba(140,255,46,0.2)] duration-500 flex flex-col">
                 
-                <h3 className="text-xl font-semibold text-white mb-3 leading-tight">
-                  {item.title}
-                </h3>
-                <p className="text-base text-zinc-400 leading-relaxed">
-                  {item.desc}
-                </p>
+                <div className="relative bg-[#111] h-72 flex items-center justify-center overflow-hidden">
+                  <img 
+                    src={item.img} 
+                    alt={item.title} 
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent" />
+                </div>
+
+                <div className="p-8">
+                  <div className="inline-flex items-center gap-2 rounded-full bg-black border border-[#8cff2e] px-4 py-1.5 text-xs text-[#8cff2e] uppercase tracking-widest mb-5 shadow-[0_0_12px_rgba(140,255,46,0.2)]">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#8cff2e] animate-pulse" /> {item.step}
+                  </div>
+                  
+                  <h3 className="text-xl font-semibold text-white mb-3 leading-tight group-hover:text-[#8cff2e] transition-colors duration-300">
+                    {item.title}
+                  </h3>
+                  <p className="text-base text-zinc-400 leading-relaxed">
+                    {item.desc}
+                  </p>
+                </div>
               </div>
             </motion.div>
           ))}

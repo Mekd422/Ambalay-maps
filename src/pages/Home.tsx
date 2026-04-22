@@ -11,6 +11,7 @@ import TestimonialMarquee from "../Components/ui/TestimonialMarquee"
 import IndustriesSection from "../Components/ui/IndustriesSection"
 import FAQSection from "../Components/ui/FAQSection"
 import CTASection from "../Components/ui/CTASection"
+// import LogoCloud from "../Components/ui/LogoCloud"
 
 
 import { Canvas } from "@react-three/fiber";
@@ -87,6 +88,7 @@ export default function Home() {
         <PricingSection />
       </div> */}
       <IndustriesSection />
+      {/* <LogoCloud /> */}
       <FAQSection />
       <CTASection />
       <Footer />

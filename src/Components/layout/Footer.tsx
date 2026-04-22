@@ -1,5 +1,7 @@
 import logo from "../../assets/icons/AMBALAY LOGO.png";
 import { Link } from "react-router-dom";
+// Importing icons from lucide-react (Standard for React/Tailwind)
+import { Twitter, Facebook, Instagram, Linkedin } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -22,6 +24,24 @@ export default function Footer() {
             <p className="text-gray-400 text-base leading-relaxed max-w-sm">
               Powerful and scalable geospatial services designed to integrate high-quality mapping, geocoding, routing, and location-based features into your applications.
             </p>
+
+            {/* --- SOCIAL MEDIA ICONS --- */}
+            <div className="flex items-center gap-4 pt-2">
+              {[
+                { icon: Twitter, href: "https://x.com/ambalay_maps" },
+                { icon: Facebook, href: "https://www.facebook.com/ambalaymaps" },
+                { icon: Instagram, href: "https://www.instagram.com/amba.lay.maps/" },
+                { icon: Linkedin, href: "https://www.linkedin.com/company/ambalay-maps/" },
+              ].map((social, index) => (
+                <a
+                  key={index}
+                  href={social.href}
+                  className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-gray-400 hover:bg-[#8cff2e] hover:text-black transition-all duration-300"
+                >
+                  <social.icon size={18} strokeWidth={2} />
+                </a>
+              ))}
+            </div>
             
             <div className="pt-4 flex items-center gap-2 text-sm text-gray-500">
               {/* <span className="text-[#8cff2e]">♥</span> 
