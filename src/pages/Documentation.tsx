@@ -197,6 +197,7 @@ const Documentation = () => {
       {/* Navigation */}
       <nav className="h-16 border-b border-white/5 bg-[#050505]/50 backdrop-blur-md sticky top-0 z-50">
         <div className="w-full h-full flex items-center justify-between px-6 lg:pl-24 lg:pr-12">
+          
           <div className="flex items-center gap-4 lg:gap-8">
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -206,17 +207,20 @@ const Documentation = () => {
             </button>
 
             <Link to="/" className="flex items-center gap-3">
-              <img src={logo} alt="AmbaLay Maps Logo" className=" w-10 h-20 object-contain" />
+              <img src={logo} alt="AmbaLay Maps Logo" className="w-10 h-20 object-contain" />
               <span className="font-semibold text-sm tracking-tight">AmbaLay Maps</span>
             </Link>
-            <div className="hidden sm:flex items-center gap-6 text-sm">
-              <Link to="/" className="text-white hover:text-[#8cff2e] transition-all">Home</Link>
-              <span className="bg-white/10 px-3 py-1 rounded-md text-white transition-all">Documentation</span>
-            </div>
           </div>
+
+          <div className="hidden sm:flex items-center gap-6 text-sm">
+            <Link to="/" className="text-gray-400 hover:text-[#8cff2e] transition-all">Home</Link>
+            <span className="bg-white/10 px-3 py-1 rounded-md text-white transition-all">
+              Documentation
+            </span>
+          </div>
+
         </div>
       </nav>
-
       <div className="flex">
         {/* Mobile Sidebar */}
         <div className={`fixed inset-0 z-40 lg:hidden transition-opacity duration-300 ${isMobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
