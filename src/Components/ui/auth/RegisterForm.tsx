@@ -193,7 +193,7 @@ export default function RegisterForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 px-4 bg-[#8cff2e] text-white font-semibold rounded-lg transition-all shadow-lg shadow-[#557a3a]/20 mt-4 active:scale-[0.98]"
+            className="w-full py-3.5 px-4 bg-[#8cff2e] text-black font-semibold rounded-lg transition-all shadow-lg shadow-[#557a3a]/20 mt-4 active:scale-[0.98]"
           >
             {loading ? "Creating..." : "Create Account"}
           </button>
