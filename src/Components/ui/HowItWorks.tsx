@@ -1,7 +1,7 @@
 import videoIcon from "../../assets/icons/video-icon.svg"
-import howItWorksImg1 from "../../assets/images/acc.jpg"
-import howItWorksImg2 from "../../assets/images/services.png"
-import howItWorksImg3 from "../../assets/images/step-3.jpg"
+import howItWorksImg1 from "../../assets/images/step-1.png"
+import howItWorksImg2 from "../../assets/images/step-2.png"
+import howItWorksImg3 from "../../assets/images/step-3.png"
 import { motion } from "framer-motion"
 
 export default function HowItWorks() {
