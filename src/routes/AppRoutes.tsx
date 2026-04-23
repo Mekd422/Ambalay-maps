@@ -28,7 +28,7 @@ export default function AppRoutes() {
         <Route path="/price"element={<Price/>} />
         <Route path="/register"element={<Register/>} />
         <Route path="/login"element={<Login/>} />
-        <Route path="/dashboard"element={<ProtectedRoute><UserDashboard/></ProtectedRoute>} />
+        <Route path="/dashboard/*" element={<ProtectedRoute><UserDashboard/></ProtectedRoute>} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
       </Routes>

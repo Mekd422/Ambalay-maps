@@ -1,49 +1,87 @@
 import API from "./axios";
 
-export interface BackendMessage {
+export interface ContactMessageRecord {
   id: string;
   firstName: string;
   lastName: string;
   email: string;
-  phone?: string;
+  phoneNumber?: string;
   company: string;
   message?: string;
   status: string;
   inquiryType: string;
   createdAt: string;
+  updatedAt: string;
 }
 
-export interface ContactMessage {
-  name: string;
-  email: string;
-  phone: string;
-  company: string;
-  message: string;
-  inquiryType: string;
-  status: string;
-  date: string;
+export interface ContactMessagesPagination {
+  page: number;
+  limit: number;
+  totalItems: number;
+  totalPages: number;
 }
 
-export const getContactMessages = async (): Promise<ContactMessage[]> => {
+export interface ContactMessagesResult {
+  pagination: ContactMessagesPagination;
+  data: ContactMessageRecord[];
+}
+
+export const formatContactMessageName = (message: Pick<ContactMessageRecord, "firstName" | "lastName">) =>
+  `${message.firstName ?? ""} ${message.lastName ?? ""}`.trim();
+
+export const getContactMessages = async (
+  page = 1,
+  limit = 20
+): Promise<ContactMessagesResult> => {
   try {
-    const res = await API.get("/business/contact_us");
+    const res = await API.get("/business/contact_us", {
+      params: { page, limit },
+    });
 
-    const messages: BackendMessage[] = Array.isArray(res.data.data.data)
+    const messages: ContactMessageRecord[] = Array.isArray(res.data.data?.data)
       ? res.data.data.data
       : [];
 
-    return messages.map((msg) => ({
-      name: `${msg.firstName ?? ""} ${msg.lastName ?? ""}`.trim(),
-      email: msg.email ?? "",
-      phone: msg.phone ?? "",
-      company: msg.company ?? "",
-      message: msg.message ?? "",
-      inquiryType: msg.inquiryType ?? "",
-      status: msg.status ?? "",
-      date: msg.createdAt ? new Date(msg.createdAt).toLocaleString() : "",
-    }));
+    const pagination: ContactMessagesPagination = res.data.data?.pagination ?? {
+      page,
+      limit,
+      totalItems: messages.length,
+      totalPages: 1,
+    };
+
+    return {
+      pagination,
+      data: messages,
+    };
   } catch (err) {
     console.error("Failed to fetch contact messages", err);
     throw err;
   }
+};
+
+export const getContactMessage = async (id: string): Promise<ContactMessageRecord> => {
+  const res = await API.get(`/business/contact_us/${id}`);
+  return res.data.data;
+};
+
+export const updateContactMessageStatus = async (
+  messageId: string,
+  status: string
+): Promise<ContactMessageRecord> => {
+  const res = await API.put("/business/contact_us/status_update", {
+    messageId,
+    status,
+  });
+
+  return res.data.data;
+};
+
+export const getContactUsStatuses = async (): Promise<string[]> => {
+  const res = await API.get("/types/contact_us_statuses");
+  return Array.isArray(res.data.data) ? res.data.data : [];
+};
+
+export const getContactUsInquiries = async (): Promise<string[]> => {
+  const res = await API.get("/types/contact_us_inquiries");
+  return Array.isArray(res.data.data) ? res.data.data : [];
 };
