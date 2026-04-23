@@ -9,6 +9,7 @@ import {
   formatContactMessageName,
   type ContactMessageRecord,
 } from "../../../api/contact";
+import { DashboardCard, DashboardHeader } from "./DashboardShell";
 
 const formatLabel = (value: string) =>
   value
@@ -140,14 +141,13 @@ export default function MessageDetail() {
         Back to Messages
       </Link>
 
-      <div className="bg-[#111111] border border-white/5 rounded-xl shadow-xl p-6 space-y-8">
+      <DashboardCard className="space-y-8">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-          <div>
-            <p className="text-sm uppercase tracking-[0.35em] text-[#8cff2e] mb-2">Message Detail</p>
-            <h2 className="text-2xl font-semibold text-white">{formatContactMessageName(message)}</h2>
-            <p className="text-sm text-gray-400 mt-2">Received {new Date(message.createdAt).toLocaleString()}</p>
-          </div>
-
+          <DashboardHeader
+            kicker="Message Detail"
+            title={formatContactMessageName(message)}
+            subtitle={`Received ${new Date(message.createdAt).toLocaleString()}`}
+          />
           <div className="w-full lg:w-56">
             <div className="mb-3">
               <span
@@ -210,7 +210,7 @@ export default function MessageDetail() {
             <span className="text-white">Last Updated:</span> {new Date(message.updatedAt).toLocaleString()}
           </div>
         </div>
-      </div>
+      </DashboardCard>
     </div>
   );
 }

@@ -7,6 +7,7 @@ import {
   type ContactMessageRecord,
   type ContactMessagesPagination,
 } from "../../../api/contact";
+import { DashboardButton, DashboardCard, DashboardHeader } from "./DashboardShell";
 
 const formatLabel = (value: string) =>
   value
@@ -95,38 +96,31 @@ export default function ContactMessages() {
   };
 
   return (
-    <div className="bg-[#111111] border border-white/5 rounded-xl shadow-xl p-6">
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between mb-6">
-        <div>
-          <p className="text-sm uppercase tracking-[0.35em] text-[#8cff2e] mb-2">Message Inbox</p>
-          <h2 className="text-white font-semibold text-lg">Contact Messages</h2>
-          <p className="text-sm text-gray-400 mt-1">
-            {pagination.totalItems} message{pagination.totalItems === 1 ? "" : "s"} received
-          </p>
-        </div>
-
-        <div className="flex items-center gap-3 text-sm text-gray-400">
-          <button
-            type="button"
-            disabled={pagination.page === 1 || loading}
-            onClick={() => handlePageChange(pagination.page - 1)}
-            className="px-3 py-2 bg-[#070707] rounded-lg border border-white/10 disabled:opacity-30"
-          >
-            Previous
-          </button>
+    <DashboardCard>
+      <DashboardHeader
+        kicker="Message Inbox"
+        title="Contact Messages"
+        subtitle={`${pagination.totalItems} message${pagination.totalItems === 1 ? "" : "s"} received`}
+        actions={(
+          <>
+            <DashboardButton
+              disabled={pagination.page === 1 || loading}
+              onClick={() => handlePageChange(pagination.page - 1)}
+            >
+              Previous
+            </DashboardButton>
           <span>
             Page {pagination.page} of {pagination.totalPages}
           </span>
-          <button
-            type="button"
-            disabled={pagination.page >= pagination.totalPages || loading}
-            onClick={() => handlePageChange(pagination.page + 1)}
-            className="px-3 py-2 bg-[#070707] rounded-lg border border-white/10 disabled:opacity-30"
-          >
-            Next
-          </button>
-        </div>
-      </div>
+            <DashboardButton
+              disabled={pagination.page >= pagination.totalPages || loading}
+              onClick={() => handlePageChange(pagination.page + 1)}
+            >
+              Next
+            </DashboardButton>
+          </>
+        )}
+      />
 
       {loading && <div className="text-gray-400 text-center py-10">Loading messages...</div>}
       {error && <div className="text-red-500 text-center py-10">{error}</div>}
@@ -182,6 +176,6 @@ export default function ContactMessages() {
           </table>
         </div>
       )}
-    </div>
+    </DashboardCard>
   );
 }

@@ -2,6 +2,7 @@ import { Plus, Eye, EyeOff } from "lucide-react";
 import { useEffect, useState } from "react";
 import { AxiosError } from "axios";
 import API from "../../../api/axios";
+import { DashboardButton, DashboardCard, DashboardHeader } from "./DashboardShell";
 
 interface ApiKey {
   id: string;
@@ -109,24 +110,24 @@ export default function ApiKeys() {
   };
 
   const getStatusStyles = (status: string) => {
-    return status === "ACTIVE"
-      ? "bg-green-500/20 text-green-400"
-      : "bg-red-500/20 text-red-400";
+  return status === "ACTIVE"
+      ? "bg-emerald-500/15 text-emerald-300 border-emerald-400/20"
+      : "bg-red-500/15 text-red-300 border-red-400/20";
   };
 
   return (
-    <div className="bg-[#111111] border border-white/5 rounded-xl shadow-xl p-6">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-white font-semibold text-lg">API Keys</h2>
-        <button
-          onClick={() => setShowModal(true)}
-          className="flex items-center gap-2 bg-[#8cff2e]/10 text-[#8cff2e] px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#8cff2e]/20 transition"
-        >
-          <Plus size={16} />
-          New API Key
-        </button>
-      </div>
+    <DashboardCard>
+      <DashboardHeader
+        kicker="Developer Access"
+        title="API Keys"
+        subtitle={`${apiKeys.length} key${apiKeys.length === 1 ? "" : "s"} configured`}
+        actions={(
+          <DashboardButton onClick={() => setShowModal(true)} variant="primary" className="flex items-center gap-2">
+            <Plus size={16} />
+            New API Key
+          </DashboardButton>
+        )}
+      />
 
       {/* Loading & Error States */}
       {loading && <div className="text-gray-400 text-center py-6">Loading API keys...</div>}
@@ -134,14 +135,15 @@ export default function ApiKeys() {
 
       {/* Table */}
       {!loading && !error && (
-        <table className="w-full text-sm text-left">
+        <div className="overflow-x-auto">
+        <table className="w-full text-sm text-left min-w-[860px]">
           <thead className="text-gray-500 border-b border-white/10">
             <tr>
-              <th className="py-3">Label</th>
-              <th>Secret</th>
-              <th>Status</th>
-              <th>Services</th>
-              <th>Created</th>
+              <th className="py-3 pr-4">Label</th>
+              <th className="pr-4">Secret</th>
+              <th className="pr-4">Status</th>
+              <th className="pr-4">Services</th>
+              <th className="pr-4">Created</th>
               <th>Expires</th>
             </tr>
           </thead>
@@ -155,11 +157,10 @@ export default function ApiKeys() {
               </tr>
             ) : (
               apiKeys.map((key) => (
-                <tr key={key.id} className="border-b border-white/5">
-                  <td className="py-3 font-medium text-white">{key.label}</td>
+                <tr key={key.id} className="border-b border-white/5 hover:bg-white/[0.03] transition-colors">
+                  <td className="py-4 pr-4 font-medium text-white">{key.label}</td>
 
-                  {/* SECRET TOGGLE COLUMN */}
-                  <td className="py-3">
+                  <td className="py-4 pr-4">
                     <div className="flex items-center gap-3 font-mono text-xs">
                       <span className="min-w-[140px]">
                         {visibleKeys[key.id] ? key.secret : `${key.secret.slice(0, 6)}••••••••••••`}
@@ -174,13 +175,13 @@ export default function ApiKeys() {
                     </div>
                   </td>
 
-                  <td>
-                    <span className={`px-2 py-1 rounded text-[10px] font-bold ${getStatusStyles(key.status)}`}>
+                  <td className="pr-4">
+                    <span className={`inline-flex px-2.5 py-1 rounded-full text-[10px] font-bold border ${getStatusStyles(key.status)}`}>
                       {key.status}
                     </span>
                   </td>
 
-                  <td>
+                  <td className="pr-4">
                     {key.services.length > 0 ? (
                       <div className="flex gap-1">
                         {key.services.map(s => (
@@ -192,11 +193,11 @@ export default function ApiKeys() {
                     ) : "—"}
                   </td>
 
-                  <td className="text-gray-500">
+                  <td className="pr-4 text-gray-400">
                     {new Date(key.createdAt).toLocaleDateString()}
                   </td>
 
-                  <td className="text-gray-500">
+                  <td className="text-gray-400">
                     {key.expiresAt ? new Date(key.expiresAt).toLocaleDateString() : "—"}
                   </td>
                 </tr>
@@ -204,12 +205,13 @@ export default function ApiKeys() {
             )}
           </tbody>
         </table>
+        </div>
       )}
 
       {/* 🔥 MODAL */}
       {showModal && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-[#0f0f0f] p-6 rounded-xl w-[400px] border border-white/10 shadow-2xl">
+          <div className="bg-[#111111] p-6 rounded-xl w-[400px] border border-white/10 shadow-2xl">
             <h3 className="text-white text-lg font-semibold mb-4">Create API Key</h3>
             <input
               type="text"
@@ -237,23 +239,21 @@ export default function ApiKeys() {
               </div>
             </div>
             <div className="flex justify-end gap-3 pt-2">
-              <button
-                onClick={() => setShowModal(false)}
-                className="px-4 py-2 text-sm text-gray-400 hover:text-white transition"
-              >
+              <DashboardButton onClick={() => setShowModal(false)}>
                 Cancel
-              </button>
-              <button
+              </DashboardButton>
+              <DashboardButton
                 onClick={handleCreate}
                 disabled={creating || !label.trim()}
-                className="px-6 py-2 text-sm bg-[#8cff2e] text-black font-bold rounded-lg hover:bg-[#7be026] disabled:opacity-50 disabled:cursor-not-allowed transition"
+                variant="primary"
+                className="px-6"
               >
                 {creating ? "Creating..." : "Create"}
-              </button>
+              </DashboardButton>
             </div>
           </div>
         </div>
       )}
-    </div>
+    </DashboardCard>
   );
 }

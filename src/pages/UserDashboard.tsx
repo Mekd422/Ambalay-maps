@@ -46,18 +46,6 @@ const Dashboard = () => {
     return <Navigate to="/dashboard" replace />;
   }
 
-  const adminPageTitle = (() => {
-    if (location.pathname.startsWith('/dashboard/messages/')) {
-      return 'Message Detail';
-    }
-
-    const currentItem = adminNavItems.find(
-      (item) => location.pathname === item.path || location.pathname.startsWith(`${item.path}/`)
-    );
-
-    return currentItem?.name ?? 'Dashboard';
-  })();
-
   const isAdminItemActive = (path: string) =>
     location.pathname === path || location.pathname.startsWith(`${path}/`);
 
@@ -132,57 +120,50 @@ const Dashboard = () => {
 
         <main className="flex-1 p-4 md:p-6 lg:p-10 bg-[#070707] overflow-y-auto">
           <div className="max-w-5xl mx-auto">
-            <div className="flex flex-col gap-4 mb-8 border-b border-white/5 pb-6">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex items-center gap-4">
-                  <Link
-                    to="/"
-                    className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors lg:hidden"
-                  >
-                    <Home size={18} />
-                    <span className="text-sm">Home</span>
-                  </Link>
-                  <h1 className="text-2xl sm:text-3xl font-bold text-white">
-                    {isAdmin ? adminPageTitle : (effectiveTab === 'Account' ? 'Account Settings' : effectiveTab)}
-                  </h1>
-                </div>
-                <div className="flex flex-wrap gap-2 lg:hidden overflow-x-auto pb-2">
-                  {isAdmin ? (
-                    adminNavItems.map((item) => {
-                      const active = isAdminItemActive(item.path);
+            <div className="flex flex-col gap-4 mb-8">
+              <Link
+                to="/"
+                className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors lg:hidden"
+              >
+                <Home size={18} />
+                <span className="text-sm">Home</span>
+              </Link>
+              <div className="flex flex-wrap gap-2 lg:hidden overflow-x-auto pb-2">
+                {isAdmin ? (
+                  adminNavItems.map((item) => {
+                    const active = isAdminItemActive(item.path);
 
-                      return (
-                        <NavLink
-                          key={item.name}
-                          to={item.path}
-                          className={`flex items-center gap-2 whitespace-nowrap rounded-full px-3 py-2 text-xs font-semibold transition-all ${
-                            active
-                              ? 'bg-[#8cff2e] text-black shadow-lg'
-                              : 'bg-white/5 text-gray-300 hover:bg-white/10'
-                          }`}
-                        >
-                          <span>{item.icon}</span>
-                          <span>{item.name}</span>
-                        </NavLink>
-                      );
-                    })
-                  ) : (
-                    subjectNavItems.map((item) => (
-                      <button
+                    return (
+                      <NavLink
                         key={item.name}
-                        onClick={() => setActiveTab(item.name)}
+                        to={item.path}
                         className={`flex items-center gap-2 whitespace-nowrap rounded-full px-3 py-2 text-xs font-semibold transition-all ${
-                          effectiveTab === item.name
+                          active
                             ? 'bg-[#8cff2e] text-black shadow-lg'
                             : 'bg-white/5 text-gray-300 hover:bg-white/10'
                         }`}
                       >
                         <span>{item.icon}</span>
                         <span>{item.name}</span>
-                      </button>
-                    ))
-                  )}
-                </div>
+                      </NavLink>
+                    );
+                  })
+                ) : (
+                  subjectNavItems.map((item) => (
+                    <button
+                      key={item.name}
+                      onClick={() => setActiveTab(item.name)}
+                      className={`flex items-center gap-2 whitespace-nowrap rounded-full px-3 py-2 text-xs font-semibold transition-all ${
+                        effectiveTab === item.name
+                          ? 'bg-[#8cff2e] text-black shadow-lg'
+                          : 'bg-white/5 text-gray-300 hover:bg-white/10'
+                      }`}
+                    >
+                      <span>{item.icon}</span>
+                      <span>{item.name}</span>
+                    </button>
+                  ))
+                )}
               </div>
             </div>
 

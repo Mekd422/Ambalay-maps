@@ -4,6 +4,7 @@ import { updateProfile, changePassword } from "../../../api/user";
 import axios from "axios";
 import { useAuth } from "../../../context/useAuth";
 import { useEffect } from "react";
+import { DashboardButton, DashboardCard, DashboardHeader } from "./DashboardShell";
 
 
 
@@ -115,11 +116,15 @@ const { user } = useAuth();
 }, [user]);
 
   return (
-    <div className="animate-in fade-in slide-in-from-bottom-2 duration-500">
+    <div className="animate-in fade-in slide-in-from-bottom-2 duration-500 space-y-6">
+      <DashboardHeader
+        kicker="Settings"
+        title="Account"
+        subtitle="Manage your profile details and login credentials."
+      />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-        {/* Update Account */}
-        <section className="bg-[#111111] border border-white/5 p-6 rounded-xl shadow-xl">
+        <DashboardCard>
           <h2 className="text-lg font-semibold mb-6 text-white">Update Account</h2>
 
           <div className="space-y-4">
@@ -137,7 +142,7 @@ const { user } = useAuth();
               <input
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
-                className="w-full bg-[#070707] border border-white/10 rounded-lg px-4 py-2.5 text-white"
+                className="w-full bg-[#070707] border border-white/10 rounded-lg px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-[#8cff2e]/30"
               />
             </div>
 
@@ -146,25 +151,25 @@ const { user } = useAuth();
               <input
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
-                className="w-full bg-[#070707] border border-white/10 rounded-lg px-4 py-2.5 text-white"
+                className="w-full bg-[#070707] border border-white/10 rounded-lg px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-[#8cff2e]/30"
               />
             </div>
 
             {error && <p className="text-red-500 text-sm">{error}</p>}
             {success && <p className="text-green-500 text-sm">{success}</p>}
 
-            <button
+            <DashboardButton
               onClick={handleUpdate}
               disabled={loading}
-              className="w-full bg-[#8cff2e] text-black font-bold py-3 rounded-lg mt-4"
+              variant="primary"
+              className="w-full py-3 mt-4 font-bold"
             >
               {loading ? "Updating..." : "Update Account"}
-            </button>
+            </DashboardButton>
           </div>
-        </section>
+        </DashboardCard>
 
-        {/* Change Password */}
-        <section className="bg-[#111111] border border-white/5 p-6 rounded-xl shadow-xl">
+        <DashboardCard>
           <h2 className="text-lg font-semibold mb-6 text-white">Change Password</h2>
 
           <div className="space-y-4">
@@ -177,7 +182,7 @@ const { user } = useAuth();
                   type="password"
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
-                  className="w-full bg-[#070707] border border-white/10 rounded-lg px-4 py-2.5 text-white"
+                  className="w-full bg-[#070707] border border-white/10 rounded-lg px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-[#8cff2e]/30"
                 />
                 <Eye size={18} className="absolute right-3 top-3 text-gray-600" />
               </div>
@@ -191,7 +196,7 @@ const { user } = useAuth();
                   type="password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full bg-[#070707] border border-white/10 rounded-lg px-4 py-2.5 text-white"
+                  className="w-full bg-[#070707] border border-white/10 rounded-lg px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-[#8cff2e]/30"
                 />
                 <Eye size={18} className="absolute right-3 top-3 text-gray-600" />
               </div>
@@ -205,7 +210,7 @@ const { user } = useAuth();
                   type="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full bg-[#070707] border border-white/10 rounded-lg px-4 py-2.5 text-white"
+                  className="w-full bg-[#070707] border border-white/10 rounded-lg px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-[#8cff2e]/30"
                 />
                 <Eye size={18} className="absolute right-3 top-3 text-gray-600" />
               </div>
@@ -214,16 +219,17 @@ const { user } = useAuth();
             {passwordError && <p className="text-red-500 text-sm">{passwordError}</p>}
             {passwordSuccess && <p className="text-green-500 text-sm">{passwordSuccess}</p>}
 
-            <button
+            <DashboardButton
               onClick={handleChangePassword}
               disabled={passwordLoading}
-              className="w-full bg-[#8cff2e] text-black font-bold py-3 rounded-lg mt-4"
+              variant="primary"
+              className="w-full py-3 mt-4 font-bold"
             >
               {passwordLoading ? "Changing..." : "Change Password"}
-            </button>
+            </DashboardButton>
 
           </div>
-        </section>
+        </DashboardCard>
 
       </div>
     </div>
