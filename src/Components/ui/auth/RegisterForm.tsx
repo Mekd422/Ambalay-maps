@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { signup } from "../../../api/auth";
-import { AxiosError } from "axios";
-
-interface ErrorResponse {
-  message: string;
-}
+import { getAuthErrorMessage, signup } from "../../../api/auth";
 
 export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -44,24 +39,23 @@ export default function RegisterForm() {
     try {
       setLoading(true);
 
-      await signup({
+      const challenge = await signup({
         firstName: formData.firstName,
         lastName: formData.lastName,
         email: formData.email,
         password: formData.password
       });
 
-      navigate("/login");
+      const params = new URLSearchParams({
+        flow: "signup",
+        challengeId: challenge.challengeId,
+        expiresAt: challenge.expiresAt,
+      });
+
+      navigate(`/verify-otp?${params.toString()}`);
 
     } catch (err) {
-      const axiosError = err as AxiosError<ErrorResponse>;
-      const message = axiosError.response?.data?.message;
-
-      if (message === "EMAIL_ALREADY_EXISTS") {
-        setError("Email already exists");
-      } else {
-        setError("Something went wrong");
-      }
+      setError(getAuthErrorMessage(err));
     } finally {
       setLoading(false);
     }

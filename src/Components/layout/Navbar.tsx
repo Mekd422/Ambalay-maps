@@ -46,7 +46,6 @@ export default function Navbar() {
           <Link to="/price" className={linkStyles}>Pricing</Link>
           <Link to="/documentation" className={linkStyles}>Documentation</Link>
           <Link to="/blog" className={linkStyles}>Blog</Link>
-          {/* <Link to="/shop" className={linkStyles}>Shop</Link> */}
           <Link to="/contact" className={linkStyles}>Contact</Link>
         </div>
 
@@ -103,7 +102,6 @@ export default function Navbar() {
             <Link to="/contact" onClick={() => setIsMenuOpen(false)}>Contact</Link>
             <Link to="/documentation" onClick={() => setIsMenuOpen(false)}>Documentation</Link>
             <Link to="/blog" onClick={() => setIsMenuOpen(false)}>Blog</Link>
-            <Link to="/shop" onClick={() => setIsMenuOpen(false)}>Shop</Link>
             
             <hr className="w-full border-gray-100 dark:border-white/10" />
             

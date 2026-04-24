@@ -8,6 +8,9 @@ import Price from "../pages/Pricing"
 import ScrollToHash from "../utils/ScrollToHash"
 import Register from "../pages/RegisterPage"
 import Login from "../pages/Login"
+import VerifyOtp from "../pages/VerifyOtp"
+import ForgotPassword from "../pages/ForgotPassword"
+import ResetPassword from "../pages/ResetPassword"
 import UserDashboard from "../pages/UserDashboard"
 import ProtectedRoute from "../Components/ProtectedRoute"
 import PublicOnlyRoute from "../Components/PublicOnlyRoute"
@@ -29,6 +32,9 @@ export default function AppRoutes() {
         <Route path="/price"element={<Price/>} />
         <Route path="/register"element={<PublicOnlyRoute><Register/></PublicOnlyRoute>} />
         <Route path="/login"element={<PublicOnlyRoute><Login/></PublicOnlyRoute>} />
+        <Route path="/verify-otp" element={<PublicOnlyRoute><VerifyOtp /></PublicOnlyRoute>} />
+        <Route path="/forgot-password" element={<PublicOnlyRoute><ForgotPassword /></PublicOnlyRoute>} />
+        <Route path="/reset-password" element={<PublicOnlyRoute><ResetPassword /></PublicOnlyRoute>} />
         <Route path="/dashboard/*" element={<ProtectedRoute><UserDashboard/></ProtectedRoute>} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
