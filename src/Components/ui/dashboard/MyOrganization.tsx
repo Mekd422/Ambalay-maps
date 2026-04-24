@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getMySubscription } from "../../../api/subscription";
+import { DashboardCard, DashboardHeader } from "./DashboardShell";
 
 interface SubscriptionItem {
   id: string;
@@ -51,20 +52,21 @@ export default function MyOrganization() {
   }, []);
 
   if (!data.length) {
-    return <p className="text-gray-400">Loading subscription...</p>;
+    return <DashboardCard><div className="text-gray-400 text-center py-10">Loading subscription...</div></DashboardCard>;
   }
 
   return (
     <div className="space-y-6">
+      <DashboardHeader
+        kicker="Organization Overview"
+        title="My Organization"
+        subtitle="Review your active subscription, billing period, and usage allocation."
+      />
       {data.map((sub) => {
         const isActive = sub.status === "ACTIVE";
 
         return (
-          <div
-            key={sub.id}
-            className="bg-[#0b0b0b] p-6 rounded-2xl border border-white/10 shadow-xl space-y-6"
-          >
-            {/* Header */}
+          <DashboardCard key={sub.id} className="space-y-6">
             <div className="flex justify-between items-center">
               <h2 className="text-xl font-semibold text-white">
                 My Subscription
@@ -81,8 +83,7 @@ export default function MyOrganization() {
               </span>
             </div>
 
-            {/* Plan Info */}
-            <div className="bg-[#111] p-4 rounded-xl border border-white/5">
+            <div className="bg-white/5 p-4 rounded-xl border border-white/10">
               <p className="text-sm text-gray-400">Current Plan</p>
               <h3 className="text-lg font-semibold text-[#8cff2e]">
                 {sub.subscriptionPlan?.label || "No active plan"}
@@ -108,7 +109,6 @@ export default function MyOrganization() {
               </p>
             </div>
 
-            {/* Usage Section */}
             <div>
               <h3 className="text-md font-semibold text-white mb-3">
                 Usage
@@ -136,7 +136,7 @@ export default function MyOrganization() {
                           </span>
                         </div>
 
-                        <div className="w-full bg-[#1a1a1a] rounded-full h-2">
+                        <div className="w-full bg-[#070707] rounded-full h-2 border border-white/5">
                           <div
                             className="h-2 rounded-full bg-[#8cff2e] transition-all"
                             style={{ width: `${percent}%` }}
@@ -149,10 +149,10 @@ export default function MyOrganization() {
               ) : (
                 <p className="text-gray-500">
                   No usage data available
-                </p>
+                  </p>
               )}
             </div>
-          </div>
+          </DashboardCard>
         );
       })}
     </div>

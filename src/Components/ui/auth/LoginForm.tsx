@@ -1,18 +1,15 @@
 import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { signin } from "../../../api/auth";
-import { useAuth } from "../../../context/useAuth";
-import axios from "axios";
+import { getAuthErrorMessage, signin } from "../../../api/auth";
 
-interface ErrorResponse {
-  message: string;
+interface LoginFormProps {
+  flashMessage?: string;
 }
 
-export default function LoginForm() {
+export default function LoginForm({ flashMessage }: LoginFormProps) {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth();
 
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
@@ -43,25 +40,18 @@ export default function LoginForm() {
     try {
       setLoading(true);
 
-      const res = await signin(formData);
+      const challenge = await signin(formData);
+      const params = new URLSearchParams({
+        flow: "signin",
+        challengeId: challenge.challengeId,
+        expiresAt: challenge.expiresAt,
+      });
 
-      const token = res.data?.data?.token || res.data?.token;
-
-      if (!token) {
-        throw new Error("No token received");
-      }
-
-      await login(token); 
-      navigate("/dashboard");
+      navigate(`/verify-otp?${params.toString()}`);
 
     } catch (err) {
       console.error("Login error:", err);
-      if (axios.isAxiosError<ErrorResponse>(err)) {
-        const message = err.response?.data?.message || err.message || "Login failed";
-        setError(message);
-      } else {
-        setError("Unexpected error occurred");
-      }
+      setError(getAuthErrorMessage(err, "Login failed"));
     } finally {
       setLoading(false);
     }
@@ -82,6 +72,11 @@ export default function LoginForm() {
       {/* Form */}
       <div className="w-full max-w-md bg-white dark:bg-[#0f0f0f] border border-gray-100 dark:border-white/5 p-8 md:p-10 rounded-2xl shadow-2xl">
         <form onSubmit={handleSubmit} className="space-y-6">
+          {flashMessage && (
+            <div className="text-emerald-600 text-sm text-center bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-lg p-3">
+              {flashMessage}
+            </div>
+          )}
           
           {/* Email */}
           <div className="space-y-2">

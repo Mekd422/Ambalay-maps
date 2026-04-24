@@ -111,7 +111,8 @@ export default function BlogSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="relative bg-[#0A0A0A] border border-white/5  overflow-hidden group mb-10"
+            // --- ADDED rounded-3xl HERE ---
+            className="relative bg-[#0A0A0A] border border-white/5 rounded-3xl overflow-hidden group mb-10"
           >
             <div className="grid md:grid-cols-2 items-center">
               <div className="h-[300px] md:h-[500px] overflow-hidden">
@@ -146,9 +147,10 @@ export default function BlogSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
-                className="group bg-[#0A0A0A] border border-white/5 overflow-hidden hover:border-white/10 transition-colors"
+                // --- ADDED rounded-3xl HERE ---
+                className="group bg-[#0A0A0A] border border-white/5 rounded-3xl overflow-hidden hover:border-white/10 transition-colors"
               >
-                <div className="relative aspect-[4/3]  overflow-hidden">
+                <div className="relative aspect-[4/3] overflow-hidden">
                   <img
                     src={post.image}
                     alt={post.title}
@@ -186,7 +188,8 @@ export default function BlogSection() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                  className="bg-[#0A0A0A] border border-white/5  p-6 hover:border-white/10 transition-colors"
+                  // Adding rounded-2xl for consistency, though this card doesn't have an image
+                  className="bg-[#0A0A0A] border border-white/5 rounded-2xl p-6 hover:border-white/10 transition-colors"
                 >
                   <span className="text-zinc-500 text-[10px] font-bold uppercase tracking-[0.2em] mb-3 block">
                     {idea.category}

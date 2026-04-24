@@ -93,7 +93,7 @@ export default function UsageCalculator() {
       </div>
 
       <PricingTier 
-        title="Autocomplete" 
+        title="Routing" 
         pricePerUnit={0.002} 
         unitLabel="Requests"
       />
@@ -105,10 +105,33 @@ export default function UsageCalculator() {
       />
 
       <PricingTier 
-        title="Maps" 
+        title="Geocoding" 
         pricePerUnit={0.007} 
-        unitLabel="Map Loads" 
-        freeTier={50000} 
+        unitLabel="Requests"
+      />
+
+      <PricingTier 
+        title="Static Maps" 
+        pricePerUnit={0.007} 
+        unitLabel="Requests"
+      />
+
+      <PricingTier 
+        title="Matrix API" 
+        pricePerUnit={0.007} 
+        unitLabel="Requests"
+      />
+      
+      <PricingTier 
+        title="LLM" 
+        pricePerUnit={0.007} 
+        unitLabel="Requests"
+      />
+
+      <PricingTier 
+        title="Optimized Route API" 
+        pricePerUnit={0.007} 
+        unitLabel="Requests"
       />
     </section>
   );

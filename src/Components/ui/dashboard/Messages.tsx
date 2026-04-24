@@ -1,39 +1,72 @@
-import React, { useEffect, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { getContactMessages } from "../../../api/contact";
+import { useEffect, useState } from "react";
 import { AxiosError } from "axios";
+import { useNavigate } from "react-router-dom";
+import {
+  formatContactMessageName,
+  getContactMessages,
+  type ContactMessageRecord,
+  type ContactMessagesPagination,
+} from "../../../api/contact";
+import { DashboardButton, DashboardCard, DashboardHeader } from "./DashboardShell";
 
-interface ContactMessage {
-  name: string;
-  email: string;
-  phone: string;
-  company: string;
-  message: string;
-  inquiryType: string;
-  status: string;
-  date: string;
-}
+const formatLabel = (value: string) =>
+  value
+    .toLowerCase()
+    .split("_")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
 
-const ContactMessages: React.FC = () => {
-  const [messages, setMessages] = useState<ContactMessage[]>([]);
+const getStatusBadgeClassName = (status: string) => {
+  switch (status) {
+    case "RECEIVED":
+      return "bg-amber-500/15 text-amber-300 border-amber-400/20";
+    case "READ":
+      return "bg-blue-500/15 text-blue-300 border-blue-400/20";
+    case "CONTACTED":
+      return "bg-violet-500/15 text-violet-300 border-violet-400/20";
+    case "RESOLVED":
+      return "bg-emerald-500/15 text-emerald-300 border-emerald-400/20";
+    default:
+      return "bg-white/5 text-gray-200 border-white/10";
+  }
+};
+
+const getInquiryBadgeClassName = (inquiryType: string) => {
+  switch (inquiryType) {
+    case "TECHNICAL_SUPPORT":
+      return "bg-cyan-500/15 text-cyan-300 border-cyan-400/20";
+    case "PARTNERSHIP_OPPORTUNITY":
+      return "bg-fuchsia-500/15 text-fuchsia-300 border-fuchsia-400/20";
+    case "SALES":
+      return "bg-orange-500/15 text-orange-300 border-orange-400/20";
+    case "OTHER":
+      return "bg-slate-500/15 text-slate-300 border-slate-400/20";
+    default:
+      return "bg-white/5 text-gray-200 border-white/10";
+  }
+};
+
+export default function ContactMessages() {
+  const navigate = useNavigate();
+  const [messages, setMessages] = useState<ContactMessageRecord[]>([]);
+  const [pagination, setPagination] = useState<ContactMessagesPagination>({
+    page: 1,
+    limit: 20,
+    totalItems: 0,
+    totalPages: 1,
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
-  const statusOptions = ["RECEIVED", "READ", "CONTACTED", "RESOLVED"];
-
-  const handleStatusChange = (index: number, value: string) => {
-    setMessages((prevMessages) => {
-      const updated = [...prevMessages];
-      updated[index] = { ...updated[index], status: value };
-      return updated;
-    });
-  };
 
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const data = await getContactMessages();
-        setMessages(data);
+        setLoading(true);
+        setError("");
+
+        const result = await getContactMessages(pagination.page, pagination.limit);
+        setMessages(result.data);
+        setPagination(result.pagination);
       } catch (err: unknown) {
         if (err instanceof AxiosError) {
           if (err.response?.status === 401) {
@@ -52,105 +85,97 @@ const ContactMessages: React.FC = () => {
     };
 
     fetchMessages();
-  }, []);
+  }, [pagination.page, pagination.limit]);
 
-  if (loading) {
-    return <div className="text-white p-6">Loading messages...</div>;
-  }
+  const handlePageChange = (nextPage: number) => {
+    if (nextPage < 1 || nextPage > pagination.totalPages || nextPage === pagination.page) {
+      return;
+    }
 
-  if (error) {
-    return <div className="text-red-500 p-6">{error}</div>;
-  }
-
-  if (messages.length === 0) {
-    return <div className="text-white p-6">No messages found.</div>;
-  }
+    setPagination((prev) => ({ ...prev, page: nextPage }));
+  };
 
   return (
-    <div className="p-6 bg-black min-h-screen font-sans text-white">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between mb-8">
-          <div>
-            <p className="text-sm uppercase tracking-[0.35em] text-[#8cff2e] mb-2">Message Inbox</p>
-            <h1 className="text-3xl font-bold tracking-tight">Contact Messages</h1>
-            <p className="text-sm text-gray-400">{messages.length} message{messages.length !== 1 ? "s" : ""} received</p>
-          </div>
-          <div className="flex items-center gap-3">
-            <button className="p-2 bg-[#141414] border border-[#222] rounded text-gray-400 hover:text-white transition-colors">
-              <ChevronLeft size={18} />
-            </button>
-            <span className="text-xs text-gray-500 font-medium whitespace-nowrap">Page 1 of 1</span>
-            <button className="p-2 bg-[#0062FF] rounded text-white hover:bg-blue-600 shadow-[0_0_10px_rgba(0,98,255,0.2)] transition-colors">
-              <ChevronRight size={18} />
-            </button>
-          </div>
-        </div>
+    <DashboardCard>
+      <DashboardHeader
+        kicker="Message Inbox"
+        title="Contact Messages"
+        subtitle={`${pagination.totalItems} message${pagination.totalItems === 1 ? "" : "s"} received`}
+        actions={(
+          <>
+            <DashboardButton
+              disabled={pagination.page === 1 || loading}
+              onClick={() => handlePageChange(pagination.page - 1)}
+            >
+              Previous
+            </DashboardButton>
+          <span>
+            Page {pagination.page} of {pagination.totalPages}
+          </span>
+            <DashboardButton
+              disabled={pagination.page >= pagination.totalPages || loading}
+              onClick={() => handlePageChange(pagination.page + 1)}
+            >
+              Next
+            </DashboardButton>
+          </>
+        )}
+      />
 
-        <div className="space-y-6">
-          {messages.map((msg, index) => (
-            <div key={index} className="bg-[#0a0a0a] ring-1 ring-white/10 rounded-3xl p-8 shadow-[0_25px_80px_rgba(0,0,0,0.35)]">
-              <div className="grid gap-8 lg:grid-cols-[1.4fr_0.9fr]">
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-white/50 mb-2">Name</p>
-                    <p className="text-sm text-gray-100 font-semibold">{msg.name}</p>
-                  </div>
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-white/50 mb-2">Email</p>
-                    <p className="text-sm text-gray-100">{msg.email}</p>
-                  </div>
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-white/50 mb-2">Phone</p>
-                    <p className="text-sm text-gray-100">{msg.phone || "N/A"}</p>
-                  </div>
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-white/50 mb-2">Company</p>
-                    <p className="text-sm text-gray-100">{msg.company || "N/A"}</p>
-                  </div>
-                </div>
+      {loading && <div className="text-gray-400 text-center py-10">Loading messages...</div>}
+      {error && <div className="text-red-500 text-center py-10">{error}</div>}
 
-                <div className="space-y-5">
-                  <div className="flex flex-col gap-2">
-                    <p className="text-xs uppercase tracking-[0.2em] text-white/50">Inquiry Type</p>
-                    <span className="inline-flex items-center rounded-full bg-[#8cff2e]/15 text-[#8cff2e] px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em]">
-                      {msg.inquiryType}
-                    </span>
-                  </div>
+      {!loading && !error && messages.length === 0 && (
+        <div className="text-gray-400 text-center py-10">No messages found.</div>
+      )}
 
-                  <div className="flex flex-col gap-2">
-                    <label className="text-xs uppercase tracking-[0.2em] text-white/50">Status</label>
-                    <select
-                      value={msg.status}
-                      onChange={(e) => handleStatusChange(index, e.target.value)}
-                      className="w-full rounded-xl bg-white/5 border border-white/10 py-3 px-4 text-sm text-white outline-none focus:ring-2 focus:ring-[#8cff2e]/30"
+      {!loading && !error && messages.length > 0 && (
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm text-left min-w-[780px]">
+            <thead className="text-gray-500 border-b border-white/10">
+              <tr>
+                <th className="py-3 pr-4">Name</th>
+                <th className="py-3 pr-4">Email</th>
+                <th className="py-3 pr-4">Company</th>
+                <th className="py-3 pr-4">Type</th>
+                <th className="py-3 pr-4">Status</th>
+                <th className="py-3">Date</th>
+              </tr>
+            </thead>
+
+            <tbody className="text-gray-300">
+              {messages.map((message) => (
+                <tr
+                  key={message.id}
+                  onClick={() => navigate(`/dashboard/messages/${message.id}`)}
+                  className="border-b border-white/5 cursor-pointer hover:bg-white/[0.03] transition-colors"
+                >
+                  <td className="py-4 pr-4 font-medium text-white">{formatContactMessageName(message)}</td>
+                  <td className="py-4 pr-4">{message.email}</td>
+                  <td className="py-4 pr-4">{message.company || "N/A"}</td>
+                  <td className="py-4 pr-4">
+                    <span
+                      className={`inline-flex px-2.5 py-1 rounded-full text-[10px] font-bold border ${getInquiryBadgeClassName(message.inquiryType)}`}
                     >
-                      {statusOptions.map((status) => (
-                        <option key={status} value={status} className="bg-[#050505] text-white">
-                          {status.charAt(0) + status.slice(1).toLowerCase()}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="flex flex-col gap-2">
-                    <p className="text-xs uppercase tracking-[0.2em] text-white/50">Date Received</p>
-                    <p className="text-sm text-gray-300">{msg.date}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-8 border-t border-white/10 pt-6">
-                <p className="text-xs uppercase tracking-[0.2em] text-white/50 mb-3">Message</p>
-                <div className="rounded-3xl bg-white/5 border border-white/10 p-6 text-sm leading-7 text-gray-200">
-                  {msg.message || "No message content provided."}
-                </div>
-              </div>
-            </div>
-          ))}
+                      {formatLabel(message.inquiryType)}
+                    </span>
+                  </td>
+                  <td className="py-4 pr-4">
+                    <span
+                      className={`inline-flex px-2.5 py-1 rounded-full text-[10px] font-bold border ${getStatusBadgeClassName(message.status)}`}
+                    >
+                      {formatLabel(message.status)}
+                    </span>
+                  </td>
+                  <td className="py-4 text-gray-400">
+                    {new Date(message.createdAt).toLocaleString()}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      </div>
-    </div>
+      )}
+    </DashboardCard>
   );
-};
-
-export default ContactMessages;
+}

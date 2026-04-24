@@ -10,6 +10,7 @@ import {
   togglePlanActive,
 } from "../../../api/subscription";
 import { useAuth } from "../../../context/useAuth";
+import { DashboardButton, DashboardCard, DashboardHeader } from "./DashboardShell";
 
 interface PlanItem {
   service: string;
@@ -150,28 +151,23 @@ export default function Plans() {
 
   return (
     <div className="space-y-10">
-
-      {isAdmin && (
-        <div className="flex justify-between items-center">
-          <h2 className="text-white text-lg font-semibold">
-            Manage Plans
-          </h2>
-
-          <button
-            onClick={() => setShowCreate(!showCreate)}
-            className="flex items-center gap-2 px-4 py-2 bg-[#8cff2e] text-black rounded-lg font-semibold"
-          >
+      <DashboardHeader
+        kicker={isAdmin ? "Administration" : "Subscription Catalog"}
+        title="Plans"
+        subtitle={isAdmin ? "Create, review, and enable subscription plans." : "Choose the plan that fits your usage needs."}
+        actions={isAdmin ? (
+          <DashboardButton onClick={() => setShowCreate(!showCreate)} variant="primary" className="flex items-center gap-2">
             <Plus size={16} />
-            Create Plan
-          </button>
-        </div>
-      )}
+            {showCreate ? "Close" : "Create Plan"}
+          </DashboardButton>
+        ) : undefined}
+      />
 
       {isAdmin && showCreate && (
-        <div className="bg-[#111] p-6 rounded-xl border border-white/10 space-y-3">
+        <DashboardCard className="space-y-3">
           <input
             placeholder="Label"
-            className="w-full p-2 bg-black text-white border border-white/10 rounded"
+            className="w-full p-3 bg-[#070707] text-white border border-white/10 rounded-lg outline-none focus:ring-2 focus:ring-[#8cff2e]/30"
             value={newPlan.label}
             onChange={(e) =>
               setNewPlan({ ...newPlan, label: e.target.value })
@@ -180,20 +176,17 @@ export default function Plans() {
 
           <textarea
             placeholder="Description"
-            className="w-full p-2 bg-black text-white border border-white/10 rounded"
+            className="w-full p-3 bg-[#070707] text-white border border-white/10 rounded-lg outline-none focus:ring-2 focus:ring-[#8cff2e]/30"
             value={newPlan.description}
             onChange={(e) =>
               setNewPlan({ ...newPlan, description: e.target.value })
             }
           />
 
-          <button
-            onClick={handleCreatePlan}
-            className="bg-[#8cff2e] text-black px-4 py-2 rounded font-semibold"
-          >
+          <DashboardButton onClick={handleCreatePlan} variant="primary" className="w-fit font-semibold">
             Save Plan
-          </button>
-        </div>
+          </DashboardButton>
+        </DashboardCard>
       )}
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

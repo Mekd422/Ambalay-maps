@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { Plus, Minus, ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const faqs = [
-    { q: "What kind of businesses is this template built for?", a: "AmbaLay is designed for SaaS tools, dashboards, fintech platforms, or any digital product that needs a modern, conversion-focused landing page. It's fully customizable to fit a wide range of web-based services." },
-    { q: "Is the template mobile-friendly and responsive?", a: "Yes, every component is built with a mobile-first approach using Tailwind CSS responsive utilities." },
-    { q: "Can I use this template without coding skills?", a: "While it is a React/Tailwind template, the structure is modular enough that someone with basic HTML/CSS knowledge can easily swap content." },
-    { q: "Will I get access to future updates?", a: "Absolutely. All purchasers receive lifetime updates as we add new sections and improve performance." },
-    { q: "Can I use this template for commercial projects?", a: "Definitely. AmbaLay is licensed for both personal and commercial use, so you can build client websites or launch your own product without any licensing issues." },
-    { q: "How can I get support if I run into issues?", a: "We’re here to help. If you have questions, you can reach us directly at hello@ambalay.com. We usually respond within 24 hours." }
+    { q: "How do I get an API key?", a: "You can sign up for an API key by creating an account on our developer portal. The free tier provides access to all API endpoints with usage limits." },
+    { q: "What payment methods do you accept?", a: "We accept all major credit cards, PayPal, and wire transfers for enterprise customers. Invoicing options are available for annual contracts." },
+    { q: "Do you offer technical support?", a: "Yes, we provide email support for all customers. Enterprise plans include priority support with dedicated response times and phone support options." },
+    { q: "Can I use AmbaLay Maps for commercial projects?", a: "Our API is designed for both personal and commercial use. Different pricing tiers are available based on your usage requirements." },
+    { q: "What is your uptime guarantee?", a: "We offer a 99.9% uptime SLA for all paid plans. Enterprise customers receive enhanced SLAs with financial guarantees." },
   ];
 
   return (
@@ -24,9 +24,9 @@ export default function FAQSection() {
           </div>
           <div className="space-y-3 md:text-right">
             <p className="text-gray-500 text-sm max-w-xs">Here's everything you need to know before getting started.</p>
-            <a href="#contact" className="inline-flex items-center gap-2 text-[#8cff2e] hover:underline text-sm font-bold">
+            <Link to="/contact" className="inline-flex items-center gap-2 text-[#8cff2e] hover:underline text-sm font-bold">
               Contact us <ArrowUpRight size={14} />
-            </a>
+            </Link>
           </div>
         </div>
 

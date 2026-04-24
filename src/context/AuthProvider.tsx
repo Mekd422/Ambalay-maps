@@ -28,8 +28,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     fetchUser();
   }, [token]);
 
-  const login = async (newToken: string) => {
+  const login = async (newToken: string, newUser?: User | null) => {
     setToken(newToken);
+    if (newUser) {
+      setUser(newUser);
+    }
     sessionStorage.setItem("token", newToken); // 🔥 persist
   };
 
