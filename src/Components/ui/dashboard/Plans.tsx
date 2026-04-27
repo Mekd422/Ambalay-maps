@@ -11,7 +11,7 @@ import {
 } from "../../../api/subscription";
 import { useAuth } from "../../../context/useAuth";
 import { DashboardButton, DashboardCard, DashboardHeader } from "./DashboardShell";
-import { useServices } from "../../../hooks/useServices"; 
+import { useServices } from "../../../hooks/useServices";
 
 interface PlanItem {
   service: string;
@@ -47,7 +47,7 @@ export default function Plans() {
     description: "",
   });
 
-  const { services } = useServices(); 
+  const { services } = useServices();
   const [selectedItems, setSelectedItems] = useState<PlanItem[]>([]);
 
   const fetchPlansData = useCallback(async () => {
@@ -140,7 +140,7 @@ export default function Plans() {
     if (checked) {
       setSelectedItems((prev) => [
         ...prev,
-        { service, amount: 0 },
+        { service, amount: 1000 },
       ]);
     } else {
       setSelectedItems((prev) =>
@@ -150,29 +150,45 @@ export default function Plans() {
   };
 
   const handleAmountChange = (service: string, amount: number) => {
+    const safeAmount = Math.max(1, amount);
+
     setSelectedItems((prev) =>
       prev.map((item) =>
-        item.service === service ? { ...item, amount } : item
+        item.service === service ? { ...item, amount: safeAmount } : item
       )
     );
   };
 
   const handleCreatePlan = async () => {
     try {
+      if (!newPlan.label.trim()) {
+        alert("Label is required");
+        return;
+      }
+
       if (selectedItems.length === 0) {
         alert("Please select at least one service");
+        return;
+      }
+
+      const hasInvalidAmount = selectedItems.some(
+        (item) => !item.amount || item.amount <= 0
+      );
+
+      if (hasInvalidAmount) {
+        alert("All services must have a valid amount (> 0)");
         return;
       }
 
       await createPlan({
         label: newPlan.label,
         description: newPlan.description,
-        items: selectedItems, 
+        items: selectedItems,
       });
 
       setShowCreate(false);
       setNewPlan({ label: "", description: "" });
-      setSelectedItems([]); 
+      setSelectedItems([]);
 
       await fetchPlansData();
     } catch (err) {
@@ -237,7 +253,7 @@ export default function Plans() {
                   {selected && (
                     <input
                       type="number"
-                      placeholder="Amount"
+                      min="1"
                       className="p-2 bg-black border border-white/10 rounded w-32"
                       value={selected.amount}
                       onChange={(e) =>
