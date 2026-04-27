@@ -11,6 +11,7 @@ import {
 } from "../../../api/subscription";
 import { useAuth } from "../../../context/useAuth";
 import { DashboardButton, DashboardCard, DashboardHeader } from "./DashboardShell";
+import { useServices } from "../../../hooks/useServices"; 
 
 interface PlanItem {
   service: string;
@@ -45,6 +46,9 @@ export default function Plans() {
     label: "",
     description: "",
   });
+
+  const { services } = useServices(); 
+  const [selectedItems, setSelectedItems] = useState<PlanItem[]>([]);
 
   const fetchPlansData = useCallback(async () => {
     try {
@@ -132,16 +136,43 @@ export default function Plans() {
     }
   };
 
+  const handleServiceToggle = (service: string, checked: boolean) => {
+    if (checked) {
+      setSelectedItems((prev) => [
+        ...prev,
+        { service, amount: 0 },
+      ]);
+    } else {
+      setSelectedItems((prev) =>
+        prev.filter((item) => item.service !== service)
+      );
+    }
+  };
+
+  const handleAmountChange = (service: string, amount: number) => {
+    setSelectedItems((prev) =>
+      prev.map((item) =>
+        item.service === service ? { ...item, amount } : item
+      )
+    );
+  };
+
   const handleCreatePlan = async () => {
     try {
+      if (selectedItems.length === 0) {
+        alert("Please select at least one service");
+        return;
+      }
+
       await createPlan({
         label: newPlan.label,
         description: newPlan.description,
-        items: [{ service: "TILES", amount: 1000 }],
+        items: selectedItems, 
       });
 
       setShowCreate(false);
       setNewPlan({ label: "", description: "" });
+      setSelectedItems([]); 
 
       await fetchPlansData();
     } catch (err) {
@@ -164,7 +195,7 @@ export default function Plans() {
       />
 
       {isAdmin && showCreate && (
-        <DashboardCard className="space-y-3">
+        <DashboardCard className="space-y-4">
           <input
             placeholder="Label"
             className="w-full p-3 bg-[#070707] text-white border border-white/10 rounded-lg outline-none focus:ring-2 focus:ring-[#8cff2e]/30"
@@ -182,6 +213,45 @@ export default function Plans() {
               setNewPlan({ ...newPlan, description: e.target.value })
             }
           />
+
+          <div className="space-y-3">
+            <p className="text-sm text-gray-400">Select Services</p>
+
+            {services.map((service) => {
+              const selected = selectedItems.find(
+                (item) => item.service === service
+              );
+
+              return (
+                <div key={service} className="flex items-center gap-3">
+                  <input
+                    type="checkbox"
+                    checked={!!selected}
+                    onChange={(e) =>
+                      handleServiceToggle(service, e.target.checked)
+                    }
+                  />
+
+                  <span className="text-white w-32">{service}</span>
+
+                  {selected && (
+                    <input
+                      type="number"
+                      placeholder="Amount"
+                      className="p-2 bg-black border border-white/10 rounded w-32"
+                      value={selected.amount}
+                      onChange={(e) =>
+                        handleAmountChange(
+                          service,
+                          Number(e.target.value)
+                        )
+                      }
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
 
           <DashboardButton onClick={handleCreatePlan} variant="primary" className="w-fit font-semibold">
             Save Plan
