@@ -11,6 +11,7 @@ import TestimonialMarquee from "../Components/ui/TestimonialMarquee"
 import IndustriesSection from "../Components/ui/IndustriesSection"
 import FAQSection from "../Components/ui/FAQSection"
 import CTASection from "../Components/ui/CTASection"
+import ChatbotWidget from "../Components/ui/ChatbotWidget"
 // import LogoCloud from "../Components/ui/LogoCloud"
 
 
@@ -91,6 +92,7 @@ export default function Home() {
       {/* <LogoCloud /> */}
       <FAQSection />
       <CTASection />
+      <ChatbotWidget />
       <Footer />
 
       <style dangerouslySetInnerHTML={{ __html: `
