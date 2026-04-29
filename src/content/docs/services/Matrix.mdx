@@ -1,0 +1,73 @@
+## Matrix
+
+Calculate travel cost between multiple points.
+
+- Method: `POST`
+- Path: `/services/matrix`
+- Required allowed service: `MATRIX`
+- Billed service: `MATRIX`
+
+## Request body
+
+```json
+{
+  "sources": [{ "lat": 8.9806, "lon": 38.7578 }],
+  "targets": [
+    { "lat": 8.99, "lon": 38.76 },
+    { "lat": 9.01, "lon": 38.78 }
+  ],
+  "costing": "AUTO"
+}
+```
+
+## Rules
+
+- `sources` max `50`.
+- `targets` max `50`.
+- Only one-to-many or many-to-one is allowed.
+
+## Example success response
+
+```json
+{
+  "status": "SUCCESS",
+  "data": {
+    "items": [
+      {
+        "sourceIndex": 0,
+        "targetIndex": 0,
+        "distanceMeters": 2400,
+        "durationSeconds": 540
+      },
+      {
+        "sourceIndex": 0,
+        "targetIndex": 1,
+        "distanceMeters": 5100,
+        "durationSeconds": 980
+      }
+    ]
+  },
+  "message": "MATRIX_SUCCESS",
+  "timestamp": "2026-04-29T06:00:00.000Z",
+  "requestId": "request-id"
+}
+```
+
+## Example error response
+
+```json
+{
+  "status": "ERROR",
+  "message": "SERVICE_LIMIT_EXCEEDED",
+  "timestamp": "2026-04-29T06:00:00.000Z",
+  "requestId": "request-id"
+}
+```
+
+## Common errors
+
+- `MISSING_API_KEY`
+- `INVALID_API_KEY`
+- `API_KEY_SERVICE_NOT_ALLOWED`
+- `SERVICE_LIMIT_EXCEEDED`
+- `VALIDATION_ERROR`

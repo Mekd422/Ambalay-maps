@@ -108,8 +108,10 @@ export default function ApiKeys() {
     } catch (err: unknown) {
       console.error(err);
 
-      if (err instanceof AxiosError<ApiErrorResponse>) {
-        if (err.response?.status === 429 && err.response.data?.message === "API_KEYS_LIMIT_EXCEEDED") {
+      if (err instanceof AxiosError) {
+        const apiError = err as AxiosError<ApiErrorResponse>;
+
+        if (apiError.response?.status === 429 && apiError.response.data?.message === "API_KEYS_LIMIT_EXCEEDED") {
           setCreateError(`API key limit exceeded. ${remainingApiKeys} remaining out of ${MAX_API_KEYS}.`);
         } else {
           setCreateError("Failed to create API key.");

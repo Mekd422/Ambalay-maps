@@ -1,0 +1,80 @@
+## API Keys
+
+API keys are used to authenticate requests to `/services/*`.
+
+## Endpoints
+
+### List API keys
+
+`GET /auth/api_keys`
+
+Headers:
+
+```http
+Authorization: Bearer {JWT}
+```
+
+Success data shape:
+
+```json
+[
+  {
+    "id": "api-key-id",
+    "label": "Primary integration key",
+    "secret": "amb_xxxxxxxxxxxxxxxxx",
+    "createdAt": "2026-04-29T06:00:00.000Z",
+    "revokedAt": null,
+    "expiresAt": null,
+    "allowedServices": ["TILES", "GEO_CODING"]
+  }
+]
+```
+
+### Create API key
+
+`POST /auth/generate_api_key`
+
+Headers:
+
+```http
+Authorization: Bearer {JWT}
+Content-Type: application/json
+```
+
+Request body:
+
+```json
+{
+  "label": "Primary integration key",
+  "allowedServices": ["TILES", "GEO_CODING", "ROUTING"]
+}
+```
+
+## API key rules
+
+- Maximum of `5` API keys per account.
+- Every API key must include at least one allowed service.
+- Duplicate allowed services are deduplicated server-side.
+- Store the generated secret securely.
+
+## Allowed services
+
+- `TILES`
+- `GEO_CODING`
+- `ROUTING`
+- `MATRIX`
+- `TRIP`
+- `TRIP_UPDATE`
+
+## Recommended UI behavior
+
+- show the returned secret immediately after creation
+- provide a copy action
+- show how many API keys remain out of the maximum `5`
+- show a clear warning that anyone holding the key can call the enabled services
+
+## Common errors
+
+- `API_KEYS_LIMIT_EXCEEDED`
+- `BUSINESS_MEMBERSHIP_REQUIRED`
+- `VALIDATION_ERROR`

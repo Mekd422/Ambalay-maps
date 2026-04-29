@@ -1,0 +1,153 @@
+import DocsCodeBlock from "../../../Components/docs/DocsCodeBlock";
+
+# Trips
+
+Trips endpoints let you initialize, update, finalize, and inspect tracked trips.
+
+## Init
+
+- Method: `POST`
+- Path: `/services/trip/init`
+- Required allowed service: `TRIP`
+- Billed service: `TRIP`
+
+### Request body
+
+```json
+{
+  "loc": { "lat": 8.9806, "lon": 38.7578 },
+  "eventId": "evt-1"
+}
+```
+
+### Example success response
+
+```json
+{
+  "status": "SUCCESS",
+  "data": {
+    "tripId": "00000000-0000-4000-8000-000000000020",
+    "state": "ACTIVE"
+  },
+  "message": "TRIP_INIT_SUCCESS",
+  "timestamp": "2026-04-29T06:00:00.000Z",
+  "requestId": "request-id"
+}
+```
+
+## Update
+
+- Method: `POST`
+- Path: `/services/trip/update`
+- Required allowed service: `TRIP_UPDATE`
+- Billed service: `TRIP`
+
+### Request body
+
+```json
+{
+  "tripId": "00000000-0000-4000-8000-000000000020",
+  "loc": { "lat": 8.981, "lon": 38.758 },
+  "eventId": "evt-2"
+}
+```
+
+### Example success response
+
+```json
+{
+  "status": "SUCCESS",
+  "data": {
+    "tripId": "00000000-0000-4000-8000-000000000020",
+    "state": "ACTIVE",
+    "accepted": true
+  },
+  "message": "TRIP_UPDATE_SUCCESS",
+  "timestamp": "2026-04-29T06:00:00.000Z",
+  "requestId": "request-id"
+}
+```
+
+## Finalize
+
+- Method: `POST`
+- Path: `/services/trip/finalize`
+- Required allowed service: `TRIP`
+- Billed service: `TRIP`
+
+### Request body
+
+```json
+{
+  "tripId": "00000000-0000-4000-8000-000000000020",
+  "loc": { "lat": 8.982, "lon": 38.759 },
+  "eventId": "evt-3"
+}
+```
+
+### Example success response
+
+```json
+{
+  "status": "SUCCESS",
+  "data": {
+    "tripId": "00000000-0000-4000-8000-000000000020",
+    "state": "FINALIZED"
+  },
+  "message": "TRIP_FINALIZE_SUCCESS",
+  "timestamp": "2026-04-29T06:00:00.000Z",
+  "requestId": "request-id"
+}
+```
+
+## History
+
+- Method: `GET`
+- Path: `/services/trip/history/{tripId}`
+- Required allowed service: `TRIP`
+- Billed service: `TRIP`
+
+### Example request
+
+<DocsCodeBlock
+  language="http"
+  baseUrl={props.baseUrl}
+  template={`GET /services/trip/history/00000000-0000-4000-8000-000000000020 HTTP/1.1
+Host: {BASE_URL}
+x-ambalay-key: {API_KEY}`}
+/>
+
+### Example success response
+
+```json
+{
+  "status": "SUCCESS",
+  "data": {
+    "tripId": "00000000-0000-4000-8000-000000000020",
+    "state": "FINALIZED",
+    "events": [
+      {
+        "eventId": "evt-1",
+        "loc": { "lat": 8.9806, "lon": 38.7578 }
+      },
+      {
+        "eventId": "evt-2",
+        "loc": { "lat": 8.981, "lon": 38.758 }
+      }
+    ]
+  },
+  "message": "TRIP_HISTORY_SUCCESS",
+  "timestamp": "2026-04-29T06:00:00.000Z",
+  "requestId": "request-id"
+}
+```
+
+## Common errors
+
+- `MISSING_API_KEY`
+- `INVALID_API_KEY`
+- `REVOKED_API_KEY`
+- `EXPIRED_API_KEY`
+- `API_KEY_SERVICE_NOT_ALLOWED`
+- `SERVICE_LIMIT_EXCEEDED`
+- `VALIDATION_ERROR`

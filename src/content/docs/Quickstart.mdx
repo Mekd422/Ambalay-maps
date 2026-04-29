@@ -1,105 +1,105 @@
-import CodeBlock from "../../Components/CodeBlock.tsx";
+import DocsCodeBlock from "../../Components/docs/DocsCodeBlock";
 
-export default function Quickstart() {
+# Quickstart Guide
 
-  const bashCode = `curl -X GET "https://api.ambalaymaps.com/v1/geocode?address=Addis+Ababa&key=YOUR_API_KEY"`;
+This quickstart focuses on consuming AmbaLay Maps services from your application after you already have dashboard access and an API key.
 
-  const jsonCode = `{
-  "status": "success",
-  "results": [
-    {
-      "address": "Addis Ababa, Ethiopia",
-      "latitude": 9.03,
-      "longitude": 38.74
-    }
-  ]
-}`;
+## 1. Choose the allowed services you need
 
-  const mapUrl = `https://api.ambalaymaps.com/v1/staticmap?center=9.03,38.74&zoom=12&size=600x400&key=YOUR_API_KEY`;
+Each API key should only enable the services your integration actually uses.
 
-  return (
-    <div className="bg-black text-gray-300 min-h-screen p-8 font-sans">
+Common allowed services:
 
-      {/* Header */}
-      <header className="mb-10">
-        <h1 className="text-white text-5xl font-bold mb-4 tracking-tight">
-          Quickstart Guide
-        </h1>
-        <div className="h-[1px] bg-gray-800 w-full mb-6"></div>
-        <p className="text-gray-400 text-lg">
-          Follow this quick guide to start using the AmbaLay Maps API Immediately:
-        </p>
-      </header>
+- `TILES`
+- `GEO_CODING`
+- `ROUTING`
+- `MATRIX`
+- `TRIP`
+- `TRIP_UPDATE`
 
-      {/* Step 1 */}
-      <section className="mb-12">
-        <h3 className="text-[#4d79ff] text-xl font-bold mb-3">
-          1. Sign Up and Get an API Key
-        </h3>
-        <p className="text-gray-400 leading-relaxed max-w-4xl">
-          Create a free account on the AmbaLay Maps dashboard and obtain your unique API key from the Developer Portal. This key authenticates your requests.
-        </p>
-      </section>
+## 2. Pick an authentication method
 
-      {/* Step 2 */}
-      <section className="mb-12">
-        <h3 className="text-[#4d79ff] text-xl font-bold mb-3">
-          2. Make a Simple Request
-        </h3>
+Services support either of these authentication methods:
 
-        <p className="text-gray-400 mb-6 max-w-4xl">
-          Test your setup by making a basic API call. For example, you can try a geocoding request to convert a city name to coordinates. Using the command line with curl:
-        </p>
+### Header authentication
 
-        <CodeBlock code={bashCode} language="bash" />
+```http
+x-ambalay-key: {API_KEY}
+```
 
-        <p className="text-gray-400 mb-6">
-          This will return a JSON response with the latitude and longitude for Addis Ababa. A successful response looks like:
-        </p>
+### Query authentication
 
-        <CodeBlock code={jsonCode} language="json" />
-      </section>
+```text
+?key={API_KEY}
+```
 
-      {/* Step 3 */}
-      <section className="mb-12">
-        <h3 className="text-[#4d79ff] text-xl font-bold mb-3">
-          3. Display a Map (Optional)
-        </h3>
+Use query authentication for browser-based tile clients. Prefer the header for backend and server-to-server requests.
 
-        <p className="text-gray-400 mb-6 max-w-4xl">
-          As a quick visualization test, you can retrieve a static map. For example, open the following URL in a browser (with your API key) to get a static map centered on Addis Ababa:
-        </p>
+## 3. Make your first request
 
-        <CodeBlock code={mapUrl} language="bash" />
+This example calls geocoding search.
 
-        <p className="text-gray-400 leading-relaxed italic border-l-2 border-[#4d79ff] pl-4">
-          This will prompt a PNG image download of the specified map. You can embed this in an HTML page to quickly display a map (see 
-          <span className="text-[#8cff2e] mx-1 cursor-pointer hover:underline">
-            Embedding a Map
-          </span> 
-          in the Tutorials section).
-        </p>
-      </section>
+<DocsCodeBlock
+  language="bash"
+  baseUrl={props.baseUrl}
+  template={`curl -X GET "{BASE_URL}/services/geo_coding/search?term=Addis%20Ababa&limit=5" \\
+  -H "x-ambalay-key: {API_KEY}"`}
+/>
 
-      {/* Step 4 */}
-      <footer className="mt-20 pt-10 ">
-        <h3 className="text-[#4d79ff] font-bold text-xl mb-4">
-          4. Explore Further
-        </h3>
+## 4. Parse the response envelope
 
-        <p className="text-gray-400 leading-relaxed">
-          With your environment set up and a successful test, you can start integrating more API features. Continue to the 
-          <span className="text-[#8cff2e] mx-1 cursor-pointer hover:underline font-medium">
-            Getting Started
-          </span> 
-          section for a detailed setup guide, or jump to the 
-          <span className="text-[#8cff2e] ml-1 cursor-pointer hover:underline font-medium">
-            API Reference
-          </span> 
-          for specific endpoints and capabilities.
-        </p>
-      </footer>
+Every JSON service returns a standard envelope.
 
-    </div>
-  );
+```json
+{
+  "status": "SUCCESS",
+  "data": {
+    "items": [
+      {
+        "id": "place-id",
+        "name": "Addis Ababa",
+        "label": "Addis Ababa, Ethiopia",
+        "loc": {
+          "lat": 8.9806,
+          "lon": 38.7578
+        }
+      }
+    ]
+  },
+  "message": "GEO_CODING_SEARCH_SUCCESS",
+  "timestamp": "2026-04-29T06:00:00.000Z",
+  "requestId": "request-id"
 }
+```
+
+When a request fails, use `message` to decide what to do next.
+
+```json
+{
+  "status": "ERROR",
+  "message": "SERVICE_LIMIT_EXCEEDED",
+  "timestamp": "2026-04-29T06:00:00.000Z",
+  "requestId": "request-id"
+}
+```
+
+## 5. Integrate tiles in a browser map client
+
+Tiles are best consumed with query authentication.
+
+<DocsCodeBlock
+  language="text"
+  baseUrl={props.baseUrl}
+  template={`{BASE_URL}/services/tiles/{z}/{x}/{y}?key={API_KEY}`}
+/>
+
+Successful tile responses return PBF vector tile bytes.
+
+## 6. Expand to other services
+
+Once the first request works, move to the service-specific docs for:
+
+- Geocoding
+- Route
+- Matrix
+- Trips

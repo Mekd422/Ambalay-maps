@@ -1,0 +1,187 @@
+## Auth APIs
+
+Base path: `/auth`
+
+Authentication uses an OTP challenge flow for signup and signin.
+
+## Signup
+
+### Start signup
+
+`POST /auth/signup`
+
+```json
+{
+  "firstName": "Mav",
+  "lastName": "Stone",
+  "email": "mav@example.com",
+  "password": "secret123"
+}
+```
+
+Success returns a `challengeId` and `expiresAt`.
+
+Possible errors:
+
+- `EMAIL_ALREADY_EXISTS`
+- `DISPOSABLE_EMAIL_NOT_ALLOWED`
+- `OTP_RESEND_TOO_SOON`
+- `OTP_EMAIL_SEND_FAILED`
+- `VALIDATION_ERROR`
+
+### Verify signup
+
+`POST /auth/signup/verify`
+
+```json
+{
+  "challengeId": "00000000-0000-4000-8000-000000000001",
+  "otp": "123456"
+}
+```
+
+Success returns:
+
+- `token`
+- `user`
+
+Possible errors:
+
+- `OTP_CHALLENGE_NOT_FOUND`
+- `OTP_ALREADY_USED`
+- `OTP_EXPIRED`
+- `INVALID_OTP`
+- `OTP_ATTEMPTS_EXCEEDED`
+- `OTP_CHALLENGE_INVALID`
+- `EMAIL_ALREADY_EXISTS`
+- `VALIDATION_ERROR`
+
+## Signin
+
+### Start signin
+
+`POST /auth/signin`
+
+```json
+{
+  "email": "mav@example.com",
+  "password": "secret123"
+}
+```
+
+Success returns a `challengeId` and `expiresAt`.
+
+Possible errors:
+
+- `USER_NOT_IDENTIFIED`
+- `INVALID_CREDENTIALS`
+- `EMAIL_NOT_VERIFIED`
+- `OTP_RESEND_TOO_SOON`
+- `OTP_EMAIL_SEND_FAILED`
+- `VALIDATION_ERROR`
+
+### Verify signin
+
+`POST /auth/signin/verify`
+
+```json
+{
+  "challengeId": "00000000-0000-4000-8000-000000000002",
+  "otp": "123456"
+}
+```
+
+Success returns:
+
+- `token`
+- `user`
+
+Possible errors:
+
+- `OTP_CHALLENGE_NOT_FOUND`
+- `OTP_ALREADY_USED`
+- `OTP_EXPIRED`
+- `INVALID_OTP`
+- `OTP_ATTEMPTS_EXCEEDED`
+- `USER_NOT_FOUND`
+- `EMAIL_NOT_VERIFIED`
+- `VALIDATION_ERROR`
+
+## Resend OTP
+
+`POST /auth/otp/resend`
+
+```json
+{
+  "challengeId": "00000000-0000-4000-8000-000000000002"
+}
+```
+
+Possible errors:
+
+- `OTP_CHALLENGE_NOT_FOUND`
+- `OTP_ALREADY_USED`
+- `OTP_RESEND_TOO_SOON`
+- `EMAIL_ALREADY_EXISTS`
+- `USER_NOT_FOUND`
+- `OTP_EMAIL_SEND_FAILED`
+- `VALIDATION_ERROR`
+
+## Password reset
+
+### Start reset
+
+`POST /auth/forgot_password`
+
+```json
+{
+  "email": "mav@example.com"
+}
+```
+
+Success returns a `challengeId` and `expiresAt`.
+
+### Complete reset
+
+`POST /auth/reset_password`
+
+```json
+{
+  "challengeId": "00000000-0000-4000-8000-000000000004",
+  "otp": "123456",
+  "newPassword": "new-secret-456"
+}
+```
+
+Possible errors:
+
+- `OTP_CHALLENGE_NOT_FOUND`
+- `OTP_ALREADY_USED`
+- `OTP_EXPIRED`
+- `INVALID_OTP`
+- `OTP_ATTEMPTS_EXCEEDED`
+- `USER_NOT_FOUND`
+- `VALIDATION_ERROR`
+
+## Typical frontend flows
+
+### Signup flow
+
+1. Call `POST /auth/signup`.
+2. Prompt for the email OTP.
+3. Call `POST /auth/signup/verify`.
+4. Store the returned JWT.
+
+### Signin flow
+
+1. Call `POST /auth/signin`.
+2. Prompt for the email OTP.
+3. Call `POST /auth/signin/verify`.
+4. Store the returned JWT.
+
+### Forgot password flow
+
+1. Call `POST /auth/forgot_password`.
+2. Prompt for the email OTP.
+3. Use the returned `challengeId`.
+4. Call `POST /auth/reset_password`.

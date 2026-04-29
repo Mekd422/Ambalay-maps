@@ -1,0 +1,63 @@
+## API Conventions
+
+All documented endpoints return a standard response envelope.
+
+### Success response
+
+```json
+{
+  "status": "SUCCESS",
+  "data": {},
+  "message": "SOME_MESSAGE",
+  "timestamp": "2026-04-29T06:00:00.000Z",
+  "requestId": "request-id"
+}
+```
+
+### Error response
+
+```json
+{
+  "status": "ERROR",
+  "message": "ERROR_CODE",
+  "timestamp": "2026-04-29T06:00:00.000Z",
+  "requestId": "request-id"
+}
+```
+
+### Validation error response
+
+```json
+{
+  "status": "ERROR",
+  "data": {
+    "fieldName": "FIRST_VALIDATION_ERROR_MESSAGE"
+  },
+  "message": "VALIDATION_ERROR",
+  "timestamp": "2026-04-29T06:00:00.000Z",
+  "requestId": "request-id"
+}
+```
+
+## Common failure codes
+
+| Code | HTTP status | Meaning |
+| --- | --- | --- |
+| `INVALID_API_KEY` | `401` | The provided API key does not match a stored key. |
+| `REVOKED_API_KEY` | `401` | The API key has been revoked. |
+| `EXPIRED_API_KEY` | `401` | The API key has expired. |
+| `API_KEY_SERVICE_NOT_ALLOWED` | `403` | The API key does not include the required allowed service. |
+| `API_KEYS_LIMIT_EXCEEDED` | `429` | The account already has the maximum number of API keys. |
+| `SERVICE_LIMIT_EXCEEDED` | `429` | The current subscription has no remaining usage for the billed service. |
+| `VALIDATION_ERROR` | `400` | One or more fields failed validation. |
+
+## Authentication modes
+
+- User endpoints use `Authorization: Bearer {JWT}`.
+- Services endpoints accept either `x-ambalay-key: {API_KEY}` or `?key={API_KEY}`.
+
+## Base URL
+
+Use the environment-specific service base URL for the current deployment.
+
+`{props.baseUrl ?? "{BASE_URL}"}`
