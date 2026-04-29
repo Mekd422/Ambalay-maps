@@ -25,6 +25,12 @@ interface BackendApiKey {
   expiresAt: string | null;
 }
 
+interface ApiErrorResponse {
+  message?: string;
+}
+
+const MAX_API_KEYS = 5;
+
 export default function ApiKeys() {
   const [apiKeys, setApiKeys] = useState<ApiKey[]>([]);
   const [loading, setLoading] = useState(true);
@@ -39,6 +45,7 @@ export default function ApiKeys() {
 
   // State to track which key IDs are currently visible
   const [visibleKeys, setVisibleKeys] = useState<Record<string, boolean>>({});
+  const remainingApiKeys = Math.max(0, MAX_API_KEYS - apiKeys.length);
 
   const fetchApiKeys = async () => {
     try {
@@ -100,7 +107,16 @@ export default function ApiKeys() {
       setShowModal(false);
     } catch (err: unknown) {
       console.error(err);
-      setCreateError("Failed to create API key.");
+
+      if (err instanceof AxiosError<ApiErrorResponse>) {
+        if (err.response?.status === 429 && err.response.data?.message === "API_KEYS_LIMIT_EXCEEDED") {
+          setCreateError(`API key limit exceeded. ${remainingApiKeys} remaining out of ${MAX_API_KEYS}.`);
+        } else {
+          setCreateError("Failed to create API key.");
+        }
+      } else {
+        setCreateError("Failed to create API key.");
+      }
     } finally {
       setCreating(false);
     }
@@ -133,7 +149,7 @@ export default function ApiKeys() {
       <DashboardHeader
         kicker="Developer Access"
         title="API Keys"
-        subtitle={`${apiKeys.length} key${apiKeys.length === 1 ? "" : "s"} configured`}
+        subtitle={`${apiKeys.length} key${apiKeys.length === 1 ? "" : "s"} configured. ${remainingApiKeys} of ${MAX_API_KEYS} remaining.`}
         actions={(
           <DashboardButton onClick={() => setShowModal(true)} variant="primary" className="flex items-center gap-2">
             <Plus size={16} />
@@ -240,6 +256,7 @@ export default function ApiKeys() {
             />
             <div className="mb-6">
               <p className="text-sm text-gray-400 mb-3">Allowed Services</p>
+              <p className="mb-3 text-xs text-gray-500">{remainingApiKeys} of {MAX_API_KEYS} API keys remaining.</p>
               {serviceGrantsLoading ? (
                 <p className="text-sm text-gray-500">Loading allowed services...</p>
               ) : serviceGrantsError ? (
