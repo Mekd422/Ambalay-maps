@@ -1,85 +1,51 @@
-import React from 'react';
+# Developer Support
 
-export default function DeveloperSupport() {
-  return (
-    <div className="bg-black text-gray-300 min-h-screen p-8 font-sans">
-      {/* Header Section */}
-      <header className="mb-10">
-        <h1 className="text-white text-5xl font-bold mb-4 tracking-tight !mt-0">
-          Developer Support
-        </h1>
-        <div className="h-[1px] bg-gray-800 w-full mb-6"></div>
-      </header>
+If you need help integrating AmbaLay Maps services, contact the team at `contact@ambalaymaps.com`.
 
-      {/* Postman Section */}
-      <section className="mb-12">
-        <p className="text-gray-400 text-lg leading-relaxed mb-6">
-          The postman collection for developers is available to help you get started with the Ambalay Maps API. 
-          You can import this collection into Postman to easily test API endpoints and explore the available features.
-        </p>
-        
-        <div className="flex flex-col space-y-4">
-          <a 
-            href="#" 
-            className="text-[#00d1ff] hover:underline flex items-center font-medium"
-          >
-            <span className="mr-2">⬇</span> Download Ambalay Maps Public Postman Collection
-          </a>
-          <a 
-            href="#" 
-            className="text-[#00d1ff] hover:underline flex items-center font-medium"
-          >
-            <span className="mr-2">⬇</span> Download Env Ambalay Api Public Postman Environment
-          </a>
-        </div>
-      </section>
+## What to include in your message
 
-      {/* Support Commitment Section */}
-      <section className="mb-12">
-        <h3 className="text-white text-2xl font-bold mb-6">
-          Need help or have questions? Ambalay Maps is committed to helping developers succeed with its API:
-        </h3>
+To speed up investigation, include as much of the following as possible:
 
-        <div className="space-y-8">
-          {/* Email Support */}
-          <div className="flex items-start">
-            <span className="text-[#4d79ff] text-xl mr-4">●</span>
-            <div>
-              <p className="text-gray-400 leading-relaxed">
-                <strong className="text-white">Email Support:</strong> Reach out to our support team at <span className="text-[#8cff2e]">devsupport@ambalay.com</span> for any API issues, questions, or to request higher usage limits. We strive to respond promptly with assistance.
-              </p>
-            </div>
-          </div>
+- the service you are calling, such as Tiles, Geocoding, Route, Matrix, or Trips
+- the endpoint path you are using
+- the HTTP method
+- the response `message` value
+- the `requestId` from the response, if available
+- whether you are using `x-ambalay-key` or `?key=` authentication
+- a short description of the expected behavior and the actual behavior
 
-          {/* Documentation */}
-          <div className="flex items-start">
-            <span className="text-[#4d79ff] text-xl mr-4">●</span>
-            <div>
-              <p className="text-gray-400 leading-relaxed">
-                <strong className="text-white">Documentation & Guides:</strong> Visit the Ambalay Maps Developer Documentation portal (for example, <a href="https://ambalay.com/developer" className="text-[#00d1ff] hover:underline">https://ambalay.com/developer</a>) for more detailed guides, examples, and the latest updates. Here you can find tutorials on integrating the API and best practices for various use cases.
-              </p>
-            </div>
-          </div>
+## Good support request example
 
-          {/* Issue Tracker */}
-          <div className="flex items-start">
-            <span className="text-[#4d79ff] text-xl mr-4">●</span>
-            <div>
-              <p className="text-gray-400 leading-relaxed">
-                <strong className="text-white">Issue Tracker:</strong> If you encounter a bug or have a feature request, you can report it on our issue tracker (e.g., on a GitHub repository at <a href="https://github.com/ambalay/maps-api/issues" className="text-[#00d1ff] hover:underline">https://github.com/ambalay/maps-api/issues</a>). This allows the development community to see known issues and the Ambalay team to provide updates or fixes.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+```text
+Subject: Route API returning VALIDATION_ERROR
 
-      {/* Community Message */}
-      <section className="mt-16 p-6 bg-[#111] border border-gray-800 rounded-lg">
-        <p className="text-gray-300 italic text-center text-lg">
-          We welcome feedback and contributions. By using Ambalay Maps API, you are joining a growing community of developers building location-aware applications. <span className="text-[#8cff2e] font-bold">Happy coding!</span>
-        </p>
-      </section>
+Hello,
 
-    </div>
-  );
-}
+I am integrating POST /services/route.
+The response returns message VALIDATION_ERROR.
+requestId: request-id
+
+I expected the route to be calculated, but the request is rejected.
+We are authenticating with x-ambalay-key.
+
+Thank you.
+```
+
+## Before contacting support
+
+Check these first:
+
+- the API key is valid and not revoked
+- the API key has the required allowed service
+- the request parameters or JSON body match the documented structure
+- the current subscription has remaining usage for the billed service
+
+## Support scope
+
+Developer support can help with:
+
+- request formatting issues
+- response parsing questions
+- service error troubleshooting
+- quota-related integration guidance
+- unexpected service behavior
