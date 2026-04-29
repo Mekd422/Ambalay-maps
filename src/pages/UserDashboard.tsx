@@ -6,7 +6,6 @@ import User from '../Components/ui/dashboard/User';
 import ApiKeys from '../Components/ui/dashboard/ApiKeys';
 import ContactMessages from '../Components/ui/dashboard/Messages';
 import { useAuth } from '../context/useAuth';
-import MyOrganization from "../Components/ui/dashboard/MyOrganization";
 import Organizations from "../Components/ui/dashboard/Organizations";
 import Plans from "../Components/ui/dashboard/Plans";
 import Usage from "../Components/ui/dashboard/Usage";
@@ -28,15 +27,15 @@ const Dashboard = () => {
   ];
 
   const subjectNavItems = [
-    { name: 'My Organization', icon: <UserCircle size={18} /> },
-    { name: 'API Keys', icon: <Key size={18} /> },
-    { name: 'Plans', icon: <Key size={18} /> },
-    { name: 'Usage', icon: <MessageSquare size={18} /> },
     { name: 'Account', icon: <UserCircle size={18} /> },
+    { name: 'API Keys', icon: <Key size={18} /> },
+    { name: 'Usage', icon: <MessageSquare size={18} /> },
   ];
 
   const navItems = isAdmin ? adminNavItems : subjectNavItems;
-  const [activeTab, setActiveTab] = useState(navItems[0]?.name ?? 'Account');
+  const [activeTab, setActiveTab] = useState(
+    navItems.find((item) => !('comingSoon' in item) || !item.comingSoon)?.name ?? 'Account'
+  );
   const effectiveTab = navItems.some((item) => item.name === activeTab)
     ? activeTab
     : navItems[0]?.name ?? 'Account';
@@ -109,7 +108,7 @@ const Dashboard = () => {
                       <span className={effectiveTab === item.name ? 'text-[#8cff2e]' : 'text-gray-500 group-hover:text-white'}>
                         {item.icon}
                       </span>
-                      {item.name}
+                      <span>{item.name}</span>
                     </button>
                   </li>
                 ))
@@ -182,14 +181,10 @@ const Dashboard = () => {
               <>
                 {effectiveTab === "Account" && <AccountSettings />}
                 {effectiveTab === "API Keys" && <ApiKeys />}
-                {effectiveTab === "My Organization" && <MyOrganization />}
-                {effectiveTab === "Plans" && <Plans />}
                 {effectiveTab === "Usage" && <Usage />}
 
                 {effectiveTab !== "Account" &&
                   effectiveTab !== "API Keys" &&
-                  effectiveTab !== "My Organization" &&
-                  effectiveTab !== "Plans" &&
                   effectiveTab !== "Usage" && (
                     <div className="bg-[#1a0c0e] border border-red-900 text-red-400 px-6 py-4 rounded-md text-sm">
                       Failed to load {activeTab.toLowerCase()}

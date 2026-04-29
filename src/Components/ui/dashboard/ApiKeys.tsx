@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { AxiosError } from "axios";
 import API from "../../../api/axios";
 import { DashboardButton, DashboardCard, DashboardHeader } from "./DashboardShell";
+import { useServiceGrants } from "../../../hooks/useServiceGrants";
 
 interface ApiKey {
   id: string;
@@ -24,6 +25,12 @@ interface BackendApiKey {
   expiresAt: string | null;
 }
 
+interface ApiErrorResponse {
+  message?: string;
+}
+
+const MAX_API_KEYS = 5;
+
 export default function ApiKeys() {
   const [apiKeys, setApiKeys] = useState<ApiKey[]>([]);
   const [loading, setLoading] = useState(true);
@@ -33,9 +40,12 @@ export default function ApiKeys() {
   const [label, setLabel] = useState("");
   const [services, setServices] = useState<string[]>([]);
   const [creating, setCreating] = useState(false);
+  const [createError, setCreateError] = useState("");
+  const { serviceGrants, loading: serviceGrantsLoading, error: serviceGrantsError } = useServiceGrants();
 
   // State to track which key IDs are currently visible
   const [visibleKeys, setVisibleKeys] = useState<Record<string, boolean>>({});
+  const remainingApiKeys = Math.max(0, MAX_API_KEYS - apiKeys.length);
 
   const fetchApiKeys = async () => {
     try {
@@ -74,10 +84,19 @@ export default function ApiKeys() {
   }, []);
 
   const handleCreate = async () => {
-    if (!label.trim()) return;
+    if (!label.trim()) {
+      setCreateError("Label is required.");
+      return;
+    }
+
+    if (services.length === 0) {
+      setCreateError("Select at least one allowed service.");
+      return;
+    }
 
     try {
       setCreating(true);
+      setCreateError("");
       await API.post("/auth/generate_api_key", {
         label,
         allowedServices: services,
@@ -88,6 +107,16 @@ export default function ApiKeys() {
       setShowModal(false);
     } catch (err: unknown) {
       console.error(err);
+
+      if (err instanceof AxiosError<ApiErrorResponse>) {
+        if (err.response?.status === 429 && err.response.data?.message === "API_KEYS_LIMIT_EXCEEDED") {
+          setCreateError(`API key limit exceeded. ${remainingApiKeys} remaining out of ${MAX_API_KEYS}.`);
+        } else {
+          setCreateError("Failed to create API key.");
+        }
+      } else {
+        setCreateError("Failed to create API key.");
+      }
     } finally {
       setCreating(false);
     }
@@ -120,7 +149,7 @@ export default function ApiKeys() {
       <DashboardHeader
         kicker="Developer Access"
         title="API Keys"
-        subtitle={`${apiKeys.length} key${apiKeys.length === 1 ? "" : "s"} configured`}
+        subtitle={`${apiKeys.length} key${apiKeys.length === 1 ? "" : "s"} configured. ${remainingApiKeys} of ${MAX_API_KEYS} remaining.`}
         actions={(
           <DashboardButton onClick={() => setShowModal(true)} variant="primary" className="flex items-center gap-2">
             <Plus size={16} />
@@ -217,34 +246,55 @@ export default function ApiKeys() {
               type="text"
               placeholder="Label (e.g. Production Mobile App)"
               value={label}
-              onChange={(e) => setLabel(e.target.value)}
+              onChange={(e) => {
+                setLabel(e.target.value);
+                if (createError) {
+                  setCreateError("");
+                }
+              }}
               className="w-full mb-4 px-3 py-2 rounded bg-[#1a1a1a] text-white border border-white/10 outline-none focus:border-[#8cff2e]/50 transition"
             />
             <div className="mb-6">
               <p className="text-sm text-gray-400 mb-3">Allowed Services</p>
-              <div className="flex gap-2 flex-wrap">
-                {["TILES", "ROUTING", "GEO_CODING"].map((service) => (
-                  <button
-                    key={service}
-                    onClick={() => toggleService(service)}
-                    className={`px-3 py-1.5 text-[11px] font-bold rounded border transition-all ${
-                      services.includes(service)
-                        ? "bg-[#8cff2e]/20 text-[#8cff2e] border-[#8cff2e]/30"
-                        : "border-white/10 text-gray-500 hover:border-white/20"
-                    }`}
-                  >
-                    {service}
-                  </button>
-                ))}
-              </div>
+              <p className="mb-3 text-xs text-gray-500">{remainingApiKeys} of {MAX_API_KEYS} API keys remaining.</p>
+              {serviceGrantsLoading ? (
+                <p className="text-sm text-gray-500">Loading allowed services...</p>
+              ) : serviceGrantsError ? (
+                <p className="text-sm text-red-400">{serviceGrantsError}</p>
+              ) : (
+                <div className="flex gap-2 flex-wrap">
+                  {serviceGrants.map((service) => (
+                    <button
+                      key={service}
+                      onClick={() => {
+                        toggleService(service);
+                        if (createError) {
+                          setCreateError("");
+                        }
+                      }}
+                      className={`px-3 py-1.5 text-[11px] font-bold rounded border transition-all ${
+                        services.includes(service)
+                          ? "bg-[#8cff2e]/20 text-[#8cff2e] border-[#8cff2e]/30"
+                          : "border-white/10 text-gray-500 hover:border-white/20"
+                      }`}
+                    >
+                      {service}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
+            {createError && <p className="mb-4 text-sm text-red-400">{createError}</p>}
             <div className="flex justify-end gap-3 pt-2">
-              <DashboardButton onClick={() => setShowModal(false)}>
+              <DashboardButton onClick={() => {
+                setShowModal(false);
+                setCreateError("");
+              }}>
                 Cancel
               </DashboardButton>
               <DashboardButton
                 onClick={handleCreate}
-                disabled={creating || !label.trim()}
+                disabled={creating || !label.trim() || services.length === 0 || serviceGrantsLoading || !!serviceGrantsError}
                 variant="primary"
                 className="px-6"
               >
