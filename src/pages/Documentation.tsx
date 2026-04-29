@@ -1,24 +1,19 @@
 import React, { useState } from 'react';
 import { 
-  Search, FileText, MapPin, HelpCircle, Compass, 
+  Search, FileText, MapPin, Compass,
   Menu, X, Pencil, Database, Layout, Sparkles, Moon, Gauge 
 } from 'lucide-react';
 
 import QuickstartContent from '../content/docs/Quickstart.mdx';
-import AuthenticationContent from '../content/docs/Authentication.mdx';
-import Routing from '../content/docs/Routing.mdx';
-import Geocoding from '../content/docs/Geocoding.mdx';
-import ReverseGeocoding from "../content/docs/ReverseGeocoding.mdx";
-import StaticMaps from "../content/docs/StaticMaps.mdx";
-import MatrixAPI from "../content/docs/MatrixAPI.mdx";
-import LLM from "../content/docs/LLM.mdx"
-import OptimizedRoute from "../content/docs/OptimizedRoute.mdx"
-import EmbeddingMap from "../content/docs/EmbeddingMap.mdx"
-import GeocodingAddress from "../content/docs/GeocodingAddress.mdx"
-import RouteCalculation from "../content/docs/RouteCalculation.mdx"
 import BestPractices from "../content/docs/BestPractices.mdx"
 import FAQ from "../content/docs/FAQ.mdx"
 import DeveloperSupprt from "../content/docs/DeveloperSupport.mdx"
+import ServicesOverview from "../content/docs/services/ServicesOverview.mdx"
+import TilesContent from "../content/docs/services/Tiles.mdx"
+import GeocodingContent from "../content/docs/services/Geocoding.mdx"
+import RouteContent from "../content/docs/services/Route.mdx"
+import MatrixContent from "../content/docs/services/Matrix.mdx"
+import TripsContent from "../content/docs/services/Trips.mdx"
 import { Link } from "react-router-dom"
 import logo from "../assets/icons/AMBALAY LOGO.png";
 
@@ -52,11 +47,11 @@ const Documentation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const [activePage, setActivePage] = useState<string>("Overview");
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const docsBaseUrl = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || "{BASE_URL}";
 
   const sidebarLinks: SidebarGroup[] = [
-    { group: "Introduction", items: ["Overview", "Quickstart Guide", "Getting Started", "Authentication"] },
-    { group: "API Reference", items: ["Routing", "Geocoding", "Reverse Geocoding", "Static Maps", "Matrix API", "LLM", "Optimized Route API"] },
-    { group: "Tutorials", items: ["Embedding a Map", "Geocoding an Address", "Calculating a Route"] },
+    { group: "Introduction", items: ["Overview", "Quickstart Guide"] },
+    { group: "Services", items: ["Services Overview", "Tiles", "Geocoding", "Route", "Matrix", "Trips"] },
     { group: "Resources", items: ["Best Practices", "FAQ & Troubleshooting", "Developer Support"] }
   ];
 
@@ -77,24 +72,19 @@ const Documentation = () => {
   };
 
   const renderContent = () => {
-    const mdxWrapper = (Content: React.ComponentType) => (
+    const mdxWrapper = (Content: React.ComponentType<{ baseUrl?: string }>) => (
       <article className="prose prose-invert prose-headings:font-bold prose-h1:text-4xl prose-h1:mb-8 prose-h3:text-xl prose-h3:mt-10 prose-code:text-[#8cff2e] prose-pre:bg-[#0A0A0A] prose-pre:border prose-pre:border-white/10 prose-strong:text-white max-w-none">
-        <Content />
+        <Content baseUrl={docsBaseUrl} />
       </article>
     );
 
     if (activePage === "Quickstart Guide") return mdxWrapper(QuickstartContent);
-    if (activePage === "Authentication") return mdxWrapper(AuthenticationContent);
-    if (activePage === "Routing") return mdxWrapper(Routing);
-    if (activePage === "Geocoding") return mdxWrapper(Geocoding);
-    if (activePage === "Reverse Geocoding") return mdxWrapper(ReverseGeocoding);
-    if (activePage === "Static Maps") return mdxWrapper(StaticMaps);
-    if (activePage === "Matrix API") return mdxWrapper(MatrixAPI);
-    if (activePage === "LLM") return mdxWrapper(LLM);
-    if (activePage === "Optimized Route API") return mdxWrapper(OptimizedRoute);
-    if (activePage === "Embedding a Map") return mdxWrapper(EmbeddingMap);
-    if (activePage === "Geocoding an Address") return mdxWrapper(GeocodingAddress);
-    if (activePage === "Calculating a Route") return mdxWrapper(RouteCalculation);
+    if (activePage === "Services Overview") return mdxWrapper(ServicesOverview);
+    if (activePage === "Tiles") return mdxWrapper(TilesContent);
+    if (activePage === "Geocoding") return mdxWrapper(GeocodingContent);
+    if (activePage === "Route") return mdxWrapper(RouteContent);
+    if (activePage === "Matrix") return mdxWrapper(MatrixContent);
+    if (activePage === "Trips") return mdxWrapper(TripsContent);
     if (activePage === "Best Practices") return mdxWrapper(BestPractices);
     if (activePage === "FAQ & Troubleshooting") return mdxWrapper(FAQ);
     if (activePage === "Developer Support") return mdxWrapper(DeveloperSupprt);
@@ -142,16 +132,16 @@ const Documentation = () => {
               onClick={() => handlePageChange("Geocoding")}
             />
             <CategoryCard 
-              icon={<HelpCircle className="text-blue-400" size={24} />} 
-              title="Authentication" 
-              desc="Learn about API keys and how to secure your integration." 
-              onClick={() => handlePageChange("Authentication")}
+              icon={<Compass className="text-blue-400" size={24} />} 
+              title="Route" 
+              desc="Calculate routes with response envelopes and validation rules." 
+              onClick={() => handlePageChange("Route")}
             />
             <CategoryCard 
-              icon={<Compass className="text-blue-400" size={24} />} 
-              title="Routing API" 
-              desc="Learn how to calculate routes between locations with turn by turn directions" 
-              onClick={() => handlePageChange("Routing")}
+              icon={<FileText className="text-blue-400" size={24} />} 
+              title="Best Practices" 
+              desc="Use current integration guidance for auth, quota handling, and response parsing." 
+              onClick={() => handlePageChange("Best Practices")}
             />
           </div>
         </div>
@@ -268,11 +258,11 @@ const Documentation = () => {
 
     {/* Right */}
     <div className="flex gap-6 text-sm text-gray-500">
-      <Link to="/privacy" className="hover:text-white transition">
+      <Link to="/privacy-policy" className="hover:text-white transition">
         Privacy Policy
       </Link>
 
-      <Link to="/terms" className="hover:text-white transition">
+      <Link to="/terms-of-service" className="hover:text-white transition">
         Terms of Service
       </Link>
     </div>

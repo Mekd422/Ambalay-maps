@@ -1,0 +1,30 @@
+## Subscription And Quota
+
+Check subscription status before creating API keys for production integrations and before calling `/services/*` at scale.
+
+## Recommended API calls
+
+- `GET /subscriptions/my`
+- `GET /subscriptions/plans`
+- `POST /subscriptions/subscribe`
+
+## Recommended UI content
+
+- current plan label
+- plan start date and end date
+- remaining usage grouped by service
+- upgrade action when quota is low or missing
+
+## Usage rules
+
+- Service requests only succeed when the account has remaining subscription quota for the billed service.
+- Quota is consumed before the downstream service handler runs.
+- Remaining usage should be treated as the source of truth for whether a service is currently available.
+
+## Suggested user flow
+
+1. Sign in and load `GET /subscriptions/my`.
+2. Show current plan details and remaining usage.
+3. If no suitable plan exists, load `GET /subscriptions/plans`.
+4. If the user selects a plan, call `POST /subscriptions/subscribe`.
+5. Return the user to API key setup and service usage docs.

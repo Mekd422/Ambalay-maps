@@ -1,0 +1,63 @@
+import DocsCodeBlock from "../../../Components/docs/DocsCodeBlock";
+
+## Tiles
+
+Serve map tiles for map clients such as MapLibre.
+
+- Method: `GET`
+- Path: `/services/tiles/{z}/{x}/{y}`
+- Required allowed service: `TILES`
+- Billed service: `TILES`
+
+## Authentication
+
+Either of the following is valid:
+
+<DocsCodeBlock
+  language="http"
+  baseUrl={props.baseUrl}
+  template={`GET /services/tiles/14/9312/6940?key={API_KEY} HTTP/1.1
+Host: {BASE_URL}`}
+/>
+
+<DocsCodeBlock
+  language="http"
+  baseUrl={props.baseUrl}
+  template={`GET /services/tiles/14/9312/6940 HTTP/1.1
+Host: {BASE_URL}
+x-ambalay-key: {API_KEY}`}
+/>
+
+## Successful response
+
+Tiles return binary vector tile data in PBF format.
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/vnd.mapbox-vector-tile
+```
+
+## Notes
+
+- Tile query parameters are forwarded upstream except `key`.
+- Use query auth when integrating directly with browser-based tile clients.
+
+## Example error response
+
+```json
+{
+  "status": "ERROR",
+  "message": "SERVICE_LIMIT_EXCEEDED",
+  "timestamp": "2026-04-29T06:00:00.000Z",
+  "requestId": "request-id"
+}
+```
+
+## Common errors
+
+- `MISSING_API_KEY`
+- `INVALID_API_KEY`
+- `REVOKED_API_KEY`
+- `EXPIRED_API_KEY`
+- `API_KEY_SERVICE_NOT_ALLOWED`
+- `SERVICE_LIMIT_EXCEEDED`

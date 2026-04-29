@@ -1,0 +1,85 @@
+import DocsCodeBlock from "../../../Components/docs/DocsCodeBlock";
+
+## Route
+
+Calculate a route between a source and destination.
+
+- Method: `POST`
+- Path: `/services/route`
+- Required allowed service: `ROUTING`
+- Billed service: `ROUTING`
+
+## Request body
+
+```json
+{
+  "source": { "lat": 8.9806, "lon": 38.7578 },
+  "destination": { "lat": 8.99, "lon": 38.76 },
+  "via": [],
+  "costing": "AUTO"
+}
+```
+
+## Rules
+
+- `via` can contain at most `10` points.
+- Supported `costing`: `AUTO`, `PEDESTRIAN`, `BICYCLE`, `TRUCK`.
+
+## Authentication example
+
+<DocsCodeBlock
+  language="http"
+  baseUrl={props.baseUrl}
+  template={`POST /services/route HTTP/1.1
+Host: {BASE_URL}
+Content-Type: application/json
+x-ambalay-key: {API_KEY}`}
+/>
+
+## Example success response
+
+```json
+{
+  "status": "SUCCESS",
+  "data": {
+    "distanceMeters": 2400,
+    "durationSeconds": 540,
+    "legs": [
+      {
+        "summary": "Kazanchis to Bole",
+        "steps": [
+          {
+            "instruction": "Head east toward Bole Road",
+            "distanceMeters": 180
+          }
+        ]
+      }
+    ]
+  },
+  "message": "ROUTE_SUCCESS",
+  "timestamp": "2026-04-29T06:00:00.000Z",
+  "requestId": "request-id"
+}
+```
+
+## Example validation error
+
+```json
+{
+  "status": "ERROR",
+  "data": {
+    "costing": "costing must be one of AUTO, PEDESTRIAN, BICYCLE, TRUCK"
+  },
+  "message": "VALIDATION_ERROR",
+  "timestamp": "2026-04-29T06:00:00.000Z",
+  "requestId": "request-id"
+}
+```
+
+## Common errors
+
+- `MISSING_API_KEY`
+- `INVALID_API_KEY`
+- `API_KEY_SERVICE_NOT_ALLOWED`
+- `SERVICE_LIMIT_EXCEEDED`
+- `VALIDATION_ERROR`

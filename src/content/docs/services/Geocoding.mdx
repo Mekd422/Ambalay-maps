@@ -1,0 +1,134 @@
+import DocsCodeBlock from "../../../Components/docs/DocsCodeBlock";
+
+# Geocoding
+
+Geocoding endpoints help you search for places from text and resolve coordinates into readable place data.
+
+## Search
+
+- Method: `GET`
+- Path: `/services/geo_coding/search`
+- Required allowed service: `GEO_CODING`
+- Billed service: `GEO_CODING`
+
+### Query parameters
+
+| Parameter | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `term` | Yes | `string` | Search text to resolve. |
+| `limit` | No | `integer` | Default `10`, max `50`. |
+
+### Example request
+
+<DocsCodeBlock
+  language="http"
+  baseUrl={props.baseUrl}
+  template={`GET /services/geo_coding/search?term=Addis%20Ababa&limit=5 HTTP/1.1
+Host: {BASE_URL}
+x-ambalay-key: {API_KEY}`}
+/>
+
+### Example success response
+
+```json
+{
+  "status": "SUCCESS",
+  "data": {
+    "items": [
+      {
+        "id": "place-id",
+        "name": "Addis Ababa",
+        "label": "Addis Ababa, Ethiopia",
+        "loc": {
+          "lat": 8.9806,
+          "lon": 38.7578
+        }
+      }
+    ]
+  },
+  "message": "GEO_CODING_SEARCH_SUCCESS",
+  "timestamp": "2026-04-29T06:00:00.000Z",
+  "requestId": "request-id"
+}
+```
+
+### Example error response
+
+```json
+{
+  "status": "ERROR",
+  "message": "API_KEY_SERVICE_NOT_ALLOWED",
+  "timestamp": "2026-04-29T06:00:00.000Z",
+  "requestId": "request-id"
+}
+```
+
+## Reverse
+
+- Method: `GET`
+- Path: `/services/geo_coding/reverse`
+- Required allowed service: `GEO_CODING`
+- Billed service: `GEO_CODING`
+
+### Query parameters
+
+| Parameter | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `lat` | Yes | `number` | Latitude to resolve. |
+| `lon` | Yes | `number` | Longitude to resolve. |
+
+### Example request
+
+<DocsCodeBlock
+  language="http"
+  baseUrl={props.baseUrl}
+  template={`GET /services/geo_coding/reverse?lat=8.9806&lon=38.7578 HTTP/1.1
+Host: {BASE_URL}
+x-ambalay-key: {API_KEY}`}
+/>
+
+### Example success response
+
+```json
+{
+  "status": "SUCCESS",
+  "data": {
+    "item": {
+      "id": "place-id",
+      "name": "Kazanchis",
+      "label": "Kazanchis, Addis Ababa, Ethiopia",
+      "loc": {
+        "lat": 8.9806,
+        "lon": 38.7578
+      }
+    }
+  },
+  "message": "GEO_CODING_REVERSE_SUCCESS",
+  "timestamp": "2026-04-29T06:00:00.000Z",
+  "requestId": "request-id"
+}
+```
+
+### Example validation error
+
+```json
+{
+  "status": "ERROR",
+  "data": {
+    "lat": "lat must be a valid number"
+  },
+  "message": "VALIDATION_ERROR",
+  "timestamp": "2026-04-29T06:00:00.000Z",
+  "requestId": "request-id"
+}
+```
+
+## Common errors
+
+- `MISSING_API_KEY`
+- `INVALID_API_KEY`
+- `REVOKED_API_KEY`
+- `EXPIRED_API_KEY`
+- `API_KEY_SERVICE_NOT_ALLOWED`
+- `SERVICE_LIMIT_EXCEEDED`
+- `VALIDATION_ERROR`
