@@ -29,7 +29,6 @@ const Dashboard = () => {
   const subjectNavItems = [
     { name: 'Account', icon: <UserCircle size={18} /> },
     { name: 'API Keys', icon: <Key size={18} /> },
-    { name: 'Plans', icon: <Key size={18} /> },
     { name: 'Usage', icon: <MessageSquare size={18} /> },
   ];
 
@@ -182,12 +181,10 @@ const Dashboard = () => {
               <>
                 {effectiveTab === "Account" && <AccountSettings />}
                 {effectiveTab === "API Keys" && <ApiKeys />}
-                {effectiveTab === "Plans" && <Plans />}
                 {effectiveTab === "Usage" && <Usage />}
 
                 {effectiveTab !== "Account" &&
                   effectiveTab !== "API Keys" &&
-                  effectiveTab !== "Plans" &&
                   effectiveTab !== "Usage" && (
                     <div className="bg-[#1a0c0e] border border-red-900 text-red-400 px-6 py-4 rounded-md text-sm">
                       Failed to load {activeTab.toLowerCase()}
