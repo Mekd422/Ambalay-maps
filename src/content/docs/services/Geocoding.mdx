@@ -2,23 +2,39 @@ import DocsCodeBlock from "../../../Components/docs/DocsCodeBlock";
 
 # Geocoding
 
-Geocoding endpoints help you search for places from text and resolve coordinates into readable place data.
+Geocoding endpoints turn user queries and coordinates into place information.
 
-## Search
+---
+
+## 1. Search Places
+
+Search places by text and return matching locations.
 
 - Method: `GET`
 - Path: `/services/geo_coding/search`
-- Required allowed service: `GEO_CODING`
-- Billed service: `GEO_CODING`
+- Allowed Service: `GEO_CODING`
+- Billed Service: `GEO_CODING`
+- Auth: Header `x-ambalay-key: {API_KEY}`
 
-### Query parameters
+### Query Parameters
 
-| Parameter | Required | Type | Notes |
-| --- | --- | --- | --- |
-| `term` | Yes | `string` | Search text to resolve. |
-| `limit` | No | `integer` | Default `10`, max `50`. |
+| Parameter | Type | Required | Description |
+|----------|------|----------|-------------|
+| `term` | string | Yes | Address or place name to search |
+| `limit` | integer | No | Number of results (default: 10, max: 50) |
 
-### Example request
+---
+
+### Example Request (cURL)
+
+```bash
+curl "https://api.dev.ambalaymaps.com/services/geo_coding/search?term=Addis%20Ababa&limit=5" \
+-H "x-ambalay-key: YOUR_API_KEY"
+```
+
+---
+
+### Example Request (HTTP)
 
 <DocsCodeBlock
   language="http"
@@ -28,7 +44,9 @@ Host: {BASE_URL}
 x-ambalay-key: {API_KEY}`}
 />
 
-### Example success response
+---
+
+### Success Response
 
 ```json
 {
@@ -39,10 +57,13 @@ x-ambalay-key: {API_KEY}`}
         "id": "place-id",
         "name": "Addis Ababa",
         "label": "Addis Ababa, Ethiopia",
-        "loc": {
-          "lat": 8.9806,
-          "lon": 38.7578
-        }
+        "loc": { "lat": 8.9806, "lon": 38.7578 }
+      },
+      {
+        "id": "place-id-2",
+        "name": "Addis Ababa University",
+        "label": "Addis Ababa University, Ethiopia",
+        "loc": { "lat": 9.0010, "lon": 38.7530 }
       }
     ]
   },
@@ -52,32 +73,63 @@ x-ambalay-key: {API_KEY}`}
 }
 ```
 
-### Example error response
+### Response Fields
 
-```json
-{
-  "status": "ERROR",
-  "message": "API_KEY_SERVICE_NOT_ALLOWED",
-  "timestamp": "2026-04-29T06:00:00.000Z",
-  "requestId": "request-id"
-}
-```
+- `items`: list of matching places  
+  - `id`: unique place identifier  
+  - `name`: short place name  
+  - `label`: full address/label  
+  - `loc`: coordinates  
 
-## Reverse
+---
+
+### Common Errors
+
+- `API_KEY_SERVICE_NOT_ALLOWED`
+- `VALIDATION_ERROR`
+- `MISSING_API_KEY`
+- `INVALID_API_KEY`
+
+---
+
+### Usage Notes
+
+- Provide a valid `term` (non-empty string)  
+- Use `limit` to control number of results  
+- Results may be empty if no matches found  
+- Ideal for search boxes and autocomplete UIs  
+
+---
+
+## 2. Reverse Geocoding
+
+Convert coordinates into a readable place.
 
 - Method: `GET`
 - Path: `/services/geo_coding/reverse`
-- Required allowed service: `GEO_CODING`
-- Billed service: `GEO_CODING`
+- Allowed Service: `GEO_CODING`
+- Billed Service: `GEO_CODING`
+- Auth: Header `x-ambalay-key: {API_KEY}`
 
-### Query parameters
+### Query Parameters
 
-| Parameter | Required | Type | Notes |
-| --- | --- | --- | --- |
-| `lat` | Yes | `number` | Latitude to resolve. |
-| `lon` | Yes | `number` | Longitude to resolve. |
+| Parameter | Type | Required | Description |
+|----------|------|----------|-------------|
+| `lat` | number | Yes | Latitude |
+| `lon` | number | Yes | Longitude |
 
-### Example request
+---
+
+### Example Request (cURL)
+
+```bash
+curl "https://api.dev.ambalaymaps.com/services/geo_coding/reverse?lat=8.9806&lon=38.7578" \
+-H "x-ambalay-key: YOUR_API_KEY"
+```
+
+---
+
+### Example Request (HTTP)
 
 <DocsCodeBlock
   language="http"
@@ -87,7 +139,9 @@ Host: {BASE_URL}
 x-ambalay-key: {API_KEY}`}
 />
 
-### Example success response
+---
+
+### Success Response
 
 ```json
 {
@@ -97,10 +151,7 @@ x-ambalay-key: {API_KEY}`}
       "id": "place-id",
       "name": "Kazanchis",
       "label": "Kazanchis, Addis Ababa, Ethiopia",
-      "loc": {
-        "lat": 8.9806,
-        "lon": 38.7578
-      }
+      "loc": { "lat": 8.9806, "lon": 38.7578 }
     }
   },
   "message": "GEO_CODING_REVERSE_SUCCESS",
@@ -109,7 +160,14 @@ x-ambalay-key: {API_KEY}`}
 }
 ```
 
-### Example validation error
+### Response Fields
+
+- `item`: nearest place  
+  - same structure as search (`id`, `name`, `label`, `loc`)  
+
+---
+
+### Validation Error Example
 
 ```json
 {
@@ -123,12 +181,20 @@ x-ambalay-key: {API_KEY}`}
 }
 ```
 
-## Common errors
+---
 
+### Common Errors
+
+- `VALIDATION_ERROR`
+- `API_KEY_SERVICE_NOT_ALLOWED`
 - `MISSING_API_KEY`
 - `INVALID_API_KEY`
-- `REVOKED_API_KEY`
-- `EXPIRED_API_KEY`
-- `API_KEY_SERVICE_NOT_ALLOWED`
-- `SERVICE_LIMIT_EXCEEDED`
-- `VALIDATION_ERROR`
+
+---
+
+### Usage Notes
+
+- Ensure valid `lat` and `lon` values  
+- Returns nearest known place  
+- Use for map clicks ("what’s here?")  
+- If no place is found, `item` may be empty or null  

@@ -1,32 +1,108 @@
 ## Matrix
 
-Calculate travel cost between multiple points.
+Calculate distance and duration between multiple points.
 
 - Method: `POST`
 - Path: `/services/matrix`
-- Required allowed service: `MATRIX`
-- Billed service: `MATRIX`
+- Allowed Service: `MATRIX`
+- Billed Service: `MATRIX`
+- Auth: Header `x-ambalay-key: {API_KEY}`
 
-## Request body
+### Purpose
+
+Get a travel matrix (distance and time) from one or more sources to one or more targets.  
+Useful for routing drivers or finding nearest destinations.
+
+---
+
+## Request Schema
 
 ```json
 {
-  "sources": [{ "lat": 8.9806, "lon": 38.7578 }],
-  "targets": [
-    { "lat": 8.99, "lon": 38.76 },
-    { "lat": 9.01, "lon": 38.78 }
-  ],
-  "costing": "AUTO"
+  "type": "object",
+  "properties": {
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "lat": { "type": "number" },
+          "lon": { "type": "number" }
+        },
+        "required": ["lat", "lon"]
+      }
+    },
+    "targets": {
+      "type": "array",
+      "items": { "$ref": "#/properties/sources/items" }
+    },
+    "costing": {
+      "type": "string",
+      "enum": ["AUTO"]
+    }
+  },
+  "required": ["sources", "targets", "costing"]
 }
 ```
 
+---
+
 ## Rules
 
-- `sources` max `50`.
-- `targets` max `50`.
-- Only one-to-many or many-to-one is allowed.
+- `sources`: max 50 points  
+- `targets`: max 50 points  
+- At least one source and one target required  
+- Only:
+  - one-to-many (1 → N), or  
+  - many-to-one (N → 1)  
+- Full many-to-many is **not supported**  
+- `costing`: currently only `"AUTO"` (car)
 
-## Example success response
+---
+
+## Example Request (cURL)
+
+```bash
+curl -X POST "https://api.dev.ambalaymaps.com/services/matrix" \
+-H "Content-Type: application/json" \
+-H "x-ambalay-key: YOUR_API_KEY" \
+-d '{
+  "sources": [{ "lat": 8.9806, "lon": 38.7578 }],
+  "targets": [
+    { "lat": 8.9900, "lon": 38.7600 },
+    { "lat": 9.0100, "lon": 38.7800 }
+  ],
+  "costing": "AUTO"
+}'
+```
+
+---
+
+## Example Request (JavaScript)
+
+```javascript
+fetch("https://api.dev.ambalaymaps.com/services/matrix", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "x-ambalay-key": API_KEY
+  },
+  body: JSON.stringify({
+    sources: [{ lat: 8.9806, lon: 38.7578 }],
+    targets: [
+      { lat: 8.9900, lon: 38.7600 },
+      { lat: 9.0100, lon: 38.7800 }
+    ],
+    costing: "AUTO"
+  })
+})
+.then(res => res.json())
+.then(data => console.log(data));
+```
+
+---
+
+## Success Response
 
 ```json
 {
@@ -53,21 +129,29 @@ Calculate travel cost between multiple points.
 }
 ```
 
-## Example error response
+### Response Fields
 
-```json
-{
-  "status": "ERROR",
-  "message": "SERVICE_LIMIT_EXCEEDED",
-  "timestamp": "2026-04-29T06:00:00.000Z",
-  "requestId": "request-id"
-}
-```
+- `items`: array of results  
+  - `sourceIndex`: index of source in `sources`  
+  - `targetIndex`: index of target in `targets`  
+  - `distanceMeters`: travel distance  
+  - `durationSeconds`: travel time  
 
-## Common errors
+---
+
+## Common Errors
 
 - `MISSING_API_KEY`
 - `INVALID_API_KEY`
 - `API_KEY_SERVICE_NOT_ALLOWED`
 - `SERVICE_LIMIT_EXCEEDED`
 - `VALIDATION_ERROR`
+
+---
+
+## Usage Notes
+
+- Ensure valid arrays and within size limits  
+- If a route cannot be computed, that pair may be missing  
+- Use this endpoint to compare travel times across multiple destinations  
+- Ideal for nearest-location or dispatch optimization use cases  

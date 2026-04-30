@@ -40,30 +40,26 @@ Use query authentication for browser-driven tile clients. Prefer the request hea
 6. The active subscription has remaining usage for the billed service, otherwise `SERVICE_LIMIT_EXCEEDED`.
 7. The request payload or query params are valid, otherwise `VALIDATION_ERROR`.
 
-## Allowed services to billed services mapping
+## Service Reference
 
-| Allowed service | Billed service |
-| --- | --- |
-| `TILES` | `TILES` |
-| `GEO_CODING` | `GEO_CODING` |
-| `ROUTING` | `ROUTING` |
-| `MATRIX` | `MATRIX` |
-| `TRIP` | `TRIP` |
-| `TRIP_UPDATE` | `TRIP` |
+| Service | Allowed Service | Billed Service | Auth Method | Typical HTTP Status Codes |
+|--------|----------------|----------------|-------------|----------------------------|
+| Trips (init) | `TRIP` | `TRIP` | Header `x-ambalay-key` | 200, 400, 401, 403, 429 |
+| Trips (update) | `TRIP_UPDATE` | `TRIP` | Header `x-ambalay-key` | 200, 400, 401, 403, 429 |
+| Trips (finalize) | `TRIP` | `TRIP` | Header `x-ambalay-key` | 200, 400, 401, 403, 429 |
+| Trips (history) | `TRIP` | `TRIP` | Header `x-ambalay-key` | 200, 400, 401, 403, 429 |
+| Matrix | `MATRIX` | `MATRIX` | Header `x-ambalay-key` | 200, 400, 401, 403, 429 |
+| Route | `ROUTING` | `ROUTING` | Header `x-ambalay-key` | 200, 400, 401, 403, 429 |
+| Geocoding (search) | `GEO_CODING` | `GEO_CODING` | Header `x-ambalay-key` | 200, 400, 401, 403, 429 |
+| Geocoding (reverse) | `GEO_CODING` | `GEO_CODING` | Header `x-ambalay-key` | 200, 400, 401, 403, 429 |
+| Tiles | `TILES` | `TILES` | Header `x-ambalay-key` or query | 200 (OK, tile), 401, 429 |
 
-## Catalog
+All responses include a JSON `status` and `message`.
 
-| Service | Method | Path | Required allowed service | Billed service |
-| --- | --- | --- | --- | --- |
-| Tiles | `GET` | `/services/tiles/{z}/{x}/{y}` | `TILES` | `TILES` |
-| Geocoding Search | `GET` | `/services/geo_coding/search` | `GEO_CODING` | `GEO_CODING` |
-| Reverse Geocoding | `GET` | `/services/geo_coding/reverse` | `GEO_CODING` | `GEO_CODING` |
-| Route | `POST` | `/services/route` | `ROUTING` | `ROUTING` |
-| Matrix | `POST` | `/services/matrix` | `MATRIX` | `MATRIX` |
-| Trip Init | `POST` | `/services/trip/init` | `TRIP` | `TRIP` |
-| Trip Update | `POST` | `/services/trip/update` | `TRIP_UPDATE` | `TRIP` |
-| Trip Finalize | `POST` | `/services/trip/finalize` | `TRIP` | `TRIP` |
-| Trip History | `GET` | `/services/trip/history/{tripId}` | `TRIP` | `TRIP` |
+Typical meanings:
+- `401 Unauthorized` → Missing or invalid API key  
+- `429 Too Many Requests` → Rate limit exceeded  
+- `400 Bad Request` → Validation error  
 
 ## Response envelope
 
