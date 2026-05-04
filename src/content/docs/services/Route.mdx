@@ -2,30 +2,115 @@ import DocsCodeBlock from "../../../Components/docs/DocsCodeBlock";
 
 ## Route
 
-Calculate a route between a source and destination.
+Calculate a route and turn-by-turn instructions between a source and destination.
 
 - Method: `POST`
 - Path: `/services/route`
-- Required allowed service: `ROUTING`
-- Billed service: `ROUTING`
+- Allowed Service: `ROUTING`
+- Billed Service: `ROUTING`
+- Auth: Header `x-ambalay-key: {API_KEY}`
 
-## Request body
+### Purpose
+
+Compute the route from one point to another, optionally via intermediate waypoints, returning distance, duration, and navigation steps.
+
+---
+
+## Request Schema
 
 ```json
 {
-  "source": { "lat": 8.9806, "lon": 38.7578 },
-  "destination": { "lat": 8.99, "lon": 38.76 },
-  "via": [],
-  "costing": "AUTO"
+  "type": "object",
+  "properties": {
+    "source": {
+      "type": "object",
+      "properties": {
+        "lat": { "type": "number" },
+        "lon": { "type": "number" }
+      },
+      "required": ["lat", "lon"]
+    },
+    "destination": {
+      "type": "object",
+      "properties": {
+        "lat": { "type": "number" },
+        "lon": { "type": "number" }
+      },
+      "required": ["lat", "lon"]
+    },
+    "via": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "lat": { "type": "number" },
+          "lon": { "type": "number" }
+        },
+        "required": ["lat", "lon"]
+      }
+    },
+    "costing": {
+      "type": "string",
+      "enum": ["AUTO", "PEDESTRIAN", "BICYCLE", "TRUCK"]
+    }
+  },
+  "required": ["source", "destination", "costing"]
 }
 ```
 
+---
+
 ## Rules
 
-- `via` can contain at most `10` points.
-- Supported `costing`: `AUTO`, `PEDESTRIAN`, `BICYCLE`, `TRUCK`.
+- `source`, `destination`: required coordinates  
+- `via`: optional waypoints (max 10)  
+- `costing`: one of:
+  - `AUTO`
+  - `PEDESTRIAN`
+  - `BICYCLE`
+  - `TRUCK`
 
-## Authentication example
+---
+
+## Example Request (cURL)
+
+```bash
+curl -X POST "https://api.dev.ambalaymaps.com/services/route" \
+-H "Content-Type: application/json" \
+-H "x-ambalay-key: YOUR_API_KEY" \
+-d '{
+  "source": { "lat": 8.9806, "lon": 38.7578 },
+  "destination": { "lat": 8.9900, "lon": 38.7600 },
+  "via": [],
+  "costing": "AUTO"
+}'
+```
+
+---
+
+## Example Request (JavaScript)
+
+```javascript
+fetch("https://api.dev.ambalaymaps.com/services/route", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "x-ambalay-key": API_KEY
+  },
+  body: JSON.stringify({
+    source: { lat: 8.9806, lon: 38.7578 },
+    destination: { lat: 8.9900, lon: 38.7600 },
+    via: [],
+    costing: "AUTO"
+  })
+})
+.then(res => res.json())
+.then(data => console.log(data));
+```
+
+---
+
+## Authentication Example
 
 <DocsCodeBlock
   language="http"
@@ -36,7 +121,9 @@ Content-Type: application/json
 x-ambalay-key: {API_KEY}`}
 />
 
-## Example success response
+---
+
+## Success Response
 
 ```json
 {
@@ -62,7 +149,19 @@ x-ambalay-key: {API_KEY}`}
 }
 ```
 
-## Example validation error
+### Response Fields
+
+- `distanceMeters`: total distance (meters)  
+- `durationSeconds`: total travel time (seconds)  
+- `legs`: route segments  
+  - `summary`: segment description  
+  - `steps`: turn-by-turn instructions  
+    - `instruction`: navigation text  
+    - `distanceMeters`: step distance  
+
+---
+
+## Validation Error Example
 
 ```json
 {
@@ -76,10 +175,21 @@ x-ambalay-key: {API_KEY}`}
 }
 ```
 
-## Common errors
+---
+
+## Common Errors
 
 - `MISSING_API_KEY`
 - `INVALID_API_KEY`
 - `API_KEY_SERVICE_NOT_ALLOWED`
 - `SERVICE_LIMIT_EXCEEDED`
 - `VALIDATION_ERROR`
+
+---
+
+## Usage Notes
+
+- Do not exceed 10 `via` points  
+- If no route is found, response may be empty or error returned  
+- Use appropriate `costing` for travel mode  
+- Suitable for navigation UIs, ETA calculation, and route planning  

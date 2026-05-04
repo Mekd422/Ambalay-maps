@@ -4,23 +4,69 @@ import DocsCodeBlock from "../../../Components/docs/DocsCodeBlock";
 
 Trips endpoints let you initialize, update, finalize, and inspect tracked trips.
 
-## Init
+---
+
+## 1. Initialize Trip
+
+Start a new tracked trip. Returns a `tripId` and initial state.
 
 - Method: `POST`
 - Path: `/services/trip/init`
-- Required allowed service: `TRIP`
-- Billed service: `TRIP`
+- Allowed Service: `TRIP`
+- Billed Service: `TRIP`
+- Auth: Header `x-ambalay-key: {API_KEY}`
 
-### Request body
+### Request Schema
 
 ```json
 {
-  "loc": { "lat": 8.9806, "lon": 38.7578 },
-  "eventId": "evt-1"
+  "type": "object",
+  "properties": {
+    "loc": {
+      "type": "object",
+      "properties": {
+        "lat": { "type": "number" },
+        "lon": { "type": "number" }
+      },
+      "required": ["lat", "lon"]
+    },
+    "eventId": { "type": "string" }
+  },
+  "required": ["loc", "eventId"]
 }
 ```
 
-### Example success response
+### Example Request (cURL)
+
+```bash
+curl -X POST "https://api.dev.ambalaymaps.com/services/trip/init" \
+-H "Content-Type: application/json" \
+-H "x-ambalay-key: YOUR_API_KEY" \
+-d '{
+  "loc": { "lat": 8.9806, "lon": 38.7578 },
+  "eventId": "evt-1"
+}'
+```
+
+### Example Request (JavaScript)
+
+```javascript
+fetch("https://api.dev.ambalaymaps.com/services/trip/init", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "x-ambalay-key": API_KEY
+  },
+  body: JSON.stringify({
+    loc: { lat: 8.9806, lon: 38.7578 },
+    eventId: "evt-1"
+  })
+})
+.then(res => res.json())
+.then(data => console.log(data));
+```
+
+### Success Response
 
 ```json
 {
@@ -35,24 +81,89 @@ Trips endpoints let you initialize, update, finalize, and inspect tracked trips.
 }
 ```
 
-## Update
+- `data.tripId`: Unique trip identifier  
+- `data.state`: `"ACTIVE"`
+
+### Common Errors
+
+- `MISSING_API_KEY`
+- `INVALID_API_KEY`
+- `API_KEY_SERVICE_NOT_ALLOWED`
+- `SERVICE_LIMIT_EXCEEDED`
+- `VALIDATION_ERROR`
+
+### Usage Notes
+
+- `eventId` must be unique per request  
+- No idempotency → duplicate `eventId` may create duplicates  
+- Handle rate limits (`SERVICE_LIMIT_EXCEEDED`) with retries/backoff  
+
+---
+
+## 2. Update Trip
+
+Send a new location update for an active trip.
 
 - Method: `POST`
 - Path: `/services/trip/update`
-- Required allowed service: `TRIP_UPDATE`
-- Billed service: `TRIP`
+- Allowed Service: `TRIP_UPDATE`
+- Billed Service: `TRIP`
+- Auth: Header `x-ambalay-key: {API_KEY}`
 
-### Request body
+### Request Schema
 
 ```json
 {
-  "tripId": "00000000-0000-4000-8000-000000000020",
-  "loc": { "lat": 8.981, "lon": 38.758 },
-  "eventId": "evt-2"
+  "type": "object",
+  "properties": {
+    "tripId": { "type": "string" },
+    "loc": {
+      "type": "object",
+      "properties": {
+        "lat": { "type": "number" },
+        "lon": { "type": "number" }
+      },
+      "required": ["lat", "lon"]
+    },
+    "eventId": { "type": "string" }
+  },
+  "required": ["tripId", "loc", "eventId"]
 }
 ```
 
-### Example success response
+### Example Request (cURL)
+
+```bash
+curl -X POST "https://api.dev.ambalaymaps.com/services/trip/update" \
+-H "Content-Type: application/json" \
+-H "x-ambalay-key: YOUR_API_KEY" \
+-d '{
+  "tripId": "00000000-0000-4000-8000-000000000020",
+  "loc": { "lat": 8.9810, "lon": 38.7580 },
+  "eventId": "evt-2"
+}'
+```
+
+### Example Request (JavaScript)
+
+```javascript
+fetch("https://api.dev.ambalaymaps.com/services/trip/update", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "x-ambalay-key": API_KEY
+  },
+  body: JSON.stringify({
+    tripId: "00000000-0000-4000-8000-000000000020",
+    loc: { lat: 8.9810, lon: 38.7580 },
+    eventId: "evt-2"
+  })
+})
+.then(res => res.json())
+.then(data => console.log(data));
+```
+
+### Success Response
 
 ```json
 {
@@ -68,24 +179,61 @@ Trips endpoints let you initialize, update, finalize, and inspect tracked trips.
 }
 ```
 
-## Finalize
+- `data.accepted`: `true` if update recorded  
+
+### Usage Notes
+
+- Only update active trips  
+- Each `eventId` must be unique  
+- Avoid excessive calls (rate limits apply)  
+
+---
+
+## 3. Finalize Trip
+
+End an active trip.
 
 - Method: `POST`
 - Path: `/services/trip/finalize`
-- Required allowed service: `TRIP`
-- Billed service: `TRIP`
+- Allowed Service: `TRIP`
+- Billed Service: `TRIP`
+- Auth: Header `x-ambalay-key: {API_KEY}`
 
-### Request body
+### Request Schema
 
 ```json
 {
-  "tripId": "00000000-0000-4000-8000-000000000020",
-  "loc": { "lat": 8.982, "lon": 38.759 },
-  "eventId": "evt-3"
+  "type": "object",
+  "properties": {
+    "tripId": { "type": "string" },
+    "loc": {
+      "type": "object",
+      "properties": {
+        "lat": { "type": "number" },
+        "lon": { "type": "number" }
+      },
+      "required": ["lat", "lon"]
+    },
+    "eventId": { "type": "string" }
+  },
+  "required": ["tripId", "loc", "eventId"]
 }
 ```
 
-### Example success response
+### Example Request (cURL)
+
+```bash
+curl -X POST "https://api.dev.ambalaymaps.com/services/trip/finalize" \
+-H "Content-Type: application/json" \
+-H "x-ambalay-key: YOUR_API_KEY" \
+-d '{
+  "tripId": "00000000-0000-4000-8000-000000000020",
+  "loc": { "lat": 8.9820, "lon": 38.7590 },
+  "eventId": "evt-3"
+}'
+```
+
+### Success Response
 
 ```json
 {
@@ -100,14 +248,32 @@ Trips endpoints let you initialize, update, finalize, and inspect tracked trips.
 }
 ```
 
-## History
+### Usage Notes
+
+- Cannot update after finalize  
+- Call only once  
+- `eventId` must still be unique  
+
+---
+
+## 4. Trip History
+
+Retrieve all trip events.
 
 - Method: `GET`
 - Path: `/services/trip/history/{tripId}`
-- Required allowed service: `TRIP`
-- Billed service: `TRIP`
+- Allowed Service: `TRIP`
+- Billed Service: `TRIP`
+- Auth: Header `x-ambalay-key: {API_KEY}`
 
-### Example request
+### Example Request (cURL)
+
+```bash
+curl "https://api.dev.ambalaymaps.com/services/trip/history/00000000-0000-4000-8000-000000000020" \
+-H "x-ambalay-key: YOUR_API_KEY"
+```
+
+### Example Request (HTTP)
 
 <DocsCodeBlock
   language="http"
@@ -117,7 +283,7 @@ Host: {BASE_URL}
 x-ambalay-key: {API_KEY}`}
 />
 
-### Example success response
+### Success Response
 
 ```json
 {
@@ -132,7 +298,11 @@ x-ambalay-key: {API_KEY}`}
       },
       {
         "eventId": "evt-2",
-        "loc": { "lat": 8.981, "lon": 38.758 }
+        "loc": { "lat": 8.9810, "lon": 38.7580 }
+      },
+      {
+        "eventId": "evt-3",
+        "loc": { "lat": 8.9820, "lon": 38.7590 }
       }
     ]
   },
@@ -142,12 +312,14 @@ x-ambalay-key: {API_KEY}`}
 }
 ```
 
-## Common errors
+### Notes
 
-- `MISSING_API_KEY`
+- `data.events`: ordered list of all events  
+- Finalize is reflected via `state`, not separate event  
+- Use for analytics or visualization  
+
+### Common Errors
+
 - `INVALID_API_KEY`
-- `REVOKED_API_KEY`
-- `EXPIRED_API_KEY`
-- `API_KEY_SERVICE_NOT_ALLOWED`
-- `SERVICE_LIMIT_EXCEEDED`
+- `MISSING_API_KEY`
 - `VALIDATION_ERROR`
