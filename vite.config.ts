@@ -12,6 +12,13 @@ export default defineConfig({
       'X-Content-Type-Options': 'nosniff',
       'X-Frame-Options': 'DENY',
       'X-XSS-Protection': '1; mode=block',
-    },
-  },
+    }
+    // proxy: {
+    //   "/api": {
+    //     target: "https://www.ambalaymaps.com",
+    //     changeOrigin: true,
+    //     secure: true,
+    //   },
+    // },
+  }
 })

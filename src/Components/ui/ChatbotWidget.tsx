@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useChatbot } from '../../hooks/useChatbot'; // Adjust based on your actual path
+import { useChatbot } from '../../hooks/useChatbot'; 
 
 const ChatbotWidget: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -7,7 +7,6 @@ const ChatbotWidget: React.FC = () => {
   const { messages, loading, sendMessage } = useChatbot();
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll to latest message
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -24,10 +23,8 @@ const ChatbotWidget: React.FC = () => {
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end font-sans">
-      {/* Chat Window */}
       {isOpen && (
         <div className="mb-4 flex h-[500px] w-[350px] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a] shadow-2xl backdrop-blur-xl sm:w-[400px]">
-          {/* Header */}
           <div className="flex items-center justify-between bg-gradient-to-r from-[#0a0a0a] to-[#1a1a1a] p-4 border-b border-white/5">
             <div className="flex items-center gap-3">
               <div className="h-2 w-2 animate-pulse rounded-full bg-[#b0ff2a]"></div>
@@ -41,7 +38,6 @@ const ChatbotWidget: React.FC = () => {
             </button>
           </div>
 
-          {/* Messages Area */}
           <div 
             ref={scrollRef}
             className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-white/10"
@@ -68,7 +64,6 @@ const ChatbotWidget: React.FC = () => {
             )}
           </div>
 
-          {/* Input Area */}
           <form onSubmit={handleSubmit} className="p-4 bg-white/5 border-t border-white/5">
             <div className="relative flex items-center">
               <input
@@ -90,7 +85,6 @@ const ChatbotWidget: React.FC = () => {
         </div>
       )}
 
-      {/* Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex h-14 w-14 items-center justify-center rounded-full bg-[#b0ff2a] shadow-lg shadow-[#b0ff2a]/20 hover:scale-110 active:scale-95 transition-all"

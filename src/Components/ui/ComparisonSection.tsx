@@ -33,7 +33,7 @@ designed for accuracy, speed and ease of integration.
             <div className="p-10 md:p-14 text-left border-b md:border-b-0 md:border-r border-white/5">
               <h3 className="text-gray-500 text-xs font-semibold uppercase tracking-widest mb-10">Other Tools</h3>
               <ul className="space-y-6">
-                {["Messy spreadsheets, manual tracking", "Complicated pricing, hidden fees", "Limited automation, manual workflows", "No team collaboration", "Generic support, slow replies"].map((text, i) => (
+                {["Complex APIs that take longer to integrate", "Fragmented services (geocoding, routing, tiles separated across tools)", "Unpredictable pricing that scales quickly with usage", "Limited real-time capabilities or performance bottlenecks", "Steep learning curve with poor developer experience"].map((text, i) => (
                   <li key={i} className="flex items-start gap-4 text-gray-500 text-sm">
                     <XCircle size={18} className="mt-0.5 text-orange-500/60 shrink-0" />
                     <span>{text}</span>
