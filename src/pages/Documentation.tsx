@@ -51,7 +51,7 @@ const Documentation = () => {
 
   const sidebarLinks: SidebarGroup[] = [
     { group: "Introduction", items: ["Overview", "Quickstart Guide"] },
-    { group: "Services", items: ["Services Overview", "Tiles", "Geocoding", "Route", "Matrix", "Trips"] },
+    { group: "API Reference", items: ["Services Overview", "Tiles", "Geocoding", "Route", "Matrix", "Trips"] },
     { group: "Resources", items: ["Best Practices", "FAQ & Troubleshooting", "Developer Support"] }
   ];
 

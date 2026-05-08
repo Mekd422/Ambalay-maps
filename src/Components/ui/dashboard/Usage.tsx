@@ -130,28 +130,65 @@ export default function Usage() {
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
-        <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 border-b border-white/10 px-5 py-3 text-xs font-bold uppercase tracking-[0.2em] text-gray-500">
-          <span>Service</span>
-          <span className="text-right">Used/Allowed</span>
-        </div>
-
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
         {usageRows.length === 0 ? (
-          <div className="px-5 py-10 text-center text-gray-400">No usage data available yet.</div>
+          <div className="col-span-full rounded-2xl border border-white/10 bg-white/5 px-5 py-10 text-center text-gray-400">
+            No usage data available yet.
+          </div>
         ) : (
-          <div>
-            {usageRows.map((row) => (
+          usageRows.map((row) => {
+            const percentage =
+              row.allowed > 0 ? Math.min((row.used / row.allowed) * 100, 100) : 0;
+
+            return (
               <div
                 key={row.service}
-                className="grid grid-cols-[minmax(0,1fr)_auto] gap-4 border-b border-white/5 px-5 py-4 last:border-b-0"
+                className="rounded-2xl border border-white/10 bg-white/5 p-5 transition-all duration-300 hover:border-[#8cff2e]/30 hover:bg-white/[0.07]"
               >
-                <span className="font-medium text-white">{row.service}</span>
-                <span className="text-right font-semibold text-[#8cff2e]">
-                  {row.used.toLocaleString()} / {row.allowed.toLocaleString()}
-                </span>
+                <div className="mb-4 flex items-start justify-between gap-4">
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">
+                      {row.service}
+                    </h3>
+
+                    <p className="mt-1 text-sm text-gray-400">
+                      Service usage consumption
+                    </p>
+                  </div>
+
+                  <div className="rounded-xl bg-[#8cff2e]/10 px-3 py-1 text-sm font-semibold text-[#8cff2e]">
+                    {Math.round(percentage)}%
+                  </div>
+                </div>
+
+                <div className="mb-3">
+                  <div className="mb-2 flex items-center justify-between text-sm">
+                    <span className="text-gray-400">Used</span>
+
+                    <span className="font-medium text-white">
+                      {row.used.toLocaleString()} /{" "}
+                      {row.allowed.toLocaleString()}
+                    </span>
+                  </div>
+
+                  <div className="h-2 overflow-hidden rounded-full bg-white/10">
+                    <div
+                      className="h-full rounded-full bg-[#8cff2e] transition-all duration-500"
+                      style={{ width: `${percentage}%` }}
+                    />
+                  </div>
+                </div>
+
+                <div className="mt-4 flex items-center justify-between text-sm">
+                  <span className="text-gray-500">Remaining</span>
+
+                  <span className="font-semibold text-[#8cff2e]">
+                    {(row.allowed - row.used).toLocaleString()}
+                  </span>
+                </div>
               </div>
-            ))}
-          </div>
+            );
+          })
         )}
       </div>
     </DashboardCard>

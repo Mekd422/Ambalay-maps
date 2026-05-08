@@ -1,3 +1,120 @@
+<style jsx global>{`
+  /*
+   * INLINE CODE
+   */
+  code {
+    color: #79c0ff;
+    background: rgba(110, 118, 129, 0.15);
+    padding: 0.15rem 0.35rem;
+    border-radius: 6px;
+    font-size: 0.92em;
+    font-weight: 500;
+  }
+
+  /*
+   * CODE BLOCK CONTAINER
+   */
+  pre {
+    background: #0d1117 !important;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    padding: 1rem;
+    overflow-x: auto;
+  }
+
+  /*
+   * RESET DEFAULT CODE COLORS
+   */
+  pre code {
+    background: transparent !important;
+    color: #c9d1d9 !important;
+    padding: 0;
+  }
+
+  /*
+   * VS CODE / GITHUB DARK TOKEN COLORS
+   */
+  .token.keyword {
+    color: #ff7b72 !important;
+  }
+
+  .token.string {
+    color: #a5d6ff !important;
+  }
+
+  .token.function {
+    color: #d2a8ff !important;
+  }
+
+  .token.number {
+    color: #79c0ff !important;
+  }
+
+  .token.operator {
+    color: #ff7b72 !important;
+  }
+
+  .token.property {
+    color: #79c0ff !important;
+  }
+
+  .token.punctuation {
+    color: #c9d1d9 !important;
+  }
+
+  .token.boolean {
+    color: #ff7b72 !important;
+  }
+
+  .token.comment {
+    color: #8b949e !important;
+  }
+
+  .token.attr-name {
+    color: #79c0ff !important;
+  }
+
+  .token.attr-value {
+    color: #a5d6ff !important;
+  }
+
+  /*
+   * TABLES
+   */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th {
+    text-align: left;
+    border-bottom: 1px solid #30363d;
+    padding: 0.75rem;
+  }
+
+  td {
+    border-bottom: 1px solid #21262d;
+    padding: 0.75rem;
+  }
+
+  /*
+   * IMAGES
+   */
+  img {
+    border-radius: 14px;
+    margin: 1.5rem 0;
+  }
+
+  /*
+   * BLOCKQUOTES
+   */
+  blockquote {
+    border-left: 4px solid #30363d;
+    padding-left: 1rem;
+    color: #c9d1d9;
+  }
+`}</style>
+
 # Matrix API
 
 Calculate travel distance and duration between multiple points.
@@ -22,8 +139,6 @@ Matrix APIs also typically return aggregate metrics such as distance and duratio
 
 This page rewrites the Matrix specification into a tighter, developer-focused reference that is easier to scan and implement.
 
----
-
 ## Overview and Common Uses
 
 Use the Matrix API when you need to answer questions such as:
@@ -45,8 +160,6 @@ Because this endpoint is designed for matrix-style comparison rather than turn-b
 - Source-to-target ranking
 
 If your application needs the actual path, maneuvers, or geometry of a route, a routing endpoint is the better fit.
-
----
 
 ## Request Body
 
@@ -75,8 +188,8 @@ Each point object uses this structure:
 
 ### Rules
 
-- `sources` supports up to 50 points
-- `targets` supports up to 50 points
+- `sources` supports up to `50` points
+- `targets` supports up to `50` points
 - At least one source and one target are required
 - Supported request patterns:
   - One-to-many (`1 -> N`)
@@ -87,8 +200,6 @@ Each point object uses this structure:
 Request-size caps are standard in matrix systems because the computational work scales with the number of origin-destination pairs.
 
 Other routing platforms also impose coordinate-count or element-count limits, and one widely used open routing service explicitly documents a `50x50` matrix boundary for batch distance pairs.
-
----
 
 ## Example Request with cURL
 
@@ -107,8 +218,6 @@ curl -X POST "https://api.dev.ambalaymaps.com/services/matrix" \
   "costing": "AUTO"
 }'
 ```
-
----
 
 ## Example Request with JavaScript
 
@@ -131,8 +240,6 @@ fetch("https://api.dev.ambalaymaps.com/services/matrix", {
 .then(res => res.json())
 .then(data => console.log(data));
 ```
-
----
 
 ## Response Format
 
@@ -173,8 +280,6 @@ Across established route-matrix APIs:
 }
 ```
 
----
-
 ## Response Fields
 
 | Field | Type | Description |
@@ -190,8 +295,6 @@ A practical implementation detail:
 Treat `sourceIndex` and `targetIndex` as the source of truth when joining results back to your own records.
 
 Index-based mapping is a well-established pattern in route-matrix responses and is much safer than assuming a fixed output order, especially when a response may be partial.
-
----
 
 ## Errors and Edge Cases
 
@@ -226,8 +329,6 @@ That behavior is standard in matrix routing and should be expected when comparin
 | `API_KEY_SERVICE_NOT_ALLOWED` | Matrix service is not enabled for this key |
 | `SERVICE_LIMIT_EXCEEDED` | Usage or quota limit exceeded |
 | `VALIDATION_ERROR` | The request body is invalid |
-
----
 
 ## Implementation Guidance
 
