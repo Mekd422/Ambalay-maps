@@ -93,36 +93,36 @@ export default function UsageCalculator() {
       </div>
 
       <PricingTier 
-        title="Routing" 
+        title="Geocoding" 
         pricePerUnit={0.002} 
         unitLabel="Requests"
       />
       
       <PricingTier 
-        title="Reverse Geocoding" 
+        title="Matrix" 
         pricePerUnit={0.005} 
         unitLabel="Requests"
       />
 
       <PricingTier 
-        title="Geocoding" 
+        title="Route" 
         pricePerUnit={0.007} 
         unitLabel="Requests"
       />
 
       <PricingTier 
-        title="Static Maps" 
+        title="Tiles" 
         pricePerUnit={0.007} 
         unitLabel="Requests"
       />
 
       <PricingTier 
-        title="Matrix API" 
+        title="Trips" 
         pricePerUnit={0.007} 
         unitLabel="Requests"
       />
       
-      <PricingTier 
+      {/* <PricingTier 
         title="LLM" 
         pricePerUnit={0.007} 
         unitLabel="Requests"
@@ -132,7 +132,7 @@ export default function UsageCalculator() {
         title="Optimized Route API" 
         pricePerUnit={0.007} 
         unitLabel="Requests"
-      />
+      /> */}
     </section>
   );
 }

@@ -12,11 +12,11 @@ export default function TestimonialMarquee() {
     { name: "Sara", role: "Operations Coordinator", text: "We use it for route planning and location lookup every day.", img: person3 },
   ]
   
-  const row2 = [
-    { name: "Enkumichael", role: "Product Manager", text: "Ambalay Maps made it much easier to manage addresses and routing in our workflow.", img: person2 },
-    { name: "Samson Warkaye", role: "Lead Developer", text: "The API was straightforward to integrate, and the results were accurate.", img: person1 },
-    { name: "Sara", role: "Operations Coordinator", text: "We use it for route planning and location lookup every day.", img: person3 },
-  ]
+  // const row2 = [
+  //   { name: "Enkumichael", role: "Product Manager", text: "Ambalay Maps made it much easier to manage addresses and routing in our workflow.", img: person2 },
+  //   { name: "Samson Warkaye", role: "Lead Developer", text: "The API was straightforward to integrate, and the results were accurate.", img: person1 },
+  //   { name: "Sara", role: "Operations Coordinator", text: "We use it for route planning and location lookup every day.", img: person3 },
+  // ]
 
   return (
     <section className="px-6 md:px-12 py-24 bg-black overflow-hidden">
@@ -50,7 +50,7 @@ export default function TestimonialMarquee() {
           </motion.p>
         </div>
         <div className="flex flex-col gap-8">
-          {[row1, row2].map((row, idx) => (
+          {[row1].map((row, idx) => (
             <div key={idx} className="relative overflow-hidden">
               <div className={`flex gap-6 ${idx === 0 ? 'animate-marquee-left' : 'animate-marquee-right'} whitespace-nowrap`}>
                 {[...row, ...row].map((t, i) => (
