@@ -13,9 +13,8 @@ export default function BlogSection() {
   const categoryLabels = [
     "AI Navigation",
     "Product Updates",
-    "Engineering",
     "Developer Tools",
-    "Mapping for Africa",
+    "Mapping",
     "Company News",
   ];
 

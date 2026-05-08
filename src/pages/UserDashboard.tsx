@@ -27,9 +27,10 @@ const Dashboard = () => {
   ];
 
   const subjectNavItems = [
-    { name: 'Account', icon: <UserCircle size={18} /> },
     { name: 'API Keys', icon: <Key size={18} /> },
     { name: 'Usage', icon: <MessageSquare size={18} /> },
+    { name: 'Account', icon: <UserCircle size={18} /> },
+
   ];
 
   const navItems = isAdmin ? adminNavItems : subjectNavItems;
@@ -179,9 +180,9 @@ const Dashboard = () => {
               </Routes>
             ) : (
               <>
-                {effectiveTab === "Account" && <AccountSettings />}
                 {effectiveTab === "API Keys" && <ApiKeys />}
                 {effectiveTab === "Usage" && <Usage />}
+                {effectiveTab === "Account" && <AccountSettings />}
 
                 {effectiveTab !== "Account" &&
                   effectiveTab !== "API Keys" &&
