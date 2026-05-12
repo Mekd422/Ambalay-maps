@@ -1,9 +1,25 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { getServiceGrants } from "../../api/types"
 import { CheckCircle2, ArrowUpRight } from "lucide-react"
 import { Link } from "react-router-dom"
 
 export default function PricingSection() {
   const [isYearly, setIsYearly] = useState(false)
+  const [services, setServices] = useState<string[]>([])
+
+
+  useEffect(() => {
+  const fetchServices = async () => {
+    try {
+      const data = await getServiceGrants()
+      setServices(data)
+    } catch (error) {
+      console.error("Failed to fetch services:", error)
+    }
+  }
+
+  fetchServices()
+}, [])
 
   return (
     <section className="px-6 md:px-12 py-24 bg-black">
@@ -39,19 +55,20 @@ export default function PricingSection() {
               </button>
             </Link>
             <ul className="space-y-4">
-              {[
-                "100 Geocoding",
-                "100 Routing",
-                "100 Matrix",
-                "100 Directions",
-                "150 Optimization",
-                "Community Support"
-              ].map((item) => (
-                <li key={item} className="flex items-center gap-3 text-sm text-gray-300">
-                  <CheckCircle2 size={18} className="text-gray-500" /> {item}
-                </li>
-              ))}
-            </ul>
+            {services.map((service) => (
+              <li
+                key={service}
+                className="flex items-center gap-3 text-sm text-gray-300"
+              >
+                <CheckCircle2 size={18} className="text-gray-500" />
+
+                {service
+                  .replace(/_/g, " ")
+                  .toLowerCase()
+                  .replace(/\b\w/g, (c) => c.toUpperCase())}
+              </li>
+            ))}
+          </ul>
           </div>
 
           {/* Starter Plan */}

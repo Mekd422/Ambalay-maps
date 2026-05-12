@@ -7,7 +7,7 @@ The Tiles endpoint provides vector map tiles (PBF format) for rendering interact
 
 Use this API to load base map layers or custom map data in your application.
 
----
+
 
 ## Overview & Use Cases
 
@@ -15,41 +15,39 @@ The Tiles service delivers vector tiles optimized for client-side rendering. Eac
 
 Common use cases include:
 
-- **Rendering interactive maps:** Use tiles as a base layer in MapLibre, Mapbox GL JS, or similar libraries.
-- **Custom map styles:** Apply your own styling while retrieving raw map data.
-- **Offline maps:** Download tiles for offline scenarios (subject to licensing).
-- **Performance optimization:** Vector tiles are compact and cache-friendly.
+- Rendering interactive maps with MapLibre or Mapbox GL JS
+- Custom map styling with raw vector data
+- Offline map caching (where permitted)
+- Performance-optimized map rendering
 
-Ambalay Maps tiles follow the Web Mercator scheme and Mapbox Vector Tile specification. This allows high-detail maps with efficient zoom transitions.
 
----
 
 ## Base URL
 
-All tile requests use the HTTPS base URL:
+<DocsCodeBlock
+  language="text"
+  baseUrl={props.baseUrl}
+  template={`{BASE_URL}`}
+/>
 
-```
-https://api.dev.ambalaymaps.com
-```
 
----
 
 ## Endpoint
 
-- **Method:** `GET`
-- **Path:** `/services/tiles/{z}/{x}/{y}`
-- **Required allowed service:** `TILES`
-- **Billed service:** `TILES`
+- Method: `GET`
+- Path: `/services/tiles/{z}/{x}/{y}`
+- Allowed Service: `TILES`
+- Billed Service: `TILES`
 
----
+
 
 ## Authentication
 
-Tiles API requests require a valid API key.
+Tiles can be authenticated using either query parameters or headers.
 
-You can provide it in two ways:
 
-### Query Parameter (Recommended for browser use)
+
+### Query Authentication (Browser Use)
 
 <DocsCodeBlock
   language="http"
@@ -58,17 +56,16 @@ You can provide it in two ways:
 Host: {BASE_URL}`}
 />
 
-**Pros:**
-- Works in browsers (MapLibre, tile URLs)
-- Easy integration  
+**Best for:**
+- MapLibre / Mapbox browser clients
+- Direct tile URL loading
 
-**Cons:**
-- API key visible in URL
-- Some CDNs may not cache properly  
+**Tradeoff:**
+- API key is visible in URL
 
----
 
-### Header (Recommended for server-side)
+
+### Header Authentication (Server Use)
 
 <DocsCodeBlock
   language="http"
@@ -78,80 +75,26 @@ Host: {BASE_URL}
 x-ambalay-key: {API_KEY}`}
 />
 
-**Pros:**
-- More secure (hidden from URL)
-- Better for backend services  
+**Best for:**
+- Backend services
+- Secure internal systems
 
-**Cons:**
-- Not usable directly in browser tile requests
-- Requires proxy for frontend apps  
+**Tradeoff:**
+- Not directly usable in browser tile URLs
 
----
 
-### When to Use Which
 
-- Use **query auth** → browser-based map clients  
-- Use **header auth** → backend or secure environments  
+### Recommended Usage
 
----
+- Use **query authentication** for frontend map rendering
+- Use **header authentication** for backend proxy services
+
+
 
 ## Successful Response
 
-Tiles return binary vector tile data in PBF format.
+Tiles return binary vector tile data in PBF format:
 
 ```http
 HTTP/1.1 200 OK
 Content-Type: application/vnd.mapbox-vector-tile
-```
-
----
-
-## Example Error Response
-
-```json
-{
-  "status": "ERROR",
-  "message": "SERVICE_LIMIT_EXCEEDED",
-  "timestamp": "2026-04-29T06:00:00.000Z",
-  "requestId": "request-id"
-}
-```
-
----
-
-## Common Errors & Troubleshooting
-
-- `MISSING_API_KEY` → No API key provided  
-- `INVALID_API_KEY` → Invalid key format  
-- `REVOKED_API_KEY` / `EXPIRED_API_KEY` → Key no longer active  
-- `API_KEY_SERVICE_NOT_ALLOWED` → Tiles service not enabled  
-- `SERVICE_LIMIT_EXCEEDED` → Usage limit exceeded  
-- `VALIDATION_ERROR` → Invalid `{z}/{x}/{y}` values  
-
-### Troubleshooting Tips
-
-- Ensure tile coordinates are valid  
-- Check for `401` or `403` errors  
-- Verify correct response content type  
-- Inspect requests using browser dev tools  
-- Check for CORS or adblock interference  
-
----
-
-## Best Practices
-
-- Use HTTPS for all requests  
-- Cache tiles to improve performance  
-- Use a proxy if hiding API keys  
-- Match map styles with tile schema  
-- Avoid excessive requests (respect rate limits)  
-
----
-
-## Security Recommendations
-
-- Treat API keys like passwords  
-- Avoid exposing keys in public repos  
-- Restrict usage where possible (e.g., referrer restrictions)  
-- Rotate keys periodically  
-- Monitor usage via dashboard  

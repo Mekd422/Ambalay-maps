@@ -1,3 +1,5 @@
+import DocsCodeBlock from "../../../Components/docs/DocsCodeBlock";
+
 <style jsx global>{`
   /*
    * INLINE CODE
@@ -138,9 +140,11 @@ The documentation below preserves the endpoint contract while reorganizing it in
 
 All examples below use the development base URL:
 
-```bash
-https://api.dev.ambalaymaps.com
-```
+<DocsCodeBlock
+  language="bash"
+  baseUrl={props.baseUrl}
+  template={`https://api.dev.ambalaymaps.com`}
+/>
 
 Both endpoints in this page share the same access model.
 
@@ -155,17 +159,21 @@ Both endpoints in this page share the same access model.
 
 Use the API key in the request header:
 
-```http
-x-ambalay-key: {API_KEY}
-```
+<DocsCodeBlock
+  language="http"
+  baseUrl={props.baseUrl}
+  template={`x-ambalay-key: {API_KEY}`}
+/>
 
 A minimal authenticated request looks like this:
 
-```http
-GET /services/geo_coding/... HTTP/1.1
+<DocsCodeBlock
+  language="http"
+  baseUrl={props.baseUrl}
+  template={`GET /services/geo_coding/... HTTP/1.1
 Host: api.dev.ambalaymaps.com
-x-ambalay-key: {API_KEY}
-```
+x-ambalay-key: {API_KEY}`}
+/>
 
 ![Authentication Example](/images/geocoding-authentication.png)
 
@@ -204,23 +212,29 @@ The example below searches for results related to Addis Ababa.
 
 ### cURL
 
-```bash
-curl "https://api.dev.ambalaymaps.com/services/geo_coding/search?term=Addis%20Ababa&limit=5" \
--H "x-ambalay-key: YOUR_API_KEY"
-```
+<DocsCodeBlock
+  language="bash"
+  baseUrl={props.baseUrl}
+  template={`curl "https://api.dev.ambalaymaps.com/services/geo_coding/search?term=Addis%20Ababa&limit=5" \\
+-H "x-ambalay-key: YOUR_API_KEY"`}
+/>
 
 ### HTTP Request
 
-```http
-GET /services/geo_coding/search?term=Addis%20Ababa&limit=5 HTTP/1.1
+<DocsCodeBlock
+  language="http"
+  baseUrl={props.baseUrl}
+  template={`GET /services/geo_coding/search?term=Addis%20Ababa&limit=5 HTTP/1.1
 Host: api.dev.ambalaymaps.com
-x-ambalay-key: {API_KEY}
-```
+x-ambalay-key: {API_KEY}`}
+/>
 
 ## Success Response
 
-```json
-{
+<DocsCodeBlock
+  language="json"
+  baseUrl={props.baseUrl}
+  template={`{
   "status": "SUCCESS",
   "data": {
     "items": [
@@ -247,8 +261,8 @@ x-ambalay-key: {API_KEY}
   "message": "GEO_CODING_SEARCH_SUCCESS",
   "timestamp": "2026-04-29T06:00:00.000Z",
   "requestId": "request-id"
-}
-```
+}`}
+/>
 
 ## Response Fields
 
@@ -312,23 +326,29 @@ The granularity of the result can vary from:
 
 ### cURL
 
-```bash
-curl "https://api.dev.ambalaymaps.com/services/geo_coding/reverse?lat=8.9806&lon=38.7578" \
--H "x-ambalay-key: YOUR_API_KEY"
-```
+<DocsCodeBlock
+  language="bash"
+  baseUrl={props.baseUrl}
+  template={`curl "https://api.dev.ambalaymaps.com/services/geo_coding/reverse?lat=8.9806&lon=38.7578" \\
+-H "x-ambalay-key: YOUR_API_KEY"`}
+/>
 
 ### HTTP Request
 
-```http
-GET /services/geo_coding/reverse?lat=8.9806&lon=38.7578 HTTP/1.1
+<DocsCodeBlock
+  language="http"
+  baseUrl={props.baseUrl}
+  template={`GET /services/geo_coding/reverse?lat=8.9806&lon=38.7578 HTTP/1.1
 Host: api.dev.ambalaymaps.com
-x-ambalay-key: {API_KEY}
-```
+x-ambalay-key: {API_KEY}`}
+/>
 
 ## Success Response
 
-```json
-{
+<DocsCodeBlock
+  language="json"
+  baseUrl={props.baseUrl}
+  template={`{
   "status": "SUCCESS",
   "data": {
     "item": {
@@ -344,8 +364,8 @@ x-ambalay-key: {API_KEY}
   "message": "GEO_CODING_REVERSE_SUCCESS",
   "timestamp": "2026-04-29T06:00:00.000Z",
   "requestId": "request-id"
-}
-```
+}`}
+/>
 
 ## Response Fields
 
@@ -360,8 +380,10 @@ x-ambalay-key: {API_KEY}
 
 ## Validation Error Example
 
-```json
-{
+<DocsCodeBlock
+  language="json"
+  baseUrl={props.baseUrl}
+  template={`{
   "status": "ERROR",
   "data": {
     "lat": "lat must be a valid number"
@@ -369,8 +391,8 @@ x-ambalay-key: {API_KEY}
   "message": "VALIDATION_ERROR",
   "timestamp": "2026-04-29T06:00:00.000Z",
   "requestId": "request-id"
-}
-```
+}`}
+/>
 
 ## Usage Notes
 
@@ -429,9 +451,11 @@ Additional best practices:
 - Validate coordinates before requests
 - Show friendly fallback messages such as:
 
-```txt
-No matching place found
-```
+<DocsCodeBlock
+  language="txt"
+  baseUrl={props.baseUrl}
+  template={`No matching place found`}
+/>
 
 instead of generic failure banners.
 
