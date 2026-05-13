@@ -1,3 +1,5 @@
+import DocsCodeBlock from "../../../Components/docs/DocsCodeBlock";
+
 <style jsx global>{`
   /*
    * INLINE CODE
@@ -22,60 +24,10 @@
     overflow-x: auto;
   }
 
-  /*
-   * RESET DEFAULT CODE COLORS
-   */
   pre code {
     background: transparent !important;
     color: #c9d1d9 !important;
     padding: 0;
-  }
-
-  /*
-   * VS CODE / GITHUB DARK TOKEN COLORS
-   */
-  .token.keyword {
-    color: #ff7b72 !important;
-  }
-
-  .token.string {
-    color: #a5d6ff !important;
-  }
-
-  .token.function {
-    color: #d2a8ff !important;
-  }
-
-  .token.number {
-    color: #79c0ff !important;
-  }
-
-  .token.operator {
-    color: #ff7b72 !important;
-  }
-
-  .token.property {
-    color: #79c0ff !important;
-  }
-
-  .token.punctuation {
-    color: #c9d1d9 !important;
-  }
-
-  .token.boolean {
-    color: #ff7b72 !important;
-  }
-
-  .token.comment {
-    color: #8b949e !important;
-  }
-
-  .token.attr-name {
-    color: #79c0ff !important;
-  }
-
-  .token.attr-value {
-    color: #a5d6ff !important;
   }
 
   /*
@@ -129,84 +81,91 @@ Calculate travel distance and duration between multiple points.
 
 ![Matrix API Overview](https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1600&auto=format&fit=crop)
 
+
+
 ## Executive Summary
 
 The Matrix endpoint calculates travel distance and duration for multiple origin-destination pairs in a single request.
 
-This is the standard role of route-matrix services: they are used to compare ETAs across many destinations, support dispatch and assignment workflows, and batch travel-time analysis more efficiently than repeatedly calling a single-route endpoint.
-
-Matrix APIs also typically return aggregate metrics such as distance and duration rather than full route geometry.
-
-This page rewrites the Matrix specification into a tighter, developer-focused reference that is easier to scan and implement.
-
-## Overview and Common Uses
-
-Use the Matrix API when you need to answer questions such as:
-
-- Which destination is closest by drive time
-- Which source should service a destination
-- How multiple candidate destinations compare before requesting a full route
-
-These are the same high-value use cases documented across established routing platforms, especially for:
-
-- Dispatch scheduling
-- Nearest-destination ranking
-- Fulfillment planning
-
-Because this endpoint is designed for matrix-style comparison rather than turn-by-turn navigation, it should be your first choice for:
-
-- Nearest-location search
+It is used for:
 - ETA comparison
-- Source-to-target ranking
+- Nearest-location ranking
+- Dispatch optimization
+- Batch travel-time analysis
 
-If your application needs the actual path, maneuvers, or geometry of a route, a routing endpoint is the better fit.
+
+
+## Base URL
+
+<DocsCodeBlock
+  language="text"
+  baseUrl={props.baseUrl}
+  template={`{BASE_URL}`}
+/>
+
+
+
+## Endpoint
+
+- Method: `POST`
+- Path: `/services/matrix`
+- Allowed Service: `MATRIX`
+- Billed Service: `MATRIX`
+
+
+
+## Authentication
+
+<DocsCodeBlock
+  language="http"
+  baseUrl={props.baseUrl}
+  template={`POST /services/matrix HTTP/1.1
+Host: api.dev.ambalaymaps.com
+Content-Type: application/json
+x-ambalay-key: {API_KEY}`}
+/>
+
+
 
 ## Request Body
 
-The request body uses ordered `sources` and `targets` arrays, where each point is represented by `lat` and `lon` in decimal degrees.
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `sources` | `array<object>` | Yes | Origin points |
+| `targets` | `array<object>` | Yes | Destination points |
+| `costing` | string | Yes | Travel mode (currently `AUTO`) |
 
-That structure aligns with common matrix API design, where the server evaluates travel cost between ordered origin and destination lists and returns pair-wise results keyed back to those lists.
 
-![Request Flow](https://images.unsplash.com/photo-1526778548025-fa2f459cd5ce?q=80&w=1600&auto=format&fit=crop)
 
-### Request Schema
+## Point Object
 
 | Field | Type | Required | Description |
 |---|---|---|---|
-| `sources` | `array<object>` | Yes | One or more origin points |
-| `targets` | `array<object>` | Yes | One or more destination points |
-| `costing` | `string` | Yes | Travel mode. Currently only `AUTO` |
+| `lat` | number | Yes | Latitude |
+| `lon` | number | Yes | Longitude |
 
-### Point Object Schema
 
-Each point object uses this structure:
 
-| Field | Type | Required | Description |
-|---|---|---|---|
-| `lat` | `number` | Yes | Latitude |
-| `lon` | `number` | Yes | Longitude |
+## Rules
 
-### Rules
+- `sources`: up to 50 points  
+- `targets`: up to 50 points  
+- At least one source and one target required  
+- Supports:
+  - 1 → N
+  - N → 1  
+- `costing` currently only `AUTO`
 
-- `sources` supports up to `50` points
-- `targets` supports up to `50` points
-- At least one source and one target are required
-- Supported request patterns:
-  - One-to-many (`1 -> N`)
-  - Many-to-one (`N -> 1`)
-- Full many-to-many is not supported
-- `costing` currently supports only `AUTO`
 
-Request-size caps are standard in matrix systems because the computational work scales with the number of origin-destination pairs.
 
-Other routing platforms also impose coordinate-count or element-count limits, and one widely used open routing service explicitly documents a `50x50` matrix boundary for batch distance pairs.
+## Example Request (cURL)
 
-## Example Request with cURL
-
-```bash
-curl -X POST "https://api.dev.ambalaymaps.com/services/matrix" \
--H "Content-Type: application/json" \
--H "x-ambalay-key: YOUR_API_KEY" \
+<DocsCodeBlock
+  language="bash"
+  baseUrl={props.baseUrl}
+  template={`curl -X POST "{BASE_URL}/services/matrix" \\
+-H "Content-Type: application/json" \\
+-H "x-ambalay-key: YOUR_API_KEY" \\
 -d '{
   "sources": [
     { "lat": 8.9806, "lon": 38.7578 }
@@ -216,13 +175,17 @@ curl -X POST "https://api.dev.ambalaymaps.com/services/matrix" \
     { "lat": 9.0100, "lon": 38.7800 }
   ],
   "costing": "AUTO"
-}'
-```
+}'`}
+/>
 
-## Example Request with JavaScript
 
-```javascript
-fetch("https://api.dev.ambalaymaps.com/services/matrix", {
+
+## Example Request (JavaScript)
+
+<DocsCodeBlock
+  language="javascript"
+  baseUrl={props.baseUrl}
+  template={`fetch("{BASE_URL}/services/matrix", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
@@ -238,22 +201,12 @@ fetch("https://api.dev.ambalaymaps.com/services/matrix", {
   })
 })
 .then(res => res.json())
-.then(data => console.log(data));
-```
+.then(data => console.log(data));`}
+/>
 
-## Response Format
 
-Matrix APIs commonly return travel metrics in machine-friendly units and identify each result by the position of its origin and destination in the request arrays.
 
-Across established route-matrix APIs:
-
-- Distance is typically returned in meters
-- Duration is typically returned in seconds
-- Index-based output avoids repeating coordinates in every element
-
-![Response Structure](https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1600&auto=format&fit=crop)
-
-### Success Response
+## Successful Response
 
 ```json
 {
@@ -278,78 +231,3 @@ Across established route-matrix APIs:
   "timestamp": "2026-04-29T06:00:00.000Z",
   "requestId": "request-id"
 }
-```
-
-## Response Fields
-
-| Field | Type | Description |
-|---|---|---|
-| `items` | `array<object>` | List of computed source-target results |
-| `sourceIndex` | `integer` | Index of the source in the request `sources` array |
-| `targetIndex` | `integer` | Index of the target in the request `targets` array |
-| `distanceMeters` | `number` | Travel distance in meters |
-| `durationSeconds` | `number` | Travel duration in seconds |
-
-A practical implementation detail:
-
-Treat `sourceIndex` and `targetIndex` as the source of truth when joining results back to your own records.
-
-Index-based mapping is a well-established pattern in route-matrix responses and is much safer than assuming a fixed output order, especially when a response may be partial.
-
-## Errors and Edge Cases
-
-Robust clients should not assume that every requested pair will return a usable route.
-
-Other matrix APIs explicitly document per-element errors or unfound connections, and this specification likewise notes that a pair may be missing if a route cannot be computed.
-
-In practice, that means client code should:
-
-- Treat `items` as a sparse result set
-- Match each record by `sourceIndex` and `targetIndex`
-- Avoid relying on array position alone
-
-Another important implementation detail is directional asymmetry.
-
-In driving networks, travel time or distance from `A → B` may differ from `B → A` because of:
-
-- One-way streets
-- Turn restrictions
-- Direction-dependent road rules
-
-That behavior is standard in matrix routing and should be expected when comparing pairs.
-
-![Routing & ETA Analysis](https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1600&auto=format&fit=crop)
-
-### Common Errors
-
-| Error Code | Meaning |
-|---|---|
-| `MISSING_API_KEY` | No API key provided |
-| `INVALID_API_KEY` | API key is invalid |
-| `API_KEY_SERVICE_NOT_ALLOWED` | Matrix service is not enabled for this key |
-| `SERVICE_LIMIT_EXCEEDED` | Usage or quota limit exceeded |
-| `VALIDATION_ERROR` | The request body is invalid |
-
-## Implementation Guidance
-
-Choose the Matrix endpoint when your application needs comparison, ranking, or assignment across multiple points.
-
-Typical examples include:
-
-- Selecting the nearest branch
-- Scoring multiple delivery options
-- Ranking service locations by ETA
-- Assigning a single driver to the best next stop
-
-Those workflows are exactly where matrix APIs provide the most benefit over repeated point-to-point route calls.
-
-For production use, a stable integration usually follows a few simple rules:
-
-1. Validate coordinates and array sizes before sending the request
-2. Keep a local mapping between your business objects and their array indices
-3. Use the Matrix endpoint to shortlist or rank options
-4. Call a routing endpoint only for the final path you actually need to display
-5. Send the API key in the `x-ambalay-key` header
-6. Monitor quota usage so matrix-heavy workloads do not fail unexpectedly
-
-Similar guidance appears across mature routing platforms because matrix calls are designed for batch decision-making, not map rendering or route display.

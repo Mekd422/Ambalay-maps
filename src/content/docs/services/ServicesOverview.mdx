@@ -4,46 +4,59 @@ import DocsCodeBlock from "../../../Components/docs/DocsCodeBlock";
 
 The `/services/*` APIs are authenticated with an API key and billed against subscription usage.
 
-Base URL:
+## Base URL
 
-<DocsCodeBlock language="text" baseUrl={props.baseUrl} template={`{BASE_URL}`} />
+<DocsCodeBlock
+  language="text"
+  baseUrl={props.baseUrl}
+  template={`{BASE_URL}`}
+/>
 
-## Supported authentication methods
+---
 
-### Header authentication
+## Supported Authentication Methods
 
-```http
-x-ambalay-key: {API_KEY}
-```
+### Header Authentication
 
-### Query authentication
+<DocsCodeBlock
+  language="http"
+  template={`x-ambalay-key: {API_KEY}`}
+/>
 
-```text
-?key={API_KEY}
-```
+### Query Authentication
+
+<DocsCodeBlock
+  language="text"
+  template={`?key={API_KEY}`}
+/>
 
 Use query authentication for browser-driven tile clients. Prefer the request header for server-side integrations.
 
-## Service usage rules
 
-- A request succeeds only if the API key is valid and the account has remaining subscription quota.
-- Allowed services control which `/services/*` endpoints an API key can access.
-- Quota is consumed before the service handler runs.
 
-## Authentication pipeline
+## Service Usage Rules
 
-1. API key exists in the header or query string, otherwise `MISSING_API_KEY`.
-2. API key matches a stored key, otherwise `INVALID_API_KEY`.
-3. API key is not expired, otherwise `EXPIRED_API_KEY`.
-4. API key is not revoked, otherwise `REVOKED_API_KEY`.
-5. API key includes the required allowed service, otherwise `API_KEY_SERVICE_NOT_ALLOWED`.
-6. The active subscription has remaining usage for the billed service, otherwise `SERVICE_LIMIT_EXCEEDED`.
-7. The request payload or query params are valid, otherwise `VALIDATION_ERROR`.
+- A request succeeds only if the API key is valid and the account has remaining subscription quota
+- Allowed services control which `/services/*` endpoints an API key can access
+- Quota is consumed before the service handler runs
+
+
+## Authentication Pipeline
+
+1. API key exists in the header or query string, otherwise `MISSING_API_KEY`
+2. API key matches a stored key, otherwise `INVALID_API_KEY`
+3. API key is not expired, otherwise `EXPIRED_API_KEY`
+4. API key is not revoked, otherwise `REVOKED_API_KEY`
+5. API key includes the required allowed service, otherwise `API_KEY_SERVICE_NOT_ALLOWED`
+6. The active subscription has remaining usage for the billed service, otherwise `SERVICE_LIMIT_EXCEEDED`
+7. The request payload or query params are valid, otherwise `VALIDATION_ERROR`
+
+
 
 ## Service Reference
 
 | Service | Allowed Service | Billed Service | Auth Method | Typical HTTP Status Codes |
-|--------|----------------|----------------|-------------|----------------------------|
+|---|---|---|---|---|
 | Trips (init) | `TRIP` | `TRIP` | Header `x-ambalay-key` | 200, 400, 401, 403, 429 |
 | Trips (update) | `TRIP_UPDATE` | `TRIP` | Header `x-ambalay-key` | 200, 400, 401, 403, 429 |
 | Trips (finalize) | `TRIP` | `TRIP` | Header `x-ambalay-key` | 200, 400, 401, 403, 429 |
@@ -56,32 +69,37 @@ Use query authentication for browser-driven tile clients. Prefer the request hea
 
 All responses include a JSON `status` and `message`.
 
-Typical meanings:
-- `401 Unauthorized` → Missing or invalid API key  
-- `429 Too Many Requests` → Rate limit exceeded  
-- `400 Bad Request` → Validation error  
+### Typical Meanings
 
-## Response envelope
+- `401 Unauthorized` → Missing or invalid API key
+- `429 Too Many Requests` → Rate limit exceeded
+- `400 Bad Request` → Validation error
+
+
+
+## Response Envelope
 
 ### Success
 
-```json
-{
+<DocsCodeBlock
+  language="json"
+  template={`{
   "status": "SUCCESS",
   "data": {},
   "message": "SOME_SUCCESS_CODE",
   "timestamp": "2026-04-29T06:00:00.000Z",
   "requestId": "request-id"
-}
-```
+}`}
+/>
 
 ### Error
 
-```json
-{
+<DocsCodeBlock
+  language="json"
+  template={`{
   "status": "ERROR",
   "message": "ERROR_CODE",
   "timestamp": "2026-04-29T06:00:00.000Z",
   "requestId": "request-id"
-}
-```
+}`}
+/>

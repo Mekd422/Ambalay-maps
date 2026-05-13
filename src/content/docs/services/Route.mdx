@@ -1,25 +1,104 @@
 import DocsCodeBlock from "../../../Components/docs/DocsCodeBlock";
 
-## Route
+## Executive Summary
 
-Calculate a route and turn-by-turn instructions between a source and destination.
+The Route endpoint computes a navigable path between two coordinates and returns the total travel distance, estimated travel time, and step-by-step navigation instructions.
+
+Use it for:
+
+- Navigation UIs
+- ETA calculation
+- Map previews
+- Route planning
+
+
+
+## Base URL
+
+<DocsCodeBlock
+  language="text"
+  template={`https://api.dev.ambalaymaps.com`}
+/>
+
+
+
+## Endpoint
 
 - Method: `POST`
 - Path: `/services/route`
 - Allowed Service: `ROUTING`
 - Billed Service: `ROUTING`
-- Auth: Header `x-ambalay-key: {API_KEY}`
 
-### Purpose
 
-Compute the route from one point to another, optionally via intermediate waypoints, returning distance, duration, and navigation steps.
 
----
+## Authentication
+
+Route requests require a valid API key in the request header.
+
+<DocsCodeBlock
+  language="http"
+  baseUrl={props.baseUrl}
+  template={`POST /services/route HTTP/1.1
+Host: api.dev.ambalaymaps.com
+Content-Type: application/json
+x-ambalay-key: {API_KEY}`}
+/>
+
+
+
+## Purpose
+
+Compute a route from one point to another, optionally through intermediate waypoints, and return distance, duration, and turn-by-turn instructions.
+
+
+
+## Request Body
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `source` | object | Yes | Starting coordinate |
+| `destination` | object | Yes | Destination coordinate |
+| `via` | `array<object>` | No | Ordered intermediate waypoints to route through |
+| `costing` | string | Yes | Travel mode |
+
+
+
+## Coordinate Object
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `lat` | number | Yes | Latitude |
+| `lon` | number | Yes | Longitude |
+
+
+
+## Allowed Costing Values
+
+- `AUTO`
+- `PEDESTRIAN`
+- `BICYCLE`
+- `TRUCK`
+
+
+
+## Rules
+
+- `source` and `destination` are required
+- `via` is optional and supports up to 10 waypoints
+- All coordinates must be valid numeric latitude/longitude values
+- `costing` must be one of:
+  - `AUTO`
+  - `PEDESTRIAN`
+  - `BICYCLE`
+  - `TRUCK`
+
+
 
 ## Request Schema
 
-```json
-{
+<DocsCodeBlock
+  language="json"
+  template={`{
   "type": "object",
   "properties": {
     "source": {
@@ -55,43 +134,33 @@ Compute the route from one point to another, optionally via intermediate waypoin
     }
   },
   "required": ["source", "destination", "costing"]
-}
-```
+}`}
+/>
 
----
 
-## Rules
-
-- `source`, `destination`: required coordinates  
-- `via`: optional waypoints (max 10)  
-- `costing`: one of:
-  - `AUTO`
-  - `PEDESTRIAN`
-  - `BICYCLE`
-  - `TRUCK`
-
----
 
 ## Example Request (cURL)
 
-```bash
-curl -X POST "https://api.dev.ambalaymaps.com/services/route" \
--H "Content-Type: application/json" \
--H "x-ambalay-key: YOUR_API_KEY" \
--d '{
-  "source": { "lat": 8.9806, "lon": 38.7578 },
-  "destination": { "lat": 8.9900, "lon": 38.7600 },
-  "via": [],
-  "costing": "AUTO"
-}'
-```
+<DocsCodeBlock
+  language="bash"
+  template={`curl -X POST "https://api.dev.ambalaymaps.com/services/route" \\
+  -H "Content-Type: application/json" \\
+  -H "x-ambalay-key: YOUR_API_KEY" \\
+  -d '{
+    "source": { "lat": 8.9806, "lon": 38.7578 },
+    "destination": { "lat": 8.9900, "lon": 38.7600 },
+    "via": [],
+    "costing": "AUTO"
+  }'`}
+/>
 
----
+
 
 ## Example Request (JavaScript)
 
-```javascript
-fetch("https://api.dev.ambalaymaps.com/services/route", {
+<DocsCodeBlock
+  language="javascript"
+  template={`fetch("https://api.dev.ambalaymaps.com/services/route", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
@@ -104,29 +173,36 @@ fetch("https://api.dev.ambalaymaps.com/services/route", {
     costing: "AUTO"
   })
 })
-.then(res => res.json())
-.then(data => console.log(data));
-```
+  .then(res => res.json())
+  .then(data => console.log(data));`}
+/>
 
----
 
-## Authentication Example
+
+## Example Request (HTTP)
 
 <DocsCodeBlock
   language="http"
-  baseUrl={props.baseUrl}
   template={`POST /services/route HTTP/1.1
-Host: {BASE_URL}
+Host: api.dev.ambalaymaps.com
 Content-Type: application/json
-x-ambalay-key: {API_KEY}`}
+x-ambalay-key: {API_KEY}
+
+{
+  "source": { "lat": 8.9806, "lon": 38.7578 },
+  "destination": { "lat": 8.9900, "lon": 38.7600 },
+  "via": [],
+  "costing": "AUTO"
+}`}
 />
 
----
 
-## Success Response
 
-```json
-{
+## Successful Response
+
+<DocsCodeBlock
+  language="json"
+  template={`{
   "status": "SUCCESS",
   "data": {
     "distanceMeters": 2400,
@@ -146,25 +222,30 @@ x-ambalay-key: {API_KEY}`}
   "message": "ROUTE_SUCCESS",
   "timestamp": "2026-04-29T06:00:00.000Z",
   "requestId": "request-id"
-}
-```
+}`}
+/>
 
-### Response Fields
 
-- `distanceMeters`: total distance (meters)  
-- `durationSeconds`: total travel time (seconds)  
-- `legs`: route segments  
-  - `summary`: segment description  
-  - `steps`: turn-by-turn instructions  
-    - `instruction`: navigation text  
-    - `distanceMeters`: step distance  
 
----
+## Response Fields
+
+| Field | Type | Description |
+|---|---|---|
+| `distanceMeters` | number | Total travel distance in meters |
+| `durationSeconds` | number | Total estimated travel time in seconds |
+| `legs` | array | Route segments in travel order |
+| `legs[].summary` | string | Human-readable segment summary |
+| `legs[].steps` | array | Turn-by-turn instructions for the leg |
+| `legs[].steps[].instruction` | string | Navigation instruction text |
+| `legs[].steps[].distanceMeters` | number | Distance covered by the step |
+
+
 
 ## Validation Error Example
 
-```json
-{
+<DocsCodeBlock
+  language="json"
+  template={`{
   "status": "ERROR",
   "data": {
     "costing": "costing must be one of AUTO, PEDESTRIAN, BICYCLE, TRUCK"
@@ -172,10 +253,10 @@ x-ambalay-key: {API_KEY}`}
   "message": "VALIDATION_ERROR",
   "timestamp": "2026-04-29T06:00:00.000Z",
   "requestId": "request-id"
-}
-```
+}`}
+/>
 
----
+
 
 ## Common Errors
 
@@ -185,11 +266,14 @@ x-ambalay-key: {API_KEY}`}
 - `SERVICE_LIMIT_EXCEEDED`
 - `VALIDATION_ERROR`
 
----
+
 
 ## Usage Notes
 
-- Do not exceed 10 `via` points  
-- If no route is found, response may be empty or error returned  
-- Use appropriate `costing` for travel mode  
-- Suitable for navigation UIs, ETA calculation, and route planning  
+- Use `AUTO` for standard driving routes
+- Use `PEDESTRIAN` for walking routes
+- Use `BICYCLE` for cycling routes
+- Use `TRUCK` for truck-oriented routing behavior
+- Do not exceed 10 `via` points
+- If the service cannot compute a valid route, the response may be empty or an error may be returned
+- Clients should explicitly handle “no route found” cases instead of assuming every valid request produces a usable path
