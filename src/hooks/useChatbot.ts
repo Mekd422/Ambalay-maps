@@ -12,29 +12,34 @@ export const useChatbot = () => {
       text: 'Hello! I am the Ambalay Maps assistant. How can I help you build with location data today?',
     },
   ]);
-  const [loading, setLoading] = useState<boolean>(false);
+
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const sendMessage = async (userPrompt: string) => {
     if (!userPrompt.trim()) return;
 
-    const newUserMessage: Message = { sender: 'user', text: userPrompt };
+    const userMessage: Message = {
+      sender: 'user',
+      text: userPrompt,
+    };
 
-    const updatedMessages = [...messages, newUserMessage];
+    const updatedMessages = [...messages, userMessage];
 
     setMessages(updatedMessages);
     setLoading(true);
     setError(null);
 
-    const API_URL = import.meta.env.VITE_API_BASE_URL;
-
     try {
+      const API_URL = import.meta.env.VITE_API_URL;
+      // console.log(API_URL)
+
       const formattedHistory = updatedMessages.map((msg) => ({
         role: msg.sender === 'user' ? 'user' : 'assistant',
-        content: msg.text,
+        text: msg.text,
       }));
 
-      const response = await fetch(API_URL, {
+      const response = await fetch(`${API_URL}/api/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -45,29 +50,46 @@ export const useChatbot = () => {
         }),
       });
 
+
       if (!response.ok) {
-        throw new Error('Failed to connect to the chatbot service.');
+        throw new Error(`HTTP Error: ${response.status}`);
       }
 
       const data = await response.json();
 
-      const botReplyText = data.reply || "I didn't quite get that.";
+      console.log('Chatbot Response:', data);
 
       const botMessage: Message = {
         sender: 'bot',
-        text: botReplyText,
+        text:
+          data.reply ||
+          data.response ||
+          data.message ||
+          'Sorry, I could not understand that.',
       };
 
       setMessages((prev) => [...prev, botMessage]);
     } catch (err) {
       console.error('Chatbot API Error:', err);
-      setError(
-        'Sorry, I encountered an error connecting to the AI. Please try again later.'
-      );
+
+      setError('Error connecting to AI service.');
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: 'bot',
+          text: 'Sorry, something went wrong while connecting to the assistant.',
+        },
+      ]);
     } finally {
       setLoading(false);
     }
   };
 
-  return { messages, loading, error, sendMessage };
+  return {
+    messages,
+    loading,
+    error,
+    sendMessage,
+  };
 };
