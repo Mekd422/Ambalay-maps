@@ -31,7 +31,7 @@ export const useChatbot = () => {
     setError(null);
 
     try {
-      const API_URL = import.meta.env.VITE_API_URL;
+      const API_URL = process.env.NEXT_PUBLIC_API_URL;
       // console.log(API_URL)
 
       const formattedHistory = updatedMessages.map((msg) => ({

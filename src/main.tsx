@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.tsx'
+import App from './App'
 import { AuthProvider } from "./context/AuthProvider";
 
 const umamiEnabled = import.meta.env.VITE_UMAMI_ENABLED === 'true'

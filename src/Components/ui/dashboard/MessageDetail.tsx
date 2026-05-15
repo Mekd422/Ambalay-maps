@@ -48,8 +48,9 @@ const getInquiryBadgeClassName = (inquiryType: string) => {
   }
 };
 
-export default function MessageDetail() {
-  const { id } = useParams<{ id: string }>();
+export default function MessageDetail({ messageId }: { messageId?: string }) {
+  const params = useParams<{ id?: string }>();
+  const id = messageId ?? params.id;
   const [message, setMessage] = useState<ContactMessageRecord | null>(null);
   const [statuses, setStatuses] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);

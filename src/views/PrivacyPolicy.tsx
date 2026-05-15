@@ -1,13 +1,10 @@
 import Navbar from "../Components/layout/Navbar";
 import Footer from "../Components/layout/Footer";
 import { useEffect } from "react";
-import CTASection from "../Components/ui/CTASection";
-import PricingSection from "../Components/ui/PricingSection";
-import UsageCalculator from "../Components/ui/pricing/UsageCalculator";
+import PrivacyPolicy from "../Components/ui/PrivacyPolicy";
 
 
-
-export default function Price() {
+export default function Privacy() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -17,9 +14,8 @@ export default function Price() {
       <Navbar />
 
       <main className="pt-20"> 
-        <PricingSection />
-        <UsageCalculator/>
-        <CTASection/>
+        <PrivacyPolicy />
+        
       </main>
 
       <Footer />

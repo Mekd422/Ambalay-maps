@@ -47,7 +47,7 @@ const Documentation = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const [activePage, setActivePage] = useState<string>("Overview");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const docsBaseUrl = import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || "{BASE_URL}";
+  const docsBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || process.env.NEXT_PUBLIC_API_URL || "{BASE_URL}";
 
   const sidebarLinks: SidebarGroup[] = [
     { group: "Introduction", items: ["Overview", "Quickstart Guide"] },

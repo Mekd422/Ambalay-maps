@@ -5,6 +5,10 @@ import { AuthContext, type User } from "./AuthContext";
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(() => {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
   return sessionStorage.getItem("token");
 });
 
@@ -21,7 +25,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         console.error("Failed to fetch user", err);
         setToken(null);
         setUser(null);
-        sessionStorage.removeItem("token");
+        if (typeof window !== "undefined") {
+          sessionStorage.removeItem("token");
+        }
       }
     };
 
@@ -33,13 +39,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (newUser) {
       setUser(newUser);
     }
-    sessionStorage.setItem("token", newToken); // 🔥 persist
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("token", newToken);
+    }
   };
 
   const logout = () => {
     setToken(null);
     setUser(null);
-    sessionStorage.removeItem("token");
+    if (typeof window !== "undefined") {
+      sessionStorage.removeItem("token");
+    }
   };
 
   return (
