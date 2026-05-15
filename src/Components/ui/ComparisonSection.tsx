@@ -1,6 +1,6 @@
 import { XCircle, CheckCircle2 } from "lucide-react";
+import Image from "next/image";
 import { motion } from "framer-motion"; 
-import logo from "../../assets/icons/download.svg";
 
 
 export default function ComparisonSection() {
@@ -56,7 +56,7 @@ designed for accuracy, speed and ease of integration.
               <div className="absolute inset-0 border-2 border-[#8cff2e]/20 rounded-[40px] pointer-events-none" />
               <div className="flex items-center gap-3 mb-10">
                 <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center overflow-hidden">
-                  <img src={logo} alt="Company Logo" className="w-5 h-5 object-contain" />
+                  <Image src="/icons/download.svg" alt="Company Logo" width={20} height={20} className="w-5 h-5 object-contain" />
                 </div>
                 <h3 className="text-white text-lg font-medium">Ambalay</h3>
               </div>

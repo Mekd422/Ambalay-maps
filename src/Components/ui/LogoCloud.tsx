@@ -1,18 +1,19 @@
+import Image from "next/image";
+
 interface Partner {
   name: string;
   logo: string;
 }
 
 const partners: Partner[] = [
-  { name: "Zayride", logo: "../../assets/images/zayride.png" },
-  { name: "Tilla", logo: "../../assets/images/Tilla.png" },
-  { name: "Tewos Technology", logo: "../../assets/images/tewos.png" },
-  { name: "ChipChip", logo: "../../assets/images/chip.png" },
-  { name: "HB", logo: "../../assets/images/hb.png" },
-  { name: "Pizza Hut", logo: "../../assets/images/pizza.png" },
-  { name: "Bekyab", logo: "../../assets/images/bekyab.png" },
-  { name: "Arifpay", logo: "../../assets/images/arifpay.png" },
-  { name: "NVIDIA Inception", logo: "../../assets/images/nvd.png" },
+  { name: "Zayride", logo: "/images/partners/zayride.png" },
+  { name: "Tilla", logo: "/images/partners/tilla.png" },
+  { name: "Tewos Technology", logo: "/images/partners/tewos.png" },
+  { name: "ChipChip", logo: "/images/partners/chip.png" },
+  { name: "HB", logo: "/images/partners/hb.png" },
+  { name: "Pizza Hut", logo: "/images/partners/pizza.png" },
+  { name: "Arifpay", logo: "/images/partners/arifpay.png" },
+  { name: "NVIDIA Inception", logo: "/images/partners/nvd.png" },
 ];
 
 export default function LogoCloud() {
@@ -34,9 +35,11 @@ export default function LogoCloud() {
             >
               <div className="absolute inset-0 bg-[#8cff2e]/10 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
               
-              <img
+              <Image
                 src={partner.logo}
                 alt={`${partner.name} logo`}
+                width={144}
+                height={36}
                 className="h-7 md:h-8 lg:h-9 w-auto object-contain filter brightness-0 invert opacity-40 group-hover:opacity-100 group-hover:brightness-100 group-hover:invert-0 transition-all duration-500 relative z-10"
               />
             </div>

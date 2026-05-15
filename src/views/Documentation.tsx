@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { 
   Search, FileText, MapPin, Compass,
   Menu, X, Pencil, Database, Layout, Sparkles, Moon, Gauge 
@@ -15,7 +16,6 @@ import RouteContent from "../content/docs/services/Route.mdx"
 import MatrixContent from "../content/docs/services/Matrix.mdx"
 import TripsContent from "../content/docs/services/Trips.mdx"
 import { Link } from "react-router-dom"
-import logo from "../assets/icons/AMBALAY LOGO.png";
 
 interface SidebarGroup {
   group: string;
@@ -197,7 +197,7 @@ const Documentation = () => {
             </button>
 
             <Link to="/" className="flex items-center gap-3">
-              <img src={logo} alt="AmbaLay Maps Logo" className="w-10 h-20 object-contain" />
+              <Image src="/icons/ambalay-logo.png" alt="AmbaLay Maps Logo" width={40} height={80} className="w-10 h-20 object-contain" />
               <span className="font-semibold text-sm tracking-tight">AmbaLay Maps</span>
             </Link>
           </div>

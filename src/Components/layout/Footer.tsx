@@ -1,4 +1,4 @@
-import logo from "../../assets/icons/AMBALAY LOGO.png";
+import Image from "next/image";
 import { Link } from "react-router-dom";
 // Importing icons from lucide-react (Standard for React/Tailwind)
 import { Twitter, Facebook, Instagram, Linkedin } from "lucide-react";
@@ -12,9 +12,11 @@ export default function Footer() {
           {/* Branding section */}
           <div className="sm:col-span-2 lg:col-span-8 space-y-8">
             <div className="flex items-center gap-3">
-              <img
-                src={logo}
+              <Image
+                src="/icons/ambalay-logo.png"
                 alt="AmbaLay Maps Logo"
+                width={40}
+                height={20}
                 className="h-5 w-10"
               />
               <h4 className="text-xl font-medium font-sora tracking-tight">

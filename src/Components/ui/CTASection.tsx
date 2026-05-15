@@ -1,6 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 import { Link } from "react-router-dom";
-import ctaImage from "../../assets/images/lady.png"; 
 
 export default function CTASection() {
   return (
@@ -29,9 +29,11 @@ export default function CTASection() {
 
         <div className="absolute -right-2 -bottom-8 md:-bottom-12 w-[220px] md:w-[320px] z-20 pointer-events-none">
           <div className="relative">
-            <img 
-              src={ctaImage} 
+            <Image 
+              src="/images/cta/lady.png" 
               alt="Ready to build" 
+              width={320}
+              height={480}
               className="w-full h-auto object-contain select-none scale-150"
               style={{
                 maskImage: 'linear-gradient(to bottom, black 35%, rgba(0,0,0,0.6) 65%, transparent 95%)',

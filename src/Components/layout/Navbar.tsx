@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-import logo from "../../assets/icons/AMBALAY LOGO.png";
+import Image from "next/image";
 import { HashLink as Link } from "react-router-hash-link";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/useAuth";
@@ -61,9 +61,11 @@ export default function Navbar() {
         
         {/* Logo */}
         <div className="flex items-start gap-2 pt-1">
-          <img
-            src={logo}
+          <Image
+            src="/icons/ambalay-logo.png"
             alt="AmbaLay Maps Logo"
+            width={44}
+            height={24}
             className="h-6 w-11"
           />
 

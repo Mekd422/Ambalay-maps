@@ -1,15 +1,13 @@
 import { Quote } from "lucide-react"
-import person1 from "../../assets/images/person1.png"
-import person2 from "../../assets/images/person2.png"
-import person3 from "../../assets/images/person3.png"
+import Image from "next/image"
 
 import { motion } from "framer-motion"; 
 
 export default function TestimonialMarquee() {
   const row1 = [
-    { name: "Enkumichael", role: "Product Manager", text: "Ambalay Maps made it much easier to manage addresses and routing in our workflow.", img: person1 },
-    { name: "Samson Warkaye", role: "Lead Developer", text: "The API was straightforward to integrate, and the results were accurate.", img: person2 },
-    { name: "Sara", role: "Operations Coordinator", text: "We use it for route planning and location lookup every day.", img: person3 },
+    { name: "Enkumichael", role: "Product Manager", text: "Ambalay Maps made it much easier to manage addresses and routing in our workflow.", img: "/images/people/person-1.png" },
+    { name: "Samson Warkaye", role: "Lead Developer", text: "The API was straightforward to integrate, and the results were accurate.", img: "/images/people/person-2.png" },
+    { name: "Sara", role: "Operations Coordinator", text: "We use it for route planning and location lookup every day.", img: "/images/people/person-3.png" },
   ]
   
   // const row2 = [
@@ -58,7 +56,7 @@ export default function TestimonialMarquee() {
                     <Quote className="text-[#8cff2e]/10 mb-4" size={24} />
                     <p className="text-white text-bold mb-6 leading-relaxed">"{t.text}"</p>
                     <div className="flex items-center gap-3">
-                      <img src={t.img} className="h-10 w-10 rounded-full" />
+                      <Image src={t.img} alt={t.name} width={40} height={40} className="h-10 w-10 rounded-full" />
                       <div>
                         <h5 className="text-white text-lg font-normal">{t.name}</h5>
                         <p className="text-gray-500 text-[15px]">{t.role}</p>

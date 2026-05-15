@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 interface ProductProps {
   image: string;
@@ -17,7 +18,7 @@ const ProductCard: React.FC<ProductProps & { onAddToCart?: (product: ProductProp
   return (
     <div className="bg-white rounded-[28px] overflow-hidden flex flex-col h-full group transition-all duration-500 hover:shadow-[0_20px_40px_rgba(0,0,0,0.3)] hover:-translate-y-1">
       <div className="aspect-[4/3] overflow-hidden bg-gray-100">
-        <img src={image} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+        <Image src={image} alt={title} width={800} height={600} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
       </div>
 
       <div className="p-5 flex flex-col justify-between flex-grow">

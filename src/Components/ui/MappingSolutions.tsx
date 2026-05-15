@@ -1,11 +1,5 @@
 import { ArrowUpRight } from "lucide-react"
-import geoImg from "../../assets/images/dev.jpg" 
-import cashflowImg from "../../assets/images/img-bic.jpg"
-import spendingImg from "../../assets/images/ride.png" 
-import savingsImg from "../../assets/images/operations.jpg"
-import person1 from "../../assets/images/person1.png"
-import person2 from "../../assets/images/person2.png"
-import person3 from "../../assets/images/person3.png"
+import Image from "next/image"
 
 import { motion } from "framer-motion"
 import { Link } from "react-router-dom"
@@ -40,9 +34,11 @@ export default function MappingSolutions() {
   
   <div className="group rounded-[32px] bg-[#0A0A0A] border border-white/5 overflow-hidden flex flex-col h-full transition-all hover:border-white/10">
     <div className="relative bg-[#111] flex items-center justify-center overflow-hidden h-[320px]">
-      <img 
-        src={geoImg} 
+      <Image 
+        src="/images/solutions/dev.jpg" 
         alt="Geo" 
+        width={640}
+        height={640}
         className="w-[80%] h-auto object-contain transition-transform duration-500 group-hover:scale-105" 
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
@@ -57,9 +53,11 @@ export default function MappingSolutions() {
 
   <div className="group rounded-[32px] bg-[#0A0A0A] border border-white/5 overflow-hidden flex flex-col h-full transition-all hover:border-white/10">
     <div className="relative bg-[#111] flex items-center justify-center overflow-hidden h-[320px]">
-      <img 
-        src={cashflowImg} 
+      <Image 
+        src="/images/solutions/img-bic.jpg" 
         alt="Cashflow Overview" 
+        width={640}
+        height={640}
         className="w-[80%] h-auto object-contain transition-transform duration-500 group-hover:scale-105" 
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
@@ -77,9 +75,11 @@ export default function MappingSolutions() {
         <div className="grid md:grid-cols-3 gap-6">
           <div className="rounded-[32px] bg-[#0A0A0A] border border-white/5 overflow-hidden flex flex-col transition-all hover:border-white/10 group">
             <div className="relative bg-[#111] aspect-square flex items-center justify-center overflow-hidden">
-              <img 
-                src={spendingImg} 
+              <Image 
+                src="/images/solutions/ride.png" 
                 alt="Spending" 
+                width={640}
+                height={640}
                 className="w-[85%] h-auto object-contain transition-transform duration-500 group-hover:scale-105" 
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
@@ -92,9 +92,11 @@ export default function MappingSolutions() {
 
           <div className="rounded-[32px] bg-[#0A0A0A] border border-white/5 overflow-hidden flex flex-col transition-all hover:border-white/10 group">
             <div className="relative bg-[#111] aspect-square flex items-center justify-center overflow-hidden">
-              <img 
-                src={savingsImg} 
+              <Image 
+                src="/images/solutions/operations.jpg" 
                 alt="Savings" 
+                width={640}
+                height={640}
                 className="w-[85%] h-auto object-contain transition-transform duration-500 group-hover:scale-105" 
               />
 
@@ -110,8 +112,8 @@ export default function MappingSolutions() {
           <div className="flex flex-col gap-6">
             <div className="bg-[#0A0A0A] rounded-[32px] border border-white/5 p-8 flex-1 flex flex-col justify-center">
               <div className="flex items-center -space-x-3 mb-6">
-                {[person1, person2, person3].map((p, i) => (
-                  <img key={i} src={p} className="h-12 w-12 rounded-full border-4 border-[#0A0A0A] object-cover" />
+                {["/images/people/person-1.png", "/images/people/person-2.png", "/images/people/person-3.png"].map((p, i) => (
+                  <Image key={i} src={p} alt={`Active developer ${i + 1}`} width={48} height={48} className="h-12 w-12 rounded-full border-4 border-[#0A0A0A] object-cover" />
                 ))}
               </div>
               <h4 className="text-2xl font-medium text-white leading-tight">50+ developers actively <br /> using Ambalay APIs</h4>

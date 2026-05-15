@@ -1,9 +1,6 @@
 import { motion } from "framer-motion";
+import Image from "next/image";
 // import { ArrowUpRight } from "lucide-react";
-
-import heroImg from "../assets/images/Landmark-blog.png"; 
-import card1 from "../assets/images/blog-body.png";
-import card2 from "../assets/images/africa.png";
 
 import Navbar from "../Components/layout/Navbar";
 import Footer from "../Components/layout/Footer";
@@ -24,14 +21,14 @@ export default function BlogSection() {
       title: "How Ambalay Translates Coordinates Into Human Directions",
       description:
         "Turning formal locations into simple landmark-based instructions.",
-      image: card1,
+      image: "/images/blog/blog-body.png",
     },
     {
       category: "Engineering",
       title: "Building a Smarter Map Stack for Africa",
       description:
         "The APIs and AI systems behind Ambalay’s navigation platform.",
-      image: card2,
+      image: "/images/blog/africa.png",
     },
   ];
 
@@ -115,11 +112,13 @@ export default function BlogSection() {
           >
             <div className="grid md:grid-cols-2 items-center">
               <div className="h-[300px] md:h-[500px] overflow-hidden">
-                <img
-                  src={heroImg}
-                  alt="Why Ethiopia Needs Landmark-Based Navigation"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
+                  <Image
+                    src="/images/blog/landmark-blog.png"
+                    alt="Why Ethiopia Needs Landmark-Based Navigation"
+                    fill
+                    sizes="(min-width: 768px) 50vw, 100vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
               </div>
               <div className="p-10 md:p-16">
                 <span className="text-zinc-500 text-[10px] font-bold uppercase tracking-[0.2em] mb-4 block">
@@ -150,10 +149,12 @@ export default function BlogSection() {
                 className="group bg-[#0A0A0A] border border-white/5 rounded-3xl overflow-hidden hover:border-white/10 transition-colors"
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
-                  <img
+                  <Image
                     src={post.image}
                     alt={post.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    fill
+                    sizes="(min-width: 768px) 50vw, 100vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
                 <div className="px-8 py-8">

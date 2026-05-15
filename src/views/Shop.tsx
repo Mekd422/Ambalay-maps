@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Navbar from "../Components/layout/Navbar";
 import Footer from "../Components/layout/Footer";
 import RecentTemplates from "../Components/ui/shop/RecentTemplates";
@@ -139,8 +140,8 @@ const ScrollingRow: React.FC<{ images: string[], direction: 'left' | 'right' }> 
     <div className="flex overflow-hidden select-none gap-6 py-4">
       <div className={`flex flex-nowrap gap-6 min-w-full ${scrollClass}`}>
         {[...images, ...images].map((src, index) => (
-          <div key={index} className="flex-shrink-0 w-[250px] md:w-[350px] aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 hover:border-[#8cff2e]/50 transition-colors">
-            <img src={src} alt="Product" className="w-full h-full object-cover" />
+          <div key={index} className="relative flex-shrink-0 w-[250px] md:w-[350px] aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 hover:border-[#8cff2e]/50 transition-colors">
+            <Image src={src} alt="Product" fill sizes="(min-width: 768px) 350px, 250px" className="object-cover" />
           </div>
         ))}
       </div>

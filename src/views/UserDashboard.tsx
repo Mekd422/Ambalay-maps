@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Users, MessageSquare, Key, UserCircle, Home } from 'lucide-react';
-import logo_white from "../assets/icons/AMBALAY LOGO.png";
+import Image from 'next/image';
 import AccountSettings from '../Components/ui/dashboard/Account';
 import User from '../Components/ui/dashboard/User';
 import ApiKeys from '../Components/ui/dashboard/ApiKeys';
@@ -54,7 +54,7 @@ const Dashboard = () => {
       <div className="flex flex-col lg:flex-row flex-1">
         <aside className="hidden lg:flex lg:w-64 border-r border-white/5 flex-shrink-0 flex-col bg-[#000000]">
           <div className="p-6 flex items-center gap-2">
-            <img src={logo_white} alt="Logo" className="h-5 w-10" />
+            <Image src="/icons/ambalay-logo.png" alt="Logo" width={40} height={20} className="h-5 w-10" />
             <h4 className="text-md font-medium tracking-tight text-white">AmbaLay Maps</h4>
           </div>
 

@@ -1,14 +1,11 @@
-import videoIcon from "../../assets/icons/video-icon.svg"
-import howItWorksImg1 from "../../assets/images/step-1.png"
-import howItWorksImg2 from "../../assets/images/step-2.png"
-import howItWorksImg3 from "../../assets/images/step-3.png"
+import Image from "next/image"
 import { motion } from "framer-motion"
 
 export default function HowItWorks() {
   const steps = [
-    { img: howItWorksImg1, step: "Step 1", title: "Create your account ", desc: "Sign up and access the Ambalay Maps dashboard and API tools." },
-    { img: howItWorksImg2, step: "Step 2", title: "Choose the service you need", desc: "Use geocoding, routing, places search, or static maps based on your workflow." },
-    { img: howItWorksImg3, step: "Step 3", title: "Integrate and scale", desc: "Connect Ambalay Maps to your app or operations and start using location intelligence immediately." },
+    { img: "/images/how-it-works/step-1.png", step: "Step 1", title: "Create your account ", desc: "Sign up and access the Ambalay Maps dashboard and API tools." },
+    { img: "/images/how-it-works/step-2.png", step: "Step 2", title: "Choose the service you need", desc: "Use geocoding, routing, places search, or static maps based on your workflow." },
+    { img: "/images/how-it-works/step-3.png", step: "Step 3", title: "Integrate and scale", desc: "Connect Ambalay Maps to your app or operations and start using location intelligence immediately." },
   ]
 
   const containerVariants = {
@@ -42,7 +39,7 @@ export default function HowItWorks() {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="flex items-center gap-3 text-[#8cff2e] mb-4"
           >
-            <img src={videoIcon} alt="Video" className="h-8 w-8" style={{ filter: "invert(63%) sepia(86%) saturate(400%) hue-rotate(55deg)" }} />
+            <Image src="/icons/video-icon.svg" alt="Video" width={32} height={32} className="h-8 w-8" style={{ filter: "invert(63%) sepia(86%) saturate(400%) hue-rotate(55deg)" }} />
             <span className="text-lg font-medium">Watch video</span>
           </motion.div>
 
@@ -77,10 +74,12 @@ export default function HowItWorks() {
               <div className="relative h-full rounded-[32px] bg-[#0A0A0A] border border-white/5 overflow-hidden transition-all group-hover:border-[#8cff2e]/30 group-hover:translate-y-[-8px] group-hover:shadow-[0_20px_40px_-15px_rgba(140,255,46,0.2)] duration-500 flex flex-col">
                 
                 <div className="relative bg-[#111] h-72 flex items-center justify-center overflow-hidden">
-                  <img 
+                  <Image 
                     src={item.img} 
                     alt={item.title} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                    fill
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-110" 
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent" />
                 </div>

@@ -1,22 +1,17 @@
 import { ArrowUpRight } from "lucide-react"
-import geocodingIcon from "../../assets/icons/geocoding.svg"
-import routingIcon from "../../assets/icons/routing.svg"
-import staticMapsIcon from "../../assets/icons/static-maps.svg"
-import placesIcon from "../../assets/icons/search.svg"
-import matrixIcon from "../../assets/icons/matrix-api.svg"
-import elevationIcon from "../../assets/icons/elevation-api.svg"
+import Image from "next/image"
 
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom"
 
 export default function FeaturesSection() {
   const detailedFeatures = [
-    { title: "Geocoding & Reverse Geocoding API ", desc: "Convert Locations Seamlessly Translate place names into coordinates and coordinates into meaningful locations. Built with local context for higher accuracy in informal areas.", icon: geocodingIcon },
-    { title: "Trip Tracking API", desc: "Track trips live with high accuracy across urban and low-connectivity environments. Monitor routes, stops, and deviations in real time for ride-hailing, delivery, and logistics. ", icon: routingIcon },
-    { title: "Tile Serving API", desc: "Serve custom, high-performance map tiles tailored for Ethiopian and African geographies. Built for speed, offline support, and full styling control.", icon: staticMapsIcon },
-    { title: "Matrix API", desc: "Compute travel time and distance between multiple points instantly. Perfect for logistics planning, fleet management, and route batching. ", icon: placesIcon },
-    { title: "Route Optimization API", desc: "Automatically generate the most efficient routes for multiple stops. Reduce fuel costs, delivery time, and operational complexity. ", icon: matrixIcon },
-    { title: "Landmark Translation API", desc: "Convert coordinates into intuitive, landmark-based directions people actually understand.", icon: elevationIcon },
+    { title: "Geocoding & Reverse Geocoding API ", desc: "Convert Locations Seamlessly Translate place names into coordinates and coordinates into meaningful locations. Built with local context for higher accuracy in informal areas.", icon: "/icons/geocoding.svg" },
+    { title: "Trip Tracking API", desc: "Track trips live with high accuracy across urban and low-connectivity environments. Monitor routes, stops, and deviations in real time for ride-hailing, delivery, and logistics. ", icon: "/icons/routing.svg" },
+    { title: "Tile Serving API", desc: "Serve custom, high-performance map tiles tailored for Ethiopian and African geographies. Built for speed, offline support, and full styling control.", icon: "/icons/static-maps.svg" },
+    { title: "Matrix API", desc: "Compute travel time and distance between multiple points instantly. Perfect for logistics planning, fleet management, and route batching. ", icon: "/icons/search.svg" },
+    { title: "Route Optimization API", desc: "Automatically generate the most efficient routes for multiple stops. Reduce fuel costs, delivery time, and operational complexity. ", icon: "/icons/matrix-api.svg" },
+    { title: "Landmark Translation API", desc: "Convert coordinates into intuitive, landmark-based directions people actually understand.", icon: "/icons/elevation-api.svg" },
   ]
 
   return (
@@ -51,11 +46,7 @@ export default function FeaturesSection() {
                       transition-all duration-300 
                       group-hover:border-[#8cff2e]/50 
                       group-hover:shadow-[0_0_20px_rgba(140,255,46,0.3)]">
-        <img 
-          src={feature.icon} 
-          alt={feature.title} 
-          className="w-7 h-7" 
-        />
+        <Image src={feature.icon} alt={feature.title} width={28} height={28} className="w-7 h-7" />
       </div>
       
       <h4 className="text-xl font-medium text-white mb-3">{feature.title}</h4>
