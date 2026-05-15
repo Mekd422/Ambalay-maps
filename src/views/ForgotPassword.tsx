@@ -1,19 +1,19 @@
-import Navbar from '../Components/layout/Navbar';
-import Footer from "../Components/layout/Footer";
-import ForgotPasswordForm from "../Components/ui/auth/ForgotPasswordForm";
+import Navbar from '../Components/layout/Navbar'
+import Footer from '../Components/layout/Footer'
+import ForgotPasswordForm from '../Components/ui/auth/ForgotPasswordForm'
 
 export default function ForgotPassword() {
   return (
-    <div className="min-h-screen bg-white dark:bg-black flex flex-col">
+    <div className="flex min-h-screen flex-col bg-white dark:bg-black">
       <Navbar />
 
-      <main className="flex-grow flex items-center justify-center px-6 py-28">
-        <div className="w-full max-w-7xl mx-auto">
+      <main className="flex flex-grow items-center justify-center px-6 py-28">
+        <div className="mx-auto w-full max-w-7xl">
           <ForgotPasswordForm />
         </div>
       </main>
 
       <Footer />
     </div>
-  );
+  )
 }

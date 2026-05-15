@@ -41,15 +41,15 @@ All documented endpoints return a standard response envelope.
 
 ## Common failure codes
 
-| Code | HTTP status | Meaning |
-| --- | --- | --- |
-| `INVALID_API_KEY` | `401` | The provided API key does not match a stored key. |
-| `REVOKED_API_KEY` | `401` | The API key has been revoked. |
-| `EXPIRED_API_KEY` | `401` | The API key has expired. |
-| `API_KEY_SERVICE_NOT_ALLOWED` | `403` | The API key does not include the required allowed service. |
-| `API_KEYS_LIMIT_EXCEEDED` | `429` | The account already has the maximum number of API keys. |
-| `SERVICE_LIMIT_EXCEEDED` | `429` | The current subscription has no remaining usage for the billed service. |
-| `VALIDATION_ERROR` | `400` | One or more fields failed validation. |
+| Code                          | HTTP status | Meaning                                                                 |
+| ----------------------------- | ----------- | ----------------------------------------------------------------------- |
+| `INVALID_API_KEY`             | `401`       | The provided API key does not match a stored key.                       |
+| `REVOKED_API_KEY`             | `401`       | The API key has been revoked.                                           |
+| `EXPIRED_API_KEY`             | `401`       | The API key has expired.                                                |
+| `API_KEY_SERVICE_NOT_ALLOWED` | `403`       | The API key does not include the required allowed service.              |
+| `API_KEYS_LIMIT_EXCEEDED`     | `429`       | The account already has the maximum number of API keys.                 |
+| `SERVICE_LIMIT_EXCEEDED`      | `429`       | The current subscription has no remaining usage for the billed service. |
+| `VALIDATION_ERROR`            | `400`       | One or more fields failed validation.                                   |
 
 ## Authentication modes
 

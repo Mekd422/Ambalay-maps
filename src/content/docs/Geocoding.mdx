@@ -1,9 +1,9 @@
-import CodeBlock from "../../Components/CodeBlock.tsx";
+import CodeBlock from '../../Components/CodeBlock.tsx'
 
 export default function ForwardGeocoding() {
   const curlExample = `curl -H "x-api-key: YOUR_API_KEY" "https://api.ambalaymaps.com/v1/search?query=tom"`;
 
-  const jsonResponse = `{
+const jsonResponse = `{
   "status": 200,
   "message": "GEO_CODING_SEARCH_SUCCESS",
   "data": [
@@ -20,18 +20,18 @@ export default function ForwardGeocoding() {
   ]
 }`;
 
-  return (
-    <div className="bg-black text-gray-300 min-h-screen p-8 font-sans">
-      {/* Header Section */}
-      <header className="mb-10">
-        <h1 className="text-white text-5xl font-bold mb-4 tracking-tight">
-          Forward Geocoding (Place Search)
-        </h1>
-        <div className="h-[1px] bg-gray-800 w-full mb-6"></div>
-        <p className="text-gray-400 text-lg leading-relaxed">
-          <strong className="text-white">Purpose:</strong> Searches for locations or addresses by name or text query. This forward geocoding endpoint returns a list of places that match the query string, each with coordinates and a display name.
-        </p>
-      </header>
+return (
+<div className="bg-black text-gray-300 min-h-screen p-8 font-sans">
+{/* Header Section */}
+<header className="mb-10">
+<h1 className="text-white text-5xl font-bold mb-4 tracking-tight">
+Forward Geocoding (Place Search)
+</h1>
+<div className="h-[1px] bg-gray-800 w-full mb-6"></div>
+<p className="text-gray-400 text-lg leading-relaxed">
+<strong className="text-white">Purpose:</strong> Searches for locations or addresses by name or text query. This forward geocoding endpoint returns a list of places that match the query string, each with coordinates and a display name.
+</p>
+</header>
 
       {/* Endpoint Information */}
       <section className="mb-12">
@@ -120,5 +120,6 @@ export default function ForwardGeocoding() {
         </div>
       </footer>
     </div>
-  );
+
+);
 }

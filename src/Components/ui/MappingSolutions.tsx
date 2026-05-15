@@ -1,132 +1,164 @@
-import { ArrowUpRight } from "lucide-react"
-import Image from "next/image"
+import { ArrowUpRight } from 'lucide-react'
+import Image from 'next/image'
 
-import { motion } from "framer-motion"
-import { Link } from "react-router-dom"
+import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 
 export default function MappingSolutions() {
   return (
-    <section id="solutions" className="px-6 md:px-12 py-24 bg-black">
-      <div className="max-w-5xl mx-auto">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 overflow-hidden">
-        <motion.h2 
-          initial={{ opacity: 0, x: -100 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-4xl md:text-5xl font-medium text-white leading-none inline-block origin-left tracking-[-0.05em] scale-x-70 scale-y-110"
-        >
-          Comprehensive <br /> Mapping Solutions.
-        </motion.h2>
+    <section id="solutions" className="bg-black px-6 py-24 md:px-12">
+      <div className="mx-auto max-w-5xl">
+        <div className="mb-16 flex flex-col justify-between gap-8 overflow-hidden md:flex-row md:items-end">
+          <motion.h2
+            initial={{ opacity: 0, x: -100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+            className="scale-x-70 inline-block origin-left scale-y-110 text-4xl font-medium leading-none tracking-[-0.05em] text-white md:text-5xl"
+          >
+            Comprehensive <br /> Mapping Solutions.
+          </motion.h2>
 
-        <motion.p 
-          initial={{ opacity: 0, x: 100 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
-          className="text-lg text-gray-400 max-w-sm"
-        >
-          From simple markers to complex routing algorithms, our API provides everything you need for location-based applications.
-        </motion.p>
-      </div>
+          <motion.p
+            initial={{ opacity: 0, x: 100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, ease: 'easeOut', delay: 0.1 }}
+            className="max-w-sm text-lg text-gray-400"
+          >
+            From simple markers to complex routing algorithms, our API provides
+            everything you need for location-based applications.
+          </motion.p>
+        </div>
 
-<div className="grid md:grid-cols-[1.6fr_1fr] gap-6 mb-6">
-  
-  <div className="group rounded-[32px] bg-[#0A0A0A] border border-white/5 overflow-hidden flex flex-col h-full transition-all hover:border-white/10">
-    <div className="relative bg-[#111] flex items-center justify-center overflow-hidden h-[320px]">
-      <Image 
-        src="/images/solutions/dev.jpg" 
-        alt="Geo" 
-        width={640}
-        height={640}
-        className="w-[80%] h-auto object-contain transition-transform duration-500 group-hover:scale-105" 
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
-    </div>
-    <div className="p-8">
-      <h3 className="text-2xl font-semibold text-white mb-3">For Developers</h3>
-      <p className="text-gray-400 text-sm leading-relaxed max-w-sm">
-        Easy-to-use APIs for geocoding, routing, and map display.
-      </p>
-    </div>
-  </div>
-
-  <div className="group rounded-[32px] bg-[#0A0A0A] border border-white/5 overflow-hidden flex flex-col h-full transition-all hover:border-white/10">
-    <div className="relative bg-[#111] flex items-center justify-center overflow-hidden h-[320px]">
-      <Image 
-        src="/images/solutions/img-bic.jpg" 
-        alt="Cashflow Overview" 
-        width={640}
-        height={640}
-        className="w-[80%] h-auto object-contain transition-transform duration-500 group-hover:scale-105" 
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
-    </div>
-    <div className="p-8">
-      <h3 className="text-2xl font-semibold text-white mb-3 leading-tight">For Logistics Teams</h3>
-      <p className="text-gray-400 text-sm leading-relaxed">
-        Plan routes, optimize deliveries, and track travel efficiency.
-      </p>
-    </div>
-  </div>
-
-</div>
-
-        <div className="grid md:grid-cols-3 gap-6">
-          <div className="rounded-[32px] bg-[#0A0A0A] border border-white/5 overflow-hidden flex flex-col transition-all hover:border-white/10 group">
-            <div className="relative bg-[#111] aspect-square flex items-center justify-center overflow-hidden">
-              <Image 
-                src="/images/solutions/ride.png" 
-                alt="Spending" 
+        <div className="mb-6 grid gap-6 md:grid-cols-[1.6fr_1fr]">
+          <div className="group flex h-full flex-col overflow-hidden rounded-[32px] border border-white/5 bg-[#0A0A0A] transition-all hover:border-white/10">
+            <div className="relative flex h-[320px] items-center justify-center overflow-hidden bg-[#111]">
+              <Image
+                src="/images/solutions/dev.jpg"
+                alt="Geo"
                 width={640}
                 height={640}
-                className="w-[85%] h-auto object-contain transition-transform duration-500 group-hover:scale-105" 
+                className="h-auto w-[80%] object-contain transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
             </div>
             <div className="p-8">
-              <h3 className="text-xl font-semibold text-white mb-2">For Businesses</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">Add location search, store mapping, and address intelligence to your product.</p>
+              <h3 className="mb-3 text-2xl font-semibold text-white">
+                For Developers
+              </h3>
+              <p className="max-w-sm text-sm leading-relaxed text-gray-400">
+                Easy-to-use APIs for geocoding, routing, and map display.
+              </p>
             </div>
           </div>
 
-          <div className="rounded-[32px] bg-[#0A0A0A] border border-white/5 overflow-hidden flex flex-col transition-all hover:border-white/10 group">
-            <div className="relative bg-[#111] aspect-square flex items-center justify-center overflow-hidden">
-              <Image 
-                src="/images/solutions/operations.jpg" 
-                alt="Savings" 
+          <div className="group flex h-full flex-col overflow-hidden rounded-[32px] border border-white/5 bg-[#0A0A0A] transition-all hover:border-white/10">
+            <div className="relative flex h-[320px] items-center justify-center overflow-hidden bg-[#111]">
+              <Image
+                src="/images/solutions/img-bic.jpg"
+                alt="Cashflow Overview"
                 width={640}
                 height={640}
-                className="w-[85%] h-auto object-contain transition-transform duration-500 group-hover:scale-105" 
+                className="h-auto w-[80%] object-contain transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
+            </div>
+            <div className="p-8">
+              <h3 className="mb-3 text-2xl font-semibold leading-tight text-white">
+                For Logistics Teams
+              </h3>
+              <p className="text-sm leading-relaxed text-gray-400">
+                Plan routes, optimize deliveries, and track travel efficiency.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-3">
+          <div className="group flex flex-col overflow-hidden rounded-[32px] border border-white/5 bg-[#0A0A0A] transition-all hover:border-white/10">
+            <div className="relative flex aspect-square items-center justify-center overflow-hidden bg-[#111]">
+              <Image
+                src="/images/solutions/ride.png"
+                alt="Spending"
+                width={640}
+                height={640}
+                className="h-auto w-[85%] object-contain transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
+            </div>
+            <div className="p-8">
+              <h3 className="mb-2 text-xl font-semibold text-white">
+                For Businesses
+              </h3>
+              <p className="text-sm leading-relaxed text-gray-400">
+                Add location search, store mapping, and address intelligence to
+                your product.
+              </p>
+            </div>
+          </div>
+
+          <div className="group flex flex-col overflow-hidden rounded-[32px] border border-white/5 bg-[#0A0A0A] transition-all hover:border-white/10">
+            <div className="relative flex aspect-square items-center justify-center overflow-hidden bg-[#111]">
+              <Image
+                src="/images/solutions/operations.jpg"
+                alt="Savings"
+                width={640}
+                height={640}
+                className="h-auto w-[85%] object-contain transition-transform duration-500 group-hover:scale-105"
               />
 
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
             </div>
             <div className="p-8">
-              <h3 className="text-xl font-semibold text-white mb-2">For Operations</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">Make field work, dispatching, and coverage planning more efficient.</p>
+              <h3 className="mb-2 text-xl font-semibold text-white">
+                For Operations
+              </h3>
+              <p className="text-sm leading-relaxed text-gray-400">
+                Make field work, dispatching, and coverage planning more
+                efficient.
+              </p>
             </div>
           </div>
-
 
           <div className="flex flex-col gap-6">
-            <div className="bg-[#0A0A0A] rounded-[32px] border border-white/5 p-8 flex-1 flex flex-col justify-center">
-              <div className="flex items-center -space-x-3 mb-6">
-                {["/images/people/person-1.png", "/images/people/person-2.png", "/images/people/person-3.png"].map((p, i) => (
-                  <Image key={i} src={p} alt={`Active developer ${i + 1}`} width={48} height={48} className="h-12 w-12 rounded-full border-4 border-[#0A0A0A] object-cover" />
+            <div className="flex flex-1 flex-col justify-center rounded-[32px] border border-white/5 bg-[#0A0A0A] p-8">
+              <div className="mb-6 flex items-center -space-x-3">
+                {[
+                  '/images/people/person-1.png',
+                  '/images/people/person-2.png',
+                  '/images/people/person-3.png',
+                ].map((p, i) => (
+                  <Image
+                    key={i}
+                    src={p}
+                    alt={`Active developer ${i + 1}`}
+                    width={48}
+                    height={48}
+                    className="h-12 w-12 rounded-full border-4 border-[#0A0A0A] object-cover"
+                  />
                 ))}
               </div>
-              <h4 className="text-2xl font-medium text-white leading-tight">50+ developers actively <br /> using Ambalay APIs</h4>
+              <h4 className="text-2xl font-medium leading-tight text-white">
+                50+ developers actively <br /> using Ambalay APIs
+              </h4>
             </div>
 
-            <div className="bg-[#0A0A0A] rounded-[32px] border border-white/5 p-8 flex-1 flex flex-col justify-center">
-              <h4 className="text-3xl font-medium text-white mb-3">500,000+ API requests</h4>
-              <p className="text-sm text-gray-500 mb-6 leading-relaxed max-w-[200px]">processed and growing</p>
+            <div className="flex flex-1 flex-col justify-center rounded-[32px] border border-white/5 bg-[#0A0A0A] p-8">
+              <h4 className="mb-3 text-3xl font-medium text-white">
+                500,000+ API requests
+              </h4>
+              <p className="mb-6 max-w-[200px] text-sm leading-relaxed text-gray-500">
+                processed and growing
+              </p>
               <Link to="/register">
-              <button className="flex items-center gap-2 text-[#8cff2e] font-medium text-sm group">
-                Get Started 
-                <ArrowUpRight size={18} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </button>
+                <button className="group flex items-center gap-2 text-sm font-medium text-[#8cff2e]">
+                  Get Started
+                  <ArrowUpRight
+                    size={18}
+                    className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                  />
+                </button>
               </Link>
             </div>
           </div>

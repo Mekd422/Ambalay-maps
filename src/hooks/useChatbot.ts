@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
 interface Message {
-  sender: 'user' | 'bot';
-  text: string;
+  sender: 'user' | 'bot'
+  text: string
 }
 
 export const useChatbot = () => {
@@ -11,33 +11,33 @@ export const useChatbot = () => {
       sender: 'bot',
       text: 'Hello! I am the Ambalay Maps assistant. How can I help you build with location data today?',
     },
-  ]);
+  ])
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const sendMessage = async (userPrompt: string) => {
-    if (!userPrompt.trim()) return;
+    if (!userPrompt.trim()) return
 
     const userMessage: Message = {
       sender: 'user',
       text: userPrompt,
-    };
+    }
 
-    const updatedMessages = [...messages, userMessage];
+    const updatedMessages = [...messages, userMessage]
 
-    setMessages(updatedMessages);
-    setLoading(true);
-    setError(null);
+    setMessages(updatedMessages)
+    setLoading(true)
+    setError(null)
 
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL;
+      const API_URL = process.env.NEXT_PUBLIC_API_URL
       // console.log(API_URL)
 
       const formattedHistory = updatedMessages.map((msg) => ({
         role: msg.sender === 'user' ? 'user' : 'assistant',
         text: msg.text,
-      }));
+      }))
 
       const response = await fetch(`${API_URL}/api/chat`, {
         method: 'POST',
@@ -48,16 +48,15 @@ export const useChatbot = () => {
           message: userPrompt,
           conversationHistory: formattedHistory,
         }),
-      });
-
+      })
 
       if (!response.ok) {
-        throw new Error(`HTTP Error: ${response.status}`);
+        throw new Error(`HTTP Error: ${response.status}`)
       }
 
-      const data = await response.json();
+      const data = await response.json()
 
-      console.log('Chatbot Response:', data);
+      console.log('Chatbot Response:', data)
 
       const botMessage: Message = {
         sender: 'bot',
@@ -66,13 +65,13 @@ export const useChatbot = () => {
           data.response ||
           data.message ||
           'Sorry, I could not understand that.',
-      };
+      }
 
-      setMessages((prev) => [...prev, botMessage]);
+      setMessages((prev) => [...prev, botMessage])
     } catch (err) {
-      console.error('Chatbot API Error:', err);
+      console.error('Chatbot API Error:', err)
 
-      setError('Error connecting to AI service.');
+      setError('Error connecting to AI service.')
 
       setMessages((prev) => [
         ...prev,
@@ -80,16 +79,16 @@ export const useChatbot = () => {
           sender: 'bot',
           text: 'Sorry, something went wrong while connecting to the assistant.',
         },
-      ]);
+      ])
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   return {
     messages,
     loading,
     error,
     sendMessage,
-  };
-};
+  }
+}

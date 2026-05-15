@@ -1,4 +1,4 @@
-import { DashboardCard, DashboardHeader } from "./DashboardShell";
+import { DashboardCard, DashboardHeader } from './DashboardShell'
 
 export default function Organizations() {
   return (
@@ -8,7 +8,9 @@ export default function Organizations() {
         title="Organizations"
         subtitle="Organization management will appear here once the backend endpoints are ready."
       />
-      <div className="text-gray-400 text-center py-10">Organizations API not provided yet</div>
+      <div className="py-10 text-center text-gray-400">
+        Organizations API not provided yet
+      </div>
     </DashboardCard>
-  );
+  )
 }

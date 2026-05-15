@@ -1,29 +1,42 @@
-import axios from "axios";
+import axios from 'axios'
 
 const API = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
-});
+})
+
+export const BFF_API = axios.create({
+  baseURL: '/api',
+})
 
 export const setAuthToken = (token: string | null) => {
+  const clients = [API, BFF_API]
+
   if (token) {
-    API.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    clients.forEach((client) => {
+      client.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    })
   } else {
-    delete API.defaults.headers.common["Authorization"];
+    clients.forEach((client) => {
+      delete client.defaults.headers.common['Authorization']
+    })
   }
-};
+}
 
-// Global response interceptor for error handling
-API.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      // Token expired or invalid, logout user
-      sessionStorage.removeItem("token");
-      setAuthToken(null);
-      window.location.href = "/login"; // Redirect to login
-    }
-    return Promise.reject(error);
+const handleUnauthorized = (error: unknown) => {
+  if (
+    typeof window !== 'undefined' &&
+    axios.isAxiosError(error) &&
+    error.response?.status === 401
+  ) {
+    sessionStorage.removeItem('token')
+    setAuthToken(null)
+    window.location.href = '/login'
   }
-);
 
-export default API;
+  return Promise.reject(error)
+}
+
+API.interceptors.response.use((response) => response, handleUnauthorized)
+BFF_API.interceptors.response.use((response) => response, handleUnauthorized)
+
+export default API

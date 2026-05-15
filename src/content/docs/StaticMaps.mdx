@@ -1,69 +1,70 @@
-import CodeBlock from "../../Components/CodeBlock.tsx";
+import CodeBlock from '../../Components/CodeBlock.tsx'
 
 export default function StaticMaps() {
   const curlExample = `curl -X GET "https://api.ambalaymaps.com/v1/staticmap?center=9.03,38.74&zoom=12&size=600x400&markers=color:red|9.03,38.74&key=YOUR_API_KEY" -o map.png`;
 
-  const styledMapExample = `curl -X GET "https://api.ambalaymaps.com/v1/staticmap?center=9.03,38.74&zoom=12&size=600x400&maptype=roadmap&style=feature:water|element:geometry|color:0x0099dd&style=feature:road|element:geometry|color:0xeeeeee&key=YOUR_API_KEY" -o styled_map.png`;
+const styledMapExample = `curl -X GET "https://api.ambalaymaps.com/v1/staticmap?center=9.03,38.74&zoom=12&size=600x400&maptype=roadmap&style=feature:water|element:geometry|color:0x0099dd&style=feature:road|element:geometry|color:0xeeeeee&key=YOUR_API_KEY" -o styled_map.png`;
 
-  const satelliteMapExample = `curl -X GET "https://api.ambalaymaps.com/v1/staticmap?center=9.03,38.74&zoom=12&size=600x400&maptype=hybrid&key=YOUR_API_KEY" -o satellite_map.png`;
+const satelliteMapExample = `curl -X GET "https://api.ambalaymaps.com/v1/staticmap?center=9.03,38.74&zoom=12&size=600x400&maptype=hybrid&key=YOUR_API_KEY" -o satellite_map.png`;
 
-  const htmlUsage = `<img src="https://api.ambalaymaps.com/v1/staticmap?center=9.03,38.74&zoom=12&size=600x400&key=YOUR_API_KEY" alt="Map of Addis Ababa">
+const htmlUsage = `<img src="https://api.ambalaymaps.com/v1/staticmap?center=9.03,38.74&zoom=12&size=600x400&key=YOUR_API_KEY" alt="Map of Addis Ababa">
 
 <img src="https://api.ambalaymaps.com/v1/staticmap?center=9.03,38.74&zoom=12&size=600x400&markers=color:red|9.03,38.74&key=YOUR_API_KEY" alt="Map with marker">
 
 <img src="https://api.ambalaymaps.com/v1/staticmap?size=600x400&path=color:0x0000ff|weight:5|9.03,38.74|9.04,38.75|9.05,38.76&key=YOUR_API_KEY" alt="Route map in Addis Ababa">`;
 
-  const jsExample = `// Function to generate a static map URL
+const jsExample = `// Function to generate a static map URL
 function getStaticMapUrl(options) {
-  const apiKey = 'YOUR_API_KEY';
-  const baseUrl = 'https://api.ambalaymaps.com/v1/staticmap';
+const apiKey = 'YOUR_API_KEY';
+const baseUrl = 'https://api.ambalaymaps.com/v1/staticmap';
 
-  // Default options
-  const defaultOptions = {
-    center: '9.03,38.74',
-    zoom: 12,
-    size: '600x400',
-    maptype: 'roadmap'
-  };
+// Default options
+const defaultOptions = {
+center: '9.03,38.74',
+zoom: 12,
+size: '600x400',
+maptype: 'roadmap'
+};
 
-  // Merge options
-  const mergedOptions = { ...defaultOptions, ...options, key: apiKey };
+// Merge options
+const mergedOptions = { ...defaultOptions, ...options, key: apiKey };
 
-  // Build query string
-  const queryParams = Object.entries(mergedOptions)
-    .map(([key, value]) => \`\${key}=\${encodeURIComponent(value)}\`)
-    .join('&');
+// Build query string
+const queryParams = Object.entries(mergedOptions)
+.map(([key, value]) => \`\${key}=\${encodeURIComponent(value)}\`)
+.join('&');
 
-  return \`\${baseUrl}?\${queryParams}\`;
+return \`\${baseUrl}?\${queryParams}\`;
 }
 
 // Example: Generate a map with a marker
 const mapWithMarker = getStaticMapUrl({
-  center: '9.03,38.74',
-  zoom: 14,
-  size: '800x600',
-  markers: 'color:red|9.03,38.74'
+center: '9.03,38.74',
+zoom: 14,
+size: '800x600',
+markers: 'color:red|9.03,38.74'
 });
 
 // Example: Generate a map showing a route
 const routeMap = getStaticMapUrl({
-  size: '800x600',
-  path: 'color:0x0000ff|weight:5|9.03,38.74|9.04,38.75|9.05,38.76'
+size: '800x600',
+path: 'color:0x0000ff|weight:5|9.03,38.74|9.04,38.75|9.05,38.76'
 });
 
 // Use in an image element
 document.getElementById('map-container').innerHTML = \`
+
   <img src="\${mapWithMarker}" alt="Map with marker">
 \`;`;
 
-  const pythonExample = `import requests
+const pythonExample = `import requests
 from PIL import Image
 from io import BytesIO
 
 def get_static_map(options, save_path=None):
-    """
-    Fetch a static map from AmbaLay Maps API
-    
+"""
+Fetch a static map from AmbaLay Maps API
+
     Args:
         options: Dictionary of query parameters
         save_path: Optional file path to save the image
@@ -72,7 +73,7 @@ def get_static_map(options, save_path=None):
     """
     api_key = 'YOUR_API_KEY'
     base_url = 'https://api.ambalaymaps.com/v1/staticmap'
-    
+
     # Default options
     default_options = {
         'center': '9.03,38.74',
@@ -80,52 +81,54 @@ def get_static_map(options, save_path=None):
         'size': '600x400',
         'maptype': 'roadmap'
     }
-    
+
     # Merge options
     merged_options = {**default_options, **options, 'key': api_key}
-    
+
     # Get the image
     response = requests.get(base_url, params=merged_options)
 
     if response.status_code == 200:
         image = Image.open(BytesIO(response.content))
-        
+
         # Save to file if requested
         if save_path:
             image.save(save_path)
-            
+
         return image
     else:
         print(f"Error: {response.status_code}")
         return None
 
 # Example: Get a map with a marker
+
 map_with_marker = get_static_map({
-    'center': '9.03,38.74',
-    'zoom': 14,
-    'markers': 'color:red|9.03,38.74'
+'center': '9.03,38.74',
+'zoom': 14,
+'markers': 'color:red|9.03,38.74'
 }, 'map_with_marker.png')
 
 # Example: Get a map showing a route
+
 route_map = get_static_map({
-    'path': 'color:0x0000ff|weight:5|9.03,38.74|9.04,38.75|9.05,38.76'
+'path': 'color:0x0000ff|weight:5|9.03,38.74|9.04,38.75|9.05,38.76'
 }, 'route_map.png')
 
 print("Maps saved successfully!")`;
 
-  return (
-    <div className="bg-black text-gray-300 min-h-screen p-8 font-sans">
-      {/* Header Section */}
-      <header className="mb-10">
-        <h1 className="text-white text-5xl font-bold mb-4 tracking-tight">
-          Static Maps API
-        </h1>
-        <div className="h-[1px] bg-gray-800 w-full mb-6"></div>
-        <p className="text-gray-400 text-lg leading-relaxed">
-          Generate static map images with custom markers, paths, and styling for
-          embedding in websites or applications without using interactive maps.
-        </p>
-      </header>
+return (
+<div className="bg-black text-gray-300 min-h-screen p-8 font-sans">
+{/* Header Section */}
+<header className="mb-10">
+<h1 className="text-white text-5xl font-bold mb-4 tracking-tight">
+Static Maps API
+</h1>
+<div className="h-[1px] bg-gray-800 w-full mb-6"></div>
+<p className="text-gray-400 text-lg leading-relaxed">
+Generate static map images with custom markers, paths, and styling for
+embedding in websites or applications without using interactive maps.
+</p>
+</header>
 
       {/* Endpoint Section */}
       <section className="mb-12">
@@ -278,7 +281,8 @@ print("Maps saved successfully!")`;
         </div>
       </section>
 
-      
+
     </div>
-  );
+
+);
 }

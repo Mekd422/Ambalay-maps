@@ -125,11 +125,18 @@ export function useLocation() {
     pathname,
     search,
     hash,
-    state: readNavigationState(href) ?? readNavigationState(`${pathname}${search}`),
+    state:
+      readNavigationState(href) ?? readNavigationState(`${pathname}${search}`),
   }
 }
 
-export function useSearchParams(): [URLSearchParams, (next: URLSearchParams | string | string[][] | Record<string, string>, options?: { replace?: boolean }) => void] {
+export function useSearchParams(): [
+  URLSearchParams,
+  (
+    next: URLSearchParams | string | string[][] | Record<string, string>,
+    options?: { replace?: boolean },
+  ) => void,
+] {
   const pathname = usePathname()
   const router = useRouter()
   const [search, setSearch] = useState('')
@@ -149,8 +156,11 @@ export function useSearchParams(): [URLSearchParams, (next: URLSearchParams | st
     next: URLSearchParams | string | string[][] | Record<string, string>,
     options?: { replace?: boolean },
   ) => {
-    const params = next instanceof URLSearchParams ? next : new URLSearchParams(next)
-    const href = params.toString() ? `${pathname}?${params.toString()}` : pathname
+    const params =
+      next instanceof URLSearchParams ? next : new URLSearchParams(next)
+    const href = params.toString()
+      ? `${pathname}?${params.toString()}`
+      : pathname
     setSearch(params.toString() ? `?${params.toString()}` : '')
 
     if (options?.replace) {
@@ -168,7 +178,13 @@ export function useParams<T extends Record<string, string | string[]>>() {
   return useNextParams<T>()
 }
 
-export function Navigate({ to, replace = false }: { to: string; replace?: boolean }) {
+export function Navigate({
+  to,
+  replace = false,
+}: {
+  to: string
+  replace?: boolean
+}) {
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -186,7 +202,12 @@ export function Routes({ children }: { children: ReactNode }) {
   return <>{children}</>
 }
 
-export function Route(props: { path?: string; element?: ReactNode; children?: ReactNode; index?: boolean }) {
+export function Route(props: {
+  path?: string
+  element?: ReactNode
+  children?: ReactNode
+  index?: boolean
+}) {
   void props
   return null
 }

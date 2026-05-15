@@ -1,4 +1,4 @@
-import CodeBlock from "../../Components/CodeBlock.tsx";
+import CodeBlock from '../../Components/CodeBlock.tsx'
 
 export default function OptimizedRouteAPI() {
   const curlExample = `curl -G 'https://api.ambalaymaps.com/v1/matrix' \\
@@ -7,7 +7,7 @@ export default function OptimizedRouteAPI() {
   --data-urlencode 'destinations=40.758896,-73.98513|40.706192,-74.00916' \\
   --data-urlencode 'mode=driving'`;
 
-  const jsonResponse = `{
+const jsonResponse = `{
   "status": 200,
   "message": "ROUTE_OPTIMIZED",
   "data": {
@@ -39,18 +39,18 @@ export default function OptimizedRouteAPI() {
   }
 }`;
 
-  return (
-    <div className="bg-black text-gray-300 min-h-screen p-8 font-sans">
-      {/* Header Section */}
-      <header className="mb-10">
-        <h1 className="text-white text-5xl font-bold mb-4 tracking-tight !mt-0">
-          Optimized Route API
-        </h1>
-        <div className="h-[1px] bg-gray-800 w-full mb-6"></div>
-        <p className="text-gray-400 text-lg leading-relaxed">
-          <strong className="text-white">Purpose:</strong> Calculates the most efficient sequence and path to visit multiple locations.
-        </p>
-      </header>
+return (
+<div className="bg-black text-gray-300 min-h-screen p-8 font-sans">
+{/* Header Section */}
+<header className="mb-10">
+<h1 className="text-white text-5xl font-bold mb-4 tracking-tight !mt-0">
+Optimized Route API
+</h1>
+<div className="h-[1px] bg-gray-800 w-full mb-6"></div>
+<p className="text-gray-400 text-lg leading-relaxed">
+<strong className="text-white">Purpose:</strong> Calculates the most efficient sequence and path to visit multiple locations.
+</p>
+</header>
 
       {/* Base URL & Auth */}
       <section className="mb-12">
@@ -148,5 +148,6 @@ export default function OptimizedRouteAPI() {
         </div>
       </footer>
     </div>
-  );
+
+);
 }

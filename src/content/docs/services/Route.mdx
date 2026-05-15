@@ -1,4 +1,4 @@
-import DocsCodeBlock from "../../../Components/docs/DocsCodeBlock";
+import DocsCodeBlock from '../../../Components/docs/DocsCodeBlock'
 
 ## Executive Summary
 
@@ -11,16 +11,9 @@ Use it for:
 - Map previews
 - Route planning
 
-
-
 ## Base URL
 
-<DocsCodeBlock
-  language="text"
-  template={`https://api.dev.ambalaymaps.com`}
-/>
-
-
+<DocsCodeBlock language="text" template={`https://api.dev.ambalaymaps.com`} />
 
 ## Endpoint
 
@@ -28,8 +21,6 @@ Use it for:
 - Path: `/services/route`
 - Allowed Service: `ROUTING`
 - Billed Service: `ROUTING`
-
-
 
 ## Authentication
 
@@ -44,33 +35,25 @@ Content-Type: application/json
 x-ambalay-key: {API_KEY}`}
 />
 
-
-
 ## Purpose
 
 Compute a route from one point to another, optionally through intermediate waypoints, and return distance, duration, and turn-by-turn instructions.
 
-
-
 ## Request Body
 
-| Field | Type | Required | Description |
-|---|---|---|---|
-| `source` | object | Yes | Starting coordinate |
-| `destination` | object | Yes | Destination coordinate |
-| `via` | `array<object>` | No | Ordered intermediate waypoints to route through |
-| `costing` | string | Yes | Travel mode |
-
-
+| Field         | Type            | Required | Description                                     |
+| ------------- | --------------- | -------- | ----------------------------------------------- |
+| `source`      | object          | Yes      | Starting coordinate                             |
+| `destination` | object          | Yes      | Destination coordinate                          |
+| `via`         | `array<object>` | No       | Ordered intermediate waypoints to route through |
+| `costing`     | string          | Yes      | Travel mode                                     |
 
 ## Coordinate Object
 
-| Field | Type | Required | Description |
-|---|---|---|---|
-| `lat` | number | Yes | Latitude |
-| `lon` | number | Yes | Longitude |
-
-
+| Field | Type   | Required | Description |
+| ----- | ------ | -------- | ----------- |
+| `lat` | number | Yes      | Latitude    |
+| `lon` | number | Yes      | Longitude   |
 
 ## Allowed Costing Values
 
@@ -78,8 +61,6 @@ Compute a route from one point to another, optionally through intermediate waypo
 - `PEDESTRIAN`
 - `BICYCLE`
 - `TRUCK`
-
-
 
 ## Rules
 
@@ -91,8 +72,6 @@ Compute a route from one point to another, optionally through intermediate waypo
   - `PEDESTRIAN`
   - `BICYCLE`
   - `TRUCK`
-
-
 
 ## Request Schema
 
@@ -137,8 +116,6 @@ Compute a route from one point to another, optionally through intermediate waypo
 }`}
 />
 
-
-
 ## Example Request (cURL)
 
 <DocsCodeBlock
@@ -153,8 +130,6 @@ Compute a route from one point to another, optionally through intermediate waypo
     "costing": "AUTO"
   }'`}
 />
-
-
 
 ## Example Request (JavaScript)
 
@@ -177,8 +152,6 @@ Compute a route from one point to another, optionally through intermediate waypo
   .then(data => console.log(data));`}
 />
 
-
-
 ## Example Request (HTTP)
 
 <DocsCodeBlock
@@ -189,14 +162,12 @@ Content-Type: application/json
 x-ambalay-key: {API_KEY}
 
 {
-  "source": { "lat": 8.9806, "lon": 38.7578 },
-  "destination": { "lat": 8.9900, "lon": 38.7600 },
-  "via": [],
-  "costing": "AUTO"
+"source": { "lat": 8.9806, "lon": 38.7578 },
+"destination": { "lat": 8.9900, "lon": 38.7600 },
+"via": [],
+"costing": "AUTO"
 }`}
 />
-
-
 
 ## Successful Response
 
@@ -225,21 +196,17 @@ x-ambalay-key: {API_KEY}
 }`}
 />
 
-
-
 ## Response Fields
 
-| Field | Type | Description |
-|---|---|---|
-| `distanceMeters` | number | Total travel distance in meters |
-| `durationSeconds` | number | Total estimated travel time in seconds |
-| `legs` | array | Route segments in travel order |
-| `legs[].summary` | string | Human-readable segment summary |
-| `legs[].steps` | array | Turn-by-turn instructions for the leg |
-| `legs[].steps[].instruction` | string | Navigation instruction text |
-| `legs[].steps[].distanceMeters` | number | Distance covered by the step |
-
-
+| Field                           | Type   | Description                            |
+| ------------------------------- | ------ | -------------------------------------- |
+| `distanceMeters`                | number | Total travel distance in meters        |
+| `durationSeconds`               | number | Total estimated travel time in seconds |
+| `legs`                          | array  | Route segments in travel order         |
+| `legs[].summary`                | string | Human-readable segment summary         |
+| `legs[].steps`                  | array  | Turn-by-turn instructions for the leg  |
+| `legs[].steps[].instruction`    | string | Navigation instruction text            |
+| `legs[].steps[].distanceMeters` | number | Distance covered by the step           |
 
 ## Validation Error Example
 
@@ -256,8 +223,6 @@ x-ambalay-key: {API_KEY}
 }`}
 />
 
-
-
 ## Common Errors
 
 - `MISSING_API_KEY`
@@ -265,8 +230,6 @@ x-ambalay-key: {API_KEY}
 - `API_KEY_SERVICE_NOT_ALLOWED`
 - `SERVICE_LIMIT_EXCEEDED`
 - `VALIDATION_ERROR`
-
-
 
 ## Usage Notes
 

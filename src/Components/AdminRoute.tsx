@@ -1,21 +1,21 @@
-import { type ReactNode } from "react";
-import { Navigate } from "react-router-dom";
-import { useAuth } from "../context/useAuth";
+import { type ReactNode } from 'react'
+import { Navigate } from 'react-router-dom'
+import { useAuth } from '../context/useAuth'
 
 interface AdminRouteProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 export default function AdminRoute({ children }: AdminRouteProps) {
-  const { user } = useAuth();
+  const { user } = useAuth()
 
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login" replace />
   }
 
-  if (user.accessLevel !== "ADMIN") {
-    return <Navigate to="/dashboard" replace />;
+  if (user.accessLevel !== 'ADMIN') {
+    return <Navigate to="/dashboard" replace />
   }
 
-  return <>{children}</>;
+  return <>{children}</>
 }

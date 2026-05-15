@@ -1,4 +1,4 @@
-import DocsCodeBlock from "../../../Components/docs/DocsCodeBlock";
+import DocsCodeBlock from '../../../Components/docs/DocsCodeBlock'
 
 <style jsx global>{`
   /*
@@ -81,19 +81,16 @@ Calculate travel distance and duration between multiple points.
 
 ![Matrix API Overview](https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1600&auto=format&fit=crop)
 
-
-
 ## Executive Summary
 
 The Matrix endpoint calculates travel distance and duration for multiple origin-destination pairs in a single request.
 
 It is used for:
+
 - ETA comparison
 - Nearest-location ranking
 - Dispatch optimization
 - Batch travel-time analysis
-
-
 
 ## Base URL
 
@@ -103,16 +100,12 @@ It is used for:
   template={`{BASE_URL}`}
 />
 
-
-
 ## Endpoint
 
 - Method: `POST`
 - Path: `/services/matrix`
 - Allowed Service: `MATRIX`
 - Billed Service: `MATRIX`
-
-
 
 ## Authentication
 
@@ -125,38 +118,30 @@ Content-Type: application/json
 x-ambalay-key: {API_KEY}`}
 />
 
-
-
 ## Request Body
 
-| Field | Type | Required | Description |
-|---|---|---|---|
-| `sources` | `array<object>` | Yes | Origin points |
-| `targets` | `array<object>` | Yes | Destination points |
-| `costing` | string | Yes | Travel mode (currently `AUTO`) |
-
-
+| Field     | Type            | Required | Description                    |
+| --------- | --------------- | -------- | ------------------------------ |
+| `sources` | `array<object>` | Yes      | Origin points                  |
+| `targets` | `array<object>` | Yes      | Destination points             |
+| `costing` | string          | Yes      | Travel mode (currently `AUTO`) |
 
 ## Point Object
 
-| Field | Type | Required | Description |
-|---|---|---|---|
-| `lat` | number | Yes | Latitude |
-| `lon` | number | Yes | Longitude |
-
-
+| Field | Type   | Required | Description |
+| ----- | ------ | -------- | ----------- |
+| `lat` | number | Yes      | Latitude    |
+| `lon` | number | Yes      | Longitude   |
 
 ## Rules
 
-- `sources`: up to 50 points  
-- `targets`: up to 50 points  
-- At least one source and one target required  
+- `sources`: up to 50 points
+- `targets`: up to 50 points
+- At least one source and one target required
 - Supports:
   - 1 → N
-  - N → 1  
+  - N → 1
 - `costing` currently only `AUTO`
-
-
 
 ## Example Request (cURL)
 
@@ -177,8 +162,6 @@ x-ambalay-key: {API_KEY}`}
   "costing": "AUTO"
 }'`}
 />
-
-
 
 ## Example Request (JavaScript)
 
@@ -203,8 +186,6 @@ x-ambalay-key: {API_KEY}`}
 .then(res => res.json())
 .then(data => console.log(data));`}
 />
-
-
 
 ## Successful Response
 
@@ -231,3 +212,4 @@ x-ambalay-key: {API_KEY}`}
   "timestamp": "2026-04-29T06:00:00.000Z",
   "requestId": "request-id"
 }
+```

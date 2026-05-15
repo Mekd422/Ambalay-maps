@@ -1,23 +1,23 @@
-import { type ReactNode } from "react";
-import { Navigate } from "react-router-dom";
-import { useAuth } from "../context/useAuth";
+import { type ReactNode } from 'react'
+import { Navigate } from 'react-router-dom'
+import { useAuth } from '../context/useAuth'
 
 interface PublicOnlyRouteProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 const PublicOnlyRoute = ({ children }: PublicOnlyRouteProps) => {
-  const { user, token } = useAuth();
+  const { user, token } = useAuth()
 
   if (token && !user) {
-    return <div>Loading...</div>;
+    return <div>Loading...</div>
   }
 
   if (token && user) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/dashboard" replace />
   }
 
-  return <>{children}</>;
-};
+  return <>{children}</>
+}
 
-export default PublicOnlyRoute;
+export default PublicOnlyRoute
