@@ -1,6 +1,6 @@
 import axios from 'axios'
 import type { User } from '../context/AuthContext'
-import API, { BFF_API } from './axios'
+import API from './axios'
 
 interface ApiResponse<T> {
   status: string
@@ -28,7 +28,7 @@ export interface AuthVerificationResult {
 }
 
 export const getCurrentUser = async () => {
-  const res = await BFF_API.get<ApiResponse<User>>('/auth/whoami')
+  const res = await API.get<ApiResponse<User>>('/auth/whoami')
   return res.data.data
 }
 

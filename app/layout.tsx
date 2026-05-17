@@ -6,10 +6,18 @@ import '../src/index.css'
 const umamiEnabled = process.env.NEXT_PUBLIC_UMAMI_ENABLED === 'true'
 const umamiScriptSrc = process.env.NEXT_PUBLIC_UMAMI_SRC
 const umamiWebsiteId = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID
+const shouldLoadUmami =
+  process.env.NODE_ENV !== 'development' &&
+  umamiEnabled &&
+  !!umamiScriptSrc &&
+  !!umamiWebsiteId
 
 export const metadata: Metadata = {
   title: 'AmbaLay Maps',
   description: 'AmbaLay Maps dashboard and documentation',
+  icons: {
+    icon: '/favicon.png',
+  },
 }
 
 export default function RootLayout({
@@ -20,11 +28,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {umamiEnabled && umamiScriptSrc && umamiWebsiteId ? (
+        {shouldLoadUmami ? (
           <Script
             defer
-            src={umamiScriptSrc}
-            data-website-id={umamiWebsiteId}
+            src={umamiScriptSrc!}
+            data-website-id={umamiWebsiteId!}
             strategy="afterInteractive"
           />
         ) : null}

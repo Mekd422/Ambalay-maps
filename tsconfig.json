@@ -22,8 +22,7 @@
     "paths": {
       "react-router-dom": ["./src/lib/next-router"],
       "react-router-hash-link": ["./src/lib/next-router"]
-    },
-    "types": ["vite/client"]
+    }
   },
   "include": [
     "next-env.d.ts",

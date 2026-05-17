@@ -1,4 +1,4 @@
-import { BFF_API } from './axios'
+import API from './axios'
 
 export interface ApiKey {
   id: string
@@ -35,7 +35,7 @@ const mapApiKey = (key: BackendApiKey): ApiKey => ({
 })
 
 export const getApiKeys = async () => {
-  const res = await BFF_API.get<ApiResponse<BackendApiKey[]>>('/auth/api-keys')
+  const res = await API.get<ApiResponse<BackendApiKey[]>>('/auth/api_keys')
   return (res.data.data || []).map(mapApiKey)
 }
 
@@ -43,8 +43,8 @@ export const createApiKey = async (data: {
   label: string
   allowedServices: string[]
 }) => {
-  const res = await BFF_API.post<ApiResponse<BackendApiKey>>(
-    '/auth/api-keys',
+  const res = await API.post<ApiResponse<BackendApiKey>>(
+    '/auth/generate_api_key',
     data,
   )
   return mapApiKey(res.data.data)
