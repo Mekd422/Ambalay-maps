@@ -14,13 +14,15 @@ export const setAuthToken = (token: string | null) => {
 
 const handleUnauthorized = (error: unknown) => {
   if (
-    typeof window !== 'undefined' &&
     axios.isAxiosError(error) &&
     error.response?.status === 401
   ) {
-    sessionStorage.removeItem('token')
-    setAuthToken(null)
-    window.location.href = '/login'
+    const authHeader = error.config?.headers?.Authorization
+
+    if (typeof window !== 'undefined' && authHeader) {
+      sessionStorage.removeItem('token')
+      setAuthToken(null)
+    }
   }
 
   return Promise.reject(error)
