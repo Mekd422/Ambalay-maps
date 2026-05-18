@@ -48,9 +48,9 @@ export default function Navbar() {
           : 'border-transparent bg-transparent'
       }`}
     >
-      <div className="mx-auto flex max-w-7xl items-start justify-between px-6 py-4 md:px-12">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:px-12">
         {/* Logo */}
-        <div className="flex items-start gap-2 pt-1">
+        <div className="flex items-center gap-2">
           <Image
             src="/icons/ambalay-logo.png"
             alt="AmbaLay Maps Logo"
@@ -67,7 +67,7 @@ export default function Navbar() {
         </div>
 
         {/* Desktop Navigation */}
-        <div className="hidden items-start gap-8 pt-1 lg:flex">
+        <div className="hidden items-center gap-8 lg:flex">
           <Link to="/#solutions" className={getLinkStyles('/#solutions')}>
             About Us
           </Link>
@@ -93,7 +93,7 @@ export default function Navbar() {
         <div className="hidden items-center gap-3 lg:flex">
           {isLoggedIn ? (
             <>
-              <span className="pt-2 text-sm font-medium text-white">
+              <span className="inline-flex items-center text-sm font-medium text-white">
                 Hi, {userName}
               </span>
 
