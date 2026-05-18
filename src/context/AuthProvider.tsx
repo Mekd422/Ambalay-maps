@@ -1,16 +1,35 @@
 import { useState, useEffect, type ReactNode } from 'react'
+import axios from 'axios'
 import { getCurrentUser } from '../api/auth'
 import { setAuthToken } from '../api/axios'
 import { AuthContext, type User } from './AuthContext'
 
+const AUTH_TOKEN_STORAGE_KEY = 'token'
+
+const getStoredToken = () => {
+  if (typeof window === 'undefined') {
+    return null
+  }
+
+  return (
+    localStorage.getItem(AUTH_TOKEN_STORAGE_KEY) ??
+    sessionStorage.getItem(AUTH_TOKEN_STORAGE_KEY)
+  )
+}
+
+const clearStoredToken = () => {
+  if (typeof window === 'undefined') {
+    return
+  }
+
+  localStorage.removeItem(AUTH_TOKEN_STORAGE_KEY)
+  sessionStorage.removeItem(AUTH_TOKEN_STORAGE_KEY)
+}
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null)
   const [token, setToken] = useState<string | null>(() => {
-    if (typeof window === 'undefined') {
-      return null
-    }
-
-    return sessionStorage.getItem('token')
+    return getStoredToken()
   })
 
   useEffect(() => {
@@ -24,10 +43,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(currentUser)
       } catch (err) {
         console.error('Failed to fetch user', err)
-        setToken(null)
-        setUser(null)
-        if (typeof window !== 'undefined') {
-          sessionStorage.removeItem('token')
+
+        if (axios.isAxiosError(err) && [401, 403].includes(err.response?.status ?? 0)) {
+          setToken(null)
+          setUser(null)
+          clearStoredToken()
         }
       }
     }
@@ -41,16 +61,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(newUser)
     }
     if (typeof window !== 'undefined') {
-      sessionStorage.setItem('token', newToken)
+      localStorage.setItem(AUTH_TOKEN_STORAGE_KEY, newToken)
+      sessionStorage.removeItem(AUTH_TOKEN_STORAGE_KEY)
     }
   }
 
   const logout = () => {
     setToken(null)
     setUser(null)
-    if (typeof window !== 'undefined') {
-      sessionStorage.removeItem('token')
-    }
+    clearStoredToken()
   }
 
   return (

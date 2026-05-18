@@ -20,6 +20,7 @@ const handleUnauthorized = (error: unknown) => {
     const authHeader = error.config?.headers?.Authorization
 
     if (typeof window !== 'undefined' && authHeader) {
+      localStorage.removeItem('token')
       sessionStorage.removeItem('token')
       setAuthToken(null)
     }

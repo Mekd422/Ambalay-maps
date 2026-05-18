@@ -42,7 +42,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed left-0 right-0 top-0 z-50 border-b transition-all duration-300 ${
+      className={`fixed left-0 right-0 top-3 z-50 border-b transition-all duration-300 ${
         isScrolled
           ? 'border-gray-200 bg-black/20 backdrop-blur-xl dark:border-white/5'
           : 'border-transparent bg-transparent'
@@ -90,7 +90,7 @@ export default function Navbar() {
         </div>
 
         {/* Desktop Auth Buttons */}
-        <div className="hidden items-start gap-6 pt-[2px] lg:flex">
+        <div className="hidden items-center gap-3 lg:flex">
           {isLoggedIn ? (
             <>
               <span className="pt-2 text-sm font-medium text-white">
@@ -117,7 +117,10 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <Link to="/login" className={getLinkStyles('/login')}>
+              <Link
+                to="/login"
+                className="rounded-full border border-white/20 px-6 py-2.5 text-sm font-medium text-white transition-all hover:border-[#8cff2e] hover:text-[#8cff2e]"
+              >
                 Login
               </Link>
 
