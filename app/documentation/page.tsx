@@ -1,5 +1,5 @@
-'use client'
+import { redirect } from 'next/navigation'
 
-import Documentation from '../../src/views/Documentation'
-
-export default Documentation
+export default function DocumentationPage() {
+  redirect('/documentation/overview')
+}

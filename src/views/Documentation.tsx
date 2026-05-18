@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+'use client'
+
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import {
   Search,
@@ -25,7 +27,11 @@ import GeocodingContent from '../content/docs/services/Geocoding.mdx'
 import RouteContent from '../content/docs/services/Route.mdx'
 import MatrixContent from '../content/docs/services/Matrix.mdx'
 import TripsContent from '../content/docs/services/Trips.mdx'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import {
+  documentationSlugByTitle,
+  documentationTitleBySlug,
+} from './documentationPages'
 
 interface SidebarGroup {
   group: string
@@ -53,14 +59,20 @@ interface FeatureItemProps {
   desc: string
 }
 
+const documentationHref = (page: string) =>
+  `/documentation/${documentationSlugByTitle.get(page) ?? 'overview'}`
+
 const Documentation = () => {
+  const navigate = useNavigate()
+  const params = useParams<{ slug?: string }>()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false)
-  const [activePage, setActivePage] = useState<string>('Overview')
   const [searchQuery, setSearchQuery] = useState<string>('')
   const docsBaseUrl =
     process.env.NEXT_PUBLIC_API_BASE_URL ||
     process.env.NEXT_PUBLIC_API_URL ||
     '{BASE_URL}'
+  const activePage =
+    documentationTitleBySlug.get(params.slug ?? 'overview') ?? 'Overview'
 
   const sidebarLinks: SidebarGroup[] = [
     { group: 'Introduction', items: ['Overview', 'Quickstart Guide'] },
@@ -90,12 +102,26 @@ const Documentation = () => {
     }))
     .filter((group) => group.items.length > 0)
 
-  const handlePageChange = (page: string) => {
-    setActivePage(page)
+  const handleSidebarPageSelect = () => {
     setSearchQuery('')
     setIsMobileMenuOpen(false)
-    window.scrollTo(0, 0)
   }
+
+  const handlePageChange = (page: string) => {
+    const nextSlug = documentationSlugByTitle.get(page)
+
+    if (!nextSlug) {
+      return
+    }
+
+    setSearchQuery('')
+    setIsMobileMenuOpen(false)
+    navigate(documentationHref(page))
+  }
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [activePage])
 
   const renderContent = () => {
     const mdxWrapper = (Content: React.ComponentType<{ baseUrl?: string }>) => (
@@ -271,7 +297,7 @@ const Documentation = () => {
               <SidebarContent
                 sidebarLinks={filteredSidebarLinks}
                 activePage={activePage}
-                onPageSelect={handlePageChange}
+                onPageSelect={handleSidebarPageSelect}
                 searchQuery={searchQuery}
                 onSearchChange={setSearchQuery}
               />
@@ -284,7 +310,7 @@ const Documentation = () => {
           <SidebarContent
             sidebarLinks={filteredSidebarLinks}
             activePage={activePage}
-            onPageSelect={handlePageChange}
+            onPageSelect={handleSidebarPageSelect}
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
           />
@@ -379,12 +405,13 @@ const SidebarContent = ({
             <ul className="space-y-4 border-l border-white/5 pl-4">
               {group.items.map((item, i) => (
                 <li key={i}>
-                  <button
+                  <Link
+                    to={documentationHref(item)}
                     onClick={() => onPageSelect(item)}
                     className={`block w-full text-left text-sm transition-colors ${activePage === item ? 'font-medium text-[#8cff2e]' : 'text-gray-500 hover:text-white'}`}
                   >
                     {item}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>
