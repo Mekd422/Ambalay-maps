@@ -99,7 +99,7 @@ const Documentation = () => {
 
   const renderContent = () => {
     const mdxWrapper = (Content: React.ComponentType<{ baseUrl?: string }>) => (
-      <article className="prose prose-invert max-w-none prose-headings:font-bold prose-h1:mb-8 prose-h1:text-4xl prose-h3:mt-10 prose-h3:text-xl prose-strong:text-white prose-code:text-[#8cff2e] prose-pre:border prose-pre:border-white/10 prose-pre:bg-[#0A0A0A]">
+      <article className="docs-content prose prose-invert max-w-none prose-headings:font-bold prose-h1:mb-8 prose-h1:text-4xl prose-h3:mt-10 prose-h3:text-xl prose-p:text-[15px] prose-p:leading-7 prose-li:text-[15px] prose-li:leading-7 prose-strong:text-white prose-code:text-[#8cff2e] prose-pre:border prose-pre:border-white/10 prose-pre:bg-[#0A0A0A]">
         <Content baseUrl={docsBaseUrl} />
       </article>
     )
@@ -319,6 +319,26 @@ const Documentation = () => {
           </div>
         </div>
       </footer>
+
+      <style jsx global>{`
+        .docs-content table {
+          display: block;
+          width: max-content;
+          min-width: 100%;
+          overflow-x: auto;
+          border-collapse: collapse;
+        }
+
+        .docs-content th,
+        .docs-content td {
+          vertical-align: top;
+        }
+
+        .docs-content img {
+          max-width: 100%;
+          height: auto;
+        }
+      `}</style>
     </div>
   )
 }
@@ -341,7 +361,7 @@ const SidebarContent = ({
         value={searchQuery}
         onChange={(e) => onSearchChange(e.target.value)}
         placeholder="Search documentation..."
-        className="w-full rounded-lg border border-white/10 bg-white/5 py-2 pl-9 pr-10 text-xs transition-all focus:border-[#8cff2e]/50 focus:outline-none"
+        className="w-full rounded-lg border border-white/10 bg-white/5 py-2.5 pl-9 pr-10 text-sm transition-all focus:border-[#8cff2e]/50 focus:outline-none"
       />
     </div>
 
@@ -353,15 +373,15 @@ const SidebarContent = ({
       <div className="space-y-8">
         {sidebarLinks.map((group, idx) => (
           <div key={idx}>
-            <h4 className="mb-4 font-sora text-[11px] font-bold uppercase tracking-[0.15em] text-white/40">
+            <h4 className="mb-4 font-sora text-xs font-bold uppercase tracking-[0.15em] text-white/40">
               {group.group}
             </h4>
-            <ul className="space-y-3 border-l border-white/5 pl-4">
+            <ul className="space-y-4 border-l border-white/5 pl-4">
               {group.items.map((item, i) => (
                 <li key={i}>
                   <button
                     onClick={() => onPageSelect(item)}
-                    className={`block w-full text-left text-xs transition-colors ${activePage === item ? 'font-medium text-[#8cff2e]' : 'text-gray-500 hover:text-white'}`}
+                    className={`block w-full text-left text-sm transition-colors ${activePage === item ? 'font-medium text-[#8cff2e]' : 'text-gray-500 hover:text-white'}`}
                   >
                     {item}
                   </button>
