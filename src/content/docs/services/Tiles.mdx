@@ -1,4 +1,4 @@
-import DocsCodeBlock from "../../../Components/docs/DocsCodeBlock";
+import DocsCodeBlock from '../../../Components/docs/DocsCodeBlock'
 
 ## Tiles
 
@@ -6,8 +6,6 @@ import DocsCodeBlock from "../../../Components/docs/DocsCodeBlock";
 The Tiles endpoint provides vector map tiles (PBF format) for rendering interactive maps (e.g. with MapLibre). You can retrieve individual map tiles by specifying zoom (z), column (x), and row (y) coordinates. Tiles are binary data and must be used with a suitable client.
 
 Use this API to load base map layers or custom map data in your application.
-
-
 
 ## Overview & Use Cases
 
@@ -20,8 +18,6 @@ Common use cases include:
 - Offline map caching (where permitted)
 - Performance-optimized map rendering
 
-
-
 ## Base URL
 
 <DocsCodeBlock
@@ -30,8 +26,6 @@ Common use cases include:
   template={`{BASE_URL}`}
 />
 
-
-
 ## Endpoint
 
 - Method: `GET`
@@ -39,13 +33,9 @@ Common use cases include:
 - Allowed Service: `TILES`
 - Billed Service: `TILES`
 
-
-
 ## Authentication
 
 Tiles can be authenticated using either query parameters or headers.
-
-
 
 ### Query Authentication (Browser Use)
 
@@ -57,13 +47,13 @@ Host: {BASE_URL}`}
 />
 
 **Best for:**
+
 - MapLibre / Mapbox browser clients
 - Direct tile URL loading
 
 **Tradeoff:**
+
 - API key is visible in URL
-
-
 
 ### Header Authentication (Server Use)
 
@@ -76,20 +66,18 @@ x-ambalay-key: {API_KEY}`}
 />
 
 **Best for:**
+
 - Backend services
 - Secure internal systems
 
 **Tradeoff:**
+
 - Not directly usable in browser tile URLs
-
-
 
 ### Recommended Usage
 
 - Use **query authentication** for frontend map rendering
 - Use **header authentication** for backend proxy services
-
-
 
 ## Successful Response
 
@@ -98,3 +86,4 @@ Tiles return binary vector tile data in PBF format:
 ```http
 HTTP/1.1 200 OK
 Content-Type: application/vnd.mapbox-vector-tile
+```

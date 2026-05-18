@@ -1,4 +1,4 @@
-import CodeBlock from "../../Components/CodeBlock.tsx";
+import CodeBlock from '../../Components/CodeBlock.tsx'
 
 export default function RouteCalculation() {
   const curlExample = `curl -G 'https://api.ambalaymaps.com/v1/route' \\
@@ -7,7 +7,7 @@ export default function RouteCalculation() {
   --data-urlencode 'destination=9.05,38.76' \\
   --data-urlencode 'mode=driving'`;
 
-  const jsonResponse = `{
+const jsonResponse = `{
   "status": 200,
   "message": "ROUTE_CALCULATION_SUCCESS",
   "data": {
@@ -31,18 +31,18 @@ export default function RouteCalculation() {
   }
 }`;
 
-  return (
-    <div className="bg-black text-gray-300 min-h-screen p-8 font-sans">
-      {/* Header Section */}
-      <header className="mb-10">
-        <h1 className="text-white text-5xl font-bold mb-4 tracking-tight !mt-0">
-          Route Calculation
-        </h1>
-        <div className="h-[1px] bg-gray-800 w-full mb-6"></div>
-        <p className="text-gray-400 text-lg leading-relaxed">
-          <strong className="text-white">Purpose:</strong> Calculates the recommended route between an origin and a destination, providing distance, duration, and turn-by-turn instructions.
-        </p>
-      </header>
+return (
+<div className="bg-black text-gray-300 min-h-screen p-8 font-sans">
+{/* Header Section */}
+<header className="mb-10">
+<h1 className="text-white text-5xl font-bold mb-4 tracking-tight !mt-0">
+Route Calculation
+</h1>
+<div className="h-[1px] bg-gray-800 w-full mb-6"></div>
+<p className="text-gray-400 text-lg leading-relaxed">
+<strong className="text-white">Purpose:</strong> Calculates the recommended route between an origin and a destination, providing distance, duration, and turn-by-turn instructions.
+</p>
+</header>
 
       {/* Endpoint Details */}
       <section className="mb-12">
@@ -140,9 +140,10 @@ export default function RouteCalculation() {
           <p>
             <strong className="text-white">404 Not Found:</strong> No route could be found between the specified points.
           </p>
-          
+
         </div>
       </footer>
     </div>
-  );
+
+);
 }

@@ -1,4 +1,4 @@
-import DocsCodeBlock from "../../../Components/docs/DocsCodeBlock";
+import DocsCodeBlock from '../../../Components/docs/DocsCodeBlock'
 
 <style jsx global>{`
   /*
@@ -113,7 +113,9 @@ import DocsCodeBlock from "../../../Components/docs/DocsCodeBlock";
   /*
    * HEADINGS SPACING
    */
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     margin-top: 2rem;
   }
 `}</style>
@@ -150,12 +152,12 @@ Both endpoints in this page share the same access model.
 
 ## Access Model
 
-| Item | Value |
-|---|---|
-| Allowed Service | `GEO_CODING` |
-| Billed Service | `GEO_CODING` |
-| Authentication | `x-ambalay-key: {API_KEY}` |
-| Method | `GET` |
+| Item            | Value                      |
+| --------------- | -------------------------- |
+| Allowed Service | `GEO_CODING`               |
+| Billed Service  | `GEO_CODING`               |
+| Authentication  | `x-ambalay-key: {API_KEY}` |
+| Method          | `GET`                      |
 
 Use the API key in the request header:
 
@@ -193,18 +195,18 @@ It is the right fit for:
 
 ## Endpoint Summary
 
-| Item | Value |
-|---|---|
-| Method | `GET` |
-| Path | `/services/geo_coding/search` |
+| Item    | Value                                               |
+| ------- | --------------------------------------------------- |
+| Method  | `GET`                                               |
+| Path    | `/services/geo_coding/search`                       |
 | Purpose | Search places by text and return matching locations |
 
 ## Query Parameters
 
-| Parameter | Type | Required | Description |
-|---|---|---|---|
-| `term` | `string` | Yes | Address or place name to search |
-| `limit` | `integer` | No | Number of results to return. Default: `10`, Maximum: `50` |
+| Parameter | Type      | Required | Description                                               |
+| --------- | --------- | -------- | --------------------------------------------------------- |
+| `term`    | `string`  | Yes      | Address or place name to search                           |
+| `limit`   | `integer` | No       | Number of results to return. Default: `10`, Maximum: `50` |
 
 ## Example Request
 
@@ -266,14 +268,14 @@ x-ambalay-key: {API_KEY}`}
 
 ## Response Fields
 
-| Field | Type | Description |
-|---|---|---|
-| `data.items` | `array` | List of matching places |
-| `id` | `string` | Unique place identifier |
-| `name` | `string` | Short place name |
-| `label` | `string` | Full human-readable place label or address |
-| `loc.lat` | `number` | Latitude |
-| `loc.lon` | `number` | Longitude |
+| Field        | Type     | Description                                |
+| ------------ | -------- | ------------------------------------------ |
+| `data.items` | `array`  | List of matching places                    |
+| `id`         | `string` | Unique place identifier                    |
+| `name`       | `string` | Short place name                           |
+| `label`      | `string` | Full human-readable place label or address |
+| `loc.lat`    | `number` | Latitude                                   |
+| `loc.lon`    | `number` | Longitude                                  |
 
 ## Usage Notes
 
@@ -285,12 +287,12 @@ x-ambalay-key: {API_KEY}`}
 
 ## Common Errors
 
-| Error Code |
-|---|
+| Error Code                    |
+| ----------------------------- |
 | `API_KEY_SERVICE_NOT_ALLOWED` |
-| `VALIDATION_ERROR` |
-| `MISSING_API_KEY` |
-| `INVALID_API_KEY` |
+| `VALIDATION_ERROR`            |
+| `MISSING_API_KEY`             |
+| `INVALID_API_KEY`             |
 
 # Reverse Geocoding
 
@@ -309,18 +311,18 @@ The granularity of the result can vary from:
 
 ## Endpoint Summary
 
-| Item | Value |
-|---|---|
-| Method | `GET` |
-| Path | `/services/geo_coding/reverse` |
+| Item    | Value                                     |
+| ------- | ----------------------------------------- |
+| Method  | `GET`                                     |
+| Path    | `/services/geo_coding/reverse`            |
 | Purpose | Convert coordinates into a readable place |
 
 ## Query Parameters
 
-| Parameter | Type | Required | Description |
-|---|---|---|---|
-| `lat` | `number` | Yes | Latitude |
-| `lon` | `number` | Yes | Longitude |
+| Parameter | Type     | Required | Description |
+| --------- | -------- | -------- | ----------- |
+| `lat`     | `number` | Yes      | Latitude    |
+| `lon`     | `number` | Yes      | Longitude   |
 
 ## Example Request
 
@@ -369,14 +371,14 @@ x-ambalay-key: {API_KEY}`}
 
 ## Response Fields
 
-| Field | Type | Description |
-|---|---|---|
-| `data.item` | `object \| null` | Nearest place, if found |
-| `id` | `string` | Unique place identifier |
-| `name` | `string` | Short place name |
-| `label` | `string` | Full human-readable place label or address |
-| `loc.lat` | `number` | Latitude |
-| `loc.lon` | `number` | Longitude |
+| Field       | Type             | Description                                |
+| ----------- | ---------------- | ------------------------------------------ |
+| `data.item` | `object \| null` | Nearest place, if found                    |
+| `id`        | `string`         | Unique place identifier                    |
+| `name`      | `string`         | Short place name                           |
+| `label`     | `string`         | Full human-readable place label or address |
+| `loc.lat`   | `number`         | Latitude                                   |
+| `loc.lon`   | `number`         | Longitude                                  |
 
 ## Validation Error Example
 
@@ -407,12 +409,12 @@ x-ambalay-key: {API_KEY}`}
 
 ## Common Errors
 
-| Error Code |
-|---|
-| `VALIDATION_ERROR` |
+| Error Code                    |
+| ----------------------------- |
+| `VALIDATION_ERROR`            |
 | `API_KEY_SERVICE_NOT_ALLOWED` |
-| `MISSING_API_KEY` |
-| `INVALID_API_KEY` |
+| `MISSING_API_KEY`             |
+| `INVALID_API_KEY`             |
 
 # Errors and Troubleshooting
 
@@ -429,13 +431,13 @@ Reverse geocoding should be handled defensively because result specificity can v
 
 ## Troubleshooting Checklist
 
-| Error Code | What to Check |
-|---|---|
-| `MISSING_API_KEY` | Confirm the `x-ambalay-key` header is present |
-| `INVALID_API_KEY` | Verify the key value and format |
-| `API_KEY_SERVICE_NOT_ALLOWED` | Ensure the key can access `GEO_CODING` |
-| `VALIDATION_ERROR` | Recheck `term`, `limit`, `lat`, and `lon` |
-| Empty `items` or empty `item` | Treat as a valid no-results response |
+| Error Code                    | What to Check                                 |
+| ----------------------------- | --------------------------------------------- |
+| `MISSING_API_KEY`             | Confirm the `x-ambalay-key` header is present |
+| `INVALID_API_KEY`             | Verify the key value and format               |
+| `API_KEY_SERVICE_NOT_ALLOWED` | Ensure the key can access `GEO_CODING`        |
+| `VALIDATION_ERROR`            | Recheck `term`, `limit`, `lat`, and `lon`     |
+| Empty `items` or empty `item` | Treat as a valid no-results response          |
 
 ## Production Recommendations
 

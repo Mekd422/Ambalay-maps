@@ -1,25 +1,25 @@
-import { useEffect, useState } from "react";
-import { getServices } from "../api/subscription";
+import { useEffect, useState } from 'react'
+import { getServices } from '../api/subscription'
 
 export const useServices = () => {
-  const [services, setServices] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [services, setServices] = useState<string[]>([])
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        setLoading(true);
-        const res = await getServices();
-        setServices(res.data.data || []);
+        setLoading(true)
+        const res = await getServices()
+        setServices(res.data.data || [])
       } catch (err) {
-        console.error("Failed to fetch services:", err);
+        console.error('Failed to fetch services:', err)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    fetchServices();
-  }, []);
+    fetchServices()
+  }, [])
 
-  return { services, loading };
-};
+  return { services, loading }
+}

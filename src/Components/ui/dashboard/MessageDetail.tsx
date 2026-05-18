@@ -1,142 +1,149 @@
-import { useEffect, useState } from "react";
-import { AxiosError } from "axios";
-import { ArrowLeft } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+import { useEffect, useState } from 'react'
+import { AxiosError } from 'axios'
+import { ArrowLeft } from 'lucide-react'
+import { Link, useParams } from 'react-router-dom'
 import {
   getContactMessage,
   getContactUsStatuses,
   updateContactMessageStatus,
   formatContactMessageName,
   type ContactMessageRecord,
-} from "../../../api/contact";
-import { DashboardCard, DashboardHeader } from "./DashboardShell";
+} from '../../../api/contact'
+import { DashboardCard, DashboardHeader } from './DashboardShell'
 
 const formatLabel = (value: string) =>
   value
     .toLowerCase()
-    .split("_")
+    .split('_')
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
+    .join(' ')
 
 const getStatusBadgeClassName = (status: string) => {
   switch (status) {
-    case "RECEIVED":
-      return "bg-amber-500/15 text-amber-300 border-amber-400/20";
-    case "READ":
-      return "bg-blue-500/15 text-blue-300 border-blue-400/20";
-    case "CONTACTED":
-      return "bg-violet-500/15 text-violet-300 border-violet-400/20";
-    case "RESOLVED":
-      return "bg-emerald-500/15 text-emerald-300 border-emerald-400/20";
+    case 'RECEIVED':
+      return 'bg-amber-500/15 text-amber-300 border-amber-400/20'
+    case 'READ':
+      return 'bg-blue-500/15 text-blue-300 border-blue-400/20'
+    case 'CONTACTED':
+      return 'bg-violet-500/15 text-violet-300 border-violet-400/20'
+    case 'RESOLVED':
+      return 'bg-emerald-500/15 text-emerald-300 border-emerald-400/20'
     default:
-      return "bg-white/5 text-gray-200 border-white/10";
+      return 'bg-white/5 text-gray-200 border-white/10'
   }
-};
+}
 
 const getInquiryBadgeClassName = (inquiryType: string) => {
   switch (inquiryType) {
-    case "TECHNICAL_SUPPORT":
-      return "bg-cyan-500/15 text-cyan-300 border-cyan-400/20";
-    case "PARTNERSHIP_OPPORTUNITY":
-      return "bg-fuchsia-500/15 text-fuchsia-300 border-fuchsia-400/20";
-    case "SALES":
-      return "bg-orange-500/15 text-orange-300 border-orange-400/20";
-    case "OTHER":
-      return "bg-slate-500/15 text-slate-300 border-slate-400/20";
+    case 'TECHNICAL_SUPPORT':
+      return 'bg-cyan-500/15 text-cyan-300 border-cyan-400/20'
+    case 'PARTNERSHIP_OPPORTUNITY':
+      return 'bg-fuchsia-500/15 text-fuchsia-300 border-fuchsia-400/20'
+    case 'SALES':
+      return 'bg-orange-500/15 text-orange-300 border-orange-400/20'
+    case 'OTHER':
+      return 'bg-slate-500/15 text-slate-300 border-slate-400/20'
     default:
-      return "bg-white/5 text-gray-200 border-white/10";
+      return 'bg-white/5 text-gray-200 border-white/10'
   }
-};
+}
 
-export default function MessageDetail() {
-  const { id } = useParams<{ id: string }>();
-  const [message, setMessage] = useState<ContactMessageRecord | null>(null);
-  const [statuses, setStatuses] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState("");
+export default function MessageDetail({ messageId }: { messageId?: string }) {
+  const params = useParams<{ id?: string }>()
+  const id = messageId ?? params.id
+  const [message, setMessage] = useState<ContactMessageRecord | null>(null)
+  const [statuses, setStatuses] = useState<string[]>([])
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
 
   useEffect(() => {
     if (!id) {
-      setError("Message not found.");
-      setLoading(false);
-      return;
+      setError('Message not found.')
+      setLoading(false)
+      return
     }
 
     const fetchMessage = async () => {
       try {
-        setLoading(true);
-        setError("");
+        setLoading(true)
+        setError('')
 
         const [messageData, statusesData] = await Promise.all([
           getContactMessage(id),
           getContactUsStatuses(),
-        ]);
+        ])
 
-        setMessage(messageData);
-        setStatuses(statusesData);
+        setMessage(messageData)
+        setStatuses(statusesData)
       } catch (err: unknown) {
         if (err instanceof AxiosError) {
           if (err.response?.status === 401) {
-            setError("Unauthorized. Please login again.");
+            setError('Unauthorized. Please login again.')
           } else if (err.response?.status === 403) {
-            setError("Forbidden. You do not have access.");
+            setError('Forbidden. You do not have access.')
           } else if (err.response?.status === 404) {
-            setError("Message not found.");
+            setError('Message not found.')
           } else {
-            setError("Failed to load this message.");
+            setError('Failed to load this message.')
           }
         } else {
-          setError("An unexpected error occurred.");
+          setError('An unexpected error occurred.')
         }
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    fetchMessage();
-  }, [id]);
+    fetchMessage()
+  }, [id])
 
   const handleStatusChange = async (nextStatus: string) => {
     if (!message || nextStatus === message.status) {
-      return;
+      return
     }
 
     try {
-      setSaving(true);
-      const updated = await updateContactMessageStatus(message.id, nextStatus);
-      setMessage(updated);
+      setSaving(true)
+      const updated = await updateContactMessageStatus(message.id, nextStatus)
+      setMessage(updated)
     } catch (err) {
-      console.error("Failed to update message status", err);
-      setError("Failed to update message status.");
+      console.error('Failed to update message status', err)
+      setError('Failed to update message status.')
     } finally {
-      setSaving(false);
+      setSaving(false)
     }
-  };
+  }
 
   if (loading) {
-    return <div className="text-gray-400">Loading message...</div>;
+    return <div className="text-gray-400">Loading message...</div>
   }
 
   if (error) {
     return (
       <div className="space-y-4">
-        <Link to="/dashboard/messages" className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-white">
+        <Link
+          to="/dashboard/messages"
+          className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-white"
+        >
           <ArrowLeft size={16} />
           Back to Messages
         </Link>
         <div className="text-red-500">{error}</div>
       </div>
-    );
+    )
   }
 
   if (!message) {
-    return null;
+    return null
   }
 
   return (
     <div className="space-y-6">
-      <Link to="/dashboard/messages" className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
+      <Link
+        to="/dashboard/messages"
+        className="inline-flex items-center gap-2 text-sm text-gray-400 transition-colors hover:text-white"
+      >
         <ArrowLeft size={16} />
         Back to Messages
       </Link>
@@ -151,20 +158,26 @@ export default function MessageDetail() {
           <div className="w-full lg:w-56">
             <div className="mb-3">
               <span
-                className={`inline-flex px-2.5 py-1 rounded-full text-[10px] font-bold border ${getStatusBadgeClassName(message.status)}`}
+                className={`inline-flex rounded-full border px-2.5 py-1 text-[10px] font-bold ${getStatusBadgeClassName(message.status)}`}
               >
                 {formatLabel(message.status)}
               </span>
             </div>
-            <label className="block text-xs uppercase tracking-[0.2em] text-white/50 mb-2">Status</label>
+            <label className="mb-2 block text-xs uppercase tracking-[0.2em] text-white/50">
+              Status
+            </label>
             <select
               value={message.status}
               onChange={(event) => void handleStatusChange(event.target.value)}
               disabled={saving}
-              className="w-full rounded-xl bg-white/5 border border-white/10 py-3 px-4 text-sm text-white outline-none focus:ring-2 focus:ring-[#8cff2e]/30 disabled:opacity-70"
+              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none focus:ring-2 focus:ring-[#8cff2e]/30 disabled:opacity-70"
             >
               {statuses.map((status) => (
-                <option key={status} value={status} className="bg-[#050505] text-white">
+                <option
+                  key={status}
+                  value={status}
+                  className="bg-[#050505] text-white"
+                >
                   {formatLabel(status)}
                 </option>
               ))}
@@ -174,43 +187,57 @@ export default function MessageDetail() {
 
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-white/50 mb-2">Email</p>
-            <p className="text-sm text-gray-100 break-all">{message.email}</p>
+            <p className="mb-2 text-xs uppercase tracking-[0.2em] text-white/50">
+              Email
+            </p>
+            <p className="break-all text-sm text-gray-100">{message.email}</p>
           </div>
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-white/50 mb-2">Phone</p>
-            <p className="text-sm text-gray-100">{message.phoneNumber || "N/A"}</p>
+            <p className="mb-2 text-xs uppercase tracking-[0.2em] text-white/50">
+              Phone
+            </p>
+            <p className="text-sm text-gray-100">
+              {message.phoneNumber || 'N/A'}
+            </p>
           </div>
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-white/50 mb-2">Company</p>
-            <p className="text-sm text-gray-100">{message.company || "N/A"}</p>
+            <p className="mb-2 text-xs uppercase tracking-[0.2em] text-white/50">
+              Company
+            </p>
+            <p className="text-sm text-gray-100">{message.company || 'N/A'}</p>
           </div>
           <div>
-            <p className="text-xs uppercase tracking-[0.2em] text-white/50 mb-2">Inquiry Type</p>
+            <p className="mb-2 text-xs uppercase tracking-[0.2em] text-white/50">
+              Inquiry Type
+            </p>
             <span
-              className={`inline-flex px-2.5 py-1 rounded-full text-[10px] font-bold border ${getInquiryBadgeClassName(message.inquiryType)}`}
+              className={`inline-flex rounded-full border px-2.5 py-1 text-[10px] font-bold ${getInquiryBadgeClassName(message.inquiryType)}`}
             >
               {formatLabel(message.inquiryType)}
             </span>
           </div>
         </div>
 
-        <div className="rounded-3xl bg-white/5 border border-white/10 p-6">
-          <p className="text-xs uppercase tracking-[0.2em] text-white/50 mb-3">Message</p>
-          <p className="text-sm leading-7 text-gray-200 whitespace-pre-wrap">
-            {message.message || "No message content provided."}
+        <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
+          <p className="mb-3 text-xs uppercase tracking-[0.2em] text-white/50">
+            Message
+          </p>
+          <p className="whitespace-pre-wrap text-sm leading-7 text-gray-200">
+            {message.message || 'No message content provided.'}
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 text-sm text-gray-400">
+        <div className="grid gap-6 text-sm text-gray-400 md:grid-cols-2">
           <div>
-            <span className="text-white">Created:</span> {new Date(message.createdAt).toLocaleString()}
+            <span className="text-white">Created:</span>{' '}
+            {new Date(message.createdAt).toLocaleString()}
           </div>
           <div>
-            <span className="text-white">Last Updated:</span> {new Date(message.updatedAt).toLocaleString()}
+            <span className="text-white">Last Updated:</span>{' '}
+            {new Date(message.updatedAt).toLocaleString()}
           </div>
         </div>
       </DashboardCard>
     </div>
-  );
+  )
 }

@@ -6,8 +6,8 @@
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
-    @apply font-sora antialiased bg-midnight text-white;
+    @apply bg-midnight font-sora text-white antialiased;
   }
 }

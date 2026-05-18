@@ -1,102 +1,102 @@
-import CodeBlock from "../../Components/CodeBlock.tsx";
+import CodeBlock from '../../Components/CodeBlock.tsx'
 
 export default function LLMEndpoint() {
   const searchCurl = `curl -X POST \\ -H "x-api-key: YOUR_API_KEY" \\ -H "Content-Type: application/json" \\
   -d '{"query": "Can u tell me about the place with those coordinates lat=9.017084 and lon=38.774978"}' \\
   "https://api.ambalaymaps.com/v1/llm"`;
 
-  const reverseCurl = `curl -X POST \\ -H "x-api-key: YOUR_API_KEY" \\ -H "Content-Type: application/json" \\
+const reverseCurl = `curl -X POST \\ -H "x-api-key: YOUR_API_KEY" \\ -H "Content-Type: application/json" \\
   -d '{"query": "A friend told me about this place called bole airport. can u tell me where does it found"}' \\
   "https://api.ambalaymaps.com/v1/llm"`;
 
-  const routingCurl = `curl -X POST \\ -H "x-api-key: YOUR_API_KEY" \\ -H "Content-Type: application/json" \\
+const routingCurl = `curl -X POST \\ -H "x-api-key: YOUR_API_KEY" \\ -H "Content-Type: application/json" \\
   -d '{"query": "Today i have to meet a person and we have agreed to meet at ict park. Can u tell me how to go from kolfe keranio"}' \\
   "https://api.ambalaymaps.com/v1/llm"`;
 
-  const geocodingResponse = {
-    status: 200,
-    message: "LLM_QUERY_SUCCESS",
-    data: {
-      intent: "geocoding",
-      data: [
-        {
-          latitude: "8.979188650000001",
-          longitude: "38.796579324672024",
-          displayName: "Addis Ababa Bole International Airport, TK International Parking, ቦሌ, Bole, አዲስ አበባ Addis Ababa..."
-        }
-      ]
-    }
-  };
+const geocodingResponse = {
+status: 200,
+message: "LLM_QUERY_SUCCESS",
+data: {
+intent: "geocoding",
+data: [
+{
+latitude: "8.979188650000001",
+longitude: "38.796579324672024",
+displayName: "Addis Ababa Bole International Airport, TK International Parking, ቦሌ, Bole, አዲስ አበባ Addis Ababa..."
+}
+]
+}
+};
 
-  const reverseResponse = {
-    status: 200,
-    message: "LLM_QUERY_SUCCESS",
-    data: {
-      intent: "reverse-geocoding",
-      data: {
-        lat: "9.016891053180457",
-        lon: "38.774924279808346",
-        displayName: "እንደራሴ Enderase, ካዛንቺስ, Kirkos, አዲስ አበባ Addis Ababa..."
-      }
-    }
-  };
+const reverseResponse = {
+status: 200,
+message: "LLM_QUERY_SUCCESS",
+data: {
+intent: "reverse-geocoding",
+data: {
+lat: "9.016891053180457",
+lon: "38.774924279808346",
+displayName: "እንደራሴ Enderase, ካዛንቺስ, Kirkos, አዲስ አበባ Addis Ababa..."
+}
+}
+};
 
-  const routingResponse = {
-    status: 200,
-    message: "LLM_QUERY_SUCCESS",
-    data: {
-      intent: "routing",
-      data: {
-        status: "success",
-        route: {
-          distance: "22.9 km",
-          duration: "00:27",
-          steps: [
-            {
-              type: 3,
-              instruction: "Drive east.",
-              verbal_succinct_transition_instruction: "Drive east. Then Turn left.",
-              travel_mode: "drive",
-              travel_type: "car"
-            }
-          ],
-          polyline: "..."
-        }
-      }
-    }
-  };
+const routingResponse = {
+status: 200,
+message: "LLM_QUERY_SUCCESS",
+data: {
+intent: "routing",
+data: {
+status: "success",
+route: {
+distance: "22.9 km",
+duration: "00:27",
+steps: [
+{
+type: 3,
+instruction: "Drive east.",
+verbal_succinct_transition_instruction: "Drive east. Then Turn left.",
+travel_mode: "drive",
+travel_type: "car"
+}
+],
+polyline: "..."
+}
+}
+}
+};
 
-  const errorResponse = {
-    status: 200,
-    message: "LLM_QUERY_SUCCESS",
-    data: {
-      intent: "error",
-      error: "UNKNOWN_INTENT"
-    }
-  };
+const errorResponse = {
+status: 200,
+message: "LLM_QUERY_SUCCESS",
+data: {
+intent: "error",
+error: "UNKNOWN_INTENT"
+}
+};
 
-  return (
-    <div className="bg-black text-gray-300 min-h-screen p-8 font-sans">
-      <header className="mb-10">
-        <h1 className="text-white text-5xl font-bold mb-4 tracking-tight !mt-0">
-          LLM Endpoint Documentation
-        </h1>
-        <div className="h-[1px] bg-gray-800 w-full mb-6"></div>
-        <p className="text-gray-400 text-lg leading-relaxed">
-          The <code className="text-white">/llm</code> endpoint processes natural language queries to determine intent:
-        </p>
-        <ul className="mt-4 space-y-2 text-gray-400">
-          <li><strong>Search (Geocoding)</strong> — find coordinates from place names.</li>
-          <li><strong>Reverse Geocode</strong> — find a place name from coordinates.</li>
-          <li><strong>Routing</strong> — get directions from one location to another.</li>
-        </ul>
-      </header>
+return (
+<div className="bg-black text-gray-300 min-h-screen p-8 font-sans">
+<header className="mb-10">
+<h1 className="text-white text-5xl font-bold mb-4 tracking-tight !mt-0">
+LLM Endpoint Documentation
+</h1>
+<div className="h-[1px] bg-gray-800 w-full mb-6"></div>
+<p className="text-gray-400 text-lg leading-relaxed">
+The <code className="text-white">/llm</code> endpoint processes natural language queries to determine intent:
+</p>
+<ul className="mt-4 space-y-2 text-gray-400">
+<li><strong>Search (Geocoding)</strong> — find coordinates from place names.</li>
+<li><strong>Reverse Geocode</strong> — find a place name from coordinates.</li>
+<li><strong>Routing</strong> — get directions from one location to another.</li>
+</ul>
+</header>
 
       <section className="mb-12">
         <h3 className="text-[#4d79ff] text-xl font-bold mb-4">Endpoint Details</h3>
         <p className="mb-2"><strong>Method:</strong> <code className="text-[#8cff2e]">POST</code></p>
         <p className="mb-6"><strong>Base URL:</strong> <span className="text-[#00d1ff]">https://api.ambalaymaps.com/v1/llm</span></p>
-        
+
         <h4 className="text-white font-bold mb-4">Headers Request</h4>
         <div className="overflow-x-auto rounded-xl border border-gray-800 mb-8">
           <table className="w-full text-left border-collapse">
@@ -146,7 +146,7 @@ export default function LLMEndpoint() {
 
       <section className="mb-12">
         <h3 className="text-[#4d79ff] text-xl font-bold mb-6">Responses by Intent</h3>
-        
+
         <div className="space-y-10">
           <div>
             <h4 className="text-white font-bold mb-2">Search Response (Geocoding)</h4>
@@ -191,5 +191,6 @@ export default function LLMEndpoint() {
         </div>
       </footer>
     </div>
-  );
+
+);
 }

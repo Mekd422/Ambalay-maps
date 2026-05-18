@@ -1,11 +1,11 @@
-import CodeBlock from "../../Components/CodeBlock.tsx";
+import CodeBlock from '../../Components/CodeBlock.tsx'
 
 export default function Authentication() {
 
-  const curlExample = `curl -H "x-api-key: YOUR_API_KEY" "https://api.ambalaymaps.com/v1/route?origin=9.03,38.74&destination=9.00,38.76&mode=driving"`;
+const curlExample = `curl -H "x-api-key: YOUR_API_KEY" "https://api.ambalaymaps.com/v1/route?origin=9.03,38.74&destination=9.00,38.76&mode=driving"`;
 
-  return (
-    <div className="bg-black text-gray-300 min-h-screen p-8 font-sans">
+return (
+<div className="bg-black text-gray-300 min-h-screen p-8 font-sans">
 
       {/* Header */}
       <header className="mb-10">
@@ -69,10 +69,10 @@ export default function Authentication() {
         <CodeBlock code={curlExample} language="bash" />
 
         <p className="text-gray-400 mb-6">
-          In the above example, replace 
+          In the above example, replace
           <span className="text-[#8cff2e] font-mono mx-1">
             YOUR_API_KEY
-          </span> 
+          </span>
           with the API key you obtained. The following sections detail each endpoint and how to use them.
         </p>
       </section>
@@ -84,8 +84,8 @@ export default function Authentication() {
         </h3>
 
         <p className="text-gray-400 leading-relaxed mb-6">
-          All endpoints are versioned under 
-          <span className="text-[#8cff2e] font-mono mx-1">v1</span> 
+          All endpoints are versioned under
+          <span className="text-[#8cff2e] font-mono mx-1">v1</span>
           and accept HTTPS GET requests.
         </p>
 
@@ -102,5 +102,6 @@ export default function Authentication() {
       </footer>
 
     </div>
-  );
+
+);
 }

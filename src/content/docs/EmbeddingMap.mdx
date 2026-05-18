@@ -1,22 +1,22 @@
-import CodeBlock from "../../Components/CodeBlock.tsx";
+import CodeBlock from '../../Components/CodeBlock.tsx'
 
 export default function EmbeddingMap() {
   const htmlExample = `<img
   src="https://api.ambalaymaps.com/v1/staticmap?center=9.03,38.74&zoom=14&size=600x400&key=YOUR_API_KEY"
   alt="Map of Addis Ababa">`;
 
-  return (
-    <div className="bg-black text-gray-300 min-h-screen p-8 font-sans">
-      {/* Header Section */}
-      <header className="mb-10">
-        <h1 className="text-white text-5xl font-bold mb-4 tracking-tight !mt-0">
-          Embedding a Map
-        </h1>
-        <div className="h-[1px] bg-gray-800 w-full mb-6"></div>
-        <p className="text-gray-400 text-lg leading-relaxed">
-          Add a static map to a website or application without using any special mapping library. This is useful for quickly displaying a map image.
-        </p>
-      </header>
+return (
+<div className="bg-black text-gray-300 min-h-screen p-8 font-sans">
+{/* Header Section */}
+<header className="mb-10">
+<h1 className="text-white text-5xl font-bold mb-4 tracking-tight !mt-0">
+Embedding a Map
+</h1>
+<div className="h-[1px] bg-gray-800 w-full mb-6"></div>
+<p className="text-gray-400 text-lg leading-relaxed">
+Add a static map to a website or application without using any special mapping library. This is useful for quickly displaying a map image.
+</p>
+</header>
 
       {/* Example (HTML) Section */}
       <section className="mb-12">
@@ -24,7 +24,7 @@ export default function EmbeddingMap() {
         <p className="text-gray-400 mb-6">
           You can embed a static map image into an HTML page using an <code className="text-[#8cff2e]">img</code> tag. Simply specify the src URL as the Static Maps API endpoint with your parameters:
         </p>
-        
+
         <CodeBlock code={htmlExample} language="html" />
 
         <div className="mt-8 space-y-4">
@@ -43,5 +43,6 @@ export default function EmbeddingMap() {
         </div>
       </section>
     </div>
-  );
+
+);
 }

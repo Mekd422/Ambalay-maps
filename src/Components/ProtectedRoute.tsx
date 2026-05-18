@@ -1,23 +1,23 @@
-import { type ReactNode } from "react";
-import { Navigate } from "react-router-dom";
-import { useAuth } from "../context/useAuth.ts";
+import { type ReactNode } from 'react'
+import { Navigate } from 'react-router-dom'
+import { useAuth } from '../context/useAuth'
 
 interface ProtectedRouteProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const { user, token } = useAuth();
+  const { user, token } = useAuth()
 
   if (token && !user) {
-    return <div>Loading...</div>; 
+    return <div>Loading...</div>
   }
 
   if (!token || !user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login" replace />
   }
 
-  return <>{children}</>;
-};
+  return <>{children}</>
+}
 
-export default ProtectedRoute;
+export default ProtectedRoute

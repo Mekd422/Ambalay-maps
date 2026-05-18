@@ -1,67 +1,66 @@
-import React, { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
-import { getAuthErrorMessage, signin } from "../../../api/auth";
+import React, { useState } from 'react'
+import { Eye, EyeOff } from 'lucide-react'
+import { Link, useNavigate } from 'react-router-dom'
+import { getAuthErrorMessage, signin } from '../../../api/auth'
 
 interface LoginFormProps {
-  flashMessage?: string;
+  flashMessage?: string
 }
 
 export default function LoginForm({ flashMessage }: LoginFormProps) {
-  const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false)
+  const navigate = useNavigate()
 
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [formData, setFormData] = useState({ email: '', password: '' })
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value })
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
 
     // Basic validation
     if (!formData.email || !formData.password) {
-      setError("Please fill in all fields");
-      return;
+      setError('Please fill in all fields')
+      return
     }
     if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      setError("Please enter a valid email");
-      return;
+      setError('Please enter a valid email')
+      return
     }
     if (formData.password.length < 6) {
-      setError("Password must be at least 6 characters");
-      return;
+      setError('Password must be at least 6 characters')
+      return
     }
 
-    setError(null); 
+    setError(null)
 
     try {
-      setLoading(true);
+      setLoading(true)
 
-      const challenge = await signin(formData);
+      const challenge = await signin(formData)
       const params = new URLSearchParams({
-        flow: "signin",
+        flow: 'signin',
         challengeId: challenge.challengeId,
         expiresAt: challenge.expiresAt,
-      });
+      })
 
-      navigate(`/verify-otp?${params.toString()}`);
-
+      navigate(`/verify-otp?${params.toString()}`)
     } catch (err) {
-      console.error("Login error:", err);
-      setError(getAuthErrorMessage(err, "Login failed"));
+      console.error('Login error:', err)
+      setError(getAuthErrorMessage(err, 'Login failed'))
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   return (
-    <div className="flex flex-col items-center justify-center w-full py-12">
+    <div className="flex w-full flex-col items-center justify-center py-12">
       {/* Header */}
-      <div className="text-center mb-10">
-        <h2 className="text-3xl font-semibold text-black dark:text-white mb-2">
+      <div className="mb-10 text-center">
+        <h2 className="mb-2 text-3xl font-semibold text-black dark:text-white">
           Welcome Back
         </h2>
         <p className="text-gray-500 dark:text-gray-400">
@@ -70,14 +69,14 @@ export default function LoginForm({ flashMessage }: LoginFormProps) {
       </div>
 
       {/* Form */}
-      <div className="w-full max-w-md bg-white dark:bg-[#0f0f0f] border border-gray-100 dark:border-white/5 p-8 md:p-10 rounded-2xl shadow-2xl">
+      <div className="w-full max-w-md rounded-2xl border border-gray-100 bg-white p-8 shadow-2xl dark:border-white/5 dark:bg-[#0f0f0f] md:p-10">
         <form onSubmit={handleSubmit} className="space-y-6">
           {flashMessage && (
-            <div className="text-emerald-600 text-sm text-center bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-lg p-3">
+            <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-center text-sm text-emerald-600 dark:border-emerald-800 dark:bg-emerald-900/20">
               {flashMessage}
             </div>
           )}
-          
+
           {/* Email */}
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -90,17 +89,20 @@ export default function LoginForm({ flashMessage }: LoginFormProps) {
               value={formData.email}
               onChange={handleChange}
               placeholder="abebe@company.com"
-              className="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-black border border-gray-200 dark:border-white/10 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8cff2e]"
+              className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-black focus:outline-none focus:ring-2 focus:ring-[#8cff2e] dark:border-white/10 dark:bg-black dark:text-white"
             />
           </div>
 
           {/* Password */}
           <div className="space-y-2">
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
               <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 Password
               </label>
-              <Link to="/forgot-password" className="text-xs text-[#8cff2e] hover:underline">
+              <Link
+                to="/forgot-password"
+                className="text-xs text-[#8cff2e] hover:underline"
+              >
                 Forgot password?
               </Link>
             </div>
@@ -108,12 +110,12 @@ export default function LoginForm({ flashMessage }: LoginFormProps) {
             <div className="relative">
               <input
                 name="password"
-                type={showPassword ? "text" : "password"}
+                type={showPassword ? 'text' : 'password'}
                 required
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="••••••••"
-                className="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-black border border-gray-200 dark:border-white/10 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8cff2e]"
+                className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-black focus:outline-none focus:ring-2 focus:ring-[#8cff2e] dark:border-white/10 dark:bg-black dark:text-white"
               />
 
               <button
@@ -128,7 +130,7 @@ export default function LoginForm({ flashMessage }: LoginFormProps) {
 
           {/* Error Message */}
           {error && (
-            <div className="text-red-500 text-sm text-center bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3">
+            <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-center text-sm text-red-500 dark:border-red-800 dark:bg-red-900/20">
               {error}
             </div>
           )}
@@ -137,20 +139,23 @@ export default function LoginForm({ flashMessage }: LoginFormProps) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 px-4 bg-[#8cff2e] text-black font-semibold rounded-lg shadow-lg mt-4 active:scale-[0.98]"
+            className="mt-4 w-full rounded-lg bg-[#8cff2e] px-4 py-3.5 font-semibold text-black shadow-lg active:scale-[0.98]"
           >
-            {loading ? "Logging in..." : "Log In"}
+            {loading ? 'Logging in...' : 'Log In'}
           </button>
         </form>
 
         {/* Footer */}
-        <p className="text-center mt-8 text-sm text-gray-500 dark:text-gray-400">
-          Don't have an account?{" "}
-          <Link to="/register" className="text-[#8cff2e] font-medium hover:underline">
+        <p className="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+          Don't have an account?{' '}
+          <Link
+            to="/register"
+            className="font-medium text-[#8cff2e] hover:underline"
+          >
             Sign up
           </Link>
         </p>
       </div>
     </div>
-  );
+  )
 }

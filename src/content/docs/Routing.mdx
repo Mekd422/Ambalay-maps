@@ -1,9 +1,9 @@
-import CodeBlock from "../../Components/CodeBlock.tsx";
+import CodeBlock from '../../Components/CodeBlock.tsx'
 
 export default function RouteCalculation() {
   const curlExample = `curl -H "x-api-key: YOUR_API_KEY" "https://api.ambalaymaps.com/v1/route?origin=9.03,38.74&destination=9.00,38.76&mode=driving"`;
 
-  const jsonResponse = `{
+const jsonResponse = `{
   "status": 200,
   "message": "ROUTE_CALCULATION_SUCCESS",
   "data": {
@@ -32,21 +32,21 @@ export default function RouteCalculation() {
   }
 }`;
 
-  return (
-    <div className="bg-black text-gray-300 min-h-screen p-8 font-sans">
-      {/* Header Section */}
-      <header className="mb-10">
-        <h1 className="text-white text-5xl font-bold mb-4 tracking-tight">
-          Route Calculation
-        </h1>
-        <div className="h-[1px] bg-gray-800 w-full mb-6"></div>
-        <p className="text-gray-400 text-lg leading-relaxed">
-          <strong className="text-white">Purpose:</strong> Calculates a route
-          (driving directions) from an origin point to a destination point. The
-          response includes the total distance, estimated duration, and
-          step-by-step turn instructions for the route.
-        </p>
-      </header>
+return (
+<div className="bg-black text-gray-300 min-h-screen p-8 font-sans">
+{/* Header Section */}
+<header className="mb-10">
+<h1 className="text-white text-5xl font-bold mb-4 tracking-tight">
+Route Calculation
+</h1>
+<div className="h-[1px] bg-gray-800 w-full mb-6"></div>
+<p className="text-gray-400 text-lg leading-relaxed">
+<strong className="text-white">Purpose:</strong> Calculates a route
+(driving directions) from an origin point to a destination point. The
+response includes the total distance, estimated duration, and
+step-by-step turn instructions for the route.
+</p>
+</header>
 
       {/* Endpoint Information */}
       <section className="mb-12">
@@ -131,9 +131,9 @@ export default function RouteCalculation() {
         <p className="text-gray-400 mb-6">
           This request asks for a driving route from the coordinate 9.03,38.74 to 9.00,38.76 (latitude, longitude).
         </p>
-        
+
         <CodeBlock code={curlExample} language="bash" />
-        
+
         <p className="text-gray-500 text-sm italic mt-2">
           Note: Ensure you include your API key in the request header.
         </p>
@@ -178,5 +178,6 @@ export default function RouteCalculation() {
         </div>
       </footer>
     </div>
-  );
+
+);
 }

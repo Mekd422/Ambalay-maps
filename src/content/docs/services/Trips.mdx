@@ -1,4 +1,4 @@
-import DocsCodeBlock from "../../../Components/docs/DocsCodeBlock";
+import DocsCodeBlock from '../../../Components/docs/DocsCodeBlock'
 
 # Trips
 
@@ -51,19 +51,19 @@ curl -X POST "https://api.dev.ambalaymaps.com/services/trip/init" \
 ### Example Request (JavaScript)
 
 ```javascript
-fetch("https://api.dev.ambalaymaps.com/services/trip/init", {
-  method: "POST",
+fetch('https://api.dev.ambalaymaps.com/services/trip/init', {
+  method: 'POST',
   headers: {
-    "Content-Type": "application/json",
-    "x-ambalay-key": API_KEY
+    'Content-Type': 'application/json',
+    'x-ambalay-key': API_KEY,
   },
   body: JSON.stringify({
     loc: { lat: 8.9806, lon: 38.7578 },
-    eventId: "evt-1"
-  })
+    eventId: 'evt-1',
+  }),
 })
-.then(res => res.json())
-.then(data => console.log(data));
+  .then((res) => res.json())
+  .then((data) => console.log(data))
 ```
 
 ### Success Response
@@ -81,7 +81,7 @@ fetch("https://api.dev.ambalaymaps.com/services/trip/init", {
 }
 ```
 
-- `data.tripId`: Unique trip identifier  
+- `data.tripId`: Unique trip identifier
 - `data.state`: `"ACTIVE"`
 
 ### Common Errors
@@ -94,9 +94,9 @@ fetch("https://api.dev.ambalaymaps.com/services/trip/init", {
 
 ### Usage Notes
 
-- `eventId` must be unique per request  
-- No idempotency → duplicate `eventId` may create duplicates  
-- Handle rate limits (`SERVICE_LIMIT_EXCEEDED`) with retries/backoff  
+- `eventId` must be unique per request
+- No idempotency → duplicate `eventId` may create duplicates
+- Handle rate limits (`SERVICE_LIMIT_EXCEEDED`) with retries/backoff
 
 ---
 
@@ -147,20 +147,20 @@ curl -X POST "https://api.dev.ambalaymaps.com/services/trip/update" \
 ### Example Request (JavaScript)
 
 ```javascript
-fetch("https://api.dev.ambalaymaps.com/services/trip/update", {
-  method: "POST",
+fetch('https://api.dev.ambalaymaps.com/services/trip/update', {
+  method: 'POST',
   headers: {
-    "Content-Type": "application/json",
-    "x-ambalay-key": API_KEY
+    'Content-Type': 'application/json',
+    'x-ambalay-key': API_KEY,
   },
   body: JSON.stringify({
-    tripId: "00000000-0000-4000-8000-000000000020",
-    loc: { lat: 8.9810, lon: 38.7580 },
-    eventId: "evt-2"
-  })
+    tripId: '00000000-0000-4000-8000-000000000020',
+    loc: { lat: 8.981, lon: 38.758 },
+    eventId: 'evt-2',
+  }),
 })
-.then(res => res.json())
-.then(data => console.log(data));
+  .then((res) => res.json())
+  .then((data) => console.log(data))
 ```
 
 ### Success Response
@@ -179,13 +179,13 @@ fetch("https://api.dev.ambalaymaps.com/services/trip/update", {
 }
 ```
 
-- `data.accepted`: `true` if update recorded  
+- `data.accepted`: `true` if update recorded
 
 ### Usage Notes
 
-- Only update active trips  
-- Each `eventId` must be unique  
-- Avoid excessive calls (rate limits apply)  
+- Only update active trips
+- Each `eventId` must be unique
+- Avoid excessive calls (rate limits apply)
 
 ---
 
@@ -250,9 +250,9 @@ curl -X POST "https://api.dev.ambalaymaps.com/services/trip/finalize" \
 
 ### Usage Notes
 
-- Cannot update after finalize  
-- Call only once  
-- `eventId` must still be unique  
+- Cannot update after finalize
+- Call only once
+- `eventId` must still be unique
 
 ---
 
@@ -298,11 +298,11 @@ x-ambalay-key: {API_KEY}`}
       },
       {
         "eventId": "evt-2",
-        "loc": { "lat": 8.9810, "lon": 38.7580 }
+        "loc": { "lat": 8.981, "lon": 38.758 }
       },
       {
         "eventId": "evt-3",
-        "loc": { "lat": 8.9820, "lon": 38.7590 }
+        "loc": { "lat": 8.982, "lon": 38.759 }
       }
     ]
   },
@@ -314,9 +314,9 @@ x-ambalay-key: {API_KEY}`}
 
 ### Notes
 
-- `data.events`: ordered list of all events  
-- Finalize is reflected via `state`, not separate event  
-- Use for analytics or visualization  
+- `data.events`: ordered list of all events
+- Finalize is reflected via `state`, not separate event
+- Use for analytics or visualization
 
 ### Common Errors
 

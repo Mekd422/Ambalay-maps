@@ -1,34 +1,34 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 const SubscribeSection: React.FC = () => {
   return (
-    <section className="bg-white py-24 px-6 flex flex-col items-center justify-center text-center">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl md:text-5xl lg:text-4xl font-bold text-black tracking-tight mb-6">
+    <section className="flex flex-col items-center justify-center bg-white px-6 py-24 text-center">
+      <div className="mx-auto max-w-4xl">
+        <h2 className="mb-6 text-3xl font-bold tracking-tight text-black md:text-5xl lg:text-4xl">
           Subscribe for New Product Alerts
         </h2>
 
-        <p className="text-black text-lg md:text-xl font-medium mb-10 max-w-2xl mx-auto">
+        <p className="mx-auto mb-10 max-w-2xl text-lg font-medium text-black md:text-xl">
           Be the first to know when we release new merchandise
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Link to="/register">
-          <button className="w-full sm:w-auto px-8 py-4 bg-[#8cff2e] hover:bg-[#8cff2e] text-white rounded-xl font-bold transition-all shadow-lg active:scale-95">
-            Get Started
-          </button>
+            <button className="w-full rounded-xl bg-[#8cff2e] px-8 py-4 font-bold text-white shadow-lg transition-all hover:bg-[#8cff2e] active:scale-95 sm:w-auto">
+              Get Started
+            </button>
           </Link>
 
           <Link to="/contact">
-            <button className="w-full sm:w-auto px-8 py-4 bg-transparent hover:bg-[#8cff2e] text-black border-2 border-[#8cff2e] rounded-xl font-bold transition-all shadow-lg active:scale-95">
+            <button className="w-full rounded-xl border-2 border-[#8cff2e] bg-transparent px-8 py-4 font-bold text-black shadow-lg transition-all hover:bg-[#8cff2e] active:scale-95 sm:w-auto">
               Contact Sales
             </button>
           </Link>
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default SubscribeSection;
+export default SubscribeSection

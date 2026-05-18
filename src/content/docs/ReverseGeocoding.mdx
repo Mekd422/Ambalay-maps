@@ -1,9 +1,9 @@
-import CodeBlock from "../../Components/CodeBlock.tsx";
+import CodeBlock from '../../Components/CodeBlock.tsx'
 
 export default function ReverseGeocoding() {
   const curlExample = `curl -H "x-api-key: YOUR_API_KEY" "https://api.ambalaymaps.com/v1/reverse?lat=9.017084&lon=38.774978"`;
 
-  const jsonResponse = `{
+const jsonResponse = `{
   "status": 200,
   "message": "REVERSE_GEO_CODING_SUCCESS",
   "data": {
@@ -13,18 +13,18 @@ export default function ReverseGeocoding() {
   }
 }`;
 
-  return (
-    <div className="bg-black text-gray-300 min-h-screen p-8 font-sans">
-      {/* Header Section */}
-      <header className="mb-10">
-        <h1 className="text-white text-5xl font-bold mb-4 tracking-tight">
-          Reverse Geocoding API
-        </h1>
-        <div className="h-[1px] bg-gray-800 w-full mb-6"></div>
-        <p className="text-gray-400 text-lg leading-relaxed">
-          <strong className="text-white">Purpose:</strong> Looks up an address or place name from geographic coordinates. Given a latitude and longitude, this endpoint returns the nearest known address or location description.
-        </p>
-      </header>
+return (
+<div className="bg-black text-gray-300 min-h-screen p-8 font-sans">
+{/* Header Section */}
+<header className="mb-10">
+<h1 className="text-white text-5xl font-bold mb-4 tracking-tight">
+Reverse Geocoding API
+</h1>
+<div className="h-[1px] bg-gray-800 w-full mb-6"></div>
+<p className="text-gray-400 text-lg leading-relaxed">
+<strong className="text-white">Purpose:</strong> Looks up an address or place name from geographic coordinates. Given a latitude and longitude, this endpoint returns the nearest known address or location description.
+</p>
+</header>
 
       {/* Endpoint Information */}
       <section className="mb-12">
@@ -123,5 +123,6 @@ export default function ReverseGeocoding() {
         </div>
       </footer>
     </div>
-  );
+
+);
 }

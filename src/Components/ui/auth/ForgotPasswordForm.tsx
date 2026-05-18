@@ -1,48 +1,48 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { forgotPassword, getAuthErrorMessage } from "../../../api/auth";
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { forgotPassword, getAuthErrorMessage } from '../../../api/auth'
 
 export default function ForgotPasswordForm() {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate()
+  const [email, setEmail] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (!email) {
-      setError("Please enter your email");
-      return;
+      setError('Please enter your email')
+      return
     }
 
     if (!/\S+@\S+\.\S+/.test(email)) {
-      setError("Please enter a valid email");
-      return;
+      setError('Please enter a valid email')
+      return
     }
 
-    setError(null);
-    setLoading(true);
+    setError(null)
+    setLoading(true)
 
     try {
-      const challenge = await forgotPassword({ email });
+      const challenge = await forgotPassword({ email })
       const params = new URLSearchParams({
         challengeId: challenge.challengeId,
         expiresAt: challenge.expiresAt,
-      });
+      })
 
-      navigate(`/reset-password?${params.toString()}`);
+      navigate(`/reset-password?${params.toString()}`)
     } catch (err) {
-      setError(getAuthErrorMessage(err, "Could not start password reset"));
+      setError(getAuthErrorMessage(err, 'Could not start password reset'))
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   return (
-    <div className="flex flex-col items-center justify-center w-full py-12">
-      <div className="text-center mb-10">
-        <h2 className="text-3xl font-semibold text-black dark:text-white mb-2">
+    <div className="flex w-full flex-col items-center justify-center py-12">
+      <div className="mb-10 text-center">
+        <h2 className="mb-2 text-3xl font-semibold text-black dark:text-white">
           Reset your password
         </h2>
         <p className="text-gray-500 dark:text-gray-400">
@@ -50,7 +50,7 @@ export default function ForgotPasswordForm() {
         </p>
       </div>
 
-      <div className="w-full max-w-md bg-white dark:bg-[#0f0f0f] border border-gray-100 dark:border-white/5 p-8 md:p-10 rounded-2xl shadow-2xl">
+      <div className="w-full max-w-md rounded-2xl border border-gray-100 bg-white p-8 shadow-2xl dark:border-white/5 dark:bg-[#0f0f0f] md:p-10">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
             <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -63,12 +63,12 @@ export default function ForgotPasswordForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="abebe@company.com"
-              className="w-full px-4 py-3 rounded-lg bg-gray-50 dark:bg-black border border-gray-200 dark:border-white/10 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8cff2e]"
+              className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-black focus:outline-none focus:ring-2 focus:ring-[#8cff2e] dark:border-white/10 dark:bg-black dark:text-white"
             />
           </div>
 
           {error && (
-            <div className="text-red-500 text-sm text-center bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3">
+            <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-center text-sm text-red-500 dark:border-red-800 dark:bg-red-900/20">
               {error}
             </div>
           )}
@@ -76,19 +76,22 @@ export default function ForgotPasswordForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 px-4 bg-[#8cff2e] text-black font-semibold rounded-lg shadow-lg mt-4 active:scale-[0.98]"
+            className="mt-4 w-full rounded-lg bg-[#8cff2e] px-4 py-3.5 font-semibold text-black shadow-lg active:scale-[0.98]"
           >
-            {loading ? "Sending..." : "Send Reset Code"}
+            {loading ? 'Sending...' : 'Send Reset Code'}
           </button>
         </form>
 
-        <p className="text-center mt-8 text-sm text-gray-500 dark:text-gray-400">
-          Remembered your password?{" "}
-          <Link to="/login" className="text-[#8cff2e] font-medium hover:underline">
+        <p className="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+          Remembered your password?{' '}
+          <Link
+            to="/login"
+            className="font-medium text-[#8cff2e] hover:underline"
+          >
             Log in
           </Link>
         </p>
       </div>
     </div>
-  );
+  )
 }
