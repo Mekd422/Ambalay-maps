@@ -1,163 +1,207 @@
-import { useState, useEffect } from 'react'
-import { getServiceGrants } from '../../api/types'
-import { CheckCircle2, ArrowUpRight } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { ArrowUpRight, CheckCircle2 } from "lucide-react"
+import { Link } from "react-router-dom"
+
+const pricingPlans = [
+  {
+    name: "Developer",
+    label: "Developer Plan",
+    price: "Free",
+    bestFor: ["Students", "Testing", "Hackathons", "MVP development"],
+    included: [
+      "1,000 Geocoding requests",
+      "1,000 Direction requests",
+      "1,000 Matrix elements",
+      "1,000 Trip Tracking updates",
+      "2,000 Tile loads/day",
+      "Community support",
+      "API documentation access",
+    ],
+    extraTitle: "Limits",
+    extraItems: ["Rate limited", "No SLA", "No commercial priority support"],
+    cta: "Start Building Free",
+    href: "/register",
+  },
+  {
+    name: "Startup",
+    label: "Startup Plan",
+    price: "750 Birr/month",
+    bestFor: ["Small Ethiopian startups", "Early-stage delivery companies", "Internal business tools"],
+    included: [
+      "3,000 Direction requests",
+      "3,000 Geocoding requests",
+      "2,000 Matrix elements",
+      "3,000 Trip Tracking updates",
+      "3,000 Tile loads/day",
+    ],
+    features: ["Email support", "Dashboard analytics", "Basic usage monitoring", "API keys management"],
+    cta: "Best for early-stage startups",
+    href: "/register",
+  },
+  {
+    name: "Growth",
+    label: "Growth Plan",
+    price: "4,500 Birr/month",
+    bestFor: ["Delivery startups", "Logistics companies", "Ride-hailing", "Agritech platforms"],
+    included: [
+      "25,000 Direction requests",
+      "25,000 Geocoding requests",
+      "10,000 Matrix elements",
+      "15,000 Trip Tracking updates",
+      "10,000 Tile loads/day",
+    ],
+    features: ["Priority support", "Higher rate limits", "Usage analytics", "Webhook support", "Team API access"],
+    cta: "Scale your mobility platform",
+    href: "/register",
+  },
+  {
+    name: "Business",
+    label: "Business Plan",
+    price: "8,500 Birr/month",
+    bestFor: ["Large startups", "Enterprise mobility", "Logistics fleets", "Government & NGOs"],
+    included: [
+      "100,000 Direction requests",
+      "100,000 Geocoding requests",
+      "50,000 Matrix elements",
+      "100,000 Trip Tracking updates",
+      "25,000 Tile loads/day",
+    ],
+    features: [
+      "Priority infrastructure",
+      "Faster response SLAs",
+      "Dedicated support",
+      "Advanced analytics",
+      "Multi-team access",
+      "Higher concurrency limits",
+    ],
+    cta: "Built for high-scale operations",
+    href: "/register",
+  },
+  {
+    name: "Enterprise",
+    label: "Enterprise Plan",
+    price: "Custom Pricing",
+    bestFor: ["National platforms", "Telecoms", "Government", "Banking", "Smart city projects"],
+    included: [
+      "Unlimited or negotiated usage",
+      "Dedicated infrastructure",
+      "SLA contracts",
+      "Dedicated account manager",
+      "Private deployment",
+      "On-premise options",
+      "Custom APIs",
+      "AI integrations",
+      "Data partnerships",
+    ],
+    cta: "Let’s build together",
+    href: "/contact",
+  },
+]
 
 export default function PricingSection() {
-  const [isYearly, setIsYearly] = useState(false)
-  const [services, setServices] = useState<string[]>([])
-
-  useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const data = await getServiceGrants()
-        setServices(data)
-      } catch (error) {
-        console.error('Failed to fetch services:', error)
-      }
-    }
-
-    fetchServices()
-  }, [])
-
   return (
     <section className="bg-black px-6 py-24 md:px-12">
       <div className="mx-auto max-w-6xl text-center">
-        <h2 className="mb-4 text-5xl font-medium text-white md:text-6xl">
-          Simple plans.
-        </h2>
+        <h2 className="mb-4 text-5xl font-medium text-white md:text-6xl">Simple plans.</h2>
         <p className="mb-12 text-gray-400">
           Straightforward pricing with no hidden costs. Everything{' '}
           <br className="hidden md:block" />
           you need to manage your mapping needs.
         </p>
 
-        <div className="mb-16 flex items-center justify-center gap-4">
-          <span
-            className={`text-sm ${!isYearly ? 'text-[#8cff2e]' : 'text-gray-500'}`}
-          >
-            Monthly
-          </span>
-          <button
-            onClick={() => setIsYearly(!isYearly)}
-            className="relative h-6 w-12 rounded-full bg-white/10 p-1 transition-colors"
-          >
+        <div className="grid gap-8 text-left sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 justify-items-center">
+          {pricingPlans.map((plan) => (
             <div
-              className={`h-4 w-4 rounded-full bg-[#8cff2e] transition-transform ${isYearly ? 'translate-x-6' : 'translate-x-0'}`}
-            />
-          </button>
-          <span
-            className={`text-sm ${isYearly ? 'text-[#8cff2e]' : 'text-gray-500'}`}
-          >
-            Yearly
-          </span>
+              key={plan.name}
+              className="w-full max-w-[380px] bg-[#0A0A0A] border border-white/5 rounded-[32px] p-10 flex flex-col"
+            >
+              <div>
+                <h3 className="text-2xl font-medium text-white mb-2">{plan.name}</h3>
+                <p className="text-sm text-[#8cff2e] uppercase tracking-widest mb-6">{plan.label}</p>
+                <div className="flex items-baseline gap-1 mb-6">
+                  <span className="text-5xl font-medium text-white">{plan.price}</span>
+                </div>
+              </div>
+
+              <div className="mb-6">
+                <p className="text-sm text-gray-400 uppercase tracking-widest mb-4">Best for</p>
+                <ul className="space-y-3">
+                  {plan.bestFor.map((item) => (
+                    <li key={item} className="flex items-start gap-3 text-sm text-gray-300">
+                      <span className="mt-[2px] text-[#8cff2e]">•</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="mb-6">
+                <p className="text-sm text-gray-400 uppercase tracking-widest mb-4">Included</p>
+                <ul className="space-y-4">
+                  {plan.included.map((item) => (
+                    <li key={item} className="flex items-center gap-3 text-sm text-gray-300">
+                      <CheckCircle2 size={18} className="text-[#8cff2e]" /> {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {plan.features ? (
+                <div className="mb-6">
+                  <p className="text-sm text-gray-400 uppercase tracking-widest mb-4">Features</p>
+                  <ul className="space-y-4">
+                    {plan.features.map((item) => (
+                      <li key={item} className="flex items-center gap-3 text-sm text-gray-300">
+                        <CheckCircle2 size={18} className="text-[#8cff2e]" /> {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : plan.extraItems ? (
+                <div className="mb-6">
+                  <p className="text-sm text-gray-400 uppercase tracking-widest mb-4">{plan.extraTitle}</p>
+                  <ul className="space-y-4">
+                    {plan.extraItems.map((item) => (
+                      <li key={item} className="flex items-center gap-3 text-sm text-gray-300">
+                        <CheckCircle2 size={18} className="text-[#8cff2e]" /> {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+
+              <div className="mt-auto">
+                <Link to={plan.href}>
+                  <button className="w-full py-3 px-5 bg-[#8cff2e] text-black text-sm rounded-full font-medium flex items-center justify-center gap-2 shadow-[0_10px_30px_rgba(140,255,46,0.2)] hover:scale-[1.02] transition-all">
+                    {plan.cta}
+                    <ArrowUpRight size={18} />
+                  </button>
+                </Link>
+              </div>
+            </div>
+          ))}
         </div>
 
-        <div className="grid gap-8 text-left md:grid-cols-3">
-          {/* Freemium Plan */}
-          <div className="flex flex-col rounded-[32px] border border-white/5 bg-[#0A0A0A] p-10">
-            <h3 className="mb-6 text-2xl font-medium text-white">Freemium</h3>
-            <div className="mb-6 flex items-baseline gap-1">
-              <span className="text-5xl font-medium text-white">Free</span>
+        <div className="mt-16 bg-white/5 border border-white/10 rounded-[32px] p-10 text-left">
+          <h3 className="text-3xl font-semibold text-white mb-6">Annual Billing Discounts</h3>
+          <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-3">
+            <div className="rounded-3xl bg-[#0B0B0B] p-6 border border-white/5">
+              <p className="text-sm text-gray-400 uppercase tracking-widest mb-3">Startup</p>
+              <p className="text-2xl font-semibold text-white mb-2">750 ETB</p>
+              <p className="text-gray-400 mb-4">Annual Equivalent</p>
+              <p className="text-xl font-semibold text-[#8cff2e]">600 ETB/month</p>
             </div>
-            <p className="mb-10 text-sm leading-relaxed text-gray-400">
-              Perfect for getting started and testing our features.
-            </p>
-            <Link to="/register">
-              <button className="mb-10 flex w-full items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 py-4 font-medium text-white transition-all hover:bg-white/10">
-                Get Started Free <ArrowUpRight size={18} />
-              </button>
-            </Link>
-            <ul className="space-y-4">
-              {services.map((service) => (
-                <li
-                  key={service}
-                  className="flex items-center gap-3 text-sm text-gray-300"
-                >
-                  <CheckCircle2 size={18} className="text-gray-500" />
-
-                  {service
-                    .replace(/_/g, ' ')
-                    .toLowerCase()
-                    .replace(/\b\w/g, (c) => c.toUpperCase())}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Starter Plan */}
-          <div className="flex flex-col rounded-[32px] border border-white/5 bg-[#0A0A0A] p-10">
-            <h3 className="mb-6 text-2xl font-medium text-white">Starter</h3>
-            <div className="mb-6 flex items-baseline gap-1">
-              <span className="text-5xl font-medium text-white">
-                {isYearly ? '3000 Birr' : '350 Birr'}
-              </span>
-              <span className="text-gray-500">
-                /{isYearly ? 'year' : 'month'}
-              </span>
+            <div className="rounded-3xl bg-[#0B0B0B] p-6 border border-white/5">
+              <p className="text-sm text-gray-400 uppercase tracking-widest mb-3">Growth</p>
+              <p className="text-2xl font-semibold text-white mb-2">4,500 ETB</p>
+              <p className="text-gray-400 mb-4">Annual Equivalent</p>
+              <p className="text-xl font-semibold text-[#8cff2e]">3,800 ETB/month</p>
             </div>
-            <p className="mb-10 text-sm leading-relaxed text-gray-400">
-              Perfect for freelancers and small projects.
-            </p>
-            <Link to="/register">
-              <button className="mb-10 flex w-full items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 py-4 font-medium text-white transition-all hover:bg-white/10">
-                Get Started <ArrowUpRight size={18} />
-              </button>
-            </Link>
-            <ul className="space-y-4">
-              {[
-                '10,000 requests/mo',
-                'Standard Support',
-                'Core API Access',
-                'Monthly reports',
-              ].map((item) => (
-                <li
-                  key={item}
-                  className="flex items-center gap-3 text-sm text-gray-300"
-                >
-                  <CheckCircle2 size={18} className="text-gray-500" /> {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Pro Plan */}
-          <div className="relative flex flex-col rounded-[32px] border border-[#8cff2e]/20 bg-[#0A0A0A] p-10">
-            <div className="absolute right-8 top-6 rounded-full bg-[#8cff2e]/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[#8cff2e]">
-              Popular
+            <div className="rounded-3xl bg-[#0B0B0B] p-6 border border-white/5">
+              <p className="text-sm text-gray-400 uppercase tracking-widest mb-3">Business</p>
+              <p className="text-2xl font-semibold text-white mb-2">8,500 ETB</p>
+              <p className="text-gray-400 mb-4">Annual Discount</p>
+              <p className="text-xl font-semibold text-[#8cff2e]">15–20% discount annually</p>
             </div>
-            <h3 className="mb-6 text-2xl font-medium text-white">Pro</h3>
-            <div className="mb-6 flex items-baseline gap-1">
-              <span className="text-5xl font-medium text-white">
-                {isYearly ? '10000 Birr' : '1000 Birr'}
-              </span>
-              <span className="text-gray-500">
-                /{isYearly ? 'year' : 'month'}
-              </span>
-            </div>
-            <p className="mb-10 text-sm leading-relaxed text-gray-400">
-              Advanced tools for smarter mapping experiences.
-            </p>
-            <Link to="/register">
-              <button className="mb-10 flex w-full items-center justify-center gap-2 rounded-full bg-[#8cff2e] py-4 font-medium text-black shadow-[0_10px_30px_rgba(140,255,46,0.2)] transition-all hover:scale-[1.02]">
-                Get Started <ArrowUpRight size={18} />
-              </button>
-            </Link>
-            <ul className="space-y-4">
-              {[
-                'Unlimited requests',
-                '24/7 Priority Support',
-                'Full API Suite',
-                'AI-powered routing',
-              ].map((item) => (
-                <li
-                  key={item}
-                  className="flex items-center gap-3 text-sm text-gray-300"
-                >
-                  <CheckCircle2 size={18} className="text-[#8cff2e]" /> {item}
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
       </div>
