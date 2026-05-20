@@ -52,15 +52,15 @@ export default function Navbar() {
         {/* Logo */}
         <div className="flex items-center gap-2">
           <Image
-            src="/icons/ambalay-logo.png"
+            src="/icons/ambalay.png"
             alt="AmbaLay Maps Logo"
-            width={44}
-            height={24}
-            className="h-6 w-11"
+            width={80}
+            height={80}
+            className="h-14 w-14 object-contain"
           />
 
           <Link to="/">
-            <h4 className="font-sora text-base font-medium tracking-tight text-white">
+            <h4 className="font-sans text-base font-medium tracking-tight text-white">
               AmbaLay Maps
             </h4>
           </Link>

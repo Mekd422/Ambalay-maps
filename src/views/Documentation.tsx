@@ -272,7 +272,7 @@ const Documentation = () => {
 
             <Link to="/" className="flex items-center gap-3">
               <Image
-                src="/icons/ambalay-logo.png"
+                src="/icons/ambalay.png"
                 alt="AmbaLay Maps Logo"
                 width={40}
                 height={80}
