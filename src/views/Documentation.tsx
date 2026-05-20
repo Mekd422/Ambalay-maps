@@ -128,6 +128,13 @@ const Documentation = () => {
     window.scrollTo(0, 0)
   }, [activePage])
 
+  const getNavButtonStyles = (isActive: boolean) =>
+    `relative rounded-md px-3 py-1 text-sm font-medium transition-all duration-200 ${
+      isActive ? 'text-[#8cff2e]' : 'text-gray-400 hover:text-[#8cff2e]'
+    } after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:rounded-full after:bg-[#8cff2e] after:transition-all after:duration-300 ${
+      isActive ? 'after:w-full' : 'after:w-0 hover:after:w-full'
+    }`
+
   const renderContent = () => {
     const mdxWrapper = (Content: React.ComponentType<{ baseUrl?: string }>) => (
       <article className="docs-content prose prose-invert max-w-none prose-headings:font-bold prose-h1:mb-8 prose-h1:text-4xl prose-h3:mt-10 prose-h3:text-xl prose-p:text-[15px] prose-p:leading-7 prose-li:text-[15px] prose-li:leading-7 prose-strong:text-white prose-code:text-[#8cff2e] prose-pre:border prose-pre:border-white/10 prose-pre:bg-[#0A0A0A]">
@@ -161,12 +168,15 @@ const Documentation = () => {
         <h1 className="mb-4 text-2xl font-bold tracking-tight md:text-4xl">
           AmbaLay Maps Documentation
         </h1>
+
         <p className="mb-6 max-w-2xl text-base leading-relaxed text-gray-400 md:text-lg">
           Explore AmbaLay Maps API's features, integrations, and ways of
           implementation.
         </p>
 
-        <div className="mb-16 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <img src="/images/doc/ambalay-logo.png" alt="" />
+
+        {/* <div className="mb-16 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <button
             onClick={() => handlePageChange('Quickstart Guide')}
             className="w-full rounded-xl bg-white px-8 py-3 text-sm font-bold text-black shadow-lg shadow-white/5 transition-all hover:bg-gray-200 sm:w-auto"
@@ -177,7 +187,7 @@ const Documentation = () => {
           <button className="w-full rounded-xl border border-white/10 bg-white/5 px-8 py-3 text-sm font-bold text-white transition-all hover:bg-white/10 sm:w-auto">
             Start a new project
           </button>
-        </div>
+        </div> */}
 
         <div className="w-full text-left">
           <h2 className="mb-10 text-2xl font-medium tracking-tight md:text-3xl">
@@ -282,32 +292,23 @@ const Documentation = () => {
               Home
             </Link>
             <button
+              type="button"
               onClick={() => setActiveView('docs')}
-              className={`rounded-md px-3 py-1 transition-all ${
-                activeView === 'docs'
-                  ? 'bg-white/10 text-white'
-                  : 'text-gray-400 hover:text-[#8cff2e]'
-              }`}
+              className={getNavButtonStyles(activeView === 'docs')}
             >
               Documentation
             </button>
             <button
+              type="button"
               onClick={() => setActiveView('api-playground')}
-              className={`rounded-md px-3 py-1 transition-all ${
-                activeView === 'api-playground'
-                  ? 'bg-[#8cff2e] text-black font-semibold'
-                  : 'text-gray-400 hover:text-[#8cff2e]'
-              }`}
+              className={getNavButtonStyles(activeView === 'api-playground')}
             >
               API Playground
             </button>
             <button
+              type="button"
               onClick={() => setActiveView('map-playground')}
-              className={`rounded-md px-3 py-1 transition-all ${
-                activeView === 'map-playground'
-                  ? 'bg-[#8cff2e] text-black font-semibold'
-                  : 'text-gray-400 hover:text-[#8cff2e]'
-              }`}
+              className={getNavButtonStyles(activeView === 'map-playground')}
             >
               Map Playground
             </button>
