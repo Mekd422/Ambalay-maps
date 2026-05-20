@@ -31,15 +31,12 @@ export const useChatbot = () => {
     setError(null)
 
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL
-      // console.log(API_URL)
-
       const formattedHistory = updatedMessages.map((msg) => ({
         role: msg.sender === 'user' ? 'user' : 'assistant',
         text: msg.text,
       }))
 
-      const response = await fetch(`${API_URL}/api/chat`, {
+      const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -12,6 +12,7 @@ export const documentationPages: DocumentationPage[] = [
   { title: 'Route', slug: 'route' },
   { title: 'Matrix', slug: 'matrix' },
   { title: 'Trips', slug: 'trips' },
+  { title: 'Reverse Geocoding', slug: 'reverse-geocoding' },
   { title: 'Best Practices', slug: 'best-practices' },
   { title: 'FAQ & Troubleshooting', slug: 'faq-troubleshooting' },
   { title: 'Developer Support', slug: 'developer-support' },

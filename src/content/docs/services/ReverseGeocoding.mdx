@@ -1,0 +1,210 @@
+import DocsCodeBlock from '../../../Components/docs/DocsCodeBlock'
+
+# Reverse Geocoding
+
+![Geocoding diagram](/images/doc/ReverseGeocoding.png)
+
+
+Use **Reverse Geocoding** when you already have coordinates and want the nearest readable place.
+
+In most mapping platforms, reverse lookup returns the closest known address or place representation for a latitude/longitude pair.
+
+The granularity of the result can vary from:
+
+- Precise address
+- Neighborhood
+- City
+- Administrative area
+
+## Endpoint Summary
+
+| Item    | Value                                     |
+| ------- | ----------------------------------------- |
+| Method  | `GET`                                     |
+| Path    | `/services/geo_coding/reverse`            |
+| Purpose | Convert coordinates into a readable place |
+
+## Query Parameters
+
+| Parameter | Type     | Required | Description |
+| --------- | -------- | -------- | ----------- |
+| `lat`     | `number` | Yes      | Latitude    |
+| `lon`     | `number` | Yes      | Longitude   |
+
+## Example Request
+
+### cURL
+
+<DocsCodeBlock
+  language="bash"
+  baseUrl={props.baseUrl}
+  template={`curl "https://api.dev.ambalaymaps.com/services/geo_coding/reverse?lat=8.9806&lon=38.7578" \\
+-H "x-ambalay-key: YOUR_API_KEY"`}
+/>
+
+### HTTP Request
+
+<DocsCodeBlock
+  language="http"
+  baseUrl={props.baseUrl}
+  template={`GET /services/geo_coding/reverse?lat=8.9806&lon=38.7578 HTTP/1.1
+Host: api.dev.ambalaymaps.com
+x-ambalay-key: {API_KEY}`}
+/>
+
+## Success Response
+
+<DocsCodeBlock
+  language="json"
+  baseUrl={props.baseUrl}
+  template={`{
+  "status": "SUCCESS",
+  "data": {
+    "item": {
+      "id": "place-id",
+      "name": "Kazanchis",
+      "label": "Kazanchis, Addis Ababa, Ethiopia",
+      "loc": {
+        "lat": 8.9806,
+        "lon": 38.7578
+      }
+    }
+  },
+  "message": "GEO_CODING_REVERSE_SUCCESS",
+  "timestamp": "2026-04-29T06:00:00.000Z",
+  "requestId": "request-id"
+}`}
+/>
+
+## Response Fields
+
+| Field       | Type             | Description                                |
+| ----------- | ---------------- | ------------------------------------------ |
+| `data.item` | `object \| null` | Nearest place, if found                    |
+| `id`        | `string`         | Unique place identifier                    |
+| `name`      | `string`         | Short place name                           |
+| `label`     | `string`         | Full human-readable place label or address |
+| `loc.lat`   | `number`         | Latitude                                   |
+| `loc.lon`   | `number`         | Longitude                                  |
+
+## Validation Error Example
+
+<DocsCodeBlock
+  language="json"
+  baseUrl={props.baseUrl}
+  template={`{
+  "status": "ERROR",
+  "data": {
+    "lat": "lat must be a valid number"
+  },
+  "message": "VALIDATION_ERROR",
+  "timestamp": "2026-04-29T06:00:00.000Z",
+  "requestId": "request-id"
+}`}
+/>
+
+## Usage Notes
+
+- Ensure `lat` and `lon` are valid numeric values before sending requests
+- Reverse geocoding is ideal for:
+  - map-click interactions
+  - dropped pins
+  - GPS coordinates
+  - “What’s here?” features
+- If no nearby place can be resolved, `item` may be empty or `null`
+- Reverse geocoding should be treated as a nearest-match lookup rather than a guaranteed parcel-accurate address
+
+## Common Errors
+
+| Error Code                    |
+| ----------------------------- |
+| `VALIDATION_ERROR`            |
+| `API_KEY_SERVICE_NOT_ALLOWED` |
+| `MISSING_API_KEY`             |
+| `INVALID_API_KEY`             |
+
+# Errors and Troubleshooting
+
+A clean integration should distinguish between:
+
+- Authentication failures
+- Service entitlement issues
+- Input validation problems
+- Valid no-result responses
+
+In practice, geocoding systems often return no match not because the request is malformed, but because the service cannot confidently resolve the query or coordinate to a result.
+
+Reverse geocoding should be handled defensively because result specificity can vary.
+
+## Troubleshooting Checklist
+
+| Error Code                    | What to Check                                 |
+| ----------------------------- | --------------------------------------------- |
+| `MISSING_API_KEY`             | Confirm the `x-ambalay-key` header is present |
+| `INVALID_API_KEY`             | Verify the key value and format               |
+| `API_KEY_SERVICE_NOT_ALLOWED` | Ensure the key can access `GEO_CODING`        |
+| `VALIDATION_ERROR`            | Recheck `term`, `limit`, `lat`, and `lon`     |
+| Empty `items` or empty `item` | Treat as a valid no-results response          |
+
+## Production Recommendations
+
+For production debugging:
+
+- Log `message`
+- Log `timestamp`
+- Log `requestId`
+
+Additional best practices:
+
+- URL-encode the `term` parameter
+- Validate coordinates before requests
+- Show friendly fallback messages such as:
+
+<DocsCodeBlock
+  language="txt"
+  baseUrl={props.baseUrl}
+  template={`No matching place found`}
+/>
+
+instead of generic failure banners.
+
+# Implementation Guidance
+
+The cleanest developer experience usually comes from treating text search and reverse lookup as two separate user flows.
+
+## Recommended Patterns
+
+### Text Search
+
+- Keep `limit` modest
+- Issue requests deliberately
+- Keep search results relevant and stable
+
+### Coordinate Lookup
+
+Design the client as though the returned place is:
+
+- The nearest known representation
+- Not necessarily the only correct answer
+
+This pattern aligns with how major mapping platforms separate:
+
+- Forward search
+- Reverse lookup
+- Richer interactive search experiences
+
+# Production Checklist
+
+- Send `x-ambalay-key` on every request
+- Use `/services/geo_coding/search` for text search
+- Use `/services/geo_coding/reverse` for coordinate lookup
+- Keep responses small with `limit`
+- Treat empty results as valid
+- Log `requestId` for support and traceability
+
+# Additional References
+
+- [Google Reverse Geocoding Documentation](https://developers.google.com/maps/documentation/geocoding/reverse-geocoding)
+- [Mapbox Geocoding API](https://docs.mapbox.com/api/search/geocoding/)
+- [Mapbox Search Box API](https://docs.mapbox.com/api/search/search-box/)
+- [Ambalay Maps](https://www.ambalaymaps.com/)
