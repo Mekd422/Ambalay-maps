@@ -452,7 +452,7 @@ const SidebarContent = ({
             </h4>
             <ul className="space-y-4 border-l border-white/5 pl-4">
               {group.items.map((item, i) => (
-                <li key={i}>
+                <li key={i} className="border-b border-white/10 pb-2 last:border-b-0 last:pb-0">
                   <Link
                     to={documentationHref(item)}
                     onClick={() => onPageSelect(item)}

@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { ArrowUpRight, CheckCircle2 } from "lucide-react"
 import { Link } from "react-router-dom"
 
@@ -98,6 +99,12 @@ const pricingPlans = [
 ]
 
 export default function PricingSection() {
+  const [expandedPlan, setExpandedPlan] = useState<string | null>(null)
+
+  const togglePlan = (planName: string) => {
+    setExpandedPlan((current) => (current === planName ? null : planName))
+  }
+
   return (
     <section className="bg-black px-6 py-24 md:px-12">
       <div className="mx-auto max-w-6xl text-center">
@@ -109,76 +116,104 @@ export default function PricingSection() {
         </p>
 
         <div className="grid gap-8 text-left sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 justify-items-center">
-          {pricingPlans.map((plan) => (
-            <div
-              key={plan.name}
-              className="w-full max-w-[380px] bg-[#0A0A0A] border border-white/5 rounded-[32px] p-10 flex flex-col"
-            >
-              <div>
-                <h3 className="text-2xl font-medium text-white mb-2">{plan.name}</h3>
-                <p className="text-sm text-[#8cff2e] uppercase tracking-widest mb-6">{plan.label}</p>
-                <div className="flex items-baseline gap-1 mb-6">
-                  <span className="text-5xl font-medium text-white">{plan.price}</span>
+          {pricingPlans.map((plan) => {
+            const isExpanded = expandedPlan === plan.name
+
+            return (
+              <div
+                key={plan.name}
+                className="w-full max-w-[380px] bg-[#0A0A0A] border border-white/5 rounded-[32px] p-8 flex flex-col"
+              >
+                <div>
+                  <div className="mb-4 flex items-start justify-between gap-4">
+                    <div>
+                      <h3 className="text-2xl font-medium text-white mb-2">{plan.name}</h3>
+                      <p className="text-sm text-[#8cff2e] uppercase tracking-widest">{plan.label}</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => togglePlan(plan.name)}
+                      aria-expanded={isExpanded}
+                      className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white transition-all hover:border-[#8cff2e] hover:text-[#8cff2e]"
+                    >
+                      {isExpanded ? 'Collapse' : 'Expand'}
+                      <ArrowUpRight
+                        size={16}
+                        className={`transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+                      />
+                    </button>
+                  </div>
+
+                  <div className="flex items-baseline gap-1 mb-6">
+                    <span className="text-5xl font-medium text-white">{plan.price}</span>
+                  </div>
+                </div>
+
+                <div
+                  className={`overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+                    isExpanded ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'
+                  }`}
+                  aria-hidden={!isExpanded}
+                >
+                  <div className="mb-6">
+                    <p className="text-sm text-gray-400 uppercase tracking-widest mb-4">Best for</p>
+                    <ul className="space-y-3">
+                      {plan.bestFor.map((item) => (
+                        <li key={item} className="flex items-start gap-3 text-sm text-gray-300">
+                          <span className="mt-[2px] text-[#8cff2e]">•</span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="mb-6">
+                    <p className="text-sm text-gray-400 uppercase tracking-widest mb-4">Included</p>
+                    <ul className="space-y-4">
+                      {plan.included.map((item) => (
+                        <li key={item} className="flex items-center gap-3 text-sm text-gray-300">
+                          <CheckCircle2 size={18} className="text-[#8cff2e]" /> {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {plan.features ? (
+                    <div className="mb-6">
+                      <p className="text-sm text-gray-400 uppercase tracking-widest mb-4">Features</p>
+                      <ul className="space-y-4">
+                        {plan.features.map((item) => (
+                          <li key={item} className="flex items-center gap-3 text-sm text-gray-300">
+                            <CheckCircle2 size={18} className="text-[#8cff2e]" /> {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : plan.extraItems ? (
+                    <div className="mb-6">
+                      <p className="text-sm text-gray-400 uppercase tracking-widest mb-4">{plan.extraTitle}</p>
+                      <ul className="space-y-4">
+                        {plan.extraItems.map((item) => (
+                          <li key={item} className="flex items-center gap-3 text-sm text-gray-300">
+                            <CheckCircle2 size={18} className="text-[#8cff2e]" /> {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
+                </div>
+
+                <div className="mt-auto">
+                  <Link to={plan.href}>
+                    <button className="w-full py-3 px-5 bg-[#8cff2e] text-black text-sm rounded-full font-medium flex items-center justify-center gap-2 shadow-[0_10px_30px_rgba(140,255,46,0.2)] hover:scale-[1.02] transition-all">
+                      {plan.cta}
+                      <ArrowUpRight size={18} />
+                    </button>
+                  </Link>
                 </div>
               </div>
-
-              <div className="mb-6">
-                <p className="text-sm text-gray-400 uppercase tracking-widest mb-4">Best for</p>
-                <ul className="space-y-3">
-                  {plan.bestFor.map((item) => (
-                    <li key={item} className="flex items-start gap-3 text-sm text-gray-300">
-                      <span className="mt-[2px] text-[#8cff2e]">•</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="mb-6">
-                <p className="text-sm text-gray-400 uppercase tracking-widest mb-4">Included</p>
-                <ul className="space-y-4">
-                  {plan.included.map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-sm text-gray-300">
-                      <CheckCircle2 size={18} className="text-[#8cff2e]" /> {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {plan.features ? (
-                <div className="mb-6">
-                  <p className="text-sm text-gray-400 uppercase tracking-widest mb-4">Features</p>
-                  <ul className="space-y-4">
-                    {plan.features.map((item) => (
-                      <li key={item} className="flex items-center gap-3 text-sm text-gray-300">
-                        <CheckCircle2 size={18} className="text-[#8cff2e]" /> {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ) : plan.extraItems ? (
-                <div className="mb-6">
-                  <p className="text-sm text-gray-400 uppercase tracking-widest mb-4">{plan.extraTitle}</p>
-                  <ul className="space-y-4">
-                    {plan.extraItems.map((item) => (
-                      <li key={item} className="flex items-center gap-3 text-sm text-gray-300">
-                        <CheckCircle2 size={18} className="text-[#8cff2e]" /> {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
-
-              <div className="mt-auto">
-                <Link to={plan.href}>
-                  <button className="w-full py-3 px-5 bg-[#8cff2e] text-black text-sm rounded-full font-medium flex items-center justify-center gap-2 shadow-[0_10px_30px_rgba(140,255,46,0.2)] hover:scale-[1.02] transition-all">
-                    {plan.cta}
-                    <ArrowUpRight size={18} />
-                  </button>
-                </Link>
-              </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
 
         <div className="mt-16 bg-white/5 border border-white/10 rounded-[32px] p-10 text-left">
