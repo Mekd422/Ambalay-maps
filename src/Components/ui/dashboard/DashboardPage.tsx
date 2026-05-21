@@ -1,7 +1,14 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
-import { Users, MessageSquare, Key, UserCircle, Home } from 'lucide-react'
+import { useEffect, useMemo } from 'react'
+import {
+  Users,
+  MessageSquare,
+  Key,
+  UserCircle,
+  Home,
+  CreditCard,
+} from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -14,6 +21,9 @@ import Organizations from './Organizations'
 import Plans from './Plans'
 import Usage from './Usage'
 import MessageDetail from './MessageDetail'
+import Billing from './Billing'
+import BillingInvoiceDetail from './BillingInvoiceDetail'
+import BillingReturn from './BillingReturn'
 
 type DashboardPageProps = {
   slug: string[]
@@ -40,10 +50,23 @@ const adminNavItems = [
 ]
 
 const subjectNavItems = [
-  { name: 'API Keys', icon: <Key size={18} /> },
-  { name: 'Usage', icon: <MessageSquare size={18} /> },
-  { name: 'Account', icon: <UserCircle size={18} /> },
+  { name: 'API Keys', path: '/dashboard/api-keys', icon: <Key size={18} /> },
+  { name: 'Usage', path: '/dashboard/usage', icon: <MessageSquare size={18} /> },
+  { name: 'Plans', path: '/dashboard/plans', icon: <Key size={18} /> },
+  { name: 'Billing', path: '/dashboard/billing', icon: <CreditCard size={18} /> },
+  { name: 'Account', path: '/dashboard/account', icon: <UserCircle size={18} /> },
 ]
+
+const subjectAllowedSections = new Set([
+  'home',
+  'api-keys',
+  'usage',
+  'plans',
+  'billing',
+  'billing-invoice',
+  'billing-return',
+  'account',
+])
 
 const getSectionFromSlug = (slug: string[]) => {
   if (slug.length === 0) {
@@ -54,13 +77,20 @@ const getSectionFromSlug = (slug: string[]) => {
     return { section: 'message-detail' as const, messageId: slug[1] }
   }
 
+  if (slug[0] === 'billing' && slug[1] === 'invoices' && slug[2]) {
+    return { section: 'billing-invoice' as const, invoiceId: slug[2] }
+  }
+
+  if (slug[0] === 'billing' && slug[1] === 'return') {
+    return { section: 'billing-return' as const }
+  }
+
   return { section: slug[0] }
 }
 
 export default function DashboardPage({ slug }: DashboardPageProps) {
   const router = useRouter()
   const { user, token } = useAuth()
-  const [activeTab, setActiveTab] = useState('API Keys')
 
   const routeState = useMemo(() => getSectionFromSlug(slug), [slug])
   const isAdmin = user?.accessLevel === 'ADMIN'
@@ -80,8 +110,13 @@ export default function DashboardPage({ slug }: DashboardPageProps) {
       return
     }
 
-    if (!isAdmin && routeState.section !== 'home') {
-      router.replace('/dashboard')
+    if (!isAdmin && routeState.section === 'home') {
+      router.replace('/dashboard/api-keys')
+      return
+    }
+
+    if (!isAdmin && !subjectAllowedSections.has(routeState.section)) {
+      router.replace('/dashboard/api-keys')
     }
   }, [isAdmin, routeState.section, router, token, user])
 
@@ -101,13 +136,9 @@ export default function DashboardPage({ slug }: DashboardPageProps) {
     return null
   }
 
-  if (!isAdmin && routeState.section !== 'home') {
+  if (!isAdmin && !subjectAllowedSections.has(routeState.section)) {
     return null
   }
-
-  const effectiveTab = subjectNavItems.some((item) => item.name === activeTab)
-    ? activeTab
-    : (subjectNavItems[0]?.name ?? 'Account')
 
   const renderAdminContent = () => {
     switch (routeState.section) {
@@ -125,6 +156,31 @@ export default function DashboardPage({ slug }: DashboardPageProps) {
         return <AccountSettings />
       default:
         router.replace('/dashboard/users')
+        return null
+    }
+  }
+
+  const renderSubjectContent = () => {
+    switch (routeState.section) {
+      case 'api-keys':
+        return <ApiKeys />
+      case 'usage':
+        return <Usage />
+      case 'plans':
+        return <Plans />
+      case 'billing':
+        return <Billing />
+      case 'billing-invoice': {
+        const invoiceId = 'invoiceId' in routeState ? routeState.invoiceId : null
+
+        return invoiceId ? <BillingInvoiceDetail invoiceId={invoiceId} /> : null
+      }
+      case 'billing-return':
+        return <BillingReturn />
+      case 'account':
+        return <AccountSettings />
+      default:
+        router.replace('/dashboard/api-keys')
         return null
     }
   }
@@ -193,29 +249,35 @@ export default function DashboardPage({ slug }: DashboardPageProps) {
                       </li>
                     )
                   })
-                : subjectNavItems.map((item) => (
-                    <li key={item.name}>
-                      <button
-                        onClick={() => setActiveTab(item.name)}
-                        className={`group flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-all ${
-                          effectiveTab === item.name
-                            ? 'rounded-l-none border-l-4 border-[#8cff2e] bg-[#8cff2e]/10 font-semibold text-[#8cff2e]'
-                            : 'text-gray-400 transition-colors hover:text-white'
-                        }`}
-                      >
-                        <span
-                          className={
-                            effectiveTab === item.name
-                              ? 'text-[#8cff2e]'
-                              : 'text-gray-500 group-hover:text-white'
-                          }
+                : subjectNavItems.map((item) => {
+                    const active =
+                      item.path === `/dashboard/${slug.join('/')}` ||
+                      `/dashboard/${slug.join('/')}`.startsWith(`${item.path}/`)
+
+                    return (
+                      <li key={item.name}>
+                        <Link
+                          href={item.path}
+                          className={`group flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-all ${
+                            active
+                              ? 'rounded-l-none border-l-4 border-[#8cff2e] bg-[#8cff2e]/10 font-semibold text-[#8cff2e]'
+                              : 'text-gray-400 transition-colors hover:text-white'
+                          }`}
                         >
-                          {item.icon}
-                        </span>
-                        <span>{item.name}</span>
-                      </button>
-                    </li>
-                  ))}
+                          <span
+                            className={
+                              active
+                                ? 'text-[#8cff2e]'
+                                : 'text-gray-500 group-hover:text-white'
+                            }
+                          >
+                            {item.icon}
+                          </span>
+                          <span>{item.name}</span>
+                        </Link>
+                      </li>
+                    )
+                  })}
             </ul>
           </nav>
         </aside>
@@ -254,32 +316,32 @@ export default function DashboardPage({ slug }: DashboardPageProps) {
                         </Link>
                       )
                     })
-                  : subjectNavItems.map((item) => (
-                      <button
-                        key={item.name}
-                        onClick={() => setActiveTab(item.name)}
-                        className={`flex items-center gap-2 whitespace-nowrap rounded-full px-3 py-2 text-xs font-semibold transition-all ${
-                          effectiveTab === item.name
-                            ? 'bg-[#8cff2e] text-black shadow-lg'
-                            : 'bg-white/5 text-gray-300 hover:bg-white/10'
-                        }`}
-                      >
-                        <span>{item.icon}</span>
-                        <span>{item.name}</span>
-                      </button>
-                    ))}
+                  : subjectNavItems.map((item) => {
+                      const active =
+                        item.path === `/dashboard/${slug.join('/')}` ||
+                        `/dashboard/${slug.join('/')}`.startsWith(
+                          `${item.path}/`,
+                        )
+
+                      return (
+                        <Link
+                          key={item.name}
+                          href={item.path}
+                          className={`flex items-center gap-2 whitespace-nowrap rounded-full px-3 py-2 text-xs font-semibold transition-all ${
+                            active
+                              ? 'bg-[#8cff2e] text-black shadow-lg'
+                              : 'bg-white/5 text-gray-300 hover:bg-white/10'
+                          }`}
+                        >
+                          <span>{item.icon}</span>
+                          <span>{item.name}</span>
+                        </Link>
+                      )
+                    })}
               </div>
             </div>
 
-            {isAdmin ? (
-              renderAdminContent()
-            ) : (
-              <>
-                {effectiveTab === 'API Keys' && <ApiKeys />}
-                {effectiveTab === 'Usage' && <Usage />}
-                {effectiveTab === 'Account' && <AccountSettings />}
-              </>
-            )}
+            {isAdmin ? renderAdminContent() : renderSubjectContent()}
           </div>
         </main>
       </div>

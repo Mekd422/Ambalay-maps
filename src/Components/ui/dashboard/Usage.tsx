@@ -1,39 +1,10 @@
 import { useEffect, useState } from 'react'
-import { getMySubscription } from '../../../api/subscription'
+import {
+  getMySubscription,
+  type RemainingEntry,
+  type SubscriptionPeriod,
+} from '../../../api/subscription'
 import { DashboardCard, DashboardHeader } from './DashboardShell'
-
-interface UsageEntry {
-  service: string
-  usedCount: number
-}
-
-interface PlanItem {
-  service: string
-  amount: number
-}
-
-interface RemainingEntry {
-  service: string
-  amount: number
-  usedCount: number
-  remaining: number
-}
-
-interface SubscriptionPlan {
-  label: string
-  description: string
-  items: PlanItem[]
-}
-
-interface Subscription {
-  id: string
-  status: string
-  startsAt: string
-  endsAt: string
-  subscriptionPlan?: SubscriptionPlan
-  usages?: UsageEntry[]
-  remaining?: RemainingEntry[]
-}
 
 interface UsageRow {
   service: string
@@ -44,7 +15,8 @@ interface UsageRow {
 const formatDate = (value: string) => new Date(value).toLocaleDateString()
 
 export default function Usage() {
-  const [subscription, setSubscription] = useState<Subscription | null>(null)
+  const [subscription, setSubscription] = useState<SubscriptionPeriod | null>(null)
+  const [nextInvoiceDueAt, setNextInvoiceDueAt] = useState<string | null>(null)
   const [usageRows, setUsageRows] = useState<UsageRow[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -52,37 +24,23 @@ export default function Usage() {
     const fetchUsage = async () => {
       try {
         const res = await getMySubscription()
-        const currentSubscription: Subscription | undefined = res.data.data?.[0]
+        const { currentPeriod, nextInvoice } = res.data.data
 
-        if (!currentSubscription) {
+        setNextInvoiceDueAt(nextInvoice?.dueAt ?? null)
+
+        if (!currentPeriod) {
           setSubscription(null)
           setUsageRows([])
           return
         }
 
-        const rowsFromRemaining = (currentSubscription.remaining ?? []).map(
-          (entry) => ({
-            service: entry.service,
-            used: entry.usedCount,
-            allowed: entry.amount,
-          }),
-        )
+        const rows = (currentPeriod.remaining ?? []).map((entry: RemainingEntry) => ({
+          service: entry.service,
+          used: entry.usedCount,
+          allowed: entry.amount,
+        }))
 
-        const rows =
-          rowsFromRemaining.length > 0
-            ? rowsFromRemaining
-            : (currentSubscription.subscriptionPlan?.items ?? []).map(
-                (item) => ({
-                  service: item.service,
-                  used:
-                    currentSubscription.usages?.find(
-                      (usage) => usage.service === item.service,
-                    )?.usedCount ?? 0,
-                  allowed: item.amount,
-                }),
-              )
-
-        setSubscription(currentSubscription)
+        setSubscription(currentPeriod)
         setUsageRows(rows.sort((a, b) => a.service.localeCompare(b.service)))
       } catch (err) {
         console.error(err)
@@ -111,7 +69,13 @@ export default function Usage() {
           subtitle="Track your active subscription and service consumption."
         />
         <div className="py-10 text-center text-gray-400">
-          No subscription found yet.
+          No access right now.
+          {nextInvoiceDueAt ? (
+            <p className="mt-2 text-sm text-gray-500">
+              A payment is pending. Next invoice due{' '}
+              <span className="text-white">{formatDate(nextInvoiceDueAt)}</span>
+            </p>
+          ) : null}
         </div>
       </DashboardCard>
     )
