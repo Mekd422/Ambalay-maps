@@ -2,9 +2,10 @@ import DocsCodeBlock from '../../../Components/docs/DocsCodeBlock'
 
 # Trips
 
+![Geocoding diagram](/images/doc/trip.png)
+
 Trips endpoints let you initialize, update, finalize, and inspect tracked trips.
 
----
 
 ## 1. Initialize Trip
 
@@ -98,7 +99,6 @@ fetch('https://api.dev.ambalaymaps.com/services/trip/init', {
 - No idempotency → duplicate `eventId` may create duplicates
 - Handle rate limits (`SERVICE_LIMIT_EXCEEDED`) with retries/backoff
 
----
 
 ## 2. Update Trip
 
@@ -187,7 +187,6 @@ fetch('https://api.dev.ambalaymaps.com/services/trip/update', {
 - Each `eventId` must be unique
 - Avoid excessive calls (rate limits apply)
 
----
 
 ## 3. Finalize Trip
 
@@ -254,7 +253,6 @@ curl -X POST "https://api.dev.ambalaymaps.com/services/trip/finalize" \
 - Call only once
 - `eventId` must still be unique
 
----
 
 ## 4. Trip History
 

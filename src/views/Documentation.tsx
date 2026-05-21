@@ -27,11 +27,14 @@ import GeocodingContent from '../content/docs/services/Geocoding.mdx'
 import RouteContent from '../content/docs/services/Route.mdx'
 import MatrixContent from '../content/docs/services/Matrix.mdx'
 import TripsContent from '../content/docs/services/Trips.mdx'
+import ReverseGeocodingContent from '../content/docs/services/ReverseGeocoding.mdx'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import {
   documentationSlugByTitle,
   documentationTitleBySlug,
 } from './documentationPages'
+import ApiPlayground from '../Components/ui/ApiPlayground'
+import MapPlayground from '../Components/ui/MapPlayground'
 
 interface SidebarGroup {
   group: string
@@ -67,6 +70,7 @@ const Documentation = () => {
   const params = useParams<{ slug?: string }>()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false)
   const [searchQuery, setSearchQuery] = useState<string>('')
+  const [activeView, setActiveView] = useState<'docs' | 'api-playground' | 'map-playground'>('docs')
   const docsBaseUrl =
     process.env.NEXT_PUBLIC_API_BASE_URL ||
     process.env.NEXT_PUBLIC_API_URL ||
@@ -82,6 +86,7 @@ const Documentation = () => {
         'Services Overview',
         'Tiles',
         'Geocoding',
+        'Reverse Geocoding',
         'Route',
         'Matrix',
         'Trips',
@@ -123,6 +128,13 @@ const Documentation = () => {
     window.scrollTo(0, 0)
   }, [activePage])
 
+  const getNavButtonStyles = (isActive: boolean) =>
+    `relative rounded-md px-3 py-1 text-sm font-medium transition-all duration-200 ${
+      isActive ? 'text-[#8cff2e]' : 'text-gray-400 hover:text-[#8cff2e]'
+    } after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:rounded-full after:bg-[#8cff2e] after:transition-all after:duration-300 ${
+      isActive ? 'after:w-full' : 'after:w-0 hover:after:w-full'
+    }`
+
   const renderContent = () => {
     const mdxWrapper = (Content: React.ComponentType<{ baseUrl?: string }>) => (
       <article className="docs-content prose prose-invert max-w-none prose-headings:font-bold prose-h1:mb-8 prose-h1:text-4xl prose-h3:mt-10 prose-h3:text-xl prose-p:text-[15px] prose-p:leading-7 prose-li:text-[15px] prose-li:leading-7 prose-strong:text-white prose-code:text-[#8cff2e] prose-pre:border prose-pre:border-white/10 prose-pre:bg-[#0A0A0A]">
@@ -137,6 +149,7 @@ const Documentation = () => {
     if (activePage === 'Route') return mdxWrapper(RouteContent)
     if (activePage === 'Matrix') return mdxWrapper(MatrixContent)
     if (activePage === 'Trips') return mdxWrapper(TripsContent)
+    if (activePage === 'Reverse Geocoding') return mdxWrapper(ReverseGeocodingContent)
     if (activePage === 'Best Practices') return mdxWrapper(BestPractices)
     if (activePage === 'FAQ & Troubleshooting') return mdxWrapper(FAQ)
     if (activePage === 'Developer Support') return mdxWrapper(DeveloperSupprt)
@@ -155,12 +168,15 @@ const Documentation = () => {
         <h1 className="mb-4 text-2xl font-bold tracking-tight md:text-4xl">
           AmbaLay Maps Documentation
         </h1>
+
         <p className="mb-6 max-w-2xl text-base leading-relaxed text-gray-400 md:text-lg">
           Explore AmbaLay Maps API's features, integrations, and ways of
           implementation.
         </p>
 
-        <div className="mb-16 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <img src="/images/doc/ambalay-logo.png" alt="" />
+
+        {/* <div className="mb-16 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <button
             onClick={() => handlePageChange('Quickstart Guide')}
             className="w-full rounded-xl bg-white px-8 py-3 text-sm font-bold text-black shadow-lg shadow-white/5 transition-all hover:bg-gray-200 sm:w-auto"
@@ -171,7 +187,7 @@ const Documentation = () => {
           <button className="w-full rounded-xl border border-white/10 bg-white/5 px-8 py-3 text-sm font-bold text-white transition-all hover:bg-white/10 sm:w-auto">
             Start a new project
           </button>
-        </div>
+        </div> */}
 
         <div className="w-full text-left">
           <h2 className="mb-10 text-2xl font-medium tracking-tight md:text-3xl">
@@ -211,11 +227,11 @@ const Documentation = () => {
             title="Flexible Map Customization"
             desc="Easily configure map styles, layers, and UI components using simple APIs. Adapt AmbaLay Maps to match your product’s design and functionality without complexity."
           />
-          <FeatureItem
+          {/* <FeatureItem
             icon={<Database className="text-indigo-500" size={20} />}
             title=" Centralized Data Management"
             desc="Control and manage map data, locations, and documentation from a single system. Update content seamlessly without needing full redeployments."
-          />
+          /> */}
           <FeatureItem
             icon={<Layout className="text-indigo-500" size={20} />}
             title="High-Performance Mapping Engine"
@@ -231,11 +247,11 @@ const Documentation = () => {
             title=" Adaptive UI Experience"
             desc="Native support for dark and light modes, ensuring a smooth and accessible experience for users in any environment."
           />
-          <FeatureItem
+          {/* <FeatureItem
             icon={<Gauge className="text-indigo-500" size={20} />}
             title=" Built for African Context"
             desc="Optimized for African infrastructure with better local data coverage, reliable routing, and performance in low-connectivity conditions."
-          />
+          /> */}
         </div>
       </div>
     )
@@ -256,7 +272,7 @@ const Documentation = () => {
 
             <Link to="/" className="flex items-center gap-3">
               <Image
-                src="/icons/ambalay-logo.png"
+                src="/icons/ambalay.png"
                 alt="AmbaLay Maps Logo"
                 width={40}
                 height={80}
@@ -275,51 +291,83 @@ const Documentation = () => {
             >
               Home
             </Link>
-            <span className="rounded-md bg-white/10 px-3 py-1 text-white transition-all">
+            <button
+              type="button"
+              onClick={() => setActiveView('docs')}
+              className={getNavButtonStyles(activeView === 'docs')}
+            >
               Documentation
-            </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveView('api-playground')}
+              className={getNavButtonStyles(activeView === 'api-playground')}
+            >
+              API Playground
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveView('map-playground')}
+              className={getNavButtonStyles(activeView === 'map-playground')}
+            >
+              Map Playground
+            </button>
           </div>
         </div>
       </nav>
       <div className="flex">
-        {/* Mobile Sidebar */}
-        <div
-          className={`fixed inset-0 z-40 transition-opacity duration-300 lg:hidden ${isMobileMenuOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
-        >
+        {/* Mobile Sidebar - Hidden for playgrounds */}
+        {activeView === 'docs' && (
           <div
-            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-            onClick={() => setIsMobileMenuOpen(false)}
-          />
-          <aside
-            className={`absolute left-0 top-0 h-full w-72 border-r border-white/10 bg-[#050505] p-6 transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+            className={`fixed inset-0 z-40 transition-opacity duration-300 lg:hidden ${isMobileMenuOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'}`}
           >
-            <div className="mt-12">
-              <SidebarContent
-                sidebarLinks={filteredSidebarLinks}
-                activePage={activePage}
-                onPageSelect={handleSidebarPageSelect}
-                searchQuery={searchQuery}
-                onSearchChange={setSearchQuery}
-              />
-            </div>
-          </aside>
-        </div>
+            <div
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+            <aside
+              className={`absolute left-0 top-0 h-full w-72 border-r border-white/10 bg-[#050505] p-6 transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+            >
+              <div className="mt-12">
+                <SidebarContent
+                  sidebarLinks={filteredSidebarLinks}
+                  activePage={activePage}
+                  onPageSelect={handleSidebarPageSelect}
+                  searchQuery={searchQuery}
+                  onSearchChange={setSearchQuery}
+                />
+              </div>
+            </aside>
+          </div>
+        )}
 
-        {/* Desktop Sidebar */}
-        <aside className="no-scrollbar sticky top-16 hidden h-[calc(100vh-64px)] w-72 shrink-0 overflow-y-auto border-r border-white/10 pr-8 pt-12 lg:ml-24 lg:block">
-          <SidebarContent
-            sidebarLinks={filteredSidebarLinks}
-            activePage={activePage}
-            onPageSelect={handleSidebarPageSelect}
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-          />
-        </aside>
+        {/* Desktop Sidebar - Hidden for playgrounds */}
+        {activeView === 'docs' && (
+          <aside className="no-scrollbar sticky top-16 hidden h-[calc(100vh-64px)] w-72 shrink-0 overflow-y-auto border-r border-white/10 pr-8 pt-12 lg:ml-24 lg:block">
+            <SidebarContent
+              sidebarLinks={filteredSidebarLinks}
+              activePage={activePage}
+              onPageSelect={handleSidebarPageSelect}
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+            />
+          </aside>
+        )}
 
         {/* Main Content */}
         <main className="relative flex flex-1 flex-col items-center px-6 pb-24 pt-16 md:px-12">
           <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[600px] w-[800px] -translate-x-1/2 bg-purple-900/10 blur-[140px]" />
-          <div className="w-full max-w-4xl">{renderContent()}</div>
+          {activeView === 'docs' ? (
+            <div className="w-full max-w-4xl">{renderContent()}</div>
+          ) : activeView === 'api-playground' ? (
+            <div className="w-full">
+              <ApiPlayground />
+            </div>
+          ) : (
+            <div className="w-full">
+              <MapPlayground />
+            </div>
+          )}
         </main>
       </div>
 
