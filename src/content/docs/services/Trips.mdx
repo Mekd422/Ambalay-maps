@@ -1,8 +1,16 @@
 import DocsCodeBlock from '../../../Components/docs/DocsCodeBlock'
+import Image from 'next/image'
+import tripsDiagram from '../../../../public/images/doc/trip.png'
 
 # Trips
 
-![Geocoding diagram](/images/doc/trip.png)
+<Image
+  src={tripsDiagram}
+  alt="Trips API diagram"
+  sizes="(max-width: 768px) 100vw, 768px"
+  className="h-auto w-full max-w-3xl rounded-xl"
+  placeholder="blur"
+/>
 
 Trips endpoints let you initialize, update, finalize, and inspect tracked trips.
 

@@ -1,4 +1,6 @@
 import DocsCodeBlock from '../../../Components/docs/DocsCodeBlock'
+import Image from 'next/image'
+import geocodingDiagram from '../../../../public/images/doc/Geocoding.png'
 
 <style jsx global>{`
   /*
@@ -122,7 +124,13 @@ import DocsCodeBlock from '../../../Components/docs/DocsCodeBlock'
 
 # Geocoding 
 
-![Geocoding diagram](/images/doc/Geocoding.png)
+<Image
+  src={geocodingDiagram}
+  alt="Geocoding API diagram"
+  sizes="(max-width: 768px) 100vw, 768px"
+  className="h-auto w-full max-w-3xl rounded-xl"
+  placeholder="blur"
+/>
 
 ## Overview
 

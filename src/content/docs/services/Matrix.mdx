@@ -1,4 +1,6 @@
 import DocsCodeBlock from '../../../Components/docs/DocsCodeBlock'
+import Image from 'next/image'
+import matrixDiagram from '../../../../public/images/doc/matrix.png'
 
 <style jsx global>{`
   /*
@@ -69,7 +71,13 @@ import DocsCodeBlock from '../../../Components/docs/DocsCodeBlock'
 
 # Matrix API
 
-![Matrix diagram](/images/doc/matrix.png)
+<Image
+  src={matrixDiagram}
+  alt="Matrix API diagram"
+  sizes="(max-width: 768px) 100vw, 768px"
+  className="h-auto w-full max-w-3xl rounded-xl"
+  placeholder="blur"
+/>
 
 
 Calculate travel distance and duration between multiple points.
