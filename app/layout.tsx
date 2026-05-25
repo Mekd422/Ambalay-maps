@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: 'AmbaLay Maps',
   description: 'AmbaLay Maps dashboard and documentation',
   icons: {
-    icon: '/favicon.png',
+    icon: '/icons/ambalay.png',
   },
 }
 
