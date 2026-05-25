@@ -137,7 +137,7 @@ const Documentation = () => {
 
   const renderContent = () => {
     const mdxWrapper = (Content: React.ComponentType<{ baseUrl?: string }>) => (
-      <article className="docs-content prose prose-invert max-w-none prose-headings:font-bold prose-h1:mb-8 prose-h1:text-4xl prose-h3:mt-10 prose-h3:text-xl prose-p:text-[15px] prose-p:leading-7 prose-li:text-[15px] prose-li:leading-7 prose-strong:text-white prose-code:text-[#8cff2e] prose-pre:border prose-pre:border-white/10 prose-pre:bg-[#0A0A0A]">
+      <article className="docs-content prose prose-invert max-w-full prose-headings:font-bold prose-h1:mb-8 prose-h1:text-4xl prose-h3:mt-10 prose-h3:text-xl prose-p:text-[15px] prose-p:leading-7 prose-li:text-[15px] prose-li:leading-7 prose-strong:text-white prose-code:text-[#8cff2e] prose-pre:border prose-pre:border-white/10 prose-pre:bg-[#0A0A0A]">
         <Content baseUrl={docsBaseUrl} />
       </article>
     )
@@ -258,7 +258,7 @@ const Documentation = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#050505] font-sora text-white selection:bg-[#8cff2e] selection:text-black">
+    <div className="min-h-screen overflow-x-hidden bg-[#050505] font-sora text-white selection:bg-[#8cff2e] selection:text-black">
       {/* Navigation */}
       <nav className="sticky top-0 z-50 h-16 border-b border-white/5 bg-[#050505]/50 backdrop-blur-md">
         <div className="flex h-full w-full items-center justify-between px-6 lg:pl-24 lg:pr-12">
@@ -395,17 +395,52 @@ const Documentation = () => {
       </footer>
 
       <style jsx global>{`
+        .docs-content {
+          width: 100%;
+          max-width: 100%;
+        }
+
+        .docs-content p,
+        .docs-content li,
+        .docs-content h1,
+        .docs-content h2,
+        .docs-content h3,
+        .docs-content h4,
+        .docs-content h5,
+        .docs-content h6,
+        .docs-content blockquote,
+        .docs-content pre,
+        .docs-content code,
+        .docs-content table {
+          word-break: break-word;
+          overflow-wrap: anywhere;
+        }
+
         .docs-content table {
           display: block;
-          width: max-content;
-          min-width: 100%;
+          width: 100%;
+          max-width: 100%;
           overflow-x: auto;
           border-collapse: collapse;
+          table-layout: fixed;
         }
 
         .docs-content th,
         .docs-content td {
           vertical-align: top;
+          white-space: normal;
+          min-width: 0;
+        }
+
+        .docs-content pre {
+          white-space: pre-wrap;
+          word-break: break-word;
+          overflow-x: auto;
+        }
+
+        .docs-content code {
+          white-space: pre-wrap;
+          word-break: break-word;
         }
 
         .docs-content img {
