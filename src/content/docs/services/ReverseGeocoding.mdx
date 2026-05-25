@@ -1,8 +1,16 @@
 import DocsCodeBlock from '../../../Components/docs/DocsCodeBlock'
+import Image from 'next/image'
+import reverseGeocodingDiagram from '../../../../public/images/doc/ReverseGeocoding.png'
 
 # Reverse Geocoding
 
-![Geocoding diagram](/images/doc/ReverseGeocoding.png)
+<Image
+  src={reverseGeocodingDiagram}
+  alt="Reverse geocoding API diagram"
+  sizes="(max-width: 768px) 100vw, 768px"
+  className="h-auto w-full max-w-3xl rounded-xl"
+  placeholder="blur"
+/>
 
 
 Use **Reverse Geocoding** when you already have coordinates and want the nearest readable place.

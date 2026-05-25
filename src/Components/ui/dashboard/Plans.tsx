@@ -1,13 +1,17 @@
 import { useEffect, useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { CheckCircle, Plus } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import {
+  type BillingInterval,
   getPlans,
   getAllPlans,
   subscribeToPlan,
   getMySubscription,
   createPlan,
   togglePlanActive,
+  type InvoiceSummary,
+  type Plan,
 } from '../../../api/subscription'
 import { useAuth } from '../../../context/useAuth'
 import {
@@ -22,33 +26,33 @@ interface PlanItem {
   amount: number
 }
 
-interface Subscription {
-  id: string
-  status: string
-  subscriptionPlanId: string
-}
-
-interface Plan {
-  id: string
-  label: string
-  description: string
-  isActive?: boolean
-  items: PlanItem[]
-}
+const formatCurrency = (amount: number, currency = 'ETB') =>
+  new Intl.NumberFormat('en-ET', {
+    style: 'currency',
+    currency,
+    maximumFractionDigits: 0,
+  }).format(amount)
 
 export default function Plans() {
+  const router = useRouter()
   const { user } = useAuth()
   const isAdmin = user?.accessLevel === 'ADMIN'
 
   const [plans, setPlans] = useState<Plan[]>([])
   const [subscribedPlanIds, setSubscribedPlanIds] = useState<string[]>([])
+  const [nextInvoice, setNextInvoice] = useState<InvoiceSummary | null>(null)
   const [loadingId, setLoadingId] = useState<string | null>(null)
   const [togglingIds, setTogglingIds] = useState<Set<string>>(new Set())
+  const [selectedIntervals, setSelectedIntervals] = useState<
+    Record<string, BillingInterval>
+  >({})
 
   const [showCreate, setShowCreate] = useState(false)
   const [newPlan, setNewPlan] = useState({
     label: '',
     description: '',
+    monthlyPriceAmount: '',
+    yearlyPriceAmount: '',
   })
 
   const { services } = useServices()
@@ -73,11 +77,12 @@ export default function Plans() {
 
       try {
         const subRes = await getMySubscription()
-        const subscriptions: Subscription[] = subRes.data.data ?? []
+        const { currentPeriod, nextInvoice: pendingInvoice } = subRes.data.data
 
-        const planIds = subscriptions.map((sub) => sub.subscriptionPlanId)
-
-        setSubscribedPlanIds(planIds)
+        setSubscribedPlanIds(
+          currentPeriod?.subscriptionPlan?.id ? [currentPeriod.subscriptionPlan.id] : [],
+        )
+        setNextInvoice(pendingInvoice ?? null)
       } catch (err) {
         console.error(err)
       }
@@ -90,15 +95,12 @@ export default function Plans() {
     try {
       setLoadingId(id)
 
-      const res = await subscribeToPlan(id)
-      const newSubscription: Subscription = res.data.data
+      const interval = selectedIntervals[id] ?? 'MONTH'
+      const res = await subscribeToPlan(id, interval)
+      const invoice = res.data.data
 
-      setSubscribedPlanIds((prev) => {
-        if (prev.includes(newSubscription.subscriptionPlanId)) {
-          return prev
-        }
-        return [...prev, newSubscription.subscriptionPlanId]
-      })
+      setNextInvoice(invoice)
+      router.push(`/dashboard/billing/invoices/${invoice.id}`)
     } catch (err) {
       console.error('subscribe error:', err)
     } finally {
@@ -145,13 +147,20 @@ export default function Plans() {
   }
 
   const handleAmountChange = (service: string, amount: number) => {
-    const safeAmount = Math.max(1, amount)
+    const safeAmount = Math.max(0, amount)
 
     setSelectedItems((prev) =>
       prev.map((item) =>
         item.service === service ? { ...item, amount: safeAmount } : item,
       ),
     )
+  }
+
+  const handleIntervalChange = (planId: string, interval: BillingInterval) => {
+    setSelectedIntervals((prev) => ({
+      ...prev,
+      [planId]: interval,
+    }))
   }
 
   const handleCreatePlan = async () => {
@@ -161,28 +170,53 @@ export default function Plans() {
         return
       }
 
+      if (!newPlan.description.trim()) {
+        alert('Description is required')
+        return
+      }
+
+      const monthlyPriceAmount = Number(newPlan.monthlyPriceAmount)
+      const yearlyPriceAmount = Number(newPlan.yearlyPriceAmount)
+
+      if (
+        !Number.isInteger(monthlyPriceAmount) ||
+        monthlyPriceAmount < 0 ||
+        !Number.isInteger(yearlyPriceAmount) ||
+        yearlyPriceAmount < 0
+      ) {
+        alert('Monthly and yearly prices must be whole ETB amounts of 0 or more')
+        return
+      }
+
       if (selectedItems.length === 0) {
         alert('Please select at least one service')
         return
       }
 
       const hasInvalidAmount = selectedItems.some(
-        (item) => !item.amount || item.amount <= 0,
+        (item) => !Number.isInteger(item.amount) || item.amount < 0,
       )
 
       if (hasInvalidAmount) {
-        alert('All services must have a valid amount (> 0)')
+        alert('All services must have a valid whole-number amount of 0 or more')
         return
       }
 
       await createPlan({
-        label: newPlan.label,
-        description: newPlan.description,
+        label: newPlan.label.trim(),
+        description: newPlan.description.trim(),
+        monthlyPriceAmount,
+        yearlyPriceAmount,
         items: selectedItems,
       })
 
       setShowCreate(false)
-      setNewPlan({ label: '', description: '' })
+      setNewPlan({
+        label: '',
+        description: '',
+        monthlyPriceAmount: '0',
+        yearlyPriceAmount: '0',
+      })
       setSelectedItems([])
 
       await fetchPlansData()
@@ -215,6 +249,28 @@ export default function Plans() {
         }
       />
 
+      {!isAdmin && nextInvoice ? (
+        <DashboardCard className="space-y-3 border-yellow-400/20 bg-yellow-400/5">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div>
+              <h3 className="text-lg font-semibold text-white">
+                Invoice created. Payment required.
+              </h3>
+              <p className="mt-1 text-sm text-gray-300">
+                {nextInvoice.subscriptionPlan.label} · {nextInvoice.status} · due{' '}
+                {new Date(nextInvoice.dueAt).toLocaleDateString()}
+              </p>
+            </div>
+            <DashboardButton
+              variant="primary"
+              onClick={() => router.push(`/dashboard/billing/invoices/${nextInvoice.id}`)}
+            >
+              View invoice
+            </DashboardButton>
+          </div>
+        </DashboardCard>
+      ) : null}
+
       {isAdmin && showCreate && (
         <DashboardCard className="space-y-4">
           <input
@@ -232,6 +288,32 @@ export default function Plans() {
               setNewPlan({ ...newPlan, description: e.target.value })
             }
           />
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <input
+              type="number"
+              min="0"
+              step="1"
+              placeholder="Monthly price (ETB)"
+              className="w-full rounded-lg border border-white/10 bg-[#070707] p-3 text-white outline-none focus:ring-2 focus:ring-[#8cff2e]/30"
+              value={newPlan.monthlyPriceAmount}
+              onChange={(e) =>
+                setNewPlan({ ...newPlan, monthlyPriceAmount: e.target.value })
+              }
+            />
+
+            <input
+              type="number"
+              min="0"
+              step="1"
+              placeholder="Yearly price (ETB)"
+              className="w-full rounded-lg border border-white/10 bg-[#070707] p-3 text-white outline-none focus:ring-2 focus:ring-[#8cff2e]/30"
+              value={newPlan.yearlyPriceAmount}
+              onChange={(e) =>
+                setNewPlan({ ...newPlan, yearlyPriceAmount: e.target.value })
+              }
+            />
+          </div>
 
           <div className="space-y-3">
             <p className="text-sm text-gray-400">Select Services</p>
@@ -256,7 +338,8 @@ export default function Plans() {
                   {selected && (
                     <input
                       type="number"
-                      min="1"
+                      min="0"
+                      step="1"
                       className="w-32 rounded border border-white/10 bg-black p-2"
                       value={selected.amount}
                       onChange={(e) =>
@@ -282,6 +365,10 @@ export default function Plans() {
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         {plans.map((plan) => {
           const isSubscribed = subscribedPlanIds.includes(plan.id)
+          const hasPendingInvoice =
+            nextInvoice?.subscriptionPlanId === plan.id &&
+            ['DUE', 'OVERDUE'].includes(nextInvoice.status)
+          const selectedInterval = selectedIntervals[plan.id] ?? 'MONTH'
 
           return (
             <motion.div
@@ -321,6 +408,42 @@ export default function Plans() {
 
               <p className="mt-2 text-sm text-gray-400">{plan.description}</p>
 
+              {!isAdmin ? (
+                <div className="mt-4 space-y-3 rounded-2xl border border-white/10 bg-black/20 p-4">
+                  <div className="flex items-center justify-between gap-3 text-sm">
+                    <span className="text-gray-400">Billing interval</span>
+                    <select
+                      value={selectedInterval}
+                      onChange={(e) =>
+                        handleIntervalChange(
+                          plan.id,
+                          e.target.value as BillingInterval,
+                        )
+                      }
+                      className="rounded-lg border border-white/10 bg-[#070707] px-3 py-2 text-sm text-white outline-none"
+                    >
+                      <option value="MONTH">Monthly</option>
+                      <option value="YEAR">Yearly</option>
+                    </select>
+                  </div>
+
+                  <div className="flex items-center justify-between text-sm text-gray-300">
+                    <span>Selected price</span>
+                    <span className="font-medium text-white">
+                      {selectedInterval === 'YEAR'
+                        ? formatCurrency(
+                            plan.yearlyPriceAmount ?? 0,
+                            plan.currency ?? 'ETB',
+                          )
+                        : formatCurrency(
+                            plan.monthlyPriceAmount ?? 0,
+                            plan.currency ?? 'ETB',
+                          )}
+                    </span>
+                  </div>
+                </div>
+              ) : null}
+
               <div className="mt-6 space-y-2">
                 {plan.items.map((item, i) => (
                   <div key={i} className="flex justify-between text-sm">
@@ -336,14 +459,16 @@ export default function Plans() {
               {!isAdmin && (
                 <button
                   onClick={() => handleSubscribe(plan.id)}
-                  disabled={isSubscribed || loadingId === plan.id}
+                  disabled={isSubscribed || hasPendingInvoice || loadingId === plan.id}
                   className="mt-6 w-full rounded-lg bg-[#8cff2e] py-2 font-semibold text-black disabled:opacity-50"
                 >
                   {loadingId === plan.id
                     ? 'Processing...'
                     : isSubscribed
                       ? 'Subscribed'
-                      : 'Subscribe'}
+                      : hasPendingInvoice
+                        ? 'Invoice Due'
+                        : 'Subscribe'}
                 </button>
               )}
             </motion.div>

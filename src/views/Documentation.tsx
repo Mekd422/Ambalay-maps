@@ -10,11 +10,9 @@ import {
   Menu,
   X,
   Pencil,
-  Database,
   Layout,
   Sparkles,
   Moon,
-  Gauge,
 } from 'lucide-react'
 
 import QuickstartContent from '../content/docs/Quickstart.mdx'
@@ -35,6 +33,7 @@ import {
 } from './documentationPages'
 import ApiPlayground from '../Components/ui/ApiPlayground'
 import MapPlayground from '../Components/ui/MapPlayground'
+import ambalayLogo from '../../public/images/doc/ambalay-logo.png'
 
 interface SidebarGroup {
   group: string
@@ -174,7 +173,13 @@ const Documentation = () => {
           implementation.
         </p>
 
-        <img src="/images/doc/ambalay-logo.png" alt="" />
+        <Image
+          src={ambalayLogo}
+          alt="AmbaLay Maps"
+          sizes="(max-width: 768px) 70vw, 420px"
+          className="h-auto w-full max-w-[420px]"
+          priority
+        />
 
         {/* <div className="mb-16 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <button
