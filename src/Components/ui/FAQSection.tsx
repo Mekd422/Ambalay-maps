@@ -29,16 +29,16 @@ export default function FAQSection() {
   ]
 
   return (
-    <section id="faq" className="bg-black px-6 py-24 md:px-12">
+    <section id="faq" className="bg-slate-50 dark:bg-black px-6 py-24 md:px-12">
       <div className="mx-auto max-w-5xl">
         <div className="mb-16 flex flex-col items-end justify-between gap-8 md:flex-row">
           <div className="space-y-4">
-            <h2 className="text-4xl font-medium leading-tight text-white md:text-5xl">
+            <h2 className="text-4xl font-medium leading-tight text-slate-900 dark:text-white md:text-5xl">
               Got questions? <br /> We've got answers.
             </h2>
           </div>
           <div className="space-y-3 md:text-right">
-            <p className="max-w-xs text-sm text-gray-500">
+            <p className="max-w-xs text-sm text-gray-600 dark:text-gray-500">
               Here's everything you need to know before getting started.
             </p>
             <Link
@@ -56,8 +56,8 @@ export default function FAQSection() {
               key={idx}
               className={`rounded-[32px] border transition-all duration-300 ${
                 openIndex === idx
-                  ? 'border-white/10 bg-[#0d0d0d]'
-                  : 'border-white/5 bg-[#080808] hover:border-white/10'
+                  ? 'border-slate-300/40 bg-white dark:border-white/10 dark:bg-[#0d0d0d]'
+                  : 'border-slate-200/20 bg-white hover:border-slate-300/40 dark:border-white/5 dark:bg-[#080808]'
               }`}
             >
               <button
@@ -66,16 +66,16 @@ export default function FAQSection() {
               >
                 <div className="flex items-center gap-5 md:gap-8">
                   <span
-                    className={`font-mono text-sm transition-colors ${openIndex === idx ? 'text-[#8cff2e]' : 'text-gray-600'}`}
+                    className={`font-mono text-sm transition-colors ${openIndex === idx ? 'text-[#8cff2e]' : 'text-gray-600 dark:text-gray-400'}`}
                   >
                     0{idx + 1}
                   </span>
-                  <span className="text-base font-medium tracking-tight text-white md:text-lg">
+                  <span className="text-base font-medium tracking-tight text-slate-900 dark:text-white md:text-lg">
                     {faq.q}
                   </span>
                 </div>
                 <div
-                  className={`flex h-8 w-8 items-center justify-center rounded-full border transition-all ${openIndex === idx ? 'border-[#8cff2e] bg-[#8cff2e] text-black' : 'border-white/10 text-gray-400'}`}
+                  className={`flex h-8 w-8 items-center justify-center rounded-full border transition-all ${openIndex === idx ? 'border-[#8cff2e] bg-[#8cff2e] text-black' : 'border-slate-200/20 text-gray-600 dark:text-gray-400'}`}
                 >
                   {openIndex === idx ? (
                     <Minus size={16} strokeWidth={3} />
@@ -87,8 +87,8 @@ export default function FAQSection() {
 
               {openIndex === idx && (
                 <div className="px-6 pb-8 md:pl-20 md:pr-16">
-                  <div className="border-t border-white/5 pt-6">
-                    <p className="text-sm leading-relaxed text-gray-400 md:text-base">
+                  <div className="border-t border-slate-200/20 dark:border-white/5 pt-6">
+                    <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400 md:text-base">
                       {faq.a}
                     </p>
                   </div>
