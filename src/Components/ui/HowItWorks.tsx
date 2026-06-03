@@ -45,7 +45,7 @@ export default function HowItWorks() {
   return (
     <section
       id="about"
-      className="overflow-hidden bg-black px-6 py-24 md:px-12"
+      className="overflow-hidden bg-slate-50 dark:bg-black px-6 py-24 md:px-12"
     >
       <div className="mx-auto max-w-5xl">
         <div className="mb-14">
@@ -75,7 +75,7 @@ export default function HowItWorks() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
-            className="scale-x-70 inline-block origin-left scale-y-110 text-4xl font-medium leading-none tracking-[-0.05em] text-white md:text-4xl"
+            className="scale-x-70 inline-block origin-left scale-y-110 text-4xl font-medium leading-none tracking-[-0.05em] text-slate-900 dark:text-white md:text-4xl"
           >
             How AmbaLay Maps works
           </motion.h2>
@@ -98,7 +98,7 @@ export default function HowItWorks() {
               <div className="absolute -inset-0.5 rounded-[32px] bg-[#8cff2e]/20 opacity-0 blur transition duration-500 group-hover:opacity-40" />
 
               {/* --- CARD BODY --- */}
-              <div className="relative flex h-full flex-col overflow-hidden rounded-[32px] border border-white/5 bg-[#0A0A0A] transition-all duration-500 group-hover:translate-y-[-8px] group-hover:border-[#8cff2e]/30 group-hover:shadow-[0_20px_40px_-15px_rgba(140,255,46,0.2)]">
+              <div className="relative flex h-full flex-col overflow-hidden rounded-[32px] border border-slate-200/20 bg-white transition-all duration-500 group-hover:translate-y-[-8px] group-hover:border-[#8cff2e]/30 group-hover:shadow-[0_20px_40px_-15px_rgba(140,255,46,0.2)] dark:border-white/5 dark:bg-[#0A0A0A]">
                 <div className="relative flex h-72 items-center justify-center overflow-hidden bg-[#111]">
                   <Image
                     src={item.img}
@@ -116,10 +116,10 @@ export default function HowItWorks() {
                     {item.step}
                   </div>
 
-                  <h3 className="mb-3 text-xl font-semibold leading-tight text-white transition-colors duration-300 group-hover:text-[#8cff2e]">
+                  <h3 className="mb-3 text-xl font-semibold leading-tight text-slate-900 dark:text-white transition-colors duration-300 group-hover:text-[#8cff2e]">
                     {item.title}
                   </h3>
-                  <p className="text-base leading-relaxed text-zinc-400">
+                  <p className="text-base leading-relaxed text-gray-600 dark:text-zinc-400">
                     {item.desc}
                   </p>
                 </div>
