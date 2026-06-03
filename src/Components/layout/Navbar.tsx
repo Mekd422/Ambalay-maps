@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, Moon, Sun } from 'lucide-react'
 import Image from 'next/image'
 import { HashLink as Link } from 'react-router-hash-link'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/useAuth'
+import { useTheme } from '../../context/useTheme'
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -13,6 +14,7 @@ export default function Navbar() {
 
   const navigate = useNavigate()
   const location = useLocation()
+  const { theme, toggleTheme } = useTheme()
 
   const isLoggedIn = !!token
   const userName = user?.firstName || 'User'
@@ -32,7 +34,7 @@ export default function Navbar() {
 
     return `
       relative text-sm font-medium transition-all duration-200
-      ${isActive ? 'text-[#8cff2e]' : 'text-white hover:text-[#8cff2e]'}
+      ${isActive ? 'text-[#8cff2e]' : 'text-black dark:text-white hover:text-[#8cff2e]'}
       after:absolute after:left-0 after:-bottom-2 after:h-[2px]
       after:rounded-full after:bg-[#8cff2e]
       after:transition-all after:duration-300
@@ -44,8 +46,8 @@ export default function Navbar() {
     <nav
       className={`fixed left-0 right-0 top-3 z-50 border-b transition-all duration-300 ${
         isScrolled
-          ? 'border-gray-200 bg-black/20 backdrop-blur-xl dark:border-white/5'
-          : 'border-transparent bg-transparent'
+          ? 'border-gray-200 bg-white/80 text-black/90 backdrop-blur-xl dark:border-white/5 dark:bg-black/20 dark:text-white'
+          : 'border-transparent bg-transparent text-black dark:text-white'
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:px-12">
@@ -60,7 +62,7 @@ export default function Navbar() {
           />
 
           <Link to="/">
-            <h4 className="font-sans text-base font-medium tracking-tight text-white">
+            <h4 className="font-sans text-base font-medium tracking-tight text-black dark:text-white">
               AmbaLay Maps
             </h4>
           </Link>
@@ -91,6 +93,15 @@ export default function Navbar() {
 
         {/* Desktop Auth Buttons */}
         <div className="hidden items-center gap-3 lg:flex">
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="inline-flex items-center gap-2 rounded-full border border-slate-300/20 bg-slate-100/80 px-4 py-2 text-sm font-medium text-slate-900 transition-all hover:bg-slate-200 dark:border-white/20 dark:bg-white/10 dark:text-white dark:hover:bg-white/20"
+          >
+            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+            {theme === 'dark' ? 'Light' : 'Dark'}
+          </button>
+
           {isLoggedIn ? (
             <>
               <span className="inline-flex items-center text-sm font-medium text-white">
@@ -136,7 +147,7 @@ export default function Navbar() {
 
         {/* Mobile Menu Button */}
         <button
-          className="text-white lg:hidden"
+          className="text-slate-900 dark:text-white lg:hidden"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -145,8 +156,8 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="absolute left-0 right-0 top-full z-50 border-b border-white/10 bg-black shadow-xl lg:hidden">
-          <div className="flex flex-col items-start space-y-5 p-6 text-white">
+        <div className="absolute left-0 right-0 top-full z-50 border-b border-gray-200 bg-white shadow-xl text-black dark:border-white/10 dark:bg-black dark:text-white lg:hidden">
+          <div className="flex flex-col items-start space-y-5 p-6">
             <Link
               to="/#solutions"
               className={getLinkStyles('/#solutions')}
@@ -188,6 +199,14 @@ export default function Navbar() {
             </Link>
 
             <div className="w-full border-t border-white/10 pt-5">
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="w-full rounded-xl border border-slate-300/20 bg-slate-100/80 py-3 text-center text-sm font-semibold text-slate-900 transition-all hover:bg-slate-200 dark:border-white/10 dark:bg-white/10 dark:text-white dark:hover:bg-white/20"
+              >
+                {theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              </button>
+
               {isLoggedIn ? (
                 <div className="flex flex-col gap-3">
                   <Link
