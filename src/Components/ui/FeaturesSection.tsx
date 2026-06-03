@@ -39,7 +39,7 @@ export default function FeaturesSection() {
   ]
 
   return (
-    <section className="border-t border-white/5 bg-black px-6 py-24 md:px-12">
+    <section className="border-t border-slate-200/10 bg-white dark:border-white/5 dark:bg-black px-6 py-24 md:px-12">
       <div className="mx-auto max-w-5xl">
         <motion.div
           initial={{ y: 40, opacity: 0 }}
@@ -57,7 +57,7 @@ export default function FeaturesSection() {
               Features
             </span>
           </div>
-          <h2 className="text-4xl font-medium leading-tight tracking-tight text-white md:text-5xl">
+          <h2 className="text-4xl font-medium leading-tight tracking-tight text-slate-900 dark:text-white md:text-5xl">
             Designed for clarity, built for <br className="hidden md:block" />{' '}
             better mapping solutions
           </h2>
@@ -67,9 +67,9 @@ export default function FeaturesSection() {
           {detailedFeatures.map((feature, idx) => (
             <div
               key={idx}
-              className="group rounded-[32px] border border-white/5 bg-[#0A0A0A] p-8 transition-all duration-300 hover:border-[#8cff2e]/20"
+              className="group rounded-[32px] border border-slate-200/20 bg-white dark:border-white/5 dark:bg-[#0A0A0A] p-8 transition-all duration-300 hover:border-[#8cff2e]/20"
             >
-              <div className="mb-8 flex h-12 w-12 items-center justify-center rounded-xl border border-white/5 bg-black transition-all duration-300 group-hover:border-[#8cff2e]/50 group-hover:shadow-[0_0_20px_rgba(140,255,46,0.3)]">
+              <div className="mb-8 flex h-12 w-12 items-center justify-center rounded-xl border border-slate-200/20 bg-slate-900 transition-all duration-300 group-hover:border-[#8cff2e]/50 group-hover:shadow-[0_0_20px_rgba(140,255,46,0.3)] dark:border-white/5 dark:bg-black">
                 <Image
                   src={feature.icon}
                   alt={feature.title}
@@ -79,10 +79,10 @@ export default function FeaturesSection() {
                 />
               </div>
 
-              <h4 className="mb-3 text-xl font-medium text-white">
+              <h4 className="mb-3 text-xl font-medium text-slate-900 dark:text-white">
                 {feature.title}
               </h4>
-              <p className="text-base leading-relaxed text-zinc-400">
+              <p className="text-base leading-relaxed text-gray-600 dark:text-zinc-400">
                 {feature.desc}
               </p>
             </div>
@@ -91,7 +91,7 @@ export default function FeaturesSection() {
 
         <div className="flex justify-center">
           <Link to="/register">
-            <button className="group flex items-center gap-2 text-sm font-medium text-white transition-colors hover:text-[#8cff2e]">
+            <button className="group flex items-center gap-2 text-sm font-medium text-slate-900 dark:text-white transition-colors hover:text-[#8cff2e]">
               Get Started
               <ArrowUpRight
                 size={18}
