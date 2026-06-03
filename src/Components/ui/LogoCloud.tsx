@@ -18,10 +18,10 @@ const partners: Partner[] = [
 
 export default function LogoCloud() {
   return (
-    <section className="border-y border-white/5 bg-black px-6 py-20">
+    <section className="border-y border-slate-200/10 bg-white dark:border-white/5 dark:bg-black px-6 py-20">
       <div className="mx-auto max-w-6xl">
         <div className="mb-16 text-center">
-          <h2 className="text-[10px] font-bold uppercase tracking-[0.5em] text-gray-500 opacity-80">
+          <h2 className="text-[10px] font-bold uppercase tracking-[0.5em] text-gray-500 dark:text-gray-400 opacity-80">
             Clients and Partners
           </h2>
           <div className="mx-auto mt-4 h-[1px] w-10 bg-[#8cff2e]/30" />
@@ -40,7 +40,7 @@ export default function LogoCloud() {
                 alt={`${partner.name} logo`}
                 width={144}
                 height={36}
-                className="relative z-10 h-7 w-auto object-contain opacity-40 brightness-0 invert filter transition-all duration-500 group-hover:opacity-100 group-hover:brightness-100 group-hover:invert-0 md:h-8 lg:h-9"
+                className="relative z-10 h-7 w-auto object-contain opacity-40 transition-all duration-500 group-hover:opacity-100 md:h-8 lg:h-9"
               />
             </div>
           ))}
