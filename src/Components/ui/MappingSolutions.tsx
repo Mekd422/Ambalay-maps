@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 
 export default function MappingSolutions() {
   return (
-    <section id="solutions" className="bg-black px-6 py-24 md:px-12">
+    <section id="solutions" className="bg-slate-50 dark:bg-black px-6 py-24 md:px-12">
       <div className="mx-auto max-w-5xl">
         <div className="mb-16 flex flex-col justify-between gap-8 overflow-hidden md:flex-row md:items-end">
           <motion.h2
@@ -14,7 +14,7 @@ export default function MappingSolutions() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
-            className="scale-x-70 inline-block origin-left scale-y-110 text-4xl font-medium leading-none tracking-[-0.05em] text-white md:text-5xl"
+            className="scale-x-70 inline-block origin-left scale-y-110 text-4xl font-medium leading-none tracking-[-0.05em] text-slate-900 dark:text-white md:text-5xl"
           >
             Comprehensive <br /> Mapping Solutions.
           </motion.h2>
@@ -24,7 +24,7 @@ export default function MappingSolutions() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: 'easeOut', delay: 0.1 }}
-            className="max-w-sm text-lg text-gray-400"
+            className="max-w-sm text-lg text-gray-600 dark:text-gray-400"
           >
             From simple markers to complex routing algorithms, our API provides
             everything you need for location-based applications.
@@ -32,8 +32,8 @@ export default function MappingSolutions() {
         </div>
 
         <div className="mb-6 grid gap-6 md:grid-cols-[1.6fr_1fr]">
-          <div className="group flex h-full flex-col overflow-hidden rounded-[32px] border border-white/5 bg-[#0A0A0A] transition-all hover:border-white/10">
-            <div className="relative flex h-[320px] items-center justify-center overflow-hidden bg-[#111]">
+          <div className="group flex h-full flex-col overflow-hidden rounded-[32px] border border-slate-200/20 bg-white transition-all hover:border-slate-300/40 dark:border-white/5 dark:bg-[#0A0A0A]">
+            <div className="relative flex h-[320px] items-center justify-center overflow-hidden bg-slate-900 dark:bg-[#111]">
               <Image
                 src="/images/solutions/dev.jpg"
                 alt="Geo"
@@ -44,17 +44,17 @@ export default function MappingSolutions() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
             </div>
             <div className="p-8">
-              <h3 className="mb-3 text-2xl font-semibold text-white">
+              <h3 className="mb-3 text-2xl font-semibold text-slate-900 dark:text-white">
                 For Developers
               </h3>
-              <p className="max-w-sm text-sm leading-relaxed text-gray-400">
+              <p className="max-w-sm text-sm leading-relaxed text-gray-600 dark:text-gray-400">
                 Easy-to-use APIs for geocoding, routing, and map display.
               </p>
             </div>
           </div>
 
-          <div className="group flex h-full flex-col overflow-hidden rounded-[32px] border border-white/5 bg-[#0A0A0A] transition-all hover:border-white/10">
-            <div className="relative flex h-[320px] items-center justify-center overflow-hidden bg-[#111]">
+          <div className="group flex h-full flex-col overflow-hidden rounded-[32px] border border-slate-200/20 bg-white transition-all hover:border-slate-300/40 dark:border-white/5 dark:bg-[#0A0A0A]">
+            <div className="relative flex h-[320px] items-center justify-center overflow-hidden bg-slate-900 dark:bg-[#111]">
               <Image
                 src="/images/solutions/img-bic.jpg"
                 alt="Cashflow Overview"
@@ -65,10 +65,10 @@ export default function MappingSolutions() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
             </div>
             <div className="p-8">
-              <h3 className="mb-3 text-2xl font-semibold leading-tight text-white">
+              <h3 className="mb-3 text-2xl font-semibold leading-tight text-slate-900 dark:text-white">
                 For Logistics Teams
               </h3>
-              <p className="text-sm leading-relaxed text-gray-400">
+              <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
                 Plan routes, optimize deliveries, and track travel efficiency.
               </p>
             </div>
@@ -76,8 +76,8 @@ export default function MappingSolutions() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">
-          <div className="group flex flex-col overflow-hidden rounded-[32px] border border-white/5 bg-[#0A0A0A] transition-all hover:border-white/10">
-            <div className="relative flex aspect-square items-center justify-center overflow-hidden bg-[#111]">
+          <div className="group flex flex-col overflow-hidden rounded-[32px] border border-slate-200/20 bg-white transition-all hover:border-slate-300/40 dark:border-white/5 dark:bg-[#0A0A0A]">
+            <div className="relative flex aspect-square items-center justify-center overflow-hidden bg-slate-900 dark:bg-[#111]">
               <Image
                 src="/images/solutions/ride.png"
                 alt="Spending"
@@ -88,18 +88,18 @@ export default function MappingSolutions() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
             </div>
             <div className="p-8">
-              <h3 className="mb-2 text-xl font-semibold text-white">
+              <h3 className="mb-2 text-xl font-semibold text-slate-900 dark:text-white">
                 For Businesses
               </h3>
-              <p className="text-sm leading-relaxed text-gray-400">
+              <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
                 Add location search, store mapping, and address intelligence to
                 your product.
               </p>
             </div>
           </div>
 
-          <div className="group flex flex-col overflow-hidden rounded-[32px] border border-white/5 bg-[#0A0A0A] transition-all hover:border-white/10">
-            <div className="relative flex aspect-square items-center justify-center overflow-hidden bg-[#111]">
+          <div className="group flex flex-col overflow-hidden rounded-[32px] border border-slate-200/20 bg-white transition-all hover:border-slate-300/40 dark:border-white/5 dark:bg-[#0A0A0A]">
+            <div className="relative flex aspect-square items-center justify-center overflow-hidden bg-slate-900 dark:bg-[#111]">
               <Image
                 src="/images/solutions/operations.jpg"
                 alt="Savings"
@@ -111,10 +111,10 @@ export default function MappingSolutions() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
             </div>
             <div className="p-8">
-              <h3 className="mb-2 text-xl font-semibold text-white">
+              <h3 className="mb-2 text-xl font-semibold text-slate-900 dark:text-white">
                 For Operations
               </h3>
-              <p className="text-sm leading-relaxed text-gray-400">
+              <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
                 Make field work, dispatching, and coverage planning more
                 efficient.
               </p>
@@ -122,7 +122,7 @@ export default function MappingSolutions() {
           </div>
 
           <div className="flex flex-col gap-6">
-            <div className="flex flex-1 flex-col justify-center rounded-[32px] border border-white/5 bg-[#0A0A0A] p-8">
+            <div className="flex flex-1 flex-col justify-center rounded-[32px] border border-slate-200/20 bg-white p-8 dark:border-white/5 dark:bg-[#0A0A0A]">
               <div className="mb-6 flex items-center -space-x-3">
                 {[
                   '/images/people/person-1.png',
@@ -139,13 +139,13 @@ export default function MappingSolutions() {
                   />
                 ))}
               </div>
-              <h4 className="text-2xl font-medium leading-tight text-white">
+              <h4 className="text-2xl font-medium leading-tight text-slate-900 dark:text-white">
                 50+ developers actively <br /> using Ambalay APIs
               </h4>
             </div>
 
-            <div className="flex flex-1 flex-col justify-center rounded-[32px] border border-white/5 bg-[#0A0A0A] p-8">
-              <h4 className="mb-3 text-3xl font-medium text-white">
+            <div className="flex flex-1 flex-col justify-center rounded-[32px] border border-slate-200/20 bg-white p-8 dark:border-white/5 dark:bg-[#0A0A0A]">
+              <h4 className="mb-3 text-3xl font-medium text-slate-900 dark:text-white">
                 500,000+ API requests
               </h4>
               <p className="mb-6 max-w-[200px] text-sm leading-relaxed text-gray-500">

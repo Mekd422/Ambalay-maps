@@ -45,9 +45,9 @@ export default function Home() {
 
       <section
         ref={previewRef}
-        className="relative h-[500px] overflow-hidden border-y border-white/5 bg-black md:h-[650px]"
+        className="relative h-[500px] overflow-hidden border-y border-slate-200/10 bg-white dark:bg-black md:h-[650px]"
       >
-        <div className="absolute inset-x-0 top-0 z-10 h-32 bg-gradient-to-b from-black to-transparent" />
+        <div className="absolute inset-x-0 top-0 z-10 h-32 bg-gradient-to-b from-white/95 dark:from-black to-transparent" />
 
         <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
           <MapGlobe progress={previewProgress} />
@@ -78,7 +78,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="absolute inset-x-0 bottom-0 z-10 h-32 bg-gradient-to-t from-black to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 z-10 h-32 bg-gradient-to-t from-white/95 dark:from-black to-transparent" />
       </section>
 
       <div id="how-it-works">

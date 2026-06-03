@@ -47,11 +47,11 @@ export const useChatbot = () => {
         }),
       })
 
-      if (!response.ok) {
-        throw new Error(`HTTP Error: ${response.status}`)
-      }
-
       const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data?.error || `HTTP Error: ${response.status}`)
+      }
 
       console.log('Chatbot Response:', data)
 
@@ -61,6 +61,7 @@ export const useChatbot = () => {
           data.reply ||
           data.response ||
           data.message ||
+          data.error ||
           'Sorry, I could not understand that.',
       }
 
@@ -68,13 +69,18 @@ export const useChatbot = () => {
     } catch (err) {
       console.error('Chatbot API Error:', err)
 
-      setError('Error connecting to AI service.')
+      setError(
+        err instanceof Error ? err.message : 'Error connecting to AI service.'
+      )
 
       setMessages((prev) => [
         ...prev,
         {
           sender: 'bot',
-          text: 'Sorry, something went wrong while connecting to the assistant.',
+          text:
+            err instanceof Error
+              ? err.message
+              : 'Sorry, something went wrong while connecting to the assistant.',
         },
       ])
     } finally {

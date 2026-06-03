@@ -5,9 +5,65 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
   }
 
   body {
-    @apply bg-midnight font-sora text-white antialiased;
+    @apply bg-white font-sora text-black antialiased;
+  }
+
+  .dark body {
+    @apply bg-midnight text-white;
+  }
+}
+
+@layer utilities {
+  html:not(.dark) .text-white {
+    color: #0f172a !important;
+  }
+
+  html:not(.dark) .bg-black {
+    background-color: #ffffff !important;
+  }
+
+  html:not(.dark) .bg-black\/20 {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+  }
+
+  html:not(.dark) .bg-black\/40 {
+    background-color: rgba(255, 255, 255, 0.4) !important;
+  }
+
+  html:not(.dark) .bg-black\/50 {
+    background-color: rgba(255, 255, 255, 0.5) !important;
+  }
+
+  html:not(.dark) .bg-\[\#050505\],
+  html:not(.dark) .bg-\[\#0a0a0a\],
+  html:not(.dark) .bg-\[\#0f0f0f\],
+  html:not(.dark) .bg-\[\#070707\],
+  html:not(.dark) .bg-\[\#0b1220\],
+  html:not(.dark) .bg-\[\#111\] {
+    background-color: #f8fafc !important;
+  }
+
+  html:not(.dark) .border-white\/5 {
+    border-color: rgba(226, 232, 240, 0.45) !important;
+  }
+
+  html:not(.dark) .border-white\/10 {
+    border-color: rgba(226, 232, 240, 0.7) !important;
+  }
+
+  html:not(.dark) .hover\:text-white:hover {
+    color: #0f172a !important;
+  }
+
+  html:not(.dark) .hover\:bg-white\/10:hover {
+    background-color: rgba(255, 255, 255, 0.35) !important;
   }
 }

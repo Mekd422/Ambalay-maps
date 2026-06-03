@@ -32,7 +32,7 @@ export default function TestimonialMarquee() {
   // ]
 
   return (
-    <section className="overflow-hidden bg-black px-6 py-24 md:px-12">
+    <section className="overflow-hidden bg-slate-50 dark:bg-black px-6 py-24 md:px-12">
       <div className="mx-auto max-w-5xl">
         <div className="mb-16 flex flex-col justify-between gap-8 md:flex-row md:items-end">
           <motion.h2
@@ -57,7 +57,7 @@ export default function TestimonialMarquee() {
               ease: [0.16, 1, 0.3, 1],
               delay: 0.15,
             }}
-            className="max-w-sm text-base text-zinc-400"
+            className="max-w-sm text-base text-gray-600 dark:text-zinc-400"
           >
             Trusted by teams to power maps, geospatial insights, and
             location-based features — all in one seamless platform.
@@ -72,10 +72,10 @@ export default function TestimonialMarquee() {
                 {[...row, ...row].map((t, i) => (
                   <div
                     key={i}
-                    className="inline-block w-[300px] whitespace-normal rounded-[32px] border border-white/5 bg-[#0A0A0A] p-8 md:w-[400px]"
+                    className="inline-block w-[300px] whitespace-normal rounded-[32px] border border-slate-200/20 bg-white p-8 md:w-[400px] dark:border-white/5 dark:bg-[#0A0A0A]"
                   >
                     <Quote className="mb-4 text-[#8cff2e]/10" size={24} />
-                    <p className="text-bold mb-6 leading-relaxed text-white">
+                    <p className="text-bold mb-6 leading-relaxed text-slate-900 dark:text-white">
                       "{t.text}"
                     </p>
                     <div className="flex items-center gap-3">
@@ -87,7 +87,7 @@ export default function TestimonialMarquee() {
                         className="h-10 w-10 rounded-full"
                       />
                       <div>
-                        <h5 className="text-lg font-normal text-white">
+                        <h5 className="text-lg font-normal text-slate-900 dark:text-white">
                           {t.name}
                         </h5>
                         <p className="text-[15px] text-gray-500">{t.role}</p>

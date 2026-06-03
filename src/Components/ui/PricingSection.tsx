@@ -106,10 +106,10 @@ export default function PricingSection() {
   }
 
   return (
-    <section className="bg-black px-6 py-24 md:px-12">
+    <section className="bg-white dark:bg-black px-6 py-24 md:px-12">
       <div className="mx-auto max-w-6xl text-center">
-        <h2 className="mb-4 text-5xl font-medium text-white md:text-6xl">Simple plans.</h2>
-        <p className="mb-12 text-gray-400">
+        <h2 className="mb-4 text-5xl font-medium text-slate-900 dark:text-white md:text-6xl">Simple plans.</h2>
+        <p className="mb-12 text-gray-600 dark:text-gray-400">
           Straightforward pricing with no hidden costs. Everything{' '}
           <br className="hidden md:block" />
           you need to manage your mapping needs.
@@ -122,19 +122,19 @@ export default function PricingSection() {
             return (
               <div
                 key={plan.name}
-                className="w-full max-w-[380px] bg-[#0A0A0A] border border-white/5 rounded-[32px] p-8 flex flex-col"
+                className="w-full max-w-[380px] bg-white dark:bg-[#0A0A0A] border border-slate-200/20 dark:border-white/5 rounded-[32px] p-8 flex flex-col"
               >
                 <div>
                   <div className="mb-4 flex items-start justify-between gap-4">
                     <div>
-                      <h3 className="text-2xl font-medium text-white mb-2">{plan.name}</h3>
+                      <h3 className="text-2xl font-medium text-slate-900 dark:text-white mb-2">{plan.name}</h3>
                       <p className="text-sm text-[#8cff2e] uppercase tracking-widest">{plan.label}</p>
                     </div>
                     <button
                       type="button"
                       onClick={() => togglePlan(plan.name)}
                       aria-expanded={isExpanded}
-                      className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white transition-all hover:border-[#8cff2e] hover:text-[#8cff2e]"
+                      className="inline-flex items-center gap-2 rounded-full border border-slate-200/30 bg-slate-100/70 px-4 py-2 text-sm font-medium text-slate-900 transition-all hover:border-[#8cff2e] hover:text-[#8cff2e] dark:border-white/10 dark:bg-white/5 dark:text-white"
                     >
                       {isExpanded ? 'Collapse' : 'Expand'}
                       <ArrowUpRight
@@ -145,7 +145,7 @@ export default function PricingSection() {
                   </div>
 
                   <div className="flex items-baseline gap-1 mb-6">
-                    <span className="text-5xl font-medium text-white">{plan.price}</span>
+                    <span className="text-5xl font-medium text-slate-900 dark:text-white">{plan.price}</span>
                   </div>
                 </div>
 
@@ -156,10 +156,10 @@ export default function PricingSection() {
                   aria-hidden={!isExpanded}
                 >
                   <div className="mb-6">
-                    <p className="text-sm text-gray-400 uppercase tracking-widest mb-4">Best for</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 uppercase tracking-widest mb-4">Best for</p>
                     <ul className="space-y-3">
                       {plan.bestFor.map((item) => (
-                        <li key={item} className="flex items-start gap-3 text-sm text-gray-300">
+                        <li key={item} className="flex items-start gap-3 text-sm text-slate-700 dark:text-gray-300">
                           <span className="mt-[2px] text-[#8cff2e]">•</span>
                           {item}
                         </li>
@@ -171,7 +171,7 @@ export default function PricingSection() {
                     <p className="text-sm text-gray-400 uppercase tracking-widest mb-4">Included</p>
                     <ul className="space-y-4">
                       {plan.included.map((item) => (
-                        <li key={item} className="flex items-center gap-3 text-sm text-gray-300">
+                        <li key={item} className="flex items-center gap-3 text-sm text-slate-700 dark:text-gray-300">
                           <CheckCircle2 size={18} className="text-[#8cff2e]" /> {item}
                         </li>
                       ))}
@@ -216,25 +216,25 @@ export default function PricingSection() {
           })}
         </div>
 
-        <div className="mt-16 bg-white/5 border border-white/10 rounded-[32px] p-10 text-left">
-          <h3 className="text-3xl font-semibold text-white mb-6">Annual Billing Discounts</h3>
+        <div className="mt-16 bg-slate-100/70 border border-slate-200/20 rounded-[32px] p-10 text-left dark:bg-white/5 dark:border-white/10">
+          <h3 className="text-3xl font-semibold text-slate-900 dark:text-white mb-6">Annual Billing Discounts</h3>
           <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-3">
-            <div className="rounded-3xl bg-[#0B0B0B] p-6 border border-white/5">
-              <p className="text-sm text-gray-400 uppercase tracking-widest mb-3">Startup</p>
-              <p className="text-2xl font-semibold text-white mb-2">750 ETB</p>
-              <p className="text-gray-400 mb-4">Annual Equivalent</p>
+            <div className="rounded-3xl bg-white p-6 border border-slate-200/20 dark:bg-[#0B0B0B] dark:border-white/5">
+              <p className="text-sm text-gray-600 dark:text-gray-400 uppercase tracking-widest mb-3">Startup</p>
+              <p className="text-2xl font-semibold text-slate-900 dark:text-white mb-2">750 ETB</p>
+              <p className="text-gray-600 dark:text-gray-400 mb-4">Annual Equivalent</p>
               <p className="text-xl font-semibold text-[#8cff2e]">600 ETB/month</p>
             </div>
-            <div className="rounded-3xl bg-[#0B0B0B] p-6 border border-white/5">
-              <p className="text-sm text-gray-400 uppercase tracking-widest mb-3">Growth</p>
-              <p className="text-2xl font-semibold text-white mb-2">4,500 ETB</p>
-              <p className="text-gray-400 mb-4">Annual Equivalent</p>
+            <div className="rounded-3xl bg-white p-6 border border-slate-200/20 dark:bg-[#0B0B0B] dark:border-white/5">
+              <p className="text-sm text-gray-600 dark:text-gray-400 uppercase tracking-widest mb-3">Growth</p>
+              <p className="text-2xl font-semibold text-slate-900 dark:text-white mb-2">4,500 ETB</p>
+              <p className="text-gray-600 dark:text-gray-400 mb-4">Annual Equivalent</p>
               <p className="text-xl font-semibold text-[#8cff2e]">3,800 ETB/month</p>
             </div>
-            <div className="rounded-3xl bg-[#0B0B0B] p-6 border border-white/5">
-              <p className="text-sm text-gray-400 uppercase tracking-widest mb-3">Business</p>
-              <p className="text-2xl font-semibold text-white mb-2">8,500 ETB</p>
-              <p className="text-gray-400 mb-4">Annual Discount</p>
+            <div className="rounded-3xl bg-white p-6 border border-slate-200/20 dark:bg-[#0B0B0B] dark:border-white/5">
+              <p className="text-sm text-gray-600 dark:text-gray-400 uppercase tracking-widest mb-3">Business</p>
+              <p className="text-2xl font-semibold text-slate-900 dark:text-white mb-2">8,500 ETB</p>
+              <p className="text-gray-600 dark:text-gray-400 mb-4">Annual Discount</p>
               <p className="text-xl font-semibold text-[#8cff2e]">15–20% discount annually</p>
             </div>
           </div>

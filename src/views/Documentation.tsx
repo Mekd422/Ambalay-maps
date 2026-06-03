@@ -370,7 +370,7 @@ const Documentation = () => {
 
         {/* Desktop Sidebar */}
         {activeView === 'docs' && (
-          <aside className="no-scrollbar sticky top-16 hidden h-[calc(100vh-64px)] w-72 shrink-0 overflow-y-auto border-r border-white/10 pr-8 pt-12 lg:ml-24 lg:block">
+          <aside className="no-scrollbar sticky top-16 self-start hidden w-72 shrink-0 pr-8 pt-12 lg:ml-24 lg:block border-r border-white/10">
             <SidebarContent
               sidebarLinks={filteredSidebarLinks}
               activePage={activePage}
