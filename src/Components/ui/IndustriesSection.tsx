@@ -83,12 +83,12 @@ export default function IndustriesSection() {
   const activeData = industries.find((i) => i.id === activeTab) || industries[0]
 
   return (
-    <section className="bg-black px-6 py-24 md:px-12">
+    <section className="bg-slate-50 dark:bg-black px-6 py-24 md:px-12">
       <div className="mx-auto max-w-5xl">
         <div className="mb-14">
-          <h2 className="text-4xl font-medium leading-tight tracking-tight text-white md:text-5xl">
+          <h2 className="text-4xl font-medium leading-tight tracking-tight text-slate-900 dark:text-white md:text-5xl">
             Powering mobility <br />
-            <span className="text-gray-500">across sectors</span>
+            <span className="text-gray-500 dark:text-gray-400">across sectors</span>
           </h2>
         </div>
 
@@ -101,7 +101,7 @@ export default function IndustriesSection() {
                 className={`group flex items-center gap-4 rounded-xl border px-5 py-3.5 text-left transition-all duration-300 ${
                   activeTab === item.id
                     ? 'border-[#8cff2e]/20 bg-[#8cff2e]/5 text-[#8cff2e]'
-                    : 'border-transparent text-gray-500 hover:bg-white/5 hover:text-gray-300'
+                    : 'border-transparent text-gray-600 hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-white/5 dark:text-gray-500'
                 }`}
               >
                 <item.icon
@@ -121,15 +121,15 @@ export default function IndustriesSection() {
               {/* This div acts as the glow "halo" behind the card */}
               <div className="absolute -inset-0.5 rounded-[32px] bg-[#8cff2e]/20 opacity-30 blur transition duration-1000"></div>
 
-              <div className="relative flex min-h-[420px] flex-col justify-center rounded-[32px] border border-[#8cff2e]/20 bg-[#0A0A0A] p-8 shadow-[0_0_40px_-15px_rgba(140,255,46,0.3)] transition-all duration-500 md:p-12">
+              <div className="relative flex min-h-[420px] flex-col justify-center rounded-[32px] border border-[#8cff2e]/20 bg-white p-8 shadow-[0_0_40px_-15px_rgba(140,255,46,0.3)] transition-all duration-500 dark:bg-[#0A0A0A] md:p-12">
                 <div className="mb-6 flex items-center gap-4">
                   <activeData.icon className="text-[#8cff2e]" size={32} />
-                  <h3 className="text-3xl font-medium text-white">
+                  <h3 className="text-3xl font-medium text-slate-900 dark:text-white">
                     {activeData.title}
                   </h3>
                 </div>
 
-                <p className="mb-10 max-w-xl text-lg leading-relaxed text-gray-400">
+                <p className="mb-10 max-w-xl text-lg leading-relaxed text-gray-600 dark:text-gray-400">
                   {activeData.desc}
                 </p>
 
