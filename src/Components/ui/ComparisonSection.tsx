@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 
 export default function ComparisonSection() {
   return (
-    <section className="overflow-hidden bg-black px-6 py-24 md:px-12">
+    <section className="overflow-hidden bg-slate-50 dark:bg-black px-6 py-24 md:px-12">
       <div className="mx-auto max-w-5xl text-center">
         <motion.div
           initial={{ y: 30, opacity: 0 }}
@@ -22,16 +22,16 @@ export default function ComparisonSection() {
               Why AmbaLay Maps?
             </span>
           </div>
-          <h2 className="mb-20 text-base font-medium leading-tight tracking-tight text-white">
+          <h2 className="mb-20 text-base font-medium leading-tight tracking-tight text-slate-900 dark:text-white">
             Ambalay Maps helps teams work with location data{' '}
             <br className="hidden md:block" /> more efficiently, with tools
             designed for accuracy, speed and ease of integration.
           </h2>
         </motion.div>
 
-        <div className="relative mx-auto max-w-4xl overflow-hidden rounded-[40px] border border-white/10 bg-[#0A0A0A]">
+        <div className="relative mx-auto max-w-4xl overflow-hidden rounded-[40px] border border-slate-200/20 bg-white dark:border-white/10 dark:bg-[#0A0A0A]">
           <div className="grid md:grid-cols-2">
-            <div className="border-b border-white/5 p-10 text-left md:border-b-0 md:border-r md:p-14">
+            <div className="border-b border-slate-200/20 p-10 text-left md:border-b-0 md:border-r md:p-14 dark:border-white/5">
               <h3 className="mb-10 text-xs font-semibold uppercase tracking-widest text-gray-500">
                 Other Tools
               </h3>
@@ -45,7 +45,7 @@ export default function ComparisonSection() {
                 ].map((text, i) => (
                   <li
                     key={i}
-                    className="flex items-start gap-4 text-sm text-gray-500"
+                    className="flex items-start gap-4 text-sm text-gray-600 dark:text-gray-500"
                   >
                     <XCircle
                       size={18}
@@ -79,7 +79,7 @@ export default function ComparisonSection() {
                     className="h-5 w-5 object-contain"
                   />
                 </div>
-                <h3 className="text-lg font-medium text-white">Ambalay</h3>
+                <h3 className="text-lg font-medium text-slate-900 dark:text-white">Ambalay</h3>
               </div>
               <ul className="space-y-6">
                 {[
@@ -91,7 +91,7 @@ export default function ComparisonSection() {
                 ].map((text, i) => (
                   <li
                     key={i}
-                    className="flex items-start gap-4 text-sm text-white"
+                    className="flex items-start gap-4 text-sm text-slate-900 dark:text-white"
                   >
                     <CheckCircle2
                       size={18}
