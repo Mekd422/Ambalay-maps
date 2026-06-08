@@ -253,7 +253,7 @@ export default function Plans() {
         <DashboardCard className="space-y-3 border-yellow-400/20 bg-yellow-400/5">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div>
-              <h3 className="text-lg font-semibold text-white">
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
                 Invoice created. Payment required.
               </h3>
               <p className="mt-1 text-sm text-gray-300">
@@ -275,14 +275,14 @@ export default function Plans() {
         <DashboardCard className="space-y-4">
           <input
             placeholder="Label"
-            className="w-full rounded-lg border border-white/10 bg-[#070707] p-3 text-white outline-none focus:ring-2 focus:ring-[#8cff2e]/30"
+            className="w-full rounded-lg border border-slate-200/30 bg-white p-3 text-slate-900 outline-none transition focus:border-[#8cff2e]/30 focus:ring-2 focus:ring-[#8cff2e]/30 dark:border-white/10 dark:bg-[#070707] dark:text-white"
             value={newPlan.label}
             onChange={(e) => setNewPlan({ ...newPlan, label: e.target.value })}
           />
 
           <textarea
             placeholder="Description"
-            className="w-full rounded-lg border border-white/10 bg-[#070707] p-3 text-white outline-none focus:ring-2 focus:ring-[#8cff2e]/30"
+            className="w-full rounded-lg border border-slate-200/30 bg-white p-3 text-slate-900 outline-none transition focus:border-[#8cff2e]/30 focus:ring-2 focus:ring-[#8cff2e]/30 dark:border-white/10 dark:bg-[#070707] dark:text-white"
             value={newPlan.description}
             onChange={(e) =>
               setNewPlan({ ...newPlan, description: e.target.value })
@@ -295,7 +295,7 @@ export default function Plans() {
               min="0"
               step="1"
               placeholder="Monthly price (ETB)"
-              className="w-full rounded-lg border border-white/10 bg-[#070707] p-3 text-white outline-none focus:ring-2 focus:ring-[#8cff2e]/30"
+              className="w-full rounded-lg border border-slate-200/30 bg-white p-3 text-slate-900 outline-none transition focus:border-[#8cff2e]/30 focus:ring-2 focus:ring-[#8cff2e]/30 dark:border-white/10 dark:bg-[#070707] dark:text-white"
               value={newPlan.monthlyPriceAmount}
               onChange={(e) =>
                 setNewPlan({ ...newPlan, monthlyPriceAmount: e.target.value })
@@ -307,7 +307,7 @@ export default function Plans() {
               min="0"
               step="1"
               placeholder="Yearly price (ETB)"
-              className="w-full rounded-lg border border-white/10 bg-[#070707] p-3 text-white outline-none focus:ring-2 focus:ring-[#8cff2e]/30"
+              className="w-full rounded-lg border border-slate-200/30 bg-white p-3 text-slate-900 outline-none transition focus:border-[#8cff2e]/30 focus:ring-2 focus:ring-[#8cff2e]/30 dark:border-white/10 dark:bg-[#070707] dark:text-white"
               value={newPlan.yearlyPriceAmount}
               onChange={(e) =>
                 setNewPlan({ ...newPlan, yearlyPriceAmount: e.target.value })
@@ -333,14 +333,14 @@ export default function Plans() {
                     }
                   />
 
-                  <span className="w-32 text-white">{service}</span>
+                  <span className="w-32 text-slate-900 dark:text-white">{service}</span>
 
                   {selected && (
                     <input
                       type="number"
                       min="0"
                       step="1"
-                      className="w-32 rounded border border-white/10 bg-black p-2"
+                      className="w-32 rounded border border-slate-200/30 bg-white p-2 text-slate-900 outline-none dark:border-white/10 dark:bg-[#070707] dark:text-white"
                       value={selected.amount}
                       onChange={(e) =>
                         handleAmountChange(service, Number(e.target.value))
@@ -377,7 +377,7 @@ export default function Plans() {
               className={`relative rounded-3xl border p-6 transition-all duration-300 ${
                 isSubscribed
                   ? 'scale-[1.03] border-[#8cff2e] bg-[#0f1a0a] shadow-[0_0_25px_rgba(140,255,46,0.3)]'
-                  : 'border-white/10 bg-white/5'
+                  : 'border-slate-200/30 bg-slate-50 dark:border-white/10 dark:bg-white/5'
               }`}
             >
               {isAdmin && (
@@ -404,12 +404,12 @@ export default function Plans() {
                 </div>
               )}
 
-              <h2 className="text-xl font-bold text-white">{plan.label}</h2>
+              <h2 className="text-xl font-bold text-slate-900 dark:text-white">{plan.label}</h2>
 
               <p className="mt-2 text-sm text-gray-400">{plan.description}</p>
 
               {!isAdmin ? (
-                <div className="mt-4 space-y-3 rounded-2xl border border-white/10 bg-black/20 p-4">
+                  <div className="mt-4 space-y-3 rounded-2xl border border-slate-200/30 bg-slate-100 p-4 dark:border-white/10 dark:bg-white/5">
                   <div className="flex items-center justify-between gap-3 text-sm">
                     <span className="text-gray-400">Billing interval</span>
                     <select
@@ -420,16 +420,16 @@ export default function Plans() {
                           e.target.value as BillingInterval,
                         )
                       }
-                      className="rounded-lg border border-white/10 bg-[#070707] px-3 py-2 text-sm text-white outline-none"
+                      className="rounded-lg border border-slate-200/30 bg-white px-3 py-2 text-sm text-slate-900 outline-none dark:border-white/10 dark:bg-[#070707] dark:text-white"
                     >
                       <option value="MONTH">Monthly</option>
                       <option value="YEAR">Yearly</option>
                     </select>
                   </div>
 
-                  <div className="flex items-center justify-between text-sm text-gray-300">
+                  <div className="flex items-center justify-between text-sm text-slate-700 dark:text-gray-300">
                     <span>Selected price</span>
-                    <span className="font-medium text-white">
+                    <span className="font-medium text-slate-900 dark:text-white">
                       {selectedInterval === 'YEAR'
                         ? formatCurrency(
                             plan.yearlyPriceAmount ?? 0,
