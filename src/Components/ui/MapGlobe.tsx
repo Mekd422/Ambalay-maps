@@ -8,13 +8,12 @@ import {
   Html,
 } from '@react-three/drei'
 import * as THREE from 'three'
-import { useTheme } from '../../context/useTheme'
 
 export default function MapGlobe({ progress }: { progress: number }) {
   const meshRef = useRef<THREE.Mesh>(null)
   const backgroundRef = useRef<THREE.Group>(null)
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
+  const globeColor = '#8cff2e'
+  const globeAura = '#051a16'
 
   useFrame(() => {
     if (meshRef.current) {
@@ -30,25 +29,26 @@ export default function MapGlobe({ progress }: { progress: number }) {
 
   return (
     <>
+      <color attach="background" args={['#000000']} />
       <group ref={backgroundRef}>
         <Stars
           radius={100}
           depth={50}
-          count={isDark ? 5000 : 800}
-          factor={isDark ? 4 : 1}
-          saturation={isDark ? 0 : 0.2}
+          count={5000}
+          factor={4}
+          saturation={0}
           fade
           speed={0.5}
         />
       </group>
-      <ambientLight intensity={isDark ? 0.5 : 0.8} />
-      <pointLight position={[10, 10, 10]} intensity={1.5} color={isDark ? '#8cff2e' : '#2563eb'} />
+      <ambientLight intensity={0.5} />
+      <pointLight position={[10, 10, 10]} intensity={1.5} color={globeColor} />
 
       <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
         <mesh ref={meshRef}>
           <sphereGeometry args={[1.5, 64, 64]} />
           <meshStandardMaterial
-            color={isDark ? '#8cff2e' : '#2563eb'}
+            color={globeColor}
             wireframe
             transparent
             opacity={0.3 * progress}
@@ -59,8 +59,11 @@ export default function MapGlobe({ progress }: { progress: number }) {
             <meshBasicMaterial color="#8cff2e" />
             <Html distanceFactor={8}>
               <div className="flex flex-col items-center">
-                  <div className={`h-2 w-2 animate-ping rounded-full ${isDark ? 'bg-[#8cff2e]' : 'bg-[#2563eb]'}`} />
-                  <span className={`mt-1 whitespace-nowrap text-[8px] font-bold uppercase tracking-widest ${isDark ? 'text-[#8cff2e]' : 'text-black'}`}>
+                  <div
+                    className="h-2 w-2 animate-ping rounded-full"
+                    style={{ backgroundColor: globeColor }}
+                  />
+                  <span className="mt-1 whitespace-nowrap text-[8px] font-bold uppercase tracking-widest text-[#8cff2e]">
                     Addis Ababa
                   </span>
                 </div>
@@ -69,7 +72,7 @@ export default function MapGlobe({ progress }: { progress: number }) {
 
           <Sphere args={[1.4, 64, 64]}>
             <MeshDistortMaterial
-              color={isDark ? '#051a16' : '#e6f2ff'}
+              color={globeAura}
               speed={2}
               distort={0.2}
               radius={1}
