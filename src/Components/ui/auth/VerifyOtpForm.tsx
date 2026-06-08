@@ -135,10 +135,10 @@ export default function VerifyOtpForm() {
     return (
       <div className="flex w-full flex-col items-center justify-center py-12">
         <div className="w-full max-w-md space-y-4 rounded-2xl border border-gray-100 bg-white p-8 text-center shadow-2xl dark:border-white/5 dark:bg-[#0f0f0f] md:p-10">
-          <h2 className="text-3xl font-semibold text-black dark:text-white">
+          <h2 className="text-3xl font-semibold text-slate-900 dark:text-white">
             Invalid verification link
           </h2>
-          <p className="text-gray-500 dark:text-gray-400">
+          <p className="text-slate-600 dark:text-gray-400">
             Start again from login or signup to receive a fresh verification
             code.
           </p>
@@ -164,10 +164,10 @@ export default function VerifyOtpForm() {
   return (
     <div className="flex w-full flex-col items-center justify-center py-12">
       <div className="mb-10 text-center">
-        <h2 className="mb-2 text-3xl font-semibold text-black dark:text-white">
+        <h2 className="mb-2 text-3xl font-semibold text-slate-900 dark:text-white">
           Verify your email
         </h2>
-        <p className="text-gray-500 dark:text-gray-400">
+        <p className="text-slate-600 dark:text-gray-400">
           Enter the 6-digit code we sent to complete your{' '}
           {flow === 'signup' ? 'signup' : 'login'}.
         </p>
@@ -182,7 +182,7 @@ export default function VerifyOtpForm() {
       <div className="w-full max-w-md rounded-2xl border border-gray-100 bg-white p-8 shadow-2xl dark:border-white/5 dark:bg-[#0f0f0f] md:p-10">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="text-sm font-medium text-slate-700 dark:text-gray-300">
               Verification Code
             </label>
             <input
@@ -196,7 +196,7 @@ export default function VerifyOtpForm() {
                 setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))
               }
               placeholder="123456"
-              className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-center tracking-[0.35em] text-black focus:outline-none focus:ring-2 focus:ring-[#8cff2e] dark:border-white/10 dark:bg-black dark:text-white"
+              className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-center tracking-[0.35em] text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#8cff2e] dark:border-white/10 dark:bg-black dark:text-white"
             />
           </div>
 
@@ -215,7 +215,7 @@ export default function VerifyOtpForm() {
           </button>
         </form>
 
-        <div className="mt-8 space-y-3 text-center text-sm text-gray-500 dark:text-gray-400">
+        <div className="mt-8 space-y-3 text-center text-sm text-slate-600 dark:text-gray-400">
           <p>Didn&apos;t get the code?</p>
           <button
             type="button"

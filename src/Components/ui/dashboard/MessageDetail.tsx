@@ -163,20 +163,20 @@ export default function MessageDetail({ messageId }: { messageId?: string }) {
                 {formatLabel(message.status)}
               </span>
             </div>
-            <label className="mb-2 block text-xs uppercase tracking-[0.2em] text-white/50">
+            <label className="mb-2 block text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-white/50">
               Status
             </label>
             <select
               value={message.status}
               onChange={(event) => void handleStatusChange(event.target.value)}
               disabled={saving}
-              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none focus:ring-2 focus:ring-[#8cff2e]/30 disabled:opacity-70"
+              className="w-full rounded-xl border border-slate-200/30 bg-white px-4 py-3 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-[#8cff2e]/30 disabled:opacity-70 dark:border-white/10 dark:bg-white/5 dark:text-white"
             >
               {statuses.map((status) => (
                 <option
                   key={status}
                   value={status}
-                  className="bg-[#050505] text-white"
+                  className="bg-white text-slate-900 dark:bg-[#050505] dark:text-white"
                 >
                   {formatLabel(status)}
                 </option>
@@ -218,22 +218,22 @@ export default function MessageDetail({ messageId }: { messageId?: string }) {
           </div>
         </div>
 
-        <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
-          <p className="mb-3 text-xs uppercase tracking-[0.2em] text-white/50">
+<div className="rounded-3xl border border-slate-200/30 bg-white p-6 dark:border-white/10 dark:bg-white/5">
+          <p className="mb-3 text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-white/50">
             Message
           </p>
-          <p className="whitespace-pre-wrap text-sm leading-7 text-gray-200">
+          <p className="whitespace-pre-wrap text-sm leading-7 text-slate-900 dark:text-gray-200">
             {message.message || 'No message content provided.'}
           </p>
         </div>
 
         <div className="grid gap-6 text-sm text-gray-400 md:grid-cols-2">
           <div>
-            <span className="text-white">Created:</span>{' '}
+            <span className="text-slate-900 dark:text-white">Created:</span>{' '}
             {new Date(message.createdAt).toLocaleString()}
           </div>
           <div>
-            <span className="text-white">Last Updated:</span>{' '}
+            <span className="text-slate-900 dark:text-white">Last Updated:</span>{' '}
             {new Date(message.updatedAt).toLocaleString()}
           </div>
         </div>

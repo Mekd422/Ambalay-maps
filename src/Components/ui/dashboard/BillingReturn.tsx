@@ -77,8 +77,8 @@ export default function BillingReturn() {
               Payment not confirmed yet.
             </div>
             {invoice ? (
-              <div className="text-sm text-gray-400">
-                Invoice status: <span className="text-white">{invoice.status}</span>
+              <div className="text-sm text-gray-500 dark:text-gray-300">
+                Invoice status: <span className="text-slate-900 dark:text-white">{invoice.status}</span>
               </div>
             ) : null}
             <div className="flex flex-wrap gap-3">
@@ -87,7 +87,7 @@ export default function BillingReturn() {
               </DashboardButton>
               <Link
                 href={invoiceHref}
-                className="rounded-lg border border-white/10 bg-[#070707] px-4 py-2 text-sm font-medium text-gray-200 transition-colors hover:bg-white/[0.03]"
+                className="rounded-lg border border-slate-200/30 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition-colors hover:bg-slate-100 dark:border-white/10 dark:bg-[#070707] dark:text-gray-200 dark:hover:bg-white/[0.03]"
               >
                 Back to invoice
               </Link>
@@ -102,7 +102,7 @@ export default function BillingReturn() {
             </div>
             <Link
               href="/dashboard/billing"
-              className="inline-flex rounded-lg border border-white/10 bg-[#070707] px-4 py-2 text-sm font-medium text-gray-200 transition-colors hover:bg-white/[0.03]"
+              className="inline-flex rounded-lg border border-slate-200/30 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition-colors hover:bg-slate-100 dark:border-white/10 dark:bg-[#070707] dark:text-gray-200 dark:hover:bg-white/[0.03]"
             >
               Back to billing
             </Link>

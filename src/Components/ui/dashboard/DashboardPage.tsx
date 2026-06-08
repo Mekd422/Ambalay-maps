@@ -24,6 +24,8 @@ import MessageDetail from './MessageDetail'
 import Billing from './Billing'
 import BillingInvoiceDetail from './BillingInvoiceDetail'
 import BillingReturn from './BillingReturn'
+import { useTheme } from '../../../context/useTheme'
+
 
 type DashboardPageProps = {
   slug: string[]
@@ -95,6 +97,9 @@ export default function DashboardPage({ slug }: DashboardPageProps) {
   const routeState = useMemo(() => getSectionFromSlug(slug), [slug])
   const isAdmin = user?.accessLevel === 'ADMIN'
 
+  const { theme} = useTheme()
+  const logoSrc = theme === 'dark' ? '/icons/ambalay-dark.png' : '/icons/ambalay-light.png'
+
   useEffect(() => {
     if (!token) {
       router.replace('/login')
@@ -126,7 +131,7 @@ export default function DashboardPage({ slug }: DashboardPageProps) {
 
   if (!user) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-black text-gray-300">
+      <div className="flex min-h-screen items-center justify-center bg-white text-slate-900 dark:bg-black dark:text-gray-300">
         Loading...
       </div>
     )
@@ -186,18 +191,18 @@ export default function DashboardPage({ slug }: DashboardPageProps) {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#000000] font-sans text-gray-100">
+    <div className="flex min-h-screen flex-col bg-white font-sans text-slate-900 dark:bg-[#000000] dark:text-gray-100">
       <div className="flex flex-1 flex-col lg:flex-row">
-        <aside className="hidden flex-shrink-0 flex-col border-r border-white/5 bg-[#000000] lg:flex lg:w-64">
+        <aside className="hidden flex-shrink-0 flex-col border-r border-slate-200/70 bg-white lg:flex lg:w-64 dark:border-white/5 dark:bg-[#000000]">
           <div className="flex items-center gap-2 p-6">
             <Image
-              src="/icons/ambalay-logo.png"
+              src={logoSrc}
               alt="Logo"
               width={40}
               height={20}
               className="h-5 w-10"
             />
-            <h4 className="text-md font-medium tracking-tight text-white">
+            <h4 className="text-md font-medium tracking-tight text-slate-900 dark:text-white">
               AmbaLay Maps
             </h4>
           </div>
@@ -205,9 +210,9 @@ export default function DashboardPage({ slug }: DashboardPageProps) {
           <div className="mt-4 px-4">
             <Link
               href="/"
-              className="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-gray-400 transition-colors hover:text-white"
+              className="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-slate-600 transition-colors hover:text-black dark:text-gray-400 dark:hover:text-white"
             >
-              <span className="text-gray-500 group-hover:text-white">
+              <span className="text-slate-500 group-hover:text-black dark:text-gray-500 dark:group-hover:text-white">
                 <Home size={18} />
               </span>
               Back to Home
@@ -215,7 +220,7 @@ export default function DashboardPage({ slug }: DashboardPageProps) {
           </div>
 
           <nav className="mt-2 flex-1 px-4">
-            <p className="mb-4 px-2 text-[10px] font-bold uppercase tracking-widest text-gray-500">
+            <p className="mb-4 px-2 text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-gray-400">
               Navigation
             </p>
             <ul className="space-y-1">
@@ -232,14 +237,14 @@ export default function DashboardPage({ slug }: DashboardPageProps) {
                           className={`group flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-all ${
                             active
                               ? 'rounded-l-none border-l-4 border-[#8cff2e] bg-[#8cff2e]/10 font-semibold text-[#8cff2e]'
-                              : 'text-gray-400 transition-colors hover:text-white'
+                              : 'text-slate-600 transition-colors hover:text-black dark:text-gray-400 dark:hover:text-white'
                           }`}
                         >
                           <span
                             className={
                               active
                                 ? 'text-[#8cff2e]'
-                                : 'text-gray-500 group-hover:text-white'
+                                : 'text-slate-500 group-hover:text-black dark:text-gray-500 dark:group-hover:text-white'
                             }
                           >
                             {item.icon}
@@ -261,14 +266,14 @@ export default function DashboardPage({ slug }: DashboardPageProps) {
                           className={`group flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-all ${
                             active
                               ? 'rounded-l-none border-l-4 border-[#8cff2e] bg-[#8cff2e]/10 font-semibold text-[#8cff2e]'
-                              : 'text-gray-400 transition-colors hover:text-white'
+                              : 'text-slate-600 transition-colors hover:text-black dark:text-gray-400 dark:hover:text-white'
                           }`}
                         >
                           <span
                             className={
                               active
                                 ? 'text-[#8cff2e]'
-                                : 'text-gray-500 group-hover:text-white'
+                                : 'text-slate-500 group-hover:text-black dark:text-gray-500 dark:group-hover:text-white'
                             }
                           >
                             {item.icon}
@@ -282,12 +287,12 @@ export default function DashboardPage({ slug }: DashboardPageProps) {
           </nav>
         </aside>
 
-        <main className="flex-1 overflow-y-auto bg-[#070707] p-4 md:p-6 lg:p-10">
+        <main className="flex-1 overflow-y-auto bg-slate-50 p-4 md:p-6 lg:p-10 dark:bg-[#070707]">
           <div className="mx-auto max-w-5xl">
             <div className="mb-8 flex flex-col gap-4">
               <Link
                 href="/"
-                className="flex items-center gap-2 text-gray-400 transition-colors hover:text-white lg:hidden"
+                className="flex items-center gap-2 text-slate-500 transition-colors hover:text-black lg:hidden dark:text-gray-400 dark:hover:text-white"
               >
                 <Home size={18} />
                 <span className="text-sm">Home</span>
@@ -308,7 +313,7 @@ export default function DashboardPage({ slug }: DashboardPageProps) {
                           className={`flex items-center gap-2 whitespace-nowrap rounded-full px-3 py-2 text-xs font-semibold transition-all ${
                             active
                               ? 'bg-[#8cff2e] text-black shadow-lg'
-                              : 'bg-white/5 text-gray-300 hover:bg-white/10'
+                              : 'bg-slate-100/80 text-slate-700 hover:bg-slate-200 dark:bg-white/5 dark:text-gray-300 dark:hover:bg-white/10'
                           }`}
                         >
                           <span>{item.icon}</span>
@@ -330,7 +335,7 @@ export default function DashboardPage({ slug }: DashboardPageProps) {
                           className={`flex items-center gap-2 whitespace-nowrap rounded-full px-3 py-2 text-xs font-semibold transition-all ${
                             active
                               ? 'bg-[#8cff2e] text-black shadow-lg'
-                              : 'bg-white/5 text-gray-300 hover:bg-white/10'
+                              : 'bg-slate-100/80 text-slate-700 hover:bg-slate-200 dark:bg-white/5 dark:text-gray-300 dark:hover:bg-white/10'
                           }`}
                         >
                           <span>{item.icon}</span>

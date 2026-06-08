@@ -59,7 +59,7 @@ export default function MyOrganization() {
       />
       <DashboardCard className="space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-white">Current Access</h2>
+          <h2 className="text-xl font-semibold text-slate-900 dark:text-white">Current Access</h2>
 
           <span
             className={`rounded-full px-3 py-1 text-xs font-medium ${
@@ -72,7 +72,7 @@ export default function MyOrganization() {
           </span>
         </div>
 
-        <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+        <div className="rounded-xl border border-slate-200/30 bg-slate-50 p-4 dark:border-white/10 dark:bg-white/5">
           <p className="text-sm text-gray-400">Current Plan</p>
           <h3 className="text-lg font-semibold text-[#8cff2e]">
             {currentPeriod.subscriptionPlan.label}
@@ -85,20 +85,20 @@ export default function MyOrganization() {
         <div className="flex flex-wrap justify-between gap-4 text-sm text-gray-400">
           <p>
             Start:{' '}
-            <span className="text-white">
+            <span className="text-slate-900 dark:text-white">
               {new Date(currentPeriod.startsAt).toLocaleDateString()}
             </span>
           </p>
           <p>
             End:{' '}
-            <span className="text-white">
+            <span className="text-slate-900 dark:text-white">
               {new Date(currentPeriod.endsAt).toLocaleDateString()}
             </span>
           </p>
           {currentPeriod.graceEndsAt ? (
             <p>
               Grace Ends:{' '}
-              <span className="text-white">
+              <span className="text-slate-900 dark:text-white">
                 {new Date(currentPeriod.graceEndsAt).toLocaleDateString()}
               </span>
             </p>
@@ -106,7 +106,7 @@ export default function MyOrganization() {
         </div>
 
         <div>
-          <h3 className="text-md mb-3 font-semibold text-white">Usage</h3>
+          <h3 className="text-md mb-3 font-semibold text-slate-900 dark:text-white">Usage</h3>
 
           {currentPeriod.remaining.length > 0 ? (
             <div className="space-y-4">
@@ -125,7 +125,7 @@ export default function MyOrganization() {
                       </span>
                     </div>
 
-                    <div className="h-2 w-full rounded-full border border-white/5 bg-[#070707]">
+                    <div className="h-2 w-full rounded-full border border-slate-200/30 bg-slate-200 dark:border-white/10 dark:bg-[#070707]">
                       <div
                         className="h-2 rounded-full bg-[#8cff2e] transition-all"
                         style={{ width: `${percent}%` }}

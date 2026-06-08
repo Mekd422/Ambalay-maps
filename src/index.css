@@ -13,7 +13,7 @@
   }
 
   body {
-    @apply bg-white font-sora text-black antialiased;
+    @apply bg-white font-sora text-slate-900 antialiased;
   }
 
   .dark body {
@@ -22,24 +22,62 @@
 }
 
 @layer utilities {
+  /* Light mode text color conversions */
   html:not(.dark) .text-white {
-    color: #0f172a !important;
+    color: #1e293b !important;
   }
 
+  html:not(.dark) .text-black {
+    color: #1e293b !important;
+  }
+
+  html:not(.dark) .dark\:text-white {
+    color: #1e293b !important;
+  }
+
+  html:not(.dark) .text-zinc-400 {
+    color: #64748b !important;
+  }
+
+  html:not(.dark) .dark\:text-zinc-400 {
+    color: #64748b !important;
+  }
+
+  /* Light mode background conversions */
   html:not(.dark) .bg-black {
-    background-color: #ffffff !important;
+    background-color: #f8fafc !important;
+  }
+
+  html:not(.dark) .bg-midnight {
+    background-color: #f8fafc !important;
+  }
+
+  html:not(.dark) .dark\:bg-black {
+    background-color: #f8fafc !important;
   }
 
   html:not(.dark) .bg-black\/20 {
-    background-color: rgba(255, 255, 255, 0.2) !important;
+    background-color: rgba(248, 250, 252, 0.6) !important;
   }
 
   html:not(.dark) .bg-black\/40 {
-    background-color: rgba(255, 255, 255, 0.4) !important;
+    background-color: rgba(248, 250, 252, 0.8) !important;
   }
 
   html:not(.dark) .bg-black\/50 {
-    background-color: rgba(255, 255, 255, 0.5) !important;
+    background-color: rgba(248, 250, 252, 0.9) !important;
+  }
+
+  html:not(.dark) .dark\:bg-black\/20 {
+    background-color: rgba(248, 250, 252, 0.6) !important;
+  }
+
+  html:not(.dark) .dark\:bg-black\/40 {
+    background-color: rgba(248, 250, 252, 0.8) !important;
+  }
+
+  html:not(.dark) .dark\:bg-black\/50 {
+    background-color: rgba(248, 250, 252, 0.9) !important;
   }
 
   html:not(.dark) .bg-\[\#050505\],
@@ -47,23 +85,173 @@
   html:not(.dark) .bg-\[\#0f0f0f\],
   html:not(.dark) .bg-\[\#070707\],
   html:not(.dark) .bg-\[\#0b1220\],
-  html:not(.dark) .bg-\[\#111\] {
+  html:not(.dark) .bg-\[\#111\],
+  html:not(.dark) .dark\:bg-\[\#0A0A0A\],
+  html:not(.dark) .dark\:bg-\[\#0f0f0f\] {
     background-color: #f8fafc !important;
   }
 
+  /* Light mode border conversions */
   html:not(.dark) .border-white\/5 {
-    border-color: rgba(226, 232, 240, 0.45) !important;
+    border-color: rgba(15, 23, 42, 0.1) !important;
   }
 
   html:not(.dark) .border-white\/10 {
-    border-color: rgba(226, 232, 240, 0.7) !important;
+    border-color: rgba(15, 23, 42, 0.15) !important;
   }
 
+  html:not(.dark) .dark\:border-white\/5 {
+    border-color: rgba(15, 23, 42, 0.1) !important;
+  }
+
+  html:not(.dark) .dark\:border-white\/10 {
+    border-color: rgba(15, 23, 42, 0.15) !important;
+  }
+
+  html:not(.dark) .border-gray-200\/10 {
+    border-color: rgba(15, 23, 42, 0.1) !important;
+  }
+
+  html:not(.dark) .dark\:border-slate-700 {
+    border-color: rgba(15, 23, 42, 0.1) !important;
+  }
+
+  /* Light mode hover states */
   html:not(.dark) .hover\:text-white:hover {
-    color: #0f172a !important;
+    color: #1e293b !important;
   }
 
   html:not(.dark) .hover\:bg-white\/10:hover {
-    background-color: rgba(255, 255, 255, 0.35) !important;
+    background-color: rgba(248, 250, 252, 0.8) !important;
+  }
+
+  html:not(.dark) .dark\:hover\:bg-white\/20:hover {
+    background-color: rgba(248, 250, 252, 0.8) !important;
+  }
+
+  /* Light mode text gray conversions */
+  html:not(.dark) .text-gray-400 {
+    color: #64748b !important;
+  }
+
+  html:not(.dark) .dark\:text-gray-400 {
+    color: #64748b !important;
+  }
+
+  html:not(.dark) .dark\:text-gray-300 {
+    color: #94a3b8 !important;
+  }
+
+  html:not(.dark) .text-gray-700 {
+    color: #334155 !important;
+  }
+
+  html:not(.dark) .text-gray-500 {
+    color: #64748b !important;
+  }
+
+  html:not(.dark) .text-gray-600 {
+    color: #475569 !important;
+  }
+
+  html:not(.dark) .dark\:text-gray-500 {
+    color: #64748b !important;
+  }
+
+  /* Light mode slate conversions */
+  html:not(.dark) .dark\:bg-slate-900 {
+    background-color: #f1f5f9 !important;
+  }
+
+  html:not(.dark) .dark\:text-slate-400 {
+    color: #64748b !important;
+  }
+
+  html:not(.dark) .dark\:border-slate-700 {
+    border-color: rgba(15, 23, 42, 0.1) !important;
+  }
+
+  /* Light mode placeholder conversions */
+  html:not(.dark) .placeholder-gray-500::placeholder {
+    color: #94a3b8 !important;
+  }
+
+  /* Ensure green accent stays visible */
+  html:not(.dark) .text-\[\#8cff2e\] {
+    color: #8cff2e !important;
+  }
+
+  html:not(.dark) .border-\[\#8cff2e\] {
+    border-color: #8cff2e !important;
+  }
+
+  html:not(.dark) .bg-\[\#8cff2e\] {
+    background-color: #8cff2e !important;
+  }
+
+  /* Light mode shadow adjustments */
+  html:not(.dark) .shadow-\[0_0_20px_rgba\(140\,255\,46\,0\.15\)\] {
+    box-shadow: 0 0 20px rgba(140, 255, 46, 0.2) !important;
+  }
+
+  html:not(.dark) .shadow-\[0_0_15px_rgba\(140\,255\,46\,0\.2\)\] {
+    box-shadow: 0 0 15px rgba(140, 255, 46, 0.15) !important;
+  }
+
+  html:not(.dark) .shadow-2xl {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  html:not(.dark) .shadow-xl {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  html:not(.dark) .dark\:shadow-2xl {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  /* Light mode input styling */
+  html:not(.dark) input[type='text'],
+  html:not(.dark) input[type='email'],
+  html:not(.dark) input[type='password'],
+  html:not(.dark) textarea,
+  html:not(.dark) select {
+    background-color: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+    color: #1e293b !important;
+  }
+
+  html:not(.dark) input::placeholder,
+  html:not(.dark) textarea::placeholder {
+    color: #94a3b8 !important;
+  }
+
+  /* Light mode focus ring */
+  html:not(.dark) input:focus,
+  html:not(.dark) textarea:focus,
+  html:not(.dark) select:focus {
+    border-color: #8cff2e !important;
+    box-shadow: 0 0 0 2px rgba(140, 255, 46, 0.2) !important;
+  }
+
+  /* Light mode red color utilities */
+  html:not(.dark) .border-red-200 {
+    border-color: #fecaca !important;
+  }
+
+  html:not(.dark) .bg-red-50 {
+    background-color: #fef2f2 !important;
+  }
+
+  html:not(.dark) .text-red-500 {
+    color: #ef4444 !important;
+  }
+
+  html:not(.dark) .dark\:border-red-800 {
+    border-color: #7f1d1d !important;
+  }
+
+  html:not(.dark) .dark\:bg-red-900\/20 {
+    background-color: rgba(127, 29, 29, 0.2) !important;
   }
 }

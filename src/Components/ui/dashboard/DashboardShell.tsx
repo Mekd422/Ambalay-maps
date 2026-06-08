@@ -27,7 +27,7 @@ export function DashboardHeader({
         <p className="mb-2 text-sm uppercase tracking-[0.35em] text-[#8cff2e]">
           {kicker}
         </p>
-        <h2 className="text-lg font-semibold text-white sm:text-2xl">
+        <h2 className="text-lg font-semibold text-slate-900 sm:text-2xl dark:text-white">
           {title}
         </h2>
         {subtitle ? (
@@ -48,7 +48,7 @@ export function DashboardCard({ children, className }: DashboardCardProps) {
   return (
     <div
       className={mergeClassNames(
-        'rounded-xl border border-white/5 bg-[#111111] p-6 shadow-xl',
+        'rounded-xl border border-slate-200/20 bg-white p-6 shadow-xl dark:border-white/5 dark:bg-[#111111]',
         className,
       )}
     >
@@ -77,7 +77,7 @@ export function DashboardButton({
   const variantClassName =
     variant === 'primary'
       ? 'bg-[#8cff2e] text-black hover:bg-[#7be026]'
-      : 'bg-[#070707] border border-white/10 text-gray-200 hover:bg-white/[0.03]'
+      : 'bg-white text-slate-900 border border-slate-200/30 hover:bg-slate-100 dark:bg-[#070707] dark:text-gray-100 dark:border-white/10 dark:hover:bg-white/[0.03]'
 
   return (
     <button

@@ -85,7 +85,7 @@ export default function BillingInvoiceDetail({
         actions={
           <Link
             href="/dashboard/billing"
-            className="rounded-lg border border-white/10 bg-[#070707] px-4 py-2 text-sm font-medium text-gray-200 transition-colors hover:bg-white/[0.03]"
+            className="rounded-lg border border-slate-200/30 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-900 transition-colors hover:bg-slate-100 dark:border-white/10 dark:bg-[#070707] dark:text-gray-200 dark:hover:bg-white/[0.03]"
           >
             Back to billing
           </Link>
@@ -96,48 +96,48 @@ export default function BillingInvoiceDetail({
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <p className="text-sm text-gray-500">Invoice ID</p>
-            <h3 className="mt-1 break-all text-lg font-semibold text-white">
+            <h3 className="mt-1 break-all text-lg font-semibold text-slate-900 dark:text-white">
               {invoice.id}
             </h3>
           </div>
-          <span className="rounded-full border border-white/10 px-3 py-1 text-xs font-semibold text-gray-200">
+          <span className="rounded-full border border-slate-200/30 px-3 py-1 text-xs font-semibold text-slate-700 dark:border-white/10 dark:text-gray-200">
             {invoice.status}
           </span>
         </div>
 
-        <div className="grid gap-4 text-sm text-gray-300 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid gap-4 text-sm text-gray-700 dark:text-gray-300 md:grid-cols-2 xl:grid-cols-4">
           <div>
             <p className="text-gray-500">Plan</p>
-            <p className="mt-1 font-medium text-white">
+            <p className="mt-1 font-medium text-slate-900 dark:text-white">
               {invoice.subscriptionPlan.label}
             </p>
           </div>
           <div>
             <p className="text-gray-500">Amount</p>
-            <p className="mt-1 font-medium text-white">
+            <p className="mt-1 font-medium text-slate-900 dark:text-white">
               {formatCurrency(invoice.amount, invoice.currency)}
             </p>
           </div>
           <div>
             <p className="text-gray-500">Due at</p>
-            <p className="mt-1 font-medium text-white">{formatDate(invoice.dueAt)}</p>
+            <p className="mt-1 font-medium text-slate-900 dark:text-white">{formatDate(invoice.dueAt)}</p>
           </div>
           <div>
             <p className="text-gray-500">Interval</p>
-            <p className="mt-1 font-medium text-white">{invoice.interval}</p>
+            <p className="mt-1 font-medium text-slate-900 dark:text-white">{invoice.interval}</p>
           </div>
         </div>
 
-        <div className="grid gap-4 text-sm text-gray-300 md:grid-cols-2">
+        <div className="grid gap-4 text-sm text-gray-700 dark:text-gray-300 md:grid-cols-2">
           <div>
             <p className="text-gray-500">Billing period</p>
-            <p className="mt-1 font-medium text-white">
+            <p className="mt-1 font-medium text-slate-900 dark:text-white">
               {formatDate(invoice.periodStart)} - {formatDate(invoice.periodEnd)}
             </p>
           </div>
           <div>
             <p className="text-gray-500">Kind</p>
-            <p className="mt-1 font-medium text-white">{invoice.kind}</p>
+            <p className="mt-1 font-medium text-slate-900 dark:text-white">{invoice.kind}</p>
           </div>
         </div>
 
@@ -154,10 +154,10 @@ export default function BillingInvoiceDetail({
       </DashboardCard>
 
       <DashboardCard className="space-y-4">
-        <h3 className="text-lg font-semibold text-white">Payments</h3>
+        <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Payments</h3>
 
         {invoice.payments.length === 0 ? (
-          <div className="rounded-xl border border-white/10 bg-white/5 p-6 text-sm text-gray-400">
+          <div className="rounded-xl border border-slate-200/30 bg-slate-50 p-6 text-sm text-slate-700 dark:border-white/10 dark:bg-white/5 dark:text-gray-400">
             No payment attempts recorded for this invoice yet.
           </div>
         ) : (
@@ -165,18 +165,18 @@ export default function BillingInvoiceDetail({
             {invoice.payments.map((payment) => (
               <div
                 key={payment.id}
-                className="rounded-xl border border-white/10 bg-white/5 p-4"
+                className="rounded-xl border border-slate-200/30 bg-slate-50 p-4 dark:border-white/10 dark:bg-white/5"
               >
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div>
-                    <p className="text-sm font-medium text-white">{payment.id}</p>
-                    <p className="mt-1 text-sm text-gray-500">
+                    <p className="text-sm font-medium text-slate-900 dark:text-white">{payment.id}</p>
+                    <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                       Updated {formatDate(payment.updatedAt)}
                     </p>
                   </div>
-                  <div className="flex flex-wrap items-center gap-3 text-sm text-gray-300">
+                  <div className="flex flex-wrap items-center gap-3 text-sm text-slate-700 dark:text-gray-300">
                     <span>{formatCurrency(payment.amount, payment.currency)}</span>
-                    <span className="rounded-full border border-white/10 px-3 py-1 text-xs font-semibold text-gray-200">
+                    <span className="rounded-full border border-slate-200/30 px-3 py-1 text-xs font-semibold text-slate-700 dark:border-white/10 dark:text-gray-200">
                       {payment.status}
                     </span>
                   </div>
