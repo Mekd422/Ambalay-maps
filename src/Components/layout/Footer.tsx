@@ -1,9 +1,12 @@
 import Image from 'next/image'
 import { Link } from 'react-router-dom'
-// Importing icons from lucide-react (Standard for React/Tailwind)
+import { useTheme } from '../../context/useTheme'
 import { Twitter, Facebook, Instagram, Linkedin } from 'lucide-react'
 
 export default function Footer() {
+  const { theme } = useTheme()
+  const logoSrc = theme === 'dark' ? '/icons/ambalay-dark.png' : '/icons/ambalay-light.png'
+
   return (
     <footer className="border-t border-white/5 bg-black px-6 py-24 text-white md:px-12">
       <div className="mx-auto max-w-6xl">
@@ -12,7 +15,7 @@ export default function Footer() {
           <div className="space-y-8 sm:col-span-2 lg:col-span-8">
             <div className="flex items-center gap-3">
               <Image
-                src="/icons/ambalay-logo.png"
+                src={logoSrc}
                 alt="AmbaLay Maps Logo"
                 width={40}
                 height={20}
