@@ -158,7 +158,7 @@ export default function ApiKeys() {
       {!loading && !error && (
         <div className="overflow-x-auto">
           <table className="w-full min-w-[860px] text-left text-sm">
-            <thead className="border-b border-white/10 text-gray-500">
+            <thead className="border-b border-slate-200/30 text-slate-600 dark:border-white/10 dark:text-gray-400">
               <tr>
                 <th className="py-3 pr-4">Label</th>
                 <th className="pr-4">Secret</th>
@@ -169,10 +169,10 @@ export default function ApiKeys() {
               </tr>
             </thead>
 
-            <tbody className="text-gray-300">
+            <tbody className="text-slate-700 dark:text-gray-300">
               {apiKeys.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="py-10 text-center text-gray-500">
+                  <td colSpan={6} className="py-10 text-center text-slate-700 dark:text-gray-400">
                     No API keys found
                   </td>
                 </tr>
@@ -180,9 +180,9 @@ export default function ApiKeys() {
                 apiKeys.map((key) => (
                   <tr
                     key={key.id}
-                    className="border-b border-white/5 transition-colors hover:bg-white/[0.03]"
+                    className="border-b border-slate-200/30 transition-colors hover:bg-slate-100/60 dark:border-white/5 dark:hover:bg-white/[0.03]"
                   >
-                    <td className="py-4 pr-4 font-medium text-white">
+                    <td className="py-4 pr-4 font-medium text-slate-900 dark:text-white">
                       {key.label}
                     </td>
 
@@ -195,7 +195,7 @@ export default function ApiKeys() {
                         </span>
                         <button
                           onClick={() => toggleKeyVisibility(key.id)}
-                          className="rounded p-1 text-gray-400 transition-colors hover:bg-white/10 hover:text-white"
+                          className="rounded p-1 text-gray-400 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-white/10 dark:hover:text-white"
                           title={
                             visibleKeys[key.id] ? 'Hide Secret' : 'Show Secret'
                           }
@@ -223,7 +223,7 @@ export default function ApiKeys() {
                           {key.services.map((s) => (
                             <span
                               key={s}
-                              className="rounded border border-white/5 bg-white/5 px-1.5 py-0.5 text-[10px] text-gray-400"
+                              className="rounded border border-slate-200/30 bg-slate-50 px-1.5 py-0.5 text-[10px] text-slate-600 dark:border-white/10 dark:bg-white/5 dark:text-gray-400"
                             >
                               {s}
                             </span>
@@ -253,8 +253,8 @@ export default function ApiKeys() {
 
       {/* 🔥 MODAL */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
-          <div className="w-[400px] rounded-xl border border-white/10 bg-[#111111] p-6 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm dark:bg-black/80">
+          <div className="w-[400px] rounded-xl border border-slate-200/30 bg-white p-6 shadow-2xl dark:border-white/10 dark:bg-[#111111]">
             <h3 className="mb-4 text-lg font-semibold text-white">
               Create API Key
             </h3>
@@ -268,7 +268,7 @@ export default function ApiKeys() {
                   setCreateError('')
                 }
               }}
-              className="mb-4 w-full rounded border border-white/10 bg-[#1a1a1a] px-3 py-2 text-white outline-none transition focus:border-[#8cff2e]/50"
+              className="mb-4 w-full rounded border border-slate-200/30 bg-white px-3 py-2 text-slate-900 outline-none transition focus:border-[#8cff2e]/50 dark:border-white/10 dark:bg-[#1a1a1a] dark:text-white"
             />
             <div className="mb-6">
               <p className="mb-3 text-sm text-gray-400">Allowed Services</p>
