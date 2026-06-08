@@ -15,6 +15,7 @@ export default function Navbar() {
   const navigate = useNavigate()
   const location = useLocation()
   const { theme, toggleTheme } = useTheme()
+  const logoSrc = theme === 'dark' ? '/icons/ambalay-dark.png' : '/icons/ambalay-light.png'
 
   const isLoggedIn = !!token
   const userName = user?.firstName || 'User'
@@ -54,7 +55,7 @@ export default function Navbar() {
         {/* Logo */}
         <div className="flex items-center gap-2">
           <Image
-            src="/icons/ambalay.png"
+            src={logoSrc}
             alt="AmbaLay Maps Logo"
             width={80}
             height={80}
