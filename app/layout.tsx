@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import Script from 'next/script'
+import Script from 'next/script' 
 import Providers from './providers'
 import '../src/index.css'
 
@@ -28,11 +28,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <script
+        <Script
+          id="theme-initializer"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var theme=localStorage.getItem('theme');if(theme==='dark'||(!theme&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark')}else{document.documentElement.classList.remove('dark')}}catch(e){}})();`,
           }}
         />
+        
         {shouldLoadUmami ? (
           <Script
             defer
@@ -41,6 +44,7 @@ export default function RootLayout({
             strategy="afterInteractive"
           />
         ) : null}
+        
         <Providers>{children}</Providers>
       </body>
     </html>
