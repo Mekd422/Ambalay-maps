@@ -12,11 +12,11 @@ export default function HeroSection() {
             from heights we see clearly
           </span>
         </div>
-        <h1 className="mb-4 text-4xl font-medium leading-tight text-black dark:text-white sm:text-5xl md:text-6xl">
+        <h1 className="mb-4 text-4xl font-medium leading-tight text-slate-900 dark:text-white sm:text-5xl md:text-6xl">
           Build smarter with Ambalay Maps
         </h1>
 
-        <p className="mx-auto mb-8 max-w-2xl text-sm leading-relaxed text-gray-700 dark:text-gray-400 sm:text-base md:text-lg">
+        <p className="mx-auto mb-8 max-w-2xl text-sm leading-relaxed text-slate-600 dark:text-gray-400 sm:text-base md:text-lg">
           Location data, routing, geocoding, and map tools built for teams that
           need accurate, fast, and scalable geospatial services.
         </p>
