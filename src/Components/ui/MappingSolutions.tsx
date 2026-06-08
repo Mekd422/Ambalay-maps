@@ -32,8 +32,10 @@ export default function MappingSolutions() {
         </div>
 
         <div className="mb-6 grid gap-6 md:grid-cols-[1.6fr_1fr]">
+          {/* Card 1: For Developers */}
           <div className="group flex h-full flex-col overflow-hidden rounded-[32px] border border-slate-200/20 bg-white transition-all hover:border-slate-300/40 dark:border-white/5 dark:bg-[#0A0A0A]">
-            <div className="relative flex h-[320px] items-center justify-center overflow-hidden bg-slate-900 dark:bg-[#111]">
+            {/* Added bg-transparent and restricted bg-slate-900 / bg-[#111] to dark mode only */}
+            <div className="relative flex h-[320px] items-center justify-center overflow-hidden bg-transparent dark:bg-slate-900/40">
               <Image
                 src="/images/solutions/dev.jpg"
                 alt="Geo"
@@ -41,7 +43,8 @@ export default function MappingSolutions() {
                 height={640}
                 className="h-auto w-[80%] object-contain transition-transform duration-500 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
+              {/* Wrapped gradient overlay with hidden dark:block */}
+              <div className="hidden dark:block absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
             </div>
             <div className="p-8">
               <h3 className="mb-3 text-2xl font-semibold text-slate-900 dark:text-white">
@@ -53,8 +56,9 @@ export default function MappingSolutions() {
             </div>
           </div>
 
+          {/* Card 2: For Logistics Teams */}
           <div className="group flex h-full flex-col overflow-hidden rounded-[32px] border border-slate-200/20 bg-white transition-all hover:border-slate-300/40 dark:border-white/5 dark:bg-[#0A0A0A]">
-            <div className="relative flex h-[320px] items-center justify-center overflow-hidden bg-slate-900 dark:bg-[#111]">
+            <div className="relative flex h-[320px] items-center justify-center overflow-hidden bg-transparent dark:bg-slate-900/40">
               <Image
                 src="/images/solutions/img-bic.jpg"
                 alt="Cashflow Overview"
@@ -62,7 +66,7 @@ export default function MappingSolutions() {
                 height={640}
                 className="h-auto w-[80%] object-contain transition-transform duration-500 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
+              <div className="hidden dark:block absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
             </div>
             <div className="p-8">
               <h3 className="mb-3 text-2xl font-semibold leading-tight text-slate-900 dark:text-white">
@@ -76,8 +80,9 @@ export default function MappingSolutions() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">
+          {/* Card 3: For Businesses */}
           <div className="group flex flex-col overflow-hidden rounded-[32px] border border-slate-200/20 bg-white transition-all hover:border-slate-300/40 dark:border-white/5 dark:bg-[#0A0A0A]">
-            <div className="relative flex aspect-square items-center justify-center overflow-hidden bg-slate-900 dark:bg-[#111]">
+            <div className="relative flex aspect-square items-center justify-center overflow-hidden bg-transparent dark:bg-slate-900/40">
               <Image
                 src="/images/solutions/ride.png"
                 alt="Spending"
@@ -85,21 +90,21 @@ export default function MappingSolutions() {
                 height={640}
                 className="h-auto w-[85%] object-contain transition-transform duration-500 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
+              <div className="hidden dark:block absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
             </div>
             <div className="p-8">
               <h3 className="mb-2 text-xl font-semibold text-slate-900 dark:text-white">
                 For Businesses
               </h3>
-              <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-                Add location search, store mapping, and address intelligence to
-                your product.
+              <p className="text-sm leading-relaxed text-gray-500 dark:text-gray-400">
+                Add location search, store mapping, and address intelligence to your product.
               </p>
             </div>
           </div>
 
+          {/* Card 4: For Operations */}
           <div className="group flex flex-col overflow-hidden rounded-[32px] border border-slate-200/20 bg-white transition-all hover:border-slate-300/40 dark:border-white/5 dark:bg-[#0A0A0A]">
-            <div className="relative flex aspect-square items-center justify-center overflow-hidden bg-slate-900 dark:bg-[#111]">
+            <div className="relative flex aspect-square items-center justify-center overflow-hidden bg-transparent dark:bg-slate-900/40">
               <Image
                 src="/images/solutions/operations.jpg"
                 alt="Savings"
@@ -107,20 +112,19 @@ export default function MappingSolutions() {
                 height={640}
                 className="h-auto w-[85%] object-contain transition-transform duration-500 group-hover:scale-105"
               />
-
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
+              <div className="hidden dark:block absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-transparent" />
             </div>
             <div className="p-8">
               <h3 className="mb-2 text-xl font-semibold text-slate-900 dark:text-white">
                 For Operations
               </h3>
-              <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-                Make field work, dispatching, and coverage planning more
-                efficient.
+              <p className="text-sm leading-relaxed text-gray-500 dark:text-gray-400">
+                Make field work, dispatching, and coverage planning more efficient.
               </p>
             </div>
           </div>
 
+          {/* Stats Column */}
           <div className="flex flex-col gap-6">
             <div className="flex flex-1 flex-col justify-center rounded-[32px] border border-slate-200/20 bg-white p-8 dark:border-white/5 dark:bg-[#0A0A0A]">
               <div className="mb-6 flex items-center -space-x-3">
@@ -135,7 +139,7 @@ export default function MappingSolutions() {
                     alt={`Active developer ${i + 1}`}
                     width={48}
                     height={48}
-                    className="h-12 w-12 rounded-full border-4 border-[#0A0A0A] object-cover"
+                    className="h-12 w-12 rounded-full border-4 border-white dark:border-[#0A0A0A] object-cover"
                   />
                 ))}
               </div>
