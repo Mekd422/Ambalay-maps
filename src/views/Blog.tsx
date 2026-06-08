@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-// import { ArrowUpRight } from "lucide-react";
 
 import Navbar from '../Components/layout/Navbar'
 import Footer from '../Components/layout/Footer'
@@ -62,7 +61,8 @@ export default function BlogSection() {
   return (
     <>
       <Navbar />
-      <section className="overflow-hidden bg-black px-6 py-24 md:px-12">
+      {/* FIXED: Changed bg-black to a dynamic background */}
+      <section className="overflow-hidden bg-white text-zinc-900 transition-colors duration-300 dark:bg-black dark:text-zinc-50 px-6 py-24 md:px-12">
         <div className="mx-auto max-w-5xl">
           <div className="mb-10 text-center">
             <motion.div
@@ -70,47 +70,47 @@ export default function BlogSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               className="mb-6 inline-flex items-center gap-2 text-[#8cff2e]"
-            >
-              {/* <span className="h-1.5 w-1.5 rounded-full bg-[#8cff2e]" />
-              <span className="text-xs font-medium uppercase tracking-[0.2em]">Blog</span> */}
-            </motion.div>
+            />
 
+            {/* FIXED: Changed text-white to dynamic tracking */}
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="mb-6 text-4xl font-medium leading-tight tracking-tight text-white md:text-6xl"
+              className="mb-6 text-4xl font-medium leading-tight tracking-tight text-zinc-900 dark:text-white md:text-6xl"
             >
               Insights, updates & stories <br />
               from Ambalay Maps
             </motion.h2>
 
-            <p className="mx-auto max-w-xl text-base text-zinc-400 md:text-lg">
+            {/* FIXED: Balanced grey text values for optimal contrast in both profiles */}
+            <p className="mx-auto max-w-xl text-base text-zinc-600 dark:text-zinc-400 md:text-lg">
               Stay ahead with product updates, mapping ideas, AI navigation
               insights, and stories about building Ethiopia’s geospatial
               infrastructure.
             </p>
           </div>
 
+          {/* FIXED: Categorical border pills adapt to dark modes */}
           <div className="mb-16 flex flex-wrap justify-center gap-3">
-            {categoryLabels.map((label) => (
+            ={categoryLabels.map((label) => (
               <span
                 key={label}
-                className="rounded-full border border-white/10 px-4 py-2 text-[11px] uppercase tracking-[0.25em] text-zinc-400"
+                className="rounded-full border border-zinc-200 dark:border-white/10 px-4 py-2 text-[11px] uppercase tracking-[0.25em] text-zinc-600 dark:text-zinc-400"
               >
                 {label}
               </span>
             ))}
           </div>
 
+          {/* FIXED: Core main feature container block shifts shades safely */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            // --- ADDED rounded-3xl HERE ---
-            className="group relative mb-10 overflow-hidden rounded-3xl border border-white/5 bg-[#0A0A0A]"
+            className="group relative mb-10 overflow-hidden rounded-3xl border border-zinc-100 dark:border-white/5 bg-zinc-50 dark:bg-[#0A0A0A]"
           >
             <div className="grid items-center md:grid-cols-2">
               <div className="h-[300px] overflow-hidden md:h-[500px]">
@@ -126,10 +126,10 @@ export default function BlogSection() {
                 <span className="mb-4 block text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">
                   AI Navigation
                 </span>
-                <h3 className="mb-6 text-3xl font-medium leading-tight text-white md:text-4xl">
+                <h3 className="mb-6 text-3xl font-medium leading-tight text-zinc-900 dark:text-white md:text-4xl">
                   Why Ethiopia Needs Landmark-Based Navigation
                 </h3>
-                <p className="mb-8 whitespace-pre-line text-base text-zinc-400">
+                <p className="mb-8 whitespace-pre-line text-base text-zinc-600 dark:text-zinc-400">
                   In Ethiopia, people do not always navigate with street names
                   and coordinates. They use landmarks, local references, and
                   familiar places. In this post, we explore why formal maps
@@ -140,6 +140,7 @@ export default function BlogSection() {
             </div>
           </motion.div>
 
+          {/* FIXED: Secondary post structures converted to hybrid profiles */}
           <div className="mb-16 grid grid-cols-1 gap-8 md:grid-cols-2">
             {secondaryPosts.map((post, index) => (
               <motion.div
@@ -152,8 +153,7 @@ export default function BlogSection() {
                   delay: index * 0.15,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                // --- ADDED rounded-3xl HERE ---
-                className="group overflow-hidden rounded-3xl border border-white/5 bg-[#0A0A0A] transition-colors hover:border-white/10"
+                className="group overflow-hidden rounded-3xl border border-zinc-100 dark:border-white/5 bg-zinc-50 dark:bg-[#0A0A0A] transition-colors hover:border-zinc-200 dark:hover:border-white/10"
               >
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <Image
@@ -168,10 +168,10 @@ export default function BlogSection() {
                   <span className="mb-3 block text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">
                     {post.category}
                   </span>
-                  <h3 className="mb-4 text-2xl font-medium leading-snug text-white">
+                  <h3 className="mb-4 text-2xl font-medium leading-snug text-zinc-900 dark:text-white">
                     {post.title}
                   </h3>
-                  <p className="text-base leading-relaxed text-zinc-400">
+                  <p className="text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
                     {post.description}
                   </p>
                 </div>
@@ -179,11 +179,11 @@ export default function BlogSection() {
             ))}
           </div>
 
+          {/* FIXED: Final textual list items adapted */}
           <div className="mb-12">
             <div className="mb-8 flex flex-col items-center justify-between gap-4 md:flex-row">
               <div>
-                {/* <h3 className="text-3xl font-medium text-white">More Blog Post Ideas</h3> */}
-                <p className="mt-3 max-w-2xl text-zinc-400">
+                <p className="mt-3 max-w-2xl text-zinc-600 dark:text-zinc-400">
                   Additional topics that highlight Ambalay’s local navigation
                   vision, AI direction tools, and developer-facing platform.
                 </p>
@@ -202,16 +202,15 @@ export default function BlogSection() {
                     delay: index * 0.1,
                     ease: [0.16, 1, 0.3, 1],
                   }}
-                  // Adding rounded-2xl for consistency, though this card doesn't have an image
-                  className="rounded-2xl border border-white/5 bg-[#0A0A0A] p-6 transition-colors hover:border-white/10"
+                  className="rounded-2xl border border-zinc-100 dark:border-white/5 bg-zinc-50 dark:bg-[#0A0A0A] p-6 transition-colors hover:border-zinc-200 dark:hover:border-white/10"
                 >
                   <span className="mb-3 block text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500">
                     {idea.category}
                   </span>
-                  <h4 className="mb-3 text-xl font-medium leading-snug text-white">
+                  <h4 className="mb-3 text-xl font-medium leading-snug text-zinc-900 dark:text-white">
                     {idea.title}
                   </h4>
-                  <p className="text-base leading-relaxed text-zinc-400">
+                  <p className="text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
                     {idea.description}
                   </p>
                 </motion.div>
