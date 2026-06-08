@@ -89,9 +89,9 @@ export default function Usage() {
         subtitle="Track your active subscription and service consumption."
       />
 
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+      <div className="rounded-2xl border border-slate-200/30 bg-slate-50 p-5 dark:border-white/10 dark:bg-white/5">
         <div className="mb-3 flex flex-wrap items-center gap-3">
-          <h3 className="text-xl font-semibold text-white">
+          <h3 className="text-xl font-semibold text-slate-900 dark:text-white">
             {subscription.subscriptionPlan?.label ?? 'Current Plan'}
           </h3>
           <span className="rounded-full border border-[#8cff2e]/20 bg-[#8cff2e]/10 px-3 py-1 text-xs font-semibold tracking-wide text-[#8cff2e]">
@@ -103,7 +103,7 @@ export default function Usage() {
             {subscription.subscriptionPlan.description}
           </p>
         )}
-        <div className="flex flex-wrap gap-6 text-sm text-gray-300">
+        <div className="flex flex-wrap gap-6 text-sm text-slate-700 dark:text-gray-300">
           <div>
             <span className="text-gray-500">Starts:</span>{' '}
             {formatDate(subscription.startsAt)}
@@ -117,7 +117,7 @@ export default function Usage() {
 
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
         {usageRows.length === 0 ? (
-          <div className="col-span-full rounded-2xl border border-white/10 bg-white/5 px-5 py-10 text-center text-gray-400">
+          <div className="col-span-full rounded-2xl border border-slate-200/30 bg-slate-50 px-5 py-10 text-center text-slate-700 dark:border-white/10 dark:bg-white/5 dark:text-gray-400">
             No usage data available yet.
           </div>
         ) : (
@@ -130,11 +130,11 @@ export default function Usage() {
             return (
               <div
                 key={row.service}
-                className="rounded-2xl border border-white/10 bg-white/5 p-5 transition-all duration-300 hover:border-[#8cff2e]/30 hover:bg-white/[0.07]"
+                className="rounded-2xl border border-slate-200/30 bg-slate-50 p-5 transition-all duration-300 hover:border-[#8cff2e]/30 hover:bg-slate-100/60 dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/[0.07]"
               >
                 <div className="mb-4 flex items-start justify-between gap-4">
                   <div>
-                    <h3 className="text-lg font-semibold text-white">
+                    <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
                       {row.service}
                     </h3>
 
@@ -152,7 +152,7 @@ export default function Usage() {
                   <div className="mb-2 flex items-center justify-between text-sm">
                     <span className="text-gray-400">Used</span>
 
-                    <span className="font-medium text-white">
+                    <span className="font-medium text-slate-900 dark:text-white">
                       {row.used.toLocaleString()} /{' '}
                       {row.allowed.toLocaleString()}
                     </span>
