@@ -24,17 +24,19 @@ const ChatbotWidget: React.FC = () => {
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end font-sans">
       {isOpen && (
-        <div className="mb-4 flex h-[500px] w-[350px] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a] shadow-2xl backdrop-blur-xl sm:w-[400px]">
-          <div className="flex items-center justify-between border-b border-white/5 bg-gradient-to-r from-[#0a0a0a] to-[#1a1a1a] p-4">
+        <div className="mb-4 flex h-[500px] w-[350px] flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl backdrop-blur-xl transition-colors dark:border-white/10 dark:bg-[#0a0a0a] sm:w-[400px]">
+          
+          {/* Header */}
+          <div className="flex items-center justify-between border-b border-gray-100 bg-gradient-to-r from-gray-50 to-gray-100 p-4 dark:border-white/5 dark:from-[#0a0a0a] dark:to-[#1a1a1a]">
             <div className="flex items-center gap-3">
               <div className="h-2 w-2 animate-pulse rounded-full bg-[#b0ff2a]"></div>
-              <h3 className="text-sm font-bold uppercase tracking-wider text-white">
+              <h3 className="text-sm font-bold uppercase tracking-wider text-gray-800 dark:text-white">
                 Ambalay Assistant
               </h3>
             </div>
             <button
               onClick={() => setIsOpen(false)}
-              className="text-gray-400 transition-colors hover:text-white"
+              className="text-gray-400 transition-colors hover:text-gray-600 dark:hover:text-white"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -53,9 +55,10 @@ const ChatbotWidget: React.FC = () => {
             </button>
           </div>
 
+          {/* Messages Container */}
           <div
             ref={scrollRef}
-            className="scrollbar-thin scrollbar-thumb-white/10 flex-1 space-y-4 overflow-y-auto p-4"
+            className="flex-1 space-y-4 overflow-y-auto p-4 scrollbar-thin scrollbar-thumb-gray-200 dark:scrollbar-thumb-white/10"
           >
             {messages.map((msg, i) => (
               <div
@@ -66,27 +69,30 @@ const ChatbotWidget: React.FC = () => {
                   className={`max-w-[80%] rounded-2xl px-4 py-2 text-sm ${
                     msg.sender === 'user'
                       ? 'bg-[#b0ff2a] font-medium text-black'
-                      : 'border border-white/10 bg-white/5 text-gray-200'
+                      : 'border border-gray-200 bg-gray-50 text-gray-800 dark:border-white/10 dark:bg-white/5 dark:text-gray-200'
                   }`}
                 >
                   {msg.text}
                 </div>
               </div>
             ))}
+            
+            {/* Loading Indicator */}
             {loading && (
               <div className="flex justify-start">
-                <div className="flex gap-1 rounded-2xl border border-white/10 bg-white/5 px-4 py-2">
-                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#b0ff2a]"></span>
-                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#b0ff2a] [animation-delay:0.2s]"></span>
-                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#b0ff2a] [animation-delay:0.4s]"></span>
+                <div className="flex gap-1 rounded-2xl border border-gray-200 bg-gray-50 px-4 py-2 dark:border-white/10 dark:bg-white/5">
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-gray-400 dark:bg-[#b0ff2a]"></span>
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-gray-400 dark:bg-[#b0ff2a] [animation-delay:0.2s]"></span>
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-gray-400 dark:bg-[#b0ff2a] [animation-delay:0.4s]"></span>
                 </div>
               </div>
             )}
           </div>
 
+          {/* Input Form */}
           <form
             onSubmit={handleSubmit}
-            className="border-t border-white/5 bg-white/5 p-4"
+            className="border-t border-gray-100 bg-gray-50/50 p-4 dark:border-white/5 dark:bg-white/5"
           >
             <div className="relative flex items-center">
               <input
@@ -94,12 +100,12 @@ const ChatbotWidget: React.FC = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask about geospatial services..."
-                className="w-full rounded-full border border-white/10 bg-black py-3 pl-4 pr-12 text-sm text-white placeholder-gray-500 transition-all focus:border-[#b0ff2a] focus:outline-none"
+                className="w-full rounded-full border border-gray-200 bg-white py-3 pl-4 pr-12 text-sm text-gray-900 placeholder-gray-400 transition-all focus:border-gray-400 focus:outline-none dark:border-white/10 dark:bg-black dark:text-white dark:placeholder-gray-500 dark:focus:border-[#b0ff2a]"
               />
               <button
                 type="submit"
                 disabled={loading}
-                className="absolute right-2 p-2 text-[#b0ff2a] transition-transform hover:scale-110 disabled:opacity-50"
+                className="absolute right-2 p-2 text-gray-600 transition-transform hover:scale-110 disabled:opacity-50 dark:text-[#b0ff2a]"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -121,6 +127,7 @@ const ChatbotWidget: React.FC = () => {
         </div>
       )}
 
+      {/* Floating Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex h-14 w-14 items-center justify-center rounded-full bg-[#b0ff2a] shadow-lg shadow-[#b0ff2a]/20 transition-all hover:scale-110 active:scale-95"
