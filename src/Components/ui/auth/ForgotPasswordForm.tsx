@@ -42,10 +42,10 @@ export default function ForgotPasswordForm() {
   return (
     <div className="flex w-full flex-col items-center justify-center py-12">
       <div className="mb-10 text-center">
-        <h2 className="mb-2 text-3xl font-semibold text-black dark:text-white">
+        <h2 className="mb-2 text-3xl font-semibold text-slate-900 dark:text-white">
           Reset your password
         </h2>
-        <p className="text-gray-500 dark:text-gray-400">
+        <p className="text-slate-600 dark:text-gray-400">
           Enter your email and we&apos;ll send a 6-digit reset code.
         </p>
       </div>
@@ -53,7 +53,7 @@ export default function ForgotPasswordForm() {
       <div className="w-full max-w-md rounded-2xl border border-gray-100 bg-white p-8 shadow-2xl dark:border-white/5 dark:bg-[#0f0f0f] md:p-10">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label className="text-sm font-medium text-slate-700 dark:text-gray-300">
               Email
             </label>
             <input
@@ -63,7 +63,7 @@ export default function ForgotPasswordForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="abebe@company.com"
-              className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-black focus:outline-none focus:ring-2 focus:ring-[#8cff2e] dark:border-white/10 dark:bg-black dark:text-white"
+              className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#8cff2e] dark:border-white/10 dark:bg-black dark:text-white"
             />
           </div>
 
@@ -82,7 +82,7 @@ export default function ForgotPasswordForm() {
           </button>
         </form>
 
-        <p className="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+        <p className="mt-8 text-center text-sm text-slate-600 dark:text-gray-400">
           Remembered your password?{' '}
           <Link
             to="/login"
