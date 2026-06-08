@@ -66,7 +66,7 @@ export default function ContactSection() {
               whileInView={{ x: 0, opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="mb-12 text-5xl font-medium leading-[1.1] tracking-tight text-black dark:text-white md:text-6xl"
+              className="mb-12 text-5xl font-medium leading-[1.1] tracking-tight text-slate-900 dark:text-white md:text-6xl"
             >
               Let's build <br />
               <span className="text-gray-500">together</span>
@@ -77,8 +77,8 @@ export default function ContactSection() {
                 <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-gray-600">
                   Headquarters
                 </p>
-                <p className="text-sm text-black dark:text-white">Addis Ababa</p>
-                <p className="text-sm text-black dark:text-white">Ethiopia</p>
+                <p className="text-sm text-slate-900 dark:text-white">Addis Ababa</p>
+                <p className="text-sm text-slate-900 dark:text-white">Ethiopia</p>
               </div>
 
               <div className="flex items-center gap-4 rounded-2xl border border-white/5 bg-white dark:bg-[#0A0A0A] p-5">
