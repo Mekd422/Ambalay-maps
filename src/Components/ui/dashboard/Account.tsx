@@ -125,7 +125,7 @@ export default function AccountSettings() {
       />
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         <DashboardCard>
-          <h2 className="mb-6 text-lg font-semibold text-white">
+          <h2 className="mb-6 text-lg font-semibold text-slate-900 dark:text-white">
             Update Account
           </h2>
 
@@ -137,7 +137,7 @@ export default function AccountSettings() {
               <input
                 disabled
                 value={user?.email || ''}
-                className="w-full rounded-lg border border-white/10 bg-[#070707] px-4 py-2.5 text-gray-500"
+                className="w-full rounded-lg border border-slate-200/50 bg-white px-4 py-2.5 text-slate-500 dark:border-white/10 dark:bg-[#070707] dark:text-gray-400"
               />
             </div>
 
@@ -148,7 +148,7 @@ export default function AccountSettings() {
               <input
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
-                className="w-full rounded-lg border border-white/10 bg-[#070707] px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-[#8cff2e]/30"
+                className="w-full rounded-lg border border-slate-200/50 bg-white px-4 py-2.5 text-slate-900 outline-none transition focus:border-[#8cff2e]/30 focus:ring-2 focus:ring-[#8cff2e]/30 dark:border-white/10 dark:bg-[#070707] dark:text-white"
               />
             </div>
 
@@ -159,7 +159,7 @@ export default function AccountSettings() {
               <input
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
-                className="w-full rounded-lg border border-white/10 bg-[#070707] px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-[#8cff2e]/30"
+                className="w-full rounded-lg border border-slate-200/50 bg-white px-4 py-2.5 text-slate-900 outline-none transition focus:border-[#8cff2e]/30 focus:ring-2 focus:ring-[#8cff2e]/30 dark:border-white/10 dark:bg-[#070707] dark:text-white"
               />
             </div>
 
@@ -178,7 +178,7 @@ export default function AccountSettings() {
         </DashboardCard>
 
         <DashboardCard>
-          <h2 className="mb-6 text-lg font-semibold text-white">
+          <h2 className="mb-6 text-lg font-semibold text-slate-900 dark:text-white">
             Change Password
           </h2>
 
@@ -193,7 +193,7 @@ export default function AccountSettings() {
                   type="password"
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
-                  className="w-full rounded-lg border border-white/10 bg-[#070707] px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-[#8cff2e]/30"
+                  className="w-full rounded-lg border border-slate-200/50 bg-white px-4 py-2.5 text-slate-900 outline-none transition focus:border-[#8cff2e]/30 focus:ring-2 focus:ring-[#8cff2e]/30 dark:border-white/10 dark:bg-[#070707] dark:text-white"
                 />
                 <Eye
                   size={18}
@@ -212,7 +212,7 @@ export default function AccountSettings() {
                   type="password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full rounded-lg border border-white/10 bg-[#070707] px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-[#8cff2e]/30"
+                  className="w-full rounded-lg border border-slate-200/50 bg-white px-4 py-2.5 text-slate-900 outline-none transition focus:border-[#8cff2e]/30 focus:ring-2 focus:ring-[#8cff2e]/30 dark:border-white/10 dark:bg-[#070707] dark:text-white"
                 />
                 <Eye
                   size={18}
@@ -231,7 +231,7 @@ export default function AccountSettings() {
                   type="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full rounded-lg border border-white/10 bg-[#070707] px-4 py-2.5 text-white outline-none focus:ring-2 focus:ring-[#8cff2e]/30"
+                  className="w-full rounded-lg border border-slate-200/50 bg-white px-4 py-2.5 text-slate-900 outline-none transition focus:border-[#8cff2e]/30 focus:ring-2 focus:ring-[#8cff2e]/30 dark:border-white/10 dark:bg-[#070707] dark:text-white"
                 />
                 <Eye
                   size={18}
