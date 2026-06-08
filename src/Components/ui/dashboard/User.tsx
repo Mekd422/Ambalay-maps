@@ -68,7 +68,7 @@ export default function Users() {
 
       <div className="overflow-x-auto">
         <table className="w-full min-w-[720px] text-left text-sm">
-          <thead className="border-b border-white/10 text-gray-500">
+          <thead className="border-b border-slate-200/30 text-slate-600 dark:border-white/10 dark:text-gray-400">
             <tr>
               <th className="py-3 pr-4">Created</th>
               <th className="pr-4">Name</th>
@@ -78,17 +78,17 @@ export default function Users() {
             </tr>
           </thead>
 
-          <tbody className="text-gray-300">
+          <tbody className="text-slate-700 dark:text-gray-300">
             {users.map((user) => (
               <tr
                 key={user.id}
-                className="border-b border-white/5 transition-colors hover:bg-white/[0.03]"
+                className="border-b border-slate-200/30 transition-colors hover:bg-slate-100/60 dark:border-white/5 dark:hover:bg-white/[0.03]"
               >
                 <td className="py-4 pr-4 text-gray-400">
                   {new Date(user.createdAt).toLocaleString()}
                 </td>
 
-                <td className="pr-4 font-medium text-white">
+                <td className="pr-4 font-medium text-slate-900 dark:text-white">
                   {user.firstName} {user.lastName}
                 </td>
 
