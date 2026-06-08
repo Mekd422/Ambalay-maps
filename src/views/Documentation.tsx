@@ -34,6 +34,7 @@ import {
 import ApiPlayground from '../Components/ui/ApiPlayground'
 import MapPlayground from '../Components/ui/MapPlayground'
 import ambalayLogo from '../../public/images/doc/ambalay-logo.png'
+import { useTheme } from '../context/useTheme'
 
 interface SidebarGroup {
   group: string
@@ -110,14 +111,8 @@ const Documentation = () => {
     }))
     .filter((group) => group.items.length > 0)
 
-  const handleSidebarPageSelect = () => {
-    setSearchQuery('')
-    setIsMobileMenuOpen(false)
-  }
-
   const handlePageChange = (page: string) => {
     const nextSlug = documentationSlugByTitle.get(page)
-
     if (!nextSlug) return
 
     setSearchQuery('')
@@ -129,66 +124,56 @@ const Documentation = () => {
     window.scrollTo(0, 0)
   }, [activePage])
 
+  // FIXED: Adjusted gray scales so text has high contrast in light mode vs dark mode
   const getNavButtonStyles = (isActive: boolean) =>
     `relative rounded-md px-3 py-1 text-sm font-medium transition-all duration-200 ${
-      isActive ? 'text-[#8cff2e]' : 'text-gray-400 hover:text-[#8cff2e]'
-    } after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:rounded-full after:bg-[#8cff2e] after:transition-all after:duration-300 ${
+      isActive 
+        ? 'text-lime-600 dark:text-[#8cff2e]' 
+        : 'text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-[#8cff2e]'
+    } after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:rounded-full after:bg-lime-500 dark:after:bg-[#8cff2e] after:transition-all after:duration-300 ${
       isActive ? 'after:w-full' : 'after:w-0 hover:after:w-full'
     }`
 
+  const { theme } = useTheme()
+  const logoSrc = theme === 'dark' ? '/icons/ambalay-dark.png' : '/icons/ambalay-light.png'
+
   const renderContent = () => {
+    // FIXED: Upgraded prose classes to transition seamlessly to light context (removed prose-invert exclusively)
     const mdxWrapper = (Content: React.ComponentType<{ baseUrl?: string }>) => (
-      <article className="docs-content prose prose-invert max-w-full overflow-hidden prose-headings:font-bold prose-h1:mb-8 prose-h1:text-4xl prose-h3:mt-10 prose-h3:text-xl prose-p:text-[15px] prose-p:leading-7 prose-li:text-[15px] prose-li:leading-7 prose-strong:text-white prose-code:text-[#8cff2e] prose-pre:border prose-pre:border-white/10 prose-pre:bg-[#0A0A0A]">
+      <article className="docs-content prose prose-zinc dark:prose-invert max-w-full overflow-hidden prose-headings:font-bold prose-h1:mb-8 prose-h1:text-4xl prose-h3:mt-10 prose-h3:text-xl prose-p:text-[15px] prose-p:leading-7 prose-li:text-[15px] prose-li:leading-7 prose-strong:text-zinc-900 dark:prose-strong:text-white prose-code:text-lime-600 dark:prose-code:text-[#8cff2e] prose-pre:border prose-pre:border-zinc-200 dark:prose-pre:border-white/10 prose-pre:bg-zinc-50 dark:prose-pre:bg-[#0A0A0A]">
         <Content baseUrl={docsBaseUrl} />
       </article>
     )
 
-    if (activePage === 'Quickstart Guide')
-      return mdxWrapper(QuickstartContent)
-
-    if (activePage === 'Services Overview')
-      return mdxWrapper(ServicesOverview)
-
+    if (activePage === 'Quickstart Guide') return mdxWrapper(QuickstartContent)
+    if (activePage === 'Services Overview') return mdxWrapper(ServicesOverview)
     if (activePage === 'Tiles') return mdxWrapper(TilesContent)
-
-    if (activePage === 'Geocoding')
-      return mdxWrapper(GeocodingContent)
-
+    if (activePage === 'Geocoding') return mdxWrapper(GeocodingContent)
     if (activePage === 'Route') return mdxWrapper(RouteContent)
-
     if (activePage === 'Matrix') return mdxWrapper(MatrixContent)
-
     if (activePage === 'Trips') return mdxWrapper(TripsContent)
-
-    if (activePage === 'Reverse Geocoding')
-      return mdxWrapper(ReverseGeocodingContent)
-
-    if (activePage === 'Best Practices')
-      return mdxWrapper(BestPractices)
-
-    if (activePage === 'FAQ & Troubleshooting')
-      return mdxWrapper(FAQ)
-
-    if (activePage === 'Developer Support')
-      return mdxWrapper(DeveloperSupprt)
+    if (activePage === 'Reverse Geocoding') return mdxWrapper(ReverseGeocodingContent)
+    if (activePage === 'Best Practices') return mdxWrapper(BestPractices)
+    if (activePage === 'FAQ & Troubleshooting') return mdxWrapper(FAQ)
+    if (activePage === 'Developer Support') return mdxWrapper(DeveloperSupprt)
 
     return (
       <div className="flex flex-col items-center text-center">
-        <div className="mb-5 inline-flex items-center gap-3 self-center rounded-full border border-white/10 bg-white/5 px-4 py-1.5">
-          <span className="rounded-full bg-[#8cff2e] px-2 py-0.5 text-xs font-black uppercase leading-none text-black">
+        {/* FIXED: Adaptive badges */}
+        <div className="mb-5 inline-flex items-center gap-3 self-center rounded-full border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-white/5 px-4 py-1.5">
+          <span className="rounded-full bg-lime-500 dark:bg-[#8cff2e] px-2 py-0.5 text-xs font-black uppercase leading-none text-white dark:text-black">
             New
           </span>
-
-          <span className="text-sm font-medium text-gray-300">
+          <span className="text-sm font-medium text-zinc-600 dark:text-zinc-300">
             Better async handling
           </span>
         </div>
 
-        <h1 className="mb-4 text-2xl font-bold tracking-tight md:text-4xl">
+        <h1 className="mb-4 text-2xl font-bold tracking-tight text-zinc-900 dark:text-white md:text-4xl">
           AmbaLay Maps Documentation
         </h1>
 
-        <p className="mb-6 max-w-2xl text-base leading-relaxed text-gray-400 md:text-lg">
+        <p className="mb-6 max-w-2xl text-base leading-relaxed text-zinc-500 dark:text-zinc-400 md:text-lg">
           Explore AmbaLay Maps API's features, integrations, and ways of
           implementation.
         </p>
@@ -202,34 +187,31 @@ const Documentation = () => {
         />
 
         <div className="w-full text-left">
-          <h2 className="mb-10 text-2xl font-medium tracking-tight md:text-3xl">
+          <h2 className="mb-10 text-2xl font-medium tracking-tight text-zinc-900 dark:text-white md:text-3xl">
             Explore by categories
           </h2>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <CategoryCard
-              icon={<FileText className="text-blue-400" size={24} />}
+              icon={<FileText className="text-blue-500 dark:text-blue-400" size={24} />}
               title="Quick Start Guide"
               desc="Learn how to use the API and follow best practices for the software"
               onClick={() => handlePageChange('Quickstart Guide')}
             />
-
             <CategoryCard
-              icon={<MapPin className="text-blue-400" size={24} />}
+              icon={<MapPin className="text-blue-500 dark:text-blue-400" size={24} />}
               title="Geocoding"
               desc="Convert addresses to coordinates or perform reverse lookups."
               onClick={() => handlePageChange('Geocoding')}
             />
-
             <CategoryCard
-              icon={<Compass className="text-blue-400" size={24} />}
+              icon={<Compass className="text-blue-500 dark:text-blue-400" size={24} />}
               title="Route"
               desc="Calculate routes with response envelopes and validation rules."
               onClick={() => handlePageChange('Route')}
             />
-
             <CategoryCard
-              icon={<FileText className="text-blue-400" size={24} />}
+              icon={<FileText className="text-blue-500 dark:text-blue-400" size={24} />}
               title="Best Practices"
               desc="Use current integration guidance for auth, quota handling, and response parsing."
               onClick={() => handlePageChange('Best Practices')}
@@ -239,25 +221,22 @@ const Documentation = () => {
 
         <div className="mt-32 grid w-full grid-cols-1 gap-x-16 gap-y-12 pb-20 text-left md:grid-cols-2">
           <FeatureItem
-            icon={<Pencil className="text-indigo-500" size={20} />}
+            icon={<Pencil className="text-indigo-600 dark:text-indigo-400" size={20} />}
             title="Flexible Map Customization"
             desc="Easily configure map styles, layers, and UI components using simple APIs."
           />
-
           <FeatureItem
-            icon={<Layout className="text-indigo-500" size={20} />}
+            icon={<Layout className="text-indigo-600 dark:text-indigo-400" size={20} />}
             title="High-Performance Mapping Engine"
             desc="Leverage powerful routing, geocoding, and spatial processing."
           />
-
           <FeatureItem
-            icon={<Sparkles className="text-indigo-500" size={20} />}
+            icon={<Sparkles className="text-indigo-600 dark:text-indigo-400" size={20} />}
             title="Smart Documentation System"
             desc="Automatically structured documentation and navigation."
           />
-
           <FeatureItem
-            icon={<Moon className="text-indigo-500" size={20} />}
+            icon={<Moon className="text-indigo-600 dark:text-indigo-400" size={20} />}
             title="Adaptive UI Experience"
             desc="Native support for dark and light modes."
           />
@@ -267,28 +246,29 @@ const Documentation = () => {
   }
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#050505] font-sora text-white selection:bg-[#8cff2e] selection:text-black">
+    // FIXED: Main system shell background switches dynamically between off-white and off-black
+    <div className="min-h-screen overflow-x-hidden bg-zinc-50 dark:bg-[#050505] font-sora text-zinc-900 dark:text-white selection:bg-[#8cff2e] selection:text-black transition-colors duration-300">
+      
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 h-16 border-b border-white/5 bg-[#050505]/50 backdrop-blur-md">
+      <nav className="sticky top-0 z-50 h-16 border-b border-zinc-200 dark:border-white/5 bg-white/70 dark:bg-[#050505]/50 backdrop-blur-md">
         <div className="flex h-full w-full items-center justify-between px-6 lg:pl-24 lg:pr-12">
           <div className="flex items-center gap-4 lg:gap-8">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="-ml-2 p-2 text-gray-400 transition-colors hover:text-white lg:hidden"
+              className="-ml-2 p-2 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white lg:hidden"
             >
               {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
 
             <Link to="/" className="flex items-center gap-3">
               <Image
-                src="/icons/ambalay.png"
+                src={logoSrc}
                 alt="AmbaLay Maps Logo"
                 width={40}
                 height={80}
                 className="h-20 w-10 object-contain"
               />
-
-              <span className="text-sm font-semibold tracking-tight">
+              <span className="text-sm font-semibold tracking-tight text-zinc-900 dark:text-white">
                 AmbaLay Maps
               </span>
             </Link>
@@ -297,7 +277,7 @@ const Documentation = () => {
           <div className="hidden items-center gap-6 text-sm sm:flex">
             <Link
               to="/"
-              className="text-gray-400 transition-all hover:text-[#8cff2e]"
+              className="text-zinc-500 hover:text-lime-600 dark:text-zinc-400 dark:hover:text-[#8cff2e]"
             >
               Home
             </Link>
@@ -313,9 +293,7 @@ const Documentation = () => {
             <button
               type="button"
               onClick={() => setActiveView('api-playground')}
-              className={getNavButtonStyles(
-                activeView === 'api-playground',
-              )}
+              className={getNavButtonStyles(activeView === 'api-playground')}
             >
               API Playground
             </button>
@@ -323,9 +301,7 @@ const Documentation = () => {
             <button
               type="button"
               onClick={() => setActiveView('map-playground')}
-              className={getNavButtonStyles(
-                activeView === 'map-playground',
-              )}
+              className={getNavButtonStyles(activeView === 'map-playground')}
             >
               Map Playground
             </button>
@@ -338,28 +314,24 @@ const Documentation = () => {
         {activeView === 'docs' && (
           <div
             className={`fixed inset-0 z-40 transition-opacity duration-300 lg:hidden ${
-              isMobileMenuOpen
-                ? 'pointer-events-auto opacity-100'
-                : 'pointer-events-none opacity-0'
+              isMobileMenuOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
             }`}
           >
             <div
-              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+              className="absolute inset-0 bg-black/40 dark:bg-black/80 backdrop-blur-sm"
               onClick={() => setIsMobileMenuOpen(false)}
             />
 
             <aside
-              className={`absolute left-0 top-0 h-full w-72 border-r border-white/10 bg-[#050505] p-6 transition-transform duration-300 ease-in-out ${
-                isMobileMenuOpen
-                  ? 'translate-x-0'
-                  : '-translate-x-full'
+              className={`absolute left-0 top-0 h-full w-72 border-r border-zinc-200 dark:border-white/10 bg-white dark:bg-[#050505] p-6 transition-transform duration-300 ease-in-out ${
+                isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
               }`}
             >
               <div className="mt-12">
                 <SidebarContent
                   sidebarLinks={filteredSidebarLinks}
                   activePage={activePage}
-                  onPageSelect={handleSidebarPageSelect}
+                  onPageSelect={handlePageChange}
                   searchQuery={searchQuery}
                   onSearchChange={setSearchQuery}
                 />
@@ -370,20 +342,21 @@ const Documentation = () => {
 
         {/* Desktop Sidebar */}
         {activeView === 'docs' && (
-          <aside className="no-scrollbar sticky top-16 self-start hidden w-72 shrink-0 pr-8 pt-12 lg:ml-24 lg:block border-r border-white/10">
+          <aside className="no-scrollbar sticky top-16 hidden h-[calc(100vh-4rem)] w-72 shrink-0 overflow-y-auto pr-8 pt-12 lg:ml-24 lg:block border-r border-zinc-200 dark:border-white/10">
             <SidebarContent
               sidebarLinks={filteredSidebarLinks}
               activePage={activePage}
-              onPageSelect={handleSidebarPageSelect}
+              onPageSelect={handlePageChange}
               searchQuery={searchQuery}
               onSearchChange={setSearchQuery}
             />
           </aside>
         )}
 
-        {/* Main Content */}
+        {/* Main Content Area */}
         <main className="relative flex min-w-0 flex-1 flex-col items-center overflow-x-hidden px-4 pb-24 pt-16 md:px-12">
-          <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[600px] w-[800px] -translate-x-1/2 bg-purple-900/10 blur-[140px]" />
+          {/* Subtle light/dark background decorative ambient glow */}
+          <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[600px] w-[800px] -translate-x-1/2 bg-purple-500/5 dark:bg-purple-900/10 blur-[140px]" />
 
           {activeView === 'docs' ? (
             <div className="w-full min-w-0 max-w-4xl">
@@ -401,47 +374,38 @@ const Documentation = () => {
         </main>
       </div>
 
-      <footer className="relative w-full border-t border-white/10 bg-[#050505] py-16">
+      <footer className="relative w-full border-t border-zinc-200 dark:border-white/10 bg-white dark:bg-[#050505] py-16">
         <div className="flex w-full flex-col items-center justify-between gap-4 px-6 md:flex-row lg:px-24">
-          <div className="text-sm text-gray-500">
+          <div className="text-sm text-zinc-400 dark:text-gray-500">
             AmbaLay Maps · © 2026 All rights reserved
           </div>
 
-          <div className="flex gap-6 text-sm text-gray-500">
-            <Link
-              to="/privacy-policy"
-              className="transition hover:text-white"
-            >
+          <div className="flex gap-6 text-sm text-zinc-400 dark:text-gray-500">
+            <Link to="/privacy-policy" className="transition hover:text-zinc-900 dark:hover:text-white">
               Privacy Policy
             </Link>
-
-            <Link
-              to="/terms-of-service"
-              className="transition hover:text-white"
-            >
+            <Link to="/terms-of-service" className="transition hover:text-zinc-900 dark:hover:text-white">
               Terms of Service
             </Link>
           </div>
         </div>
       </footer>
 
+      {/* Styled JSX blocks updated safely */}
       <style jsx global>{`
         html,
         body {
           overflow-x: hidden;
         }
-
         .docs-content {
           width: 100%;
           max-width: 100%;
           overflow-x: hidden;
         }
-
         .docs-content * {
           max-width: 100%;
           box-sizing: border-box;
         }
-
         .docs-content p,
         .docs-content li,
         .docs-content h1,
@@ -457,7 +421,6 @@ const Documentation = () => {
           word-break: break-word;
           overflow-wrap: anywhere;
         }
-
         .docs-content table {
           display: block;
           width: 100%;
@@ -465,13 +428,11 @@ const Documentation = () => {
           border-collapse: collapse;
           table-layout: auto;
         }
-
         .docs-content th,
         .docs-content td {
           white-space: normal;
           word-break: break-word;
         }
-
         .docs-content pre {
           width: 100%;
           max-width: 100%;
@@ -481,37 +442,30 @@ const Documentation = () => {
           padding: 1rem;
           border-radius: 12px;
         }
-
         .docs-content code {
           white-space: pre-wrap;
           word-break: break-word;
         }
-
         .docs-content img {
           width: 100%;
           max-width: 100%;
           height: auto;
         }
-
         .docs-content iframe {
           width: 100%;
           max-width: 100%;
         }
-
         @media (max-width: 768px) {
           .docs-content {
             font-size: 14px;
           }
-
           .docs-content h1 {
             font-size: 2rem;
             line-height: 2.4rem;
           }
-
           .docs-content h2 {
             font-size: 1.5rem;
           }
-
           .docs-content pre {
             font-size: 12px;
           }
@@ -530,45 +484,41 @@ const SidebarContent = ({
 }: SidebarContentProps) => (
   <>
     <div className="relative mb-8">
-      <Search
-        className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
-        size={14}
-      />
-
+      <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 dark:text-gray-500" size={14} />
       <input
         type="text"
         value={searchQuery}
         onChange={(e) => onSearchChange(e.target.value)}
         placeholder="Search documentation..."
-        className="w-full rounded-lg border border-white/10 bg-white/5 py-2.5 pl-9 pr-10 text-sm transition-all focus:border-[#8cff2e]/50 focus:outline-none"
+        className="w-full rounded-lg border border-zinc-200 dark:border-white/10 bg-white dark:bg-white/5 py-2.5 pl-9 pr-10 text-sm transition-all text-zinc-900 dark:text-white focus:border-lime-500/50 dark:focus:border-[#8cff2e]/50 focus:outline-none"
       />
     </div>
 
     {sidebarLinks.length === 0 ? (
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-sm text-gray-400">
+      <div className="rounded-2xl border border-zinc-200 dark:border-white/10 bg-zinc-50 dark:bg-white/5 p-6 text-sm text-zinc-500 dark:text-gray-400">
         No documentation pages match your search.
       </div>
     ) : (
       <div className="space-y-8">
         {sidebarLinks.map((group, idx) => (
           <div key={idx}>
-            <h4 className="mb-4 font-sora text-xs font-bold uppercase tracking-[0.15em] text-white/40">
+            <h4 className="mb-4 font-sora text-xs font-bold uppercase tracking-[0.15em] text-zinc-400 dark:text-white/40">
               {group.group}
             </h4>
 
-            <ul className="space-y-4 border-l border-white/5 pl-4">
+            <ul className="space-y-4 border-l border-zinc-200 dark:border-white/5 pl-4">
               {group.items.map((item, i) => (
-                <li
-                  key={i}
-                  className="border-b border-white/10 pb-2 last:border-b-0 last:pb-0"
-                >
+                <li key={i} className="border-b border-zinc-100 dark:border-white/10 pb-2 last:border-b-0 last:pb-0">
                   <Link
                     to={documentationHref(item)}
-                    onClick={() => onPageSelect(item)}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      onPageSelect(item)
+                    }}
                     className={`block w-full text-left text-sm transition-colors ${
                       activePage === item
-                        ? 'font-medium text-[#8cff2e]'
-                        : 'text-gray-500 hover:text-white'
+                        ? 'font-medium text-lime-600 dark:text-[#8cff2e]'
+                        : 'text-zinc-500 hover:text-zinc-900 dark:text-gray-500 dark:hover:text-white'
                     }`}
                   >
                     {item}
@@ -583,42 +533,29 @@ const SidebarContent = ({
   </>
 )
 
-const CategoryCard = ({
-  icon,
-  title,
-  desc,
-  onClick,
-}: CategoryCardProps) => (
+const CategoryCard = ({ icon, title, desc, onClick }: CategoryCardProps) => (
   <div
     onClick={onClick}
-    className="group flex h-full cursor-pointer flex-col rounded-[24px] border border-white/5 bg-[#0A0A0A] p-8 text-left transition-all hover:border-white/10 hover:bg-[#111111]"
+    className="group flex h-full cursor-pointer flex-col rounded-[24px] border border-zinc-200 dark:border-white/5 bg-white dark:bg-[#0A0A0A] p-8 text-left transition-all hover:border-zinc-300 dark:hover:border-white/10 hover:bg-zinc-50 dark:hover:bg-[#111111]"
   >
-    <div className="mb-6 w-fit rounded-xl bg-white/5 p-3 transition-transform group-hover:scale-110">
+    <div className="mb-6 w-fit rounded-xl bg-zinc-100 dark:bg-white/5 p-3 transition-transform group-hover:scale-110">
       {icon}
     </div>
-
-    <h3 className="mb-3 text-xl font-bold transition-colors group-hover:text-white">
+    <h3 className="mb-3 text-xl font-bold text-zinc-900 dark:text-white">
       {title}
     </h3>
-
-    <p className="text-sm leading-relaxed text-gray-500">{desc}</p>
+    <p className="text-sm leading-relaxed text-zinc-500 dark:text-gray-500">{desc}</p>
   </div>
 )
 
-const FeatureItem = ({
-  icon,
-  title,
-  desc,
-}: FeatureItemProps) => (
+const FeatureItem = ({ icon, title, desc }: FeatureItemProps) => (
   <div className="group flex gap-4">
     <div className="mt-1 shrink-0">{icon}</div>
-
     <div className="flex flex-col gap-1">
-      <h4 className="text-base font-bold tracking-tight text-white">
+      <h4 className="text-base font-bold tracking-tight text-zinc-900 dark:text-white">
         {title}
       </h4>
-
-      <p className="text-sm leading-relaxed text-gray-500">{desc}</p>
+      <p className="text-sm leading-relaxed text-zinc-500 dark:text-gray-500">{desc}</p>
     </div>
   </div>
 )
